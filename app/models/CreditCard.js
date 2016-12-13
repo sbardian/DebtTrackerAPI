@@ -8,8 +8,6 @@
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/DeptTracker');
 
-console.log('credit card dog');
-
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
