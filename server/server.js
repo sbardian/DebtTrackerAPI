@@ -1,9 +1,6 @@
 /**
  * Created by sbardian on 12/12/16.
  */
-/**
- * Created by sbardian on 12/11/16.
- */
 
 // BASE SETUP
 // =============================================================================
@@ -29,7 +26,7 @@ app.use(express.static('public'));
 
 router.use(function(req, res, next) {
     // do logging
-    console.log('Something is happening.');
+    console.log('Something is happening. shit yeah');
     next(); // make sure we go to the next routes and don't stop here
 });
 
