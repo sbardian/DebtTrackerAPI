@@ -20,7 +20,7 @@ var CreditCardSchema = new mongoose.Schema({
     credit_line: Number,
     balance: Number,
     interest_rate: Number,
-    updated_at: { type: Date, default: Date.now },
+    updated_at: { type: Date, default: Date.now }
 });
 
 module.exports = mongoose.model('CreditCard', CreditCardSchema);

@@ -49,6 +49,9 @@ router.route('/creditcards')
         // fetch email and password from REST request.
         // Add strict validation when you use this in Production.
         db.name = req.body.name;
+        db.credit_line = req.body.credit_line;
+        db.balance = req.body.balance;
+        db.interest_rate = req.body.interest_rate;
         db.save(function(err) {
             // save() will run insert() command of MongoDB.
             // it will add new data in collection.
@@ -102,10 +105,14 @@ router.route("/creditcards/:id")
                 // we got data from Mongo.
                 // change it accordingly.
                 console.log('data.name = ' + JSON.stringify(data));
-                if(req.body.name !== undefined) {
-                    // case where email needs to be updated.
+                if(req.body.name !== undefined)
                     data.name = req.body.name;
-                }
+                if(req.body.credit_line !== undefined)
+                    data.credit_line = req.body.credit_line;
+                if(req.body.balance !== undefined)
+                    data.balance = req.body.balance;
+                if(req.body.interest_rate !== undefined)
+                    data.interest_rate = req.body.interest_rate;
                 // save the data
                 data.save(function(err){
                     if(err) {
