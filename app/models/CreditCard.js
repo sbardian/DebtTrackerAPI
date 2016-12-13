@@ -1,9 +1,6 @@
 /**
  * Created by sbardian on 12/12/16.
  */
-/**
- * Created by sbardian on 12/11/16.
- */
 
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/DeptTracker');
