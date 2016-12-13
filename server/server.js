@@ -15,7 +15,7 @@ var CreditCard = require('../app/models/CreditCard');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-var port = process.env.PORT || 8080;
+var port = process.env.PORT || 9090;
 
 // ROUTES FOR OUR API
 // =============================================================================
@@ -27,6 +27,8 @@ app.use(express.static('public'));
 router.use(function(req, res, next) {
     // do logging
     console.log('Something is happening. shit yeah');
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next(); // make sure we go to the next routes and don't stop here
 });
 
@@ -152,8 +154,9 @@ app.use('/api', router);
 // Send index.html for requests to /
 app.get('/', function(req, res) {
     console.log('get index');
-    res.sendfile('../index.html'); // load the single view file (angular will handle the page changes on the front-end)
+    res.sendfile('/index.html'); // load the single view file (angular will handle the page changes on the front-end)
 });
+
 
 // START THE SERVER
 // =============================================================================
