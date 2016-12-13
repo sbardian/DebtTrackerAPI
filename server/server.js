@@ -2,11 +2,8 @@
  * Created by sbardian on 12/12/16.
  */
 
-// BASE SETUP
-// =============================================================================
-// call the packages we need
-var express = require('express');        // call express
-var app = express();                 // define our app using express
+var express = require('express');
+var app = express();
 var bodyParser = require('body-parser');
 var CreditCard = require('../app/models/CreditCard');
 
@@ -19,7 +16,7 @@ var port = process.env.PORT || 9090;
 
 // ROUTES FOR OUR API
 // =============================================================================
-var router = express.Router();              // get an instance of the express Router
+var router = express.Router();
 
 // middleware to use for all requests
 app.use(express.static('public'));
@@ -38,7 +35,7 @@ router.get('/', function(req, res) {
 });
 
 // on routes that end in /creditcards
-// ----------------------------------------------------
+// =============================================================================
 router.route('/creditcards')
 
 // create a credit card (accessed at POST http://localhost:8080/api/creditcards)
@@ -78,6 +75,8 @@ router.route('/creditcards')
         });
     });
 
+// on routes that end in /creditcards/id
+// =============================================================================
 router.route("/creditcards/:id")
     .get(function(req, res) {
         var response = {};
@@ -147,8 +146,9 @@ router.route("/creditcards/:id")
 
 // more routes for our API will happen here
 
-// REGISTER OUR ROUTES -------------------------------
+// REGISTER OUR ROUTES
 // all of our routes will be prefixed with /api
+// =============================================================================
 app.use('/api', router);
 
 // Send index.html for requests to /
@@ -156,7 +156,6 @@ app.get('/', function(req, res) {
     console.log('get index');
     res.sendfile('/index.html'); // load the single view file (angular will handle the page changes on the front-end)
 });
-
 
 // START THE SERVER
 // =============================================================================
