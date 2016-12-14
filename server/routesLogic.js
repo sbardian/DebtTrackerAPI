@@ -10,7 +10,7 @@ let routesLogic = {
      * @param req the request
      * @param res the response
      */
-    addCreditCard: (req, res) => {
+    addCreditCard (req, res) {
         let db = new CreditCard();
         let response = {};
         // fetch email and password from REST request.
@@ -36,7 +36,7 @@ let routesLogic = {
      * @param req the request
      * @param res the response
      */
-    getAllCreditCards: (req, res) => {
+    getAllCreditCards (req, res) {
         let response = {};
         CreditCard.find({}, function (err, data) {
             // Mongo command to fetch all data from collection.
@@ -54,7 +54,7 @@ let routesLogic = {
      * @param req the request
      * @param res the response
      */
-    getCreditCardByID: (req, res) => {
+    getCreditCardByID (req, res) {
         let response = {};
         CreditCard.findById(req.params.id, function (err, data) {
             // This will run Mongo Query to fetch data based on ID.
@@ -72,7 +72,7 @@ let routesLogic = {
      * @param req the request
      * @param res the response
      */
-    putOrUpdate: (req, res) => {
+    putOrUpdate (req, res) {
         let response = {};
         // first find out record exists or not
         // if it does then update the record
@@ -106,7 +106,7 @@ let routesLogic = {
      * @param req the request
      * @param res the response
      */
-    deleteCreditCard: (req, res) => {
+    deleteCreditCard (req, res) {
         let response = {};
         // find the data
         CreditCard.findById(req.params.id, function(err, data){
