@@ -2,8 +2,8 @@
  * Created by sbardian on 12/13/16.
  */
 
-var CreditCard = require('../app/models/CreditCard');
-var routesLogic = require('./routesLogic');
+let CreditCard = require('../app/models/CreditCard');
+let routesLogic = require('./routesLogic');
 
 module.exports = function(router) {
 
@@ -19,7 +19,7 @@ module.exports = function(router) {
         res.json({ message: 'API up and running.' });
     });
 
-    // /creditcards
+    // route /creditcards
     // =============================================================================
     router.route('/creditcards')
         // create a credit card (accessed at POST http://localhost:8080/api/creditcards)
@@ -32,7 +32,7 @@ module.exports = function(router) {
             routesLogic.getAllCreditCards(req, res);
         });
 
-    // /creditcards/id
+    // route /creditcards/id
     // =============================================================================
     router.route("/creditcards/:id")
         .get(function(req, res) {

@@ -2,12 +2,12 @@
  * Created by sbardian on 12/13/16.
  */
 
-var CreditCard = require('../app/models/CreditCard');
+let CreditCard = require('../app/models/CreditCard');
 
-var routesLogic = {
+let routesLogic = {
     addCreditCard: function (req, res) {
-        var db = new CreditCard();
-        var response = {};
+        let db = new CreditCard();
+        let response = {};
         // fetch email and password from REST request.
         // Add strict validation when you use this in Production.
         db.name = req.body.name;
@@ -27,7 +27,7 @@ var routesLogic = {
     },
     getAllCreditCards: function (req, res) {
         console.log('getting credit cards');
-        var response = {};
+        let response = {};
         CreditCard.find({}, function (err, data) {
             // Mongo command to fetch all data from collection.
             if (err) {
@@ -39,7 +39,7 @@ var routesLogic = {
         });
     },
     getCreditCardByID: function (req, res) {
-        var response = {};
+        let response = {};
         CreditCard.findById(req.params.id, function (err, data) {
             // This will run Mongo Query to fetch data based on ID.
             if (err) {
@@ -51,7 +51,7 @@ var routesLogic = {
         });
     },
     putOrUpdate: function (req, res) {
-        var response = {};
+        let response = {};
         // first find out record exists or not
         // if it does then update the record
         console.log('update name with ' + req.params.id);
@@ -83,7 +83,7 @@ var routesLogic = {
         });
     },
     deleteCreditCard: function (req, res) {
-        var response = {};
+        let response = {};
         // find the data
         CreditCard.findById(req.params.id, function(err, data){
             if(err) {
