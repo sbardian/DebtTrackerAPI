@@ -5,6 +5,11 @@
 let CreditCard = require('../app/models/CreditCard');
 
 let routesLogic = {
+    /**
+     * Add a new credit card to the database.
+     * @param req the request
+     * @param res the response
+     */
     addCreditCard: function (req, res) {
         let db = new CreditCard();
         let response = {};
@@ -25,8 +30,13 @@ let routesLogic = {
             res.json(response);
         });
     },
+
+    /**
+     * Get all the credit cards in the database.
+     * @param req the request
+     * @param res the response
+     */
     getAllCreditCards: function (req, res) {
-        console.log('getting credit cards');
         let response = {};
         CreditCard.find({}, function (err, data) {
             // Mongo command to fetch all data from collection.
@@ -38,6 +48,12 @@ let routesLogic = {
             res.json(response);
         });
     },
+
+    /**
+     * Get a specific credit card by its ID
+     * @param req the request
+     * @param res the response
+     */
     getCreditCardByID: function (req, res) {
         let response = {};
         CreditCard.findById(req.params.id, function (err, data) {
@@ -50,18 +66,20 @@ let routesLogic = {
             res.json(response);
         });
     },
+
+    /**
+     * Add or update (if exists) a credit card.
+     * @param req the request
+     * @param res the response
+     */
     putOrUpdate: function (req, res) {
         let response = {};
         // first find out record exists or not
         // if it does then update the record
-        console.log('update name with ' + req.params.id);
         CreditCard.findById(req.params.id, function(err, data){
             if(err) {
                 response = {"error" : true, "message" : "Error fetching data"};
             } else {
-                // we got data from Mongo.
-                // change it accordingly.
-                console.log('data.name = ' + JSON.stringify(data));
                 if(req.body.name !== undefined)
                     data.name = req.body.name;
                 if(req.body.credit_line !== undefined)
@@ -82,6 +100,12 @@ let routesLogic = {
             }
         });
     },
+
+    /**
+     * delete a credit card from the database.
+     * @param req the request
+     * @param res the response
+     */
     deleteCreditCard: function (req, res) {
         let response = {};
         // find the data
