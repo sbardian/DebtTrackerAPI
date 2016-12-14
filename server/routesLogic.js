@@ -16,7 +16,7 @@ let routesLogic = {
         // fetch email and password from REST request.
         // Add strict validation when you use this in Production.
         db.name = req.body.name;
-        db.credit_line = req.body.credit_line;
+        db.limit = req.body.limit;
         db.balance = req.body.balance;
         db.interest_rate = req.body.interest_rate;
         db.save(function(err) {
@@ -82,8 +82,8 @@ let routesLogic = {
             } else {
                 if(req.body.name !== undefined)
                     data.name = req.body.name;
-                if(req.body.credit_line !== undefined)
-                    data.credit_line = req.body.credit_line;
+                if(req.body.limit !== undefined)
+                    data.limit = req.body.limit;
                 if(req.body.balance !== undefined)
                     data.balance = req.body.balance;
                 if(req.body.interest_rate !== undefined)

@@ -14,7 +14,7 @@ db.once('open', function() {
 // Create a schema
 var CreditCardSchema = new mongoose.Schema({
     name: String,
-    credit_line: Number,
+    limit: Number,
     balance: Number,
     interest_rate: Number,
     updated_at: { type: Date, default: Date.now }
