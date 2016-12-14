@@ -10,7 +10,7 @@ module.exports = function(router) {
     /**
      * Set specific headers.  Allow CORS.
      */
-    router.use(function(req, res, next) {
+    router.use((req, res, next) => {
         res.header("Access-Control-Allow-Origin", "*");
         res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
         next();
@@ -27,24 +27,14 @@ module.exports = function(router) {
      * routes ending in "/creditcards"
      */
     router.route('/creditcards')
-        .post(function(req, res){
-            routesLogic.addCreditCard(req, res);
-        })
-        .get(function(req, res) {
-            routesLogic.getAllCreditCards(req, res);
-        });
+        .post((req, res) => routesLogic.addCreditCard(req, res))
+        .get((req, res) => routesLogic.getAllCreditCards(req, res));
 
     /**
      * routes ending in "/creditcards/id"
      */
     router.route("/creditcards/:id")
-        .get(function(req, res) {
-            routesLogic.getCreditCardByID(req, res);
-        })
-        .put(function(req, res){
-            routesLogic.putOrUpdate(req, res);
-        })
-        .delete(function(req, res){
-            routesLogic.deleteCreditCard(req, res);
-        });
+        .get((req, res) => routesLogic.getCreditCardByID(req, res))
+        .put((req, res) => routesLogic.putOrUpdate(req, res))
+        .delete((req, res) => routesLogic.deleteCreditCard(req, res));
 }
