@@ -46,7 +46,7 @@ let routesLogic = {
                 response = {"message" : data};
             }
             res.json(response);
-        });
+        }).sort([['balance', 'descending']]);
     },
 
     /**
