@@ -37,6 +37,8 @@ let routesLogic = {
      * @param res the response
      */
     getAllCreditCards (req, res) {
+        // TODO: Update to use query to sort (ex: 'sort=balance', 'sort=interest_rate'.
+        console.warn('req = ', req.query);
         let response = {};
         CreditCard.find({}, function (err, data) {
             // Mongo command to fetch all data from collection.
