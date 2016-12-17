@@ -78,6 +78,7 @@ let routesLogic = {
         let response = {};
         // first find out record exists or not
         // if it does then update the record
+        console.log('saving');
         CreditCard.findById(req.params.id, function(err, data){
             if(err) {
                 response = {"error" : true, "message" : "Error fetching data"};
@@ -95,7 +96,7 @@ let routesLogic = {
                     if(err) {
                         response = {"error" : true,"message" : "Error updating data"};
                     } else {
-                        response = {"message" : "Data is updated for " + req.params.id};
+                        response = {"message" : "Data is updated for " + req.body.name};
                     }
                     res.json(response);
                 })
