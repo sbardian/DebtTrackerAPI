@@ -1,7 +1,7 @@
 /**
  * Created by sbardian on 12/12/16.
  */
-
+'use strict';
 let express = require('express');
 let app = express();
 let bodyParser = require('body-parser');

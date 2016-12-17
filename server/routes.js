@@ -1,6 +1,7 @@
 /**
  * Created by sbardian on 12/13/16.
  */
+'use strict';
 
 let CreditCard = require('../app/models/CreditCard');
 let routesLogic = require('./routesLogic');
