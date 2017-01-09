@@ -26,7 +26,7 @@ let routesLogic = {
             if(err) {
                 response = {"error" : true, "message" : "Error adding data"};
             } else {
-                response = {"message" : "Data added"};
+                response = { "message" : "Data added", "_id" : db._id, "updated_at" : db.updated_at, "__v": db.__v };
             }
             res.json(response);
         });
