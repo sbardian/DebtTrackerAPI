@@ -13,6 +13,7 @@ db.once('open', function() {
 
 // Create a schema
 var CreditCardSchema = new mongoose.Schema({
+    user: String,
     name: String,
     limit: Number,
     balance: Number,

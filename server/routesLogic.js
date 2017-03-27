@@ -16,6 +16,7 @@ let routesLogic = {
         let response = {};
         // fetch email and password from REST request.
         // Add strict validation when you use this in Production.
+        db.user = req.body.user;
         db.name = req.body.name;
         db.limit = req.body.limit;
         db.balance = req.body.balance;
@@ -84,6 +85,8 @@ let routesLogic = {
             if(err) {
                 response = {"error" : true, "message" : "Error fetching data"};
             } else {
+                if(req.body.user !== undefined)
+                    data.user = req.body.user;
                 if(req.body.name !== undefined)
                     data.name = req.body.name;
                 if(req.body.limit !== undefined)
