@@ -8,7 +8,7 @@ let bodyParser = require('body-parser');
 
 // configure app to use bodyParser()
 // this will let us get the data from a POST
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
 let router = express.Router();
@@ -24,10 +24,11 @@ let routes = require('./routes')(router);
 app.use('/api', router);
 
 // Send index.html for requests to /
-app.get('/', function(req, res) {
-    console.log('get index');
-    res.sendfile('/index.html');
+app.get('/', function (req, res) {
+  console.log('get index');
+  res.sendfile('/index.html');
 });
 
 // START THE SERVER
 app.listen('9090');
+

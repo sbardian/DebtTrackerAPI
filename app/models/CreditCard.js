@@ -11,18 +11,18 @@ mongoose.Promise = bluebird;
 
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', function() {
-    console.log('connected to db');
+db.once('open', function () {
+  console.log('connected to db');
 });
 
 // Create a schema
 var CreditCardSchema = new mongoose.Schema({
-    user: String,
-    name: String,
-    limit: Number,
-    balance: Number,
-    interest_rate: Number,
-    updated_at: { type: Date, default: Date.now }
+  user: String,
+  name: String,
+  limit: Number,
+  balance: Number,
+  interest_rate: Number,
+  updated_at: {type: Date, default: Date.now}
 });
 
 module.exports = mongoose.model('CreditCard', CreditCardSchema);

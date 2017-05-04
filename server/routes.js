@@ -5,23 +5,23 @@
 
 let routesLogic = require('./routesLogic');
 
-module.exports = function(router) {
+module.exports = function (router) {
 
   /**
    * Set specific headers.  Allow CORS.
    */
   router.use((req, res, next) => {
-      res.header("Access-Control-Allow-Origin", "*");
-      res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-      res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
-      next();
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
+    next();
   });
 
   /**
    * route ending in "/"
    */
-  router.get('/', function(req, res) {
-      res.json({ message: 'API up and running.' });
+  router.get('/', function (req, res) {
+    res.json({message: 'API up and running.'});
   });
 
   /**
