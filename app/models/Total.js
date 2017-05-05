@@ -5,15 +5,7 @@
 var mongoose = require('mongoose');
 var bluebird = require('bluebird');
 
-mongoose.connect('mongodb://localhost/DeptTracker');
-
 mongoose.Promise = bluebird;
-
-var db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', function() {
-  console.log('connected to db');
-});
 
 // Create a schema
 var TotalsSchema = new mongoose.Schema({

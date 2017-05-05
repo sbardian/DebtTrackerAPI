@@ -2,18 +2,10 @@
  * Created by sbardian on 12/12/16.
  */
 
-var mongoose = require('mongoose');
-var bluebird = require('bluebird');
-
-mongoose.connect('mongodb://localhost/DeptTracker');
+const mongoose = require('mongoose');
+const bluebird = require('bluebird');
 
 mongoose.Promise = bluebird;
-
-var db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', function () {
-  console.log('connected to db');
-});
 
 // Create a schema
 var CreditCardSchema = new mongoose.Schema({
