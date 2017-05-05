@@ -2,9 +2,10 @@
  * Created by sbardian on 12/12/16.
  */
 'use strict';
-let express = require('express');
-let server = express();
-let bodyParser = require('body-parser');
+const express = require('express');
+const server = express();
+const bodyParser = require('body-parser');
+const connectDB = require('./connectDB');
 
 // configure server to use bodyParser()
 // this will let us get the data from a POST
