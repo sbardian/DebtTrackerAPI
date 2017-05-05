@@ -170,7 +170,33 @@ let routesLogic = {
       }
       res.json(response);
     });
+  },
+
+  /**
+   * Delete a Total from the database.
+   * @param req the request
+   * @param res the response
+   */
+  deleteTotal (req, res) {
+    let response = {};
+    // find the data
+    Total.findById(req.params.id, function (err, data) {
+      if (err) {
+        response = {"error": true, "message": "Error fetching data"};
+      } else {
+        // data exists, remove it.
+        Total.remove({_id: req.params.id}, function (err) {
+          if (err) {
+            response = {"error": true, "message": "Error deleting data"};
+          } else {
+            response = {"message": "Data associated with " + req.params.id + " is deleted"};
+          }
+          res.json(response);
+        });
+      }
+    });
   }
+
 }
 
 module.exports = routesLogic;

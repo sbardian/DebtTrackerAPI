@@ -45,4 +45,10 @@ module.exports = function (router) {
   router.route('/totals')
       .post((req, res) => routesLogic.addTotal(req, res))
       .get((req, res) => routesLogic.getTotals(req, res));
+
+  /**
+   * routes ending in "/totals/id
+   */
+  router.route('/totals/:id')
+      .delete((req, res) => routesLogic.deleteTotal(req, res));
 }
