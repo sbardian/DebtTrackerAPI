@@ -41,7 +41,6 @@ let routesLogic = {
    */
   getAllCreditCards (req, res) {
     // TODO: Update to use query to sort (ex: 'sort=balance', 'sort=interest_rate'.
-    console.warn('req = ', req.query);
     let response = {};
     CreditCard.find({}, function (err, data) {
       // Mongo command to fetch all data from collection.
@@ -83,11 +82,9 @@ let routesLogic = {
     // if it does then update the record
     console.log('saving');
     CreditCard.findById(req.params.id, function (err, data) {
-      console.log('found ' + req.params.id);
       if (err) {
         response = {"error": true, "message": "Error fetching data"};
       } else {
-        console.log('found it: user = ' + req.body.user + ', name = ' + req.body.name + ', limit = ' + req.body.limit + ', balance = ' + req.body.balance + ', rate = ' + req.body.interest_rate);
         if (req.body.name !== undefined)
           data.name = req.body.name;
         if (req.body.limit !== undefined)
@@ -98,12 +95,9 @@ let routesLogic = {
           data.interest_rate = req.body.interest_rate;
         // save the data
         data.save(function (err) {
-          console.log('saved');
           if (err) {
-            console.log('err');
             response = {"error": true, "message": "Error updating data"};
           } else {
-            console.log('success');
             response = {"message": "Data is updated for " + req.body.name};
           }
           res.json(response);
@@ -129,7 +123,7 @@ let routesLogic = {
           if (err) {
             response = {"error": true, "message": "Error deleting data"};
           } else {
-            response = {"message": "Data associated with " + req.params.id + "is deleted"};
+            response = {"message": "Data associated with " + req.params.id + " is deleted"};
           }
           res.json(response);
         });
