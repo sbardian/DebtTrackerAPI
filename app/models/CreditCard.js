@@ -7,14 +7,6 @@ var bluebird = require('bluebird');
 
 mongoose.Promise = bluebird;
 
-mongoose.connect('mongodb://localhost/DeptTracker');
-
-var db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', function () {
-  console.log('connected to db');
-});
-
 // Create a schema
 var CreditCardSchema = new mongoose.Schema({
   user: String,

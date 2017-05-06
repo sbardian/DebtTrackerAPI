@@ -5,7 +5,7 @@
 const express = require('express');
 const server = express();
 const bodyParser = require('body-parser');
-//const connectDB = require('./connectDB');
+const connectDB = require('./connectDB');
 
 // configure server to use bodyParser()
 // this will let us get the data from a POST
