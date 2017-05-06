@@ -2,6 +2,8 @@
  * Created by sbardian on 5/4/17.
  */
 
+'use strict';
+
 const mongoose = require('mongoose');
 const bluebird = require('bluebird');
 
