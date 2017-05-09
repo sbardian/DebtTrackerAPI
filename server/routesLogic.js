@@ -21,13 +21,13 @@ const routesLogic = {
     db.limit = req.body.limit;
     db.balance = req.body.balance;
     db.interest_rate = req.body.interest_rate;
-    db.save(function (err) {
+    db.save((err) => {
       // save() will run insert() command of MongoDB.
       // it will add new data in collection.
       if (err) {
-        response = { 'error': true, 'message': 'Error adding data' };
+        response = { error: true, message: 'Error adding data' };
       } else {
-        response = { 'message': 'Data added', '_id': db._id, 'updated_at': db.updated_at, '__v': db.__v };
+        response = { message: 'Data added', id: db.id, updated_at: db.updated_at, v: db.v };
       }
       res.json(response);
     });
@@ -41,15 +41,15 @@ const routesLogic = {
   getAllCreditCards(req, res) {
     // TODO: Update to use query to sort (ex: 'sort=balance', 'sort=interest_rate'.
     let response = {};
-    CreditCard.find({}, function (err, data) {
+    CreditCard.find({}, (err, data) => {
       // Mongo command to fetch all data from collection.
       if (err) {
-        response = { 'error': true, 'message': 'Error fetching data' };
+        response = { error: true, message: 'Error fetching data' };
       } else {
-        response = { 'message': data };
+        response = { message: data };
       }
       res.json(response);
-    }).sort( [['balance', 'descending']] );
+    }).sort([['balance', 'descending']]);
   },
 
   /**
@@ -59,12 +59,12 @@ const routesLogic = {
    */
   getCreditCardByID(req, res) {
     let response = {};
-    CreditCard.findById(req.params.id, function (err, data) {
+    CreditCard.findById(req.params.id, (err, data) => {
       // This will run Mongo Query to fetch data based on ID.
       if (err) {
-        response = { 'error': true, 'message': 'Error fetching data' };
+        response = { error: true, message: 'Error fetching data' };
       } else {
-        response = { 'message': data };
+        response = { message: data };
       }
       res.json(response);
     });
@@ -79,28 +79,31 @@ const routesLogic = {
     let response = {};
     // first find out record exists or not
     // if it does then update the record
-    console.log('saving');
-    CreditCard.findById(req.params.id, function (err, data) {
+    CreditCard.findById(req.params.id, (err, data) => {
       if (err) {
-        response = { 'error': true, 'message': 'Error fetching data' };
+        response = { error: true, message: 'Error fetching data' };
       } else {
-        if (req.body.name !== undefined)
+        if (req.body.name !== undefined) {
           data.name = req.body.name;
-        if (req.body.limit !== undefined)
+        }
+        if (req.body.limit !== undefined) {
           data.limit = req.body.limit;
-        if (req.body.balance !== undefined)
+        }
+        if (req.body.balance !== undefined) {
           data.balance = req.body.balance;
-        if (req.body.interest_rate !== undefined)
+        }
+        if (req.body.interest_rate !== undefined) {
           data.interest_rate = req.body.interest_rate;
+        }
         // save the data
-        data.save(function (err) {
+        data.save(() => {
           if (err) {
-            response = { 'error': true, 'message': 'Error updating data' };
+            response = { error: true, message: 'Error updating data' };
           } else {
-            response = { 'message': 'Data is updated for ' + req.body.name };
+            response = { message: 'Data is updated for ' + req.body.name };
           }
           res.json(response);
-        })
+        });
       }
     });
   },
@@ -113,16 +116,16 @@ const routesLogic = {
   deleteCreditCard(req, res) {
     let response = {};
     // find the data
-    CreditCard.findById(req.params.id, function (err, data) {
+    CreditCard.findById(req.params.id, (err) => {
       if (err) {
-        response = {'error': true, 'message': 'Error fetching data'};
+        response = { error: true, message: 'Error fetching data' };
       } else {
         // data exists, remove it.
-        CreditCard.remove({_id: req.params.id}, function (err) {
+        CreditCard.remove({ _id: req.params.id }, () => {
           if (err) {
-            response = { 'error': true, 'message': 'Error deleting data' };
+            response = { error: true, message: 'Error deleting data' };
           } else {
-            response = { 'message': 'Data associated with ' + req.params.id + ' is deleted' };
+            response = { message: 'Data associated with ' + req.params.id + ' is deleted' };
           }
           res.json(response);
         });
@@ -137,13 +140,13 @@ const routesLogic = {
    */
   getTotals(req, res) {
     let response = {};
-    //get the totals
-    Total.find({}, function (err, data) {
+    // get the totals
+    Total.find({}, (err, data) => {
       // Mongo command to fetch all data from collection.
       if (err) {
-        response = { 'error': true, 'message': 'Error fetching data' };
+        response = { error: true, message: 'Error fetching data' };
       } else {
-        response = { 'message': data };
+        response = { message: data };
       }
       res.json(response);
     }).sort([['updated_at', 'descending']]);
@@ -155,17 +158,17 @@ const routesLogic = {
    * @param res the response
    */
   addTotal(req, res) {
-    let db = new Total();
+    const db = new Total();
     let response = {};
     db.user = req.body.user;
     db.total = req.body.total;
-    db.save(function (err) {
+    db.save((err) => {
       // save() will run insert() command of MongoDB.
       // it will add new data in collection.
       if (err) {
-        response = { 'error': true, 'message': 'Error adding data' };
+        response = { error: true, message: 'Error adding data' };
       } else {
-        response = { 'message': 'Data added', '_id': db._id, 'updated_at': db.updated_at, '__v': db.__v };
+        response = { message: 'Data added', id: db.id, updated_at: db.updated_at, v: db.v };
       }
       res.json(response);
     });
@@ -179,23 +182,22 @@ const routesLogic = {
   deleteTotal(req, res) {
     let response = {};
     // find the data
-    Total.findById(req.params.id, function (err, data) {
+    Total.findById(req.params.id, (err) => {
       if (err) {
-        response = { 'error': true, 'message': 'Error fetching data' };
+        response = { error: true, message: 'Error fetching data' };
       } else {
         // data exists, remove it.
-        Total.remove({_id: req.params.id}, function (err) {
+        Total.remove({ id: req.params.id }, () => {
           if (err) {
-            response = { 'error': true, 'message': 'Error deleting data' };
+            response = { error: true, message: 'Error deleting data' };
           } else {
-            response = { 'message': 'Data associated with ' + req.params.id + ' is deleted' };
+            response = { message: 'Data associated with ' + req.params.id + ' is deleted' };
           }
           res.json(response);
         });
       }
     });
-  }
-
-}
+  },
+};
 
 module.exports = routesLogic;

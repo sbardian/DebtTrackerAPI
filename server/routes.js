@@ -4,8 +4,7 @@
 
 const routesLogic = require('./routesLogic');
 
-module.exports = function (router) {
-
+module.exports = (router) => {
   /**
    * Set specific headers.  Allow CORS.
    */
@@ -19,8 +18,8 @@ module.exports = function (router) {
   /**
    * route ending in '/'
    */
-  router.get('/', function (req, res) {
-    res.json({message: 'API up and running.'});
+  router.get('/', (req, res) => {
+    res.json({ message: 'API up and running.' });
   });
 
   /**

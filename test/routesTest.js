@@ -58,7 +58,7 @@ describe('API Server', function () {
           interest_rate: 12
         })
         .end(function (err, res) {
-          createdCardID = res.body._id;
+          createdCardID = res.body.id;
           expect(err).to.be.null;
           expect(res.body.message).to.equal('Data added');
           done();

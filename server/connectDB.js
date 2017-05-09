@@ -5,12 +5,17 @@
 const mongoose = require('mongoose');
 const bluebird = require('bluebird');
 
-mongoose.Promise = bluebird;
+const connectDB = {
+  connect() {
+    mongoose.Promise = bluebird;
+    mongoose.connect('mongodb://localhost/DeptTracker');
 
-mongoose.connect('mongodb://localhost/DeptTracker');
+    const db = mongoose.connection;
+    db.on('error', console.error.bind(console, 'connection error:'));
+    db.once('open', () => {
+      console.log('Connected to DB');
+    });
+  },
+};
 
-const db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', () => {
-  //  Connected to DB
-});
+module.exports = connectDB;
