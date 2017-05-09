@@ -1,9 +1,8 @@
 /**
  * Created by sbardian on 12/13/16.
  */
-'use strict';
 
-let routesLogic = require('./routesLogic');
+const routesLogic = require('./routesLogic');
 
 module.exports = function (router) {
 
@@ -11,28 +10,28 @@ module.exports = function (router) {
    * Set specific headers.  Allow CORS.
    */
   router.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
     next();
   });
 
   /**
-   * route ending in "/"
+   * route ending in '/'
    */
   router.get('/', function (req, res) {
     res.json({message: 'API up and running.'});
   });
 
   /**
-   * routes ending in "/creditcards"
+   * routes ending in '/creditcards'
    */
   router.route('/creditcards')
       .post((req, res) => routesLogic.addCreditCard(req, res))
       .get((req, res) => routesLogic.getAllCreditCards(req, res));
 
   /**
-   * routes ending in "/creditcards/id"
+   * routes ending in '/creditcards/id'
    */
   router.route('/creditcards/:id')
       .get((req, res) => routesLogic.getCreditCardByID(req, res))
@@ -40,15 +39,15 @@ module.exports = function (router) {
       .delete((req, res) => routesLogic.deleteCreditCard(req, res));
 
   /**
-   * routes ending in "/totals"
+   * routes ending in '/totals'
    */
   router.route('/totals')
       .post((req, res) => routesLogic.addTotal(req, res))
       .get((req, res) => routesLogic.getTotals(req, res));
 
   /**
-   * routes ending in "/totals/id
+   * routes ending in '/totals/id
    */
   router.route('/totals/:id')
       .delete((req, res) => routesLogic.deleteTotal(req, res));
-}
+};

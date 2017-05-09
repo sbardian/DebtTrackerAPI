@@ -2,8 +2,6 @@
  * Created by sbardian on 5/4/17.
  */
 
-'use strict';
-
 const mongoose = require('mongoose');
 const bluebird = require('bluebird');
 
@@ -11,8 +9,8 @@ mongoose.Promise = bluebird;
 
 mongoose.connect('mongodb://localhost/DeptTracker');
 
-let db = mongoose.connection;
+const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', function () {
-  console.log('connected to db');
+db.once('open', () => {
+  //  Connected to DB
 });
