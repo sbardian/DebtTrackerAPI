@@ -27,7 +27,12 @@ const routesLogic = {
       if (err) {
         response = { error: true, message: 'Error adding data' };
       } else {
-        response = { message: 'Data added', id: db.id, updated_at: db.updated_at, v: db.v };
+        response = {
+          message: 'Data added',
+          id: db.id,
+          updated_at: db.updated_at,
+          v: db.v,
+        };
       }
       res.json(response);
     });
@@ -79,7 +84,8 @@ const routesLogic = {
     let response = {};
     // first find out record exists or not
     // if it does then update the record
-    CreditCard.findById(req.params.id, (err, data) => {
+    CreditCard.findById(req.params.id, (err, initialData) => {
+      const data = initialData;
       if (err) {
         response = { error: true, message: 'Error fetching data' };
       } else {
@@ -100,7 +106,7 @@ const routesLogic = {
           if (err) {
             response = { error: true, message: 'Error updating data' };
           } else {
-            response = { message: 'Data is updated for ' + req.body.name };
+            response = { message: `Data is updated for ${req.body.name}` };
           }
           res.json(response);
         });
@@ -125,7 +131,7 @@ const routesLogic = {
           if (err) {
             response = { error: true, message: 'Error deleting data' };
           } else {
-            response = { message: 'Data associated with ' + req.params.id + ' is deleted' };
+            response = { message: `Data associated with ${req.params.id} is deleted` };
           }
           res.json(response);
         });
@@ -168,7 +174,12 @@ const routesLogic = {
       if (err) {
         response = { error: true, message: 'Error adding data' };
       } else {
-        response = { message: 'Data added', id: db.id, updated_at: db.updated_at, v: db.v };
+        response = {
+          message: 'Data added',
+          id: db.id,
+          updated_at: db.updated_at,
+          v: db.v,
+        };
       }
       res.json(response);
     });
@@ -187,11 +198,11 @@ const routesLogic = {
         response = { error: true, message: 'Error fetching data' };
       } else {
         // data exists, remove it.
-        Total.remove({ id: req.params.id }, () => {
+        Total.remove({ _id: req.params.id }, () => {
           if (err) {
             response = { error: true, message: 'Error deleting data' };
           } else {
-            response = { message: 'Data associated with ' + req.params.id + ' is deleted' };
+            response = { message: `Data associated with ${req.params.id} is deleted` };
           }
           res.json(response);
         });
