@@ -5,6 +5,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const connectDB = require('./connectDB');
+const routes = require('./routes');
 
 const expressServer = express();
 connectDB.connect();
@@ -20,7 +21,7 @@ const router = express.Router();
 expressServer.use(express.static('public'));
 
 // include our routes
-const routes = require('./routes')(router);
+routes.setRoutes(router);
 
 // REGISTER OUR ROUTES
 // all of our routes will be prefixed with /api
