@@ -4,8 +4,8 @@
   "description": "API for the DebtTracker App.  Interfaces with MongoDB",
   "main": "index.js",
   "scripts": {
-    "test": "nyc --reporter=text mocha",
-    "lint": "eslint server app"
+    "test": "nyc --reporter=text --reporter=lcov mocha",
+    "lint": "eslint server app test || exit 0"
   },
   "author": "",
   "license": "ISC",
