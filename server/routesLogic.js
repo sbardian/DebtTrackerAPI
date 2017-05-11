@@ -9,6 +9,7 @@ const Total = require('../app/models/Total');
 const routesLogic = {
   /**
    * Add a new credit card to the database.
+   *
    * @param req the request
    * @param res the response
    */
@@ -37,6 +38,7 @@ const routesLogic = {
 
   /**
    * Get all the credit cards in the database.
+   *
    * @param req the request
    * @param res the response
    */
@@ -55,6 +57,7 @@ const routesLogic = {
 
   /**
    * Get a specific credit card by its ID
+   *
    * @param req the request
    * @param res the response
    */
@@ -72,6 +75,7 @@ const routesLogic = {
 
   /**
    * Add or update (if exists) a credit card.
+   *
    * @param req the request
    * @param res the response
    */
@@ -108,6 +112,7 @@ const routesLogic = {
 
   /**
    * delete a credit card from the database.
+   *
    * @param req the request
    * @param res the response
    */
@@ -131,6 +136,7 @@ const routesLogic = {
 
   /**
    * Get credit card totals from the database.
+   *
    * @param req the request
    * @param res the response
    */
@@ -148,6 +154,7 @@ const routesLogic = {
 
   /**
    * Add a new Total to the database.
+   *
    * @param req the request
    * @param res the response
    */
@@ -173,6 +180,7 @@ const routesLogic = {
 
   /**
    * Delete a Total from the database.
+   *
    * @param req the request
    * @param res the response
    */
