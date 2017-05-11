@@ -15,16 +15,12 @@ const routesLogic = {
   addCreditCard(req, res) {
     const db = new CreditCard();
     let response = {};
-    // fetch email and password from REST request.
-    // Add strict validation when you use this in Production.
     db.user = req.body.user;
     db.name = req.body.name;
     db.limit = req.body.limit;
     db.balance = req.body.balance;
     db.interest_rate = req.body.interest_rate;
     db.save((err) => {
-      // save() will run insert() command of MongoDB.
-      // it will add new data in collection.
       if (err) {
         response = { error: true, message: 'Error adding data' };
       } else {
@@ -48,7 +44,6 @@ const routesLogic = {
     // TODO: Update to use query to sort (ex: 'sort=balance', 'sort=interest_rate'.
     let response = {};
     CreditCard.find({}, (err, data) => {
-      // Mongo command to fetch all data from collection.
       if (err) {
         response = { error: true, message: 'Error fetching data' };
       } else {
@@ -66,7 +61,6 @@ const routesLogic = {
   getCreditCardByID(req, res) {
     let response = {};
     CreditCard.findById(req.params.id, (err, data) => {
-      // This will run Mongo Query to fetch data based on ID.
       if (err) {
         response = { error: true, message: 'Error fetching data' };
       } else {
@@ -83,8 +77,6 @@ const routesLogic = {
    */
   putOrUpdate(req, res) {
     let response = {};
-    // first find out record exists or not
-    // if it does then update the record
     CreditCard.findById(req.params.id, (err, initialData) => {
       const data = initialData;
       if (err) {
@@ -102,7 +94,6 @@ const routesLogic = {
         if (req.body.interest_rate !== undefined) {
           data.interest_rate = req.body.interest_rate;
         }
-        // save the data
         data.save(() => {
           if (err) {
             response = { error: true, message: 'Error updating data' };
@@ -122,12 +113,10 @@ const routesLogic = {
    */
   deleteCreditCard(req, res) {
     let response = {};
-    // find the data
     CreditCard.findById(req.params.id, (err) => {
       if (err) {
         response = { error: true, message: 'Error fetching data' };
       } else {
-        // data exists, remove it.
         CreditCard.remove({ _id: req.params.id }, () => {
           if (err) {
             response = { error: true, message: 'Error deleting data' };
@@ -147,9 +136,7 @@ const routesLogic = {
    */
   getTotals(req, res) {
     let response = {};
-    // get the totals
     Total.find({}, (err, data) => {
-      // Mongo command to fetch all data from collection.
       if (err) {
         response = { error: true, message: 'Error fetching data' };
       } else {
@@ -170,8 +157,6 @@ const routesLogic = {
     db.user = req.body.user;
     db.total = req.body.total;
     db.save((err) => {
-      // save() will run insert() command of MongoDB.
-      // it will add new data in collection.
       if (err) {
         response = { error: true, message: 'Error adding data' };
       } else {
@@ -193,12 +178,10 @@ const routesLogic = {
    */
   deleteTotal(req, res) {
     let response = {};
-    // find the data
     Total.findById(req.params.id, (err) => {
       if (err) {
         response = { error: true, message: 'Error fetching data' };
       } else {
-        // data exists, remove it.
         Total.remove({ _id: req.params.id }, () => {
           if (err) {
             response = { error: true, message: 'Error deleting data' };
