@@ -1,6 +1,7 @@
 /**
  * Created by sbardian on 12/13/16.
  */
+'use strict'
 
 const CreditCard = require('../app/models/CreditCard');
 const Total = require('../app/models/Total');
