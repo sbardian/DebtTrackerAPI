@@ -26,6 +26,7 @@ const routesLogic = {
         response = { error: true, message: 'Error adding data' };
       } else {
         response = {
+          error: false,
           message: 'Data added',
           id: db.id,
           updated_at: db.updated_at,
@@ -49,7 +50,7 @@ const routesLogic = {
       if (err) {
         response = { error: true, message: 'Error fetching data' };
       } else {
-        response = { message: data };
+        response = { error: false, message: data };
       }
       res.json(response);
     }).sort([['balance', 'descending']]);
@@ -67,7 +68,7 @@ const routesLogic = {
       if (err) {
         response = { error: true, message: 'Error fetching data' };
       } else {
-        response = { message: data };
+        response = { error: false, message: data };
       }
       res.json(response);
     });
@@ -102,7 +103,7 @@ const routesLogic = {
           if (err) {
             response = { error: true, message: 'Error updating data' };
           } else {
-            response = { message: `Data is updated for ${req.body.name}` };
+            response = { error: false, message: `Data is updated for ${req.body.name}` };
           }
           res.json(response);
         });
@@ -126,7 +127,7 @@ const routesLogic = {
           if (err) {
             response = { error: true, message: 'Error deleting data' };
           } else {
-            response = { message: `Data associated with ${req.params.id} is deleted` };
+            response = { error: false, message: `Data associated with ${req.params.id} is deleted` };
           }
           res.json(response);
         });
@@ -146,7 +147,7 @@ const routesLogic = {
       if (err) {
         response = { error: true, message: 'Error fetching data' };
       } else {
-        response = { message: data };
+        response = { error: false, message: data };
       }
       res.json(response);
     }).sort([['updated_at', 'descending']]);
@@ -168,6 +169,7 @@ const routesLogic = {
         response = { error: true, message: 'Error adding data' };
       } else {
         response = {
+          error: false,
           message: 'Data added',
           id: db.id,
           updated_at: db.updated_at,
@@ -194,7 +196,7 @@ const routesLogic = {
           if (err) {
             response = { error: true, message: 'Error deleting data' };
           } else {
-            response = { message: `Data associated with ${req.params.id} is deleted` };
+            response = { error: false, message: `Data associated with ${req.params.id} is deleted` };
           }
           res.json(response);
         });
