@@ -28,9 +28,9 @@ const routesLogic = {
         response = {
           error: false,
           message: 'Data added',
-          id: db.id,
+          _id: db.id,
           updated_at: db.updated_at,
-          v: db.v,
+          __v: db.v,
         };
       }
       res.json(response);
