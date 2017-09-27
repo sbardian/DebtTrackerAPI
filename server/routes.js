@@ -20,8 +20,8 @@ const routes = {
     /**
      * route ending in '/'
      */
-    router.get('/', (req, res) => {
-      res.json({ message: 'API up and running.' });
+    router.get('/', (req, res, next) => {
+        return res.sendFile(path.join(__dirname + '/LoginRequest/index.html'));
     });
 
     /**
