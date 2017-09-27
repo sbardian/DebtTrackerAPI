@@ -20,8 +20,8 @@ const routes = {
     /**
      * route ending in '/'
      */
-    router.get('/', (req, res, next) => {
-        return res.sendFile(path.join(__dirname + '/LoginRequest/index.html'));
+    router.get('/', (req, res) => {
+      return res.sendFile(process.env.PWD + '/app/RedirectPage/index.html');
     });
 
     /**
