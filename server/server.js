@@ -6,6 +6,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const connectDB = require('./connectDB');
 const routes = require('./routes');
+const session = require('express-session');
+const MongoStore = require('connect-mongo')(session);
 
 const server = {
   /**
@@ -16,6 +18,17 @@ const server = {
   init() {
     const expressServer = express();
     connectDB.connect();
+
+    // use sessions for tracking logins
+    // TODO: use env var for secret, using npm script
+    app.use(session({
+      secret: 'shit sandwich dawg',
+      resave: true,
+      saveUninitialized: false,
+      store: new MongoStore({
+        mongooseConnection: connectDB
+      })
+    }));
 
     // configure server to use bodyParser()
     // this will let us get the data from a POST
