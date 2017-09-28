@@ -21,8 +21,22 @@ const routes = {
      * route ending in '/'
      */
     router.get('/', (req, res) => {
-      return res.sendFile(process.env.PWD + '/app/RedirectPage/index.html');
+      let err = new Error();
+      err.status = 400;
+      return next(err);
     });
+
+    /**
+     * route ending in '/login'
+     */
+    router.route('/login')
+        .post((req, res) => routesLogic.loginRegister(req, res, next));
+
+    /**
+     * route ending in '/logout'
+     */
+    router.route('/logout')
+        .get((req, res) => routesLogic.logout(req, res, next));
 
     /**
      * routes ending in '/creditcards'

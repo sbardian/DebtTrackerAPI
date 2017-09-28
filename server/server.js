@@ -36,7 +36,9 @@ const server = {
 
     // Send index.html for requests to /
     expressServer.get('/', (req, res) => {
-      return res.sendFile(process.env.PWD + '/app/RedirectPage/index.html');
+      let err = new Error();
+      err.status = 400;
+      return next(err);
     });
     return expressServer;
   }
