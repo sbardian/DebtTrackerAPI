@@ -5,7 +5,7 @@
 
 const CreditCard = require('../app/models/CreditCard');
 const Total = require('../app/models/Total');
-const User = require('../app/models/user');
+const User = require('../app/models/User');
 
 const routesLogic = {
 
@@ -16,7 +16,24 @@ const routesLogic = {
    * @param res the response
    * @param next
    */
-  loginRegister(req, res, next) {
+  login(req, res, next) {
+    if (req.body.email && req.body.password) {
+      console.log('login request = ', req.body.email);
+      User.authenticate(req.body.email, req.body.password, function (error, user) {
+        if (error || !user) {
+          let err = new Error('Wrong email or password.');
+          err.status = 401;
+          return next(err);
+        } else {
+          req.session.userId = user._id;
+          return res.json(user);
+        }
+      });
+    }
+  },
+
+  register(req, res, next) {
+    console.log('register request = ', req);
     // confirm that user typed same password twice
     if (req.body.password !== req.body.passwordConf) {
       let err = new Error('Passwords do not match.');
@@ -24,37 +41,22 @@ const routesLogic = {
       res.send("passwords dont match");
       return next(err);
     }
-
     if (req.body.email &&
         req.body.username &&
         req.body.password &&
         req.body.passwordConf) {
-
       let userData = {
         email: req.body.email,
         username: req.body.username,
         password: req.body.password,
         passwordConf: req.body.passwordConf,
       };
-
       User.create(userData, function (error, user) {
         if (error) {
           return next(error);
         } else {
           req.session.userId = user._id;
-          return res.redirect('/profile');
-        }
-      });
-
-    } else if (req.body.logemail && req.body.logpassword) {
-      User.authenticate(req.body.logemail, req.body.logpassword, function (error, user) {
-        if (error || !user) {
-          let err = new Error('Wrong email or password.');
-          err.status = 401;
-          return next(err);
-        } else {
-          req.session.userId = user._id;
-          return res.redirect('/profile');
+          return res.json(user);
         }
       });
     } else {
@@ -72,6 +74,7 @@ const routesLogic = {
    * @param next
    */
   logout(req, res, next) {
+    console.log('logout req = ', req);
     if (req.session) {
       // delete session object
       req.session.destroy(function (err) {

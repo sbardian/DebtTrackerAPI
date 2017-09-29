@@ -30,13 +30,19 @@ const routes = {
      * route ending in '/login'
      */
     router.route('/login')
-        .post((req, res) => routesLogic.loginRegister(req, res, next));
+        .post((req, res, next) => routesLogic.login(req, res, next));
+
+    /**
+     * route ending in '/register'
+     */
+    router.route('/register')
+        .post((req, res, next) => routesLogic.register(req, res, next));
 
     /**
      * route ending in '/logout'
      */
     router.route('/logout')
-        .get((req, res) => routesLogic.logout(req, res, next));
+        .get((req, res, next) => routesLogic.logout(req, res, next));
 
     /**
      * routes ending in '/creditcards'

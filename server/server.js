@@ -1,12 +1,10 @@
-/**
- * Created by sbardian on 12/12/16.
- */
 
 const express = require('express');
 const bodyParser = require('body-parser');
-const connectDB = require('./connectDB');
 const routes = require('./routes');
 const session = require('express-session');
+const mongoose = require('mongoose');
+const bluebird = require('bluebird');
 const MongoStore = require('connect-mongo')(session);
 
 const server = {
@@ -17,16 +15,29 @@ const server = {
    */
   init() {
     const expressServer = express();
-    connectDB.connect();
+
+    mongoose.connect(
+        'mongodb://localhost/DeptTracker',
+        { useMongoClient: true,
+          promiseLibrary: bluebird,
+        });
+
+    const db = mongoose.connection;
+
+    //handle mongo error
+    db.on('error', console.error.bind(console, 'connection error:'));
+    db.once('open', function () {
+      // we're connected!
+    });
 
     // use sessions for tracking logins
     // TODO: use env var for secret, using npm script
-    app.use(session({
+    expressServer.use(session({
       secret: 'shit sandwich dawg',
       resave: true,
       saveUninitialized: false,
       store: new MongoStore({
-        mongooseConnection: connectDB
+        mongooseConnection: db
       })
     }));
 
