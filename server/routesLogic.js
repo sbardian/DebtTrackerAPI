@@ -17,8 +17,8 @@ const routesLogic = {
    * @param next
    */
   login(req, res, next) {
+    console.log('login request');
     if (req.body.email && req.body.password) {
-      console.log('login request = ', req.body.email);
       User.authenticate(req.body.email, req.body.password, function (error, user) {
         if (error || !user) {
           let err = new Error('Wrong email or password.');
@@ -26,14 +26,28 @@ const routesLogic = {
           return next(err);
         } else {
           req.session.userId = user._id;
-          return res.json(user);
+          console.log('req session = ', req.session.userId);
+          res.set({
+            Location: `http://localhost:8080/dashboard/${user.username}`,
+          });
+          return res.status(301).send(user);
         }
       });
     }
+    else {
+      console.log('error on body - ', req.body);
+    }
   },
 
+  /**
+   * Register to the app
+   *
+   * @param req
+   * @param res
+   * @param next
+   * @returns {*}
+   */
   register(req, res, next) {
-    console.log('register request = ', req);
     // confirm that user typed same password twice
     if (req.body.password !== req.body.passwordConf) {
       let err = new Error('Passwords do not match.');
@@ -56,6 +70,7 @@ const routesLogic = {
           return next(error);
         } else {
           req.session.userId = user._id;
+          console.log('register req = ', req.session);
           return res.json(user);
         }
       });
@@ -123,17 +138,33 @@ const routesLogic = {
    * @param req the request
    * @param res the response
    */
-  getAllCreditCards(req, res) {
+  getAllCreditCards(req, res, next) {
     // TODO: Update to use query to sort (ex: 'sort=balance', 'sort=interest_rate'.
-    let response = {};
-    CreditCard.find({}, (err, data) => {
-      if (err) {
-        response = { error: true, message: 'Error fetching data' };
-      } else {
-        response = { error: false, message: data };
-      }
-      res.json(response);
-    }).sort([['balance', 'descending']]);
+    console.log('getAllCreditCards req session = ', req.session.userId);
+    User.findById(req.session.userId)
+        .exec(function (error, user) {
+          if (error) {
+            console.log('error = ', error);
+            return next(error);
+          } else {
+            if (user === null) {
+              var err = new Error('Not authorized! Go back!');
+              err.status = 400;
+              return next(err);
+            } else {
+              console.log('session = ', req.session.userId);
+              let response = {};
+              CreditCard.find({}, (err, data) => {
+                if (err) {
+                  response = { error: true, message: 'Error fetching data' };
+                } else {
+                  response = { error: false, message: data };
+                }
+                res.json(response);
+              }).sort([['balance', 'descending']]);
+            }
+          }
+        });
   },
 
   /**

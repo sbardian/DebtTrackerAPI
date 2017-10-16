@@ -7,20 +7,9 @@ const routesLogic = require('./routesLogic');
 const routes = {
   setRoutes(router) {
     /**
-     * Set specific headers.  Allow CORS.
-     */
-    router.use((req, res, next) => {
-      res.header('Access-Control-Allow-Origin', '*');
-      res.header('Access-Control-Allow-Headers',
-          'Origin, X-Requested-With, Content-Type, Accept');
-      res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-      next();
-    });
-
-    /**
      * route ending in '/'
      */
-    router.get('/', (req, res) => {
+    router.get('/', (req, res, next) => {
       let err = new Error();
       err.status = 400;
       return next(err);
@@ -49,7 +38,7 @@ const routes = {
      */
     router.route('/creditcards')
         .post((req, res) => routesLogic.addCreditCard(req, res))
-        .get((req, res) => routesLogic.getAllCreditCards(req, res));
+        .get((req, res, next) => routesLogic.getAllCreditCards(req, res, next));
 
     /**
      * routes ending in '/creditcards/id'
