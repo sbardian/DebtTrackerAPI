@@ -2,7 +2,7 @@
  * Created by sbardian on 5/4/17.
  */
 
-const server = require('../server/server');
+const server = require('../src/server/server');
 const describe = require('mocha').describe;
 const it = require('mocha').it;
 const before = require('mocha').before;

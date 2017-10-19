@@ -1,3 +1,4 @@
+'use strict';
 
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -19,16 +20,14 @@ const server = {
 
     const corsOptions = {
       credentials: true,
-      origin: true,
+      origin: true
     };
 
     expressServer.use(cors(corsOptions));
 
-    mongoose.connect(
-        'mongodb://localhost/DeptTracker',
-        { useMongoClient: true,
-          promiseLibrary: bluebird,
-        });
+    mongoose.connect('mongodb://localhost/DeptTracker', { useMongoClient: true,
+      promiseLibrary: bluebird
+    });
 
     const db = mongoose.connection;
 
@@ -47,13 +46,13 @@ const server = {
       store: new MongoStore({
         mongooseConnection: db,
         autoRemove: 'interval',
-        autoRemoveInterval: 10,
+        autoRemoveInterval: 10
       })
     }));
 
     // configure server to use bodyParser()
     // this will let us get the data from a POST
-    expressServer.use(bodyParser.urlencoded({extended: true}));
+    expressServer.use(bodyParser.urlencoded({ extended: true }));
     expressServer.use(bodyParser.json());
 
     const router = express.Router();
@@ -70,6 +69,7 @@ const server = {
 
     return expressServer;
   }
-}
+};
 
 module.exports = server;
+//# sourceMappingURL=server.js.map

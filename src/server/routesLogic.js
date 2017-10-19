@@ -3,9 +3,9 @@
  */
 'use strict'
 
-const CreditCard = require('../app/models/CreditCard');
-const Total = require('../app/models/Total');
-const User = require('../app/models/User');
+const CreditCard = require('./models/CreditCard');
+const Total = require('./models/Total');
+const User = require('./models/User');
 
 const routesLogic = {
 
