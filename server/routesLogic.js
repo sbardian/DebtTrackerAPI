@@ -27,10 +27,7 @@ const routesLogic = {
         } else {
           req.session.userId = user._id;
           console.log('req session = ', req.session.userId);
-          res.set({
-            Location: `http://localhost:8080/dashboard/${user.username}`,
-          });
-          return res.status(301).send(user);
+          return res.redirect('http://localhost:8080');
         }
       });
     }
@@ -89,14 +86,15 @@ const routesLogic = {
    * @param next
    */
   logout(req, res, next) {
-    console.log('logout req = ', req);
+    console.log('logout req = ', req.session.destroy);
     if (req.session) {
       // delete session object
       req.session.destroy(function (err) {
         if (err) {
           return next(err);
         } else {
-          return res.redirect('/');
+          console.log('logoooout');
+          return res.redirect('http://localhost:8080/login');
         }
       });
     }
@@ -148,9 +146,7 @@ const routesLogic = {
             return next(error);
           } else {
             if (user === null) {
-              var err = new Error('Not authorized! Go back!');
-              err.status = 400;
-              return next(err);
+              return res.redirect('http://localhost:8080/login');
             } else {
               console.log('session = ', req.session.userId);
               let response = {};

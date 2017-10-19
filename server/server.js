@@ -58,9 +58,6 @@ const server = {
 
     const router = express.Router();
 
-    // middleware to use for all requests
-    expressServer.use(express.static('public'));
-
     // include our routes
     routes.setRoutes(router);
 
@@ -68,12 +65,9 @@ const server = {
     // all of our routes will be prefixed with /api
     expressServer.use('/api', router);
 
-    // Send index.html for requests to /
-    expressServer.get('/', (req, res) => {
-      let err = new Error();
-      err.status = 400;
-      return next(err);
-    });
+    // middleware to use for all requests
+    expressServer.use(express.static('dist/client'));
+
     return expressServer;
   }
 }

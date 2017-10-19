@@ -18,8 +18,7 @@ const routes = {
     /**
      * route ending in '/login'
      */
-    router.route('/login')
-        .post((req, res, next) => routesLogic.login(req, res, next));
+    router.post('/login', routesLogic.login);
 
     /**
      * route ending in '/register'
