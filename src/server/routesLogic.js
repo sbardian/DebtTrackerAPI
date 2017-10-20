@@ -27,7 +27,7 @@ const routesLogic = {
         } else {
           req.session.userId = user._id;
           console.log('req session = ', req.session.userId);
-          return res.redirect('http://localhost:8080');
+          return res.redirect('/');
         }
       });
     }
@@ -146,7 +146,8 @@ const routesLogic = {
             return next(error);
           } else {
             if (user === null) {
-              return res.redirect('http://localhost:8080/login');
+              console.log('no user object');
+              return res.redirect('/login');
             } else {
               console.log('session = ', req.session.userId);
               let response = {};
@@ -310,6 +311,28 @@ const routesLogic = {
       }
     });
   },
+
+  /**
+   * Check if a client is authenticated.
+   *
+   */
+  checkAuth(req, res, next) {
+    User.findById(req.session.userId)
+        .exec(function (error, user) {
+          if (error) {
+            console.log('Error authenticating: ', error);
+            return res.status(401).send(error);
+          } else {
+              if (user === null) {
+                console.log('User not found.');
+                return res.status(401).end();
+              } else {
+               return next();
+              }
+            }
+        });
+  }
+
 };
 
 module.exports = routesLogic;

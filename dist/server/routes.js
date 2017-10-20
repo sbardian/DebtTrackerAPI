@@ -9,18 +9,9 @@ const routesLogic = require('./routesLogic');
 const routes = {
   setRoutes(router) {
     /**
-     * route ending in '/'
-     */
-    router.get('/', (req, res, next) => {
-      let err = new Error();
-      err.status = 400;
-      return next(err);
-    });
-
-    /**
      * route ending in '/login'
      */
-    router.post('/login', routesLogic.login);
+    router.route('/login').post(routesLogic.login);
 
     /**
      * route ending in '/register'
@@ -51,8 +42,19 @@ const routes = {
      * routes ending in '/totals/id
      */
     router.route('/totals/:id').delete((req, res) => routesLogic.deleteTotal(req, res));
+
+    /**
+     * route ending in '/'
+     */
+    /*
+    router.get('/', (req, res, next) => {
+      let err = new Error();
+      err.status = 400;
+      return next(err);
+    });
+    */
   }
 };
 
 module.exports = routes;
-//# sourceMappingURL=routes.js.map
+//# sourceMappingURL=apiRoutes.js.map

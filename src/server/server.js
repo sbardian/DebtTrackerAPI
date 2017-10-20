@@ -1,12 +1,15 @@
 
 const express = require('express');
 const bodyParser = require('body-parser');
-const routes = require('./routes');
+const apiRoutes = require('./apiRoutes');
+import authRoutes from './authRoutes';
 const session = require('express-session');
 const mongoose = require('mongoose');
+import historyApiFallback from 'connect-history-api-fallback';
 const bluebird = require('bluebird');
 const cors = require('cors');
 const MongoStore = require('connect-mongo')(session);
+const routesLogic = require('./routesLogic');
 
 const server = {
   /**
@@ -56,17 +59,29 @@ const server = {
     expressServer.use(bodyParser.urlencoded({extended: true}));
     expressServer.use(bodyParser.json());
 
-    const router = express.Router();
+    expressServer.use(function (req, res, next) {
+      if (!req.session.userId) {
+        return res.redirect('/login');
+      } else {
+        next();
+      }
+    });
 
-    // include our routes
-    routes.setRoutes(router);
+    // route to login/register/logout
+    expressServer.use(authRoutes);
 
-    // REGISTER OUR ROUTES
+    // REGISTER OUR API ROUTES
     // all of our routes will be prefixed with /api
-    expressServer.use('/api', router);
+    expressServer.use('/api', routesLogic.checkAuth, apiRoutes);
 
     // middleware to use for all requests
-    expressServer.use(express.static('dist/client'));
+    const expressStatic = express.static('dist/client');
+    expressServer.use(expressStatic);
+    expressServer.use(historyApiFallback({
+      disableDotRule: true,
+      verbose: true,
+    }));
+    expressServer.use(expressStatic);
 
     return expressServer;
   }

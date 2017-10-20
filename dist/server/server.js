@@ -1,13 +1,26 @@
 'use strict';
 
+var _authRoutes = require('./authRoutes');
+
+var _authRoutes2 = _interopRequireDefault(_authRoutes);
+
+var _connectHistoryApiFallback = require('connect-history-api-fallback');
+
+var _connectHistoryApiFallback2 = _interopRequireDefault(_connectHistoryApiFallback);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 const express = require('express');
 const bodyParser = require('body-parser');
-const routes = require('./routes');
+const apiRoutes = require('./apiRoutes');
+
 const session = require('express-session');
 const mongoose = require('mongoose');
+
 const bluebird = require('bluebird');
 const cors = require('cors');
 const MongoStore = require('connect-mongo')(session);
+const routesLogic = require('./routesLogic');
 
 const server = {
   /**
@@ -55,17 +68,29 @@ const server = {
     expressServer.use(bodyParser.urlencoded({ extended: true }));
     expressServer.use(bodyParser.json());
 
-    const router = express.Router();
+    expressServer.use(function (req, res, next) {
+      if (!req.session.userId) {
+        return res.redirect('/login');
+      } else {
+        next();
+      }
+    });
 
-    // include our routes
-    routes.setRoutes(router);
+    // route to login/register/logout
+    expressServer.use(_authRoutes2.default);
 
-    // REGISTER OUR ROUTES
+    // REGISTER OUR API ROUTES
     // all of our routes will be prefixed with /api
-    expressServer.use('/api', router);
+    expressServer.use('/api', routesLogic.checkAuth, apiRoutes);
 
     // middleware to use for all requests
-    expressServer.use(express.static('dist/client'));
+    const expressStatic = express.static('dist/client');
+    expressServer.use(expressStatic);
+    expressServer.use((0, _connectHistoryApiFallback2.default)({
+      disableDotRule: true,
+      verbose: true
+    }));
+    expressServer.use(expressStatic);
 
     return expressServer;
   }
