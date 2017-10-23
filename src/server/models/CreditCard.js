@@ -9,7 +9,7 @@ mongoose.Promise = bluebird;
 
 // Create a schema
 const CreditCardSchema = new mongoose.Schema({
-  user: String,
+  userId: String,
   name: String,
   limit: Number,
   balance: Number,

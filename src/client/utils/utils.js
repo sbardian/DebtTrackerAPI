@@ -1,10 +1,11 @@
 const axios = require('axios');
 const API_BASE_URL = `/api/`;
+const AUTH_BASE_URL = `/auth/`;
 const CREDITCARDS_URL = `${API_BASE_URL}creditcards/`;
 const TOTALS_URL = `${API_BASE_URL}totals/`;
-const REGISTER_URL = `${API_BASE_URL}register/`;
-const LOGIN_URL = `${API_BASE_URL}login/`;
-const LOGOUT_URL = `${API_BASE_URL}logout/`;
+const REGISTER_URL = `${AUTH_BASE_URL}register/`;
+const LOGIN_URL = `${AUTH_BASE_URL}login/`;
+const LOGOUT_URL = `${AUTH_BASE_URL}logout/`;
 
 const utils = {
 

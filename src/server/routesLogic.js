@@ -27,7 +27,10 @@ const routesLogic = {
         } else {
           req.session.userId = user._id;
           console.log('login req session = ', req.session.userId);
-          return res.redirect('/');
+          res.set({
+            location: '/',
+          });
+          return res.status(301).send(req.session.username);
         }
       });
     }
@@ -68,7 +71,10 @@ const routesLogic = {
         } else {
           req.session.userId = user._id;
           console.log('register req = ', req.session);
-          return res.json(user);
+          res.set({
+            location: '/',
+          });
+          return res.status(301).send(req.session.username);
         }
       });
     } else {
@@ -109,6 +115,7 @@ const routesLogic = {
   addCreditCard(req, res) {
     const db = new CreditCard();
     let response = {};
+    db.userId = req.session.userId;
     db.user = req.body.user;
     db.name = req.body.name;
     db.limit = req.body.limit;
@@ -151,7 +158,7 @@ const routesLogic = {
             } else {
               console.log('session = ', req.session.userId);
               let response = {};
-              CreditCard.find({}, (err, data) => {
+              CreditCard.find({ userId: req.session.userId }, (err, data) => {
                 if (err) {
                   response = { error: true, message: 'Error fetching data' };
                 } else {
@@ -192,6 +199,7 @@ const routesLogic = {
     let response = {};
     CreditCard.findById(req.params.id, (err, initialData) => {
       const data = initialData;
+      data.userId = req.session.userId;
       if (err) {
         response = { error: true, message: 'Error fetching data' };
       } else {
@@ -251,7 +259,7 @@ const routesLogic = {
    */
   getTotals(req, res) {
     let response = {};
-    Total.find({}, (err, data) => {
+    Total.find({ userId: req.session.userId }, (err, data) => {
       if (err) {
         response = { error: true, message: 'Error fetching data' };
       } else {
@@ -270,6 +278,7 @@ const routesLogic = {
   addTotal(req, res) {
     const db = new Total();
     let response = {};
+    db.userId = req.session.userId;
     db.user = req.body.user;
     db.total = req.body.total;
     db.save((err) => {

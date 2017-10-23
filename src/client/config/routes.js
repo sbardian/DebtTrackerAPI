@@ -13,7 +13,7 @@ const routes = (
       <IndexRoute component={Dashboard} />
       <Route path="/login" component={Login} />
       <Route path="/logout" component={Logout} />
-      <Route path="register" component={Register} />
+      <Route path="/register" component={Register} />
       <Route path="payoff/:card" component={PayOffDetailsContainer} />
     </Route>
   </Router>

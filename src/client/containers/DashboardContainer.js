@@ -29,7 +29,7 @@ export default class DashboardContainer extends Component {
         this.setState({
           isLoading: false,
           username: 'Brian',
-          creditCards: utils.getUserCards(cards, 'Brian'),
+          creditCards: cards,
         });
       })
       .catch(err => {
@@ -41,7 +41,7 @@ export default class DashboardContainer extends Component {
     utils.getTotals()
       .then((totals) => {
         this.setState({
-          totals: utils.getUserTotals(totals, 'Brian'),
+          totals: totals,
         });
       });
   }

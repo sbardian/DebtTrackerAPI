@@ -9,7 +9,7 @@ mongoose.Promise = bluebird;
 
 // Create a schema
 const TotalsSchema = new mongoose.Schema({
-  user: String,
+  userId: String,
   total: Number,
   updated_at: { type: Date, default: Date.now },
 });

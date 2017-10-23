@@ -14,7 +14,6 @@ export default class Home extends Component {
       passwordConf: '',
     };
     this.userSelect = this.userSelect.bind(this);
-    this.registerUser = this.registerUser.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
 
@@ -27,20 +26,6 @@ export default class Home extends Component {
     this.setState({
       user: e.target.value,
     });
-  }
-
-  /**
-   * Register user
-   *
-   * @returns {XML}
-   */
-  registerUser(e) {
-    const { email, username, password, passwordConf } = this.state;
-    e.preventDefault();
-    utils.registerUser(username, email, password, passwordConf)
-        .then(response => {
-          console.log('register response = ', response);
-        });
   }
 
   /**
@@ -78,7 +63,7 @@ export default class Home extends Component {
           <div className="container">
             <div className="row">
               <div className="col-md-4 col-md-offset-4">
-                <Form horizontal onSubmit={this.registerUser}>
+                <Form action="/auth/register" method="post">
                   <FormGroup>
                     <Col componentClass={ControlLabel} sm={2}>
                       Email
@@ -86,6 +71,7 @@ export default class Home extends Component {
                     <Col sm={10}>
                       <FormControl
                           id="email"
+                          name="email"
                           type="email"
                           placeholder="Email"
                           value={email}
@@ -101,6 +87,7 @@ export default class Home extends Component {
                     <Col sm={10}>
                       <FormControl
                           id="username"
+                          name="username"
                           type="text"
                           placeholder="Username"
                           value={username}
@@ -116,6 +103,7 @@ export default class Home extends Component {
                     <Col sm={10}>
                       <FormControl
                           id="password"
+                          name="password"
                           type="password"
                           placeholder="Password"
                           value={password}
@@ -131,6 +119,7 @@ export default class Home extends Component {
                     <Col sm={10}>
                       <FormControl
                           id="passwordConf"
+                          name="passwordConf"
                           type="password"
                           placeholder="Confirm Password"
                           value={passwordConf}

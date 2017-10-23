@@ -21931,7 +21931,7 @@
 	    _react2.default.createElement(_reactRouter.IndexRoute, { component: _DashboardContainer2.default }),
 	    _react2.default.createElement(_reactRouter.Route, { path: '/login', component: _Login2.default }),
 	    _react2.default.createElement(_reactRouter.Route, { path: '/logout', component: _Logout2.default }),
-	    _react2.default.createElement(_reactRouter.Route, { path: 'register', component: _Register2.default }),
+	    _react2.default.createElement(_reactRouter.Route, { path: '/register', component: _Register2.default }),
 	    _react2.default.createElement(_reactRouter.Route, { path: 'payoff/:card', component: _PayOffDetailsContainer2.default })
 	  )
 	);
@@ -46914,11 +46914,12 @@
 
 	var axios = __webpack_require__(499);
 	var API_BASE_URL = '/api/';
+	var AUTH_BASE_URL = '/auth/';
 	var CREDITCARDS_URL = API_BASE_URL + 'creditcards/';
 	var TOTALS_URL = API_BASE_URL + 'totals/';
-	var REGISTER_URL = API_BASE_URL + 'register/';
-	var LOGIN_URL = API_BASE_URL + 'login/';
-	var LOGOUT_URL = API_BASE_URL + 'logout/';
+	var REGISTER_URL = AUTH_BASE_URL + 'register/';
+	var LOGIN_URL = AUTH_BASE_URL + 'login/';
+	var LOGOUT_URL = AUTH_BASE_URL + 'logout/';
 
 	var utils = {
 
@@ -48695,7 +48696,6 @@
 	      passwordConf: ''
 	    };
 	    _this.userSelect = _this.userSelect.bind(_this);
-	    _this.registerUser = _this.registerUser.bind(_this);
 	    _this.handleChange = _this.handleChange.bind(_this);
 	    return _this;
 	  }
@@ -48712,27 +48712,6 @@
 	    value: function userSelect(e) {
 	      this.setState({
 	        user: e.target.value
-	      });
-	    }
-
-	    /**
-	     * Register user
-	     *
-	     * @returns {XML}
-	     */
-
-	  }, {
-	    key: 'registerUser',
-	    value: function registerUser(e) {
-	      var _state = this.state,
-	          email = _state.email,
-	          username = _state.username,
-	          password = _state.password,
-	          passwordConf = _state.passwordConf;
-
-	      e.preventDefault();
-	      _utils2.default.registerUser(username, email, password, passwordConf).then(function (response) {
-	        console.log('register response = ', response);
 	      });
 	    }
 
@@ -48770,11 +48749,11 @@
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      var _state2 = this.state,
-	          email = _state2.email,
-	          username = _state2.username,
-	          password = _state2.password,
-	          passwordConf = _state2.passwordConf;
+	      var _state = this.state,
+	          email = _state.email,
+	          username = _state.username,
+	          password = _state.password,
+	          passwordConf = _state.passwordConf;
 
 	      return _react2.default.createElement(
 	        'div',
@@ -48800,7 +48779,7 @@
 	              { className: 'col-md-4 col-md-offset-4' },
 	              _react2.default.createElement(
 	                _reactBootstrap.Form,
-	                { horizontal: true, onSubmit: this.registerUser },
+	                { action: '/auth/register', method: 'post' },
 	                _react2.default.createElement(
 	                  _reactBootstrap.FormGroup,
 	                  null,
@@ -48814,6 +48793,7 @@
 	                    { sm: 10 },
 	                    _react2.default.createElement(_reactBootstrap.FormControl, {
 	                      id: 'email',
+	                      name: 'email',
 	                      type: 'email',
 	                      placeholder: 'Email',
 	                      value: email,
@@ -48834,6 +48814,7 @@
 	                    { sm: 10 },
 	                    _react2.default.createElement(_reactBootstrap.FormControl, {
 	                      id: 'username',
+	                      name: 'username',
 	                      type: 'text',
 	                      placeholder: 'Username',
 	                      value: username,
@@ -48854,6 +48835,7 @@
 	                    { sm: 10 },
 	                    _react2.default.createElement(_reactBootstrap.FormControl, {
 	                      id: 'password',
+	                      name: 'password',
 	                      type: 'password',
 	                      placeholder: 'Password',
 	                      value: password,
@@ -48874,6 +48856,7 @@
 	                    { sm: 10 },
 	                    _react2.default.createElement(_reactBootstrap.FormControl, {
 	                      id: 'passwordConf',
+	                      name: 'passwordConf',
 	                      type: 'password',
 	                      placeholder: 'Confirm Password',
 	                      value: passwordConf,
@@ -48986,7 +48969,7 @@
 	        _this2.setState({
 	          isLoading: false,
 	          username: 'Brian',
-	          creditCards: _utils2.default.getUserCards(cards, 'Brian')
+	          creditCards: cards
 	        });
 	      }).catch(function (err) {
 	        console.log('Bad request, err = ', err);
@@ -48996,7 +48979,7 @@
 	      });
 	      _utils2.default.getTotals().then(function (totals) {
 	        _this2.setState({
-	          totals: _utils2.default.getUserTotals(totals, 'Brian')
+	          totals: totals
 	        });
 	      });
 	    }
