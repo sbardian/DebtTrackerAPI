@@ -26,7 +26,7 @@ const routesLogic = {
           return next(err);
         } else {
           req.session.userId = user._id;
-          console.log('req session = ', req.session.userId);
+          console.log('login req session = ', req.session.userId);
           return res.redirect('/');
         }
       });
@@ -317,20 +317,12 @@ const routesLogic = {
    *
    */
   checkAuth(req, res, next) {
-    User.findById(req.session.userId)
-        .exec(function (error, user) {
-          if (error) {
-            console.log('Error authenticating: ', error);
-            return res.status(401).send(error);
-          } else {
-              if (user === null) {
-                console.log('User not found.');
-                return res.status(401).end();
-              } else {
-               return next();
-              }
-            }
-        });
+    if (!(req.session && req.session.userId)) {
+      console.log('No Session.');
+      return res.status(401).end();
+    }
+    console.log('Session found: ', req.session.userId);
+    return next();
   }
 
 };

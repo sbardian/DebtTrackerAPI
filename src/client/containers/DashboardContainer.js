@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { browserHistory } from 'react-router';
 import utils from '../utils/utils';
 import CreditCards from '../components/CreditCards';
 import PieChart from '../components/PieChart';
@@ -30,6 +31,12 @@ export default class DashboardContainer extends Component {
           username: 'Brian',
           creditCards: utils.getUserCards(cards, 'Brian'),
         });
+      })
+      .catch(err => {
+        console.log('Bad request, err = ', err);
+        browserHistory.push({
+          pathname: '/login',
+        });
       });
     utils.getTotals()
       .then((totals) => {
@@ -37,6 +44,14 @@ export default class DashboardContainer extends Component {
           totals: utils.getUserTotals(totals, 'Brian'),
         });
       });
+  }
+
+  /**
+   *
+   *
+   */
+  failboat() {
+
   }
 
   /**
@@ -114,9 +129,7 @@ export default class DashboardContainer extends Component {
 }
 
 DashboardContainer.propTypes = {
-  params: PropTypes.shape({
-    user: PropTypes.string.isRequired,
-  }).isRequired,
+    user: PropTypes.string,
 };
 
 DashboardContainer.defaultProps = {

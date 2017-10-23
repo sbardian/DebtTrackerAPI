@@ -85,8 +85,7 @@ const utils = {
    */
   getCreditCards() {
     return axios.get(CREDITCARDS_URL, { withCredentials: true, })
-      .then(response => response.data.message)
-      .catch(err => err.data)
+      .then(response => response.data.message);
   },
 
   /**

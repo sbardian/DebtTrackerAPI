@@ -1,5 +1,9 @@
 'use strict';
 
+var _apiRoutes = require('./apiRoutes');
+
+var _apiRoutes2 = _interopRequireDefault(_apiRoutes);
+
 var _authRoutes = require('./authRoutes');
 
 var _authRoutes2 = _interopRequireDefault(_authRoutes);
@@ -12,7 +16,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 const express = require('express');
 const bodyParser = require('body-parser');
-const apiRoutes = require('./apiRoutes');
 
 const session = require('express-session');
 const mongoose = require('mongoose');
@@ -68,20 +71,12 @@ const server = {
     expressServer.use(bodyParser.urlencoded({ extended: true }));
     expressServer.use(bodyParser.json());
 
-    expressServer.use(function (req, res, next) {
-      if (!req.session.userId) {
-        return res.redirect('/login');
-      } else {
-        next();
-      }
-    });
-
-    // route to login/register/logout
-    expressServer.use(_authRoutes2.default);
+    // routes to login/register/logout
+    expressServer.use('/auth', _authRoutes2.default);
 
     // REGISTER OUR API ROUTES
     // all of our routes will be prefixed with /api
-    expressServer.use('/api', routesLogic.checkAuth, apiRoutes);
+    expressServer.use('/api', routesLogic.checkAuth, _apiRoutes2.default);
 
     // middleware to use for all requests
     const expressStatic = express.static('dist/client');

@@ -55,7 +55,7 @@ export default class Home extends Component {
         <div className="container">
           <div className="row">
             <div className="col-md-4 col-md-offset-4">
-              <Form action="http://localhost:9090/api/login" method="post">
+              <Form action="/auth/login" method="post">
                 <FormGroup>
                   <Col componentClass={ControlLabel} sm={2}>
                     Email

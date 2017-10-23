@@ -192,7 +192,7 @@ export default class PayOffDetailsContainer extends React.Component {
         </div>
         <div className="row">
           <div className="col-md-12">
-            <Link to={`/dashboard/${user}`}>
+            <Link to={`/`}>
               <button
                 type="button"
                 className="btn btn-lg"

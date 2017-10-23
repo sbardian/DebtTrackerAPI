@@ -27244,7 +27244,7 @@
 	              { className: 'col-md-4 col-md-offset-4' },
 	              _react2.default.createElement(
 	                _reactBootstrap.Form,
-	                { action: 'http://localhost:9090/api/login', method: 'post' },
+	                { action: '/auth/login', method: 'post' },
 	                _react2.default.createElement(
 	                  _reactBootstrap.FormGroup,
 	                  null,
@@ -47004,8 +47004,6 @@
 	  getCreditCards: function getCreditCards() {
 	    return axios.get(CREDITCARDS_URL, { withCredentials: true }).then(function (response) {
 	      return response.data.message;
-	    }).catch(function (err) {
-	      return err.data;
 	    });
 	  },
 
@@ -48929,6 +48927,8 @@
 
 	var _propTypes2 = _interopRequireDefault(_propTypes);
 
+	var _reactRouter = __webpack_require__(186);
+
 	var _utils = __webpack_require__(498);
 
 	var _utils2 = _interopRequireDefault(_utils);
@@ -48988,6 +48988,11 @@
 	          username: 'Brian',
 	          creditCards: _utils2.default.getUserCards(cards, 'Brian')
 	        });
+	      }).catch(function (err) {
+	        console.log('Bad request, err = ', err);
+	        _reactRouter.browserHistory.push({
+	          pathname: '/login'
+	        });
 	      });
 	      _utils2.default.getTotals().then(function (totals) {
 	        _this2.setState({
@@ -48995,6 +49000,15 @@
 	        });
 	      });
 	    }
+
+	    /**
+	     *
+	     *
+	     */
+
+	  }, {
+	    key: 'failboat',
+	    value: function failboat() {}
 
 	    /**
 	     * Updates credit cards array.
@@ -49105,9 +49119,7 @@
 
 
 	DashboardContainer.propTypes = {
-	  params: _propTypes2.default.shape({
-	    user: _propTypes2.default.string.isRequired
-	  }).isRequired
+	  user: _propTypes2.default.string
 	};
 
 	DashboardContainer.defaultProps = {
@@ -106229,7 +106241,7 @@
 	            { className: 'col-md-12' },
 	            _react2.default.createElement(
 	              _reactRouter.Link,
-	              { to: '/dashboard/' + user },
+	              { to: '/' },
 	              _react2.default.createElement(
 	                'button',
 	                {

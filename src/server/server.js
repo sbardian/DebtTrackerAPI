@@ -1,7 +1,7 @@
 
 const express = require('express');
 const bodyParser = require('body-parser');
-const apiRoutes = require('./apiRoutes');
+import apiRoutes from './apiRoutes';
 import authRoutes from './authRoutes';
 const session = require('express-session');
 const mongoose = require('mongoose');
@@ -59,16 +59,8 @@ const server = {
     expressServer.use(bodyParser.urlencoded({extended: true}));
     expressServer.use(bodyParser.json());
 
-    expressServer.use(function (req, res, next) {
-      if (!req.session.userId) {
-        return res.redirect('/login');
-      } else {
-        next();
-      }
-    });
-
-    // route to login/register/logout
-    expressServer.use(authRoutes);
+    // routes to login/register/logout
+    expressServer.use('/auth', authRoutes);
 
     // REGISTER OUR API ROUTES
     // all of our routes will be prefixed with /api
