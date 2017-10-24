@@ -92,15 +92,12 @@ const routesLogic = {
    * @param next
    */
   logout(req, res, next) {
-    console.log('logout req = ', req.session.destroy);
     if (req.session) {
-      // delete session object
       req.session.destroy(function (err) {
         if (err) {
           return next(err);
         } else {
-          console.log('logoooout');
-          return res.redirect('http://localhost:8080/login');
+          return res.redirect('/login');
         }
       });
     }
