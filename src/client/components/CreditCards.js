@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
-import utils from '../utils/utils';
 import PropTypes from 'prop-types';
 import AlertContainer from 'react-alert';
+import utils from '../utils/utils';
 import ButtonControls from '../components/ButtonControls';
-import { alertOptions } from '../utils/alertOptions';
+import alertOptions from '../utils/alertOptions';
 import save from '../icons/save.png';
 import error from '../icons/error.png';
 
@@ -30,25 +30,26 @@ export default class CreditCards extends Component {
    * Called after a cards cell has been edited.
    *
    * @param {object} row - The row of the edited cell.
+   * @returns {null} none
    */
   onAfterSaveCell(row) {
     const self = this;
-    utils.saveCreditCard(
-      row._id,
-      row.name,
-      parseFloat(row.limit),
-      parseFloat(row.balance),
-      parseFloat(row.interest_rate),
-    )
-      .then((response) => {
+    utils
+      .saveCreditCard(
+        row._id,
+        row.name,
+        parseFloat(row.limit),
+        parseFloat(row.balance),
+        parseFloat(row.interest_rate),
+      )
+      .then(response => {
         if (response.error) {
           this.msg.show(response.message, {
             time: 5000,
             type: 'error',
-            icon: <img src={error} alt="Error updating card."/>,
+            icon: <img src={error} alt="Error updating card." />,
           });
-        }
-        else {
+        } else {
           const temp = self.props.creditCards;
           const index = temp.findIndex(x => x.name === row.name);
           temp[index] = {
@@ -63,7 +64,7 @@ export default class CreditCards extends Component {
           this.msg.show(response.message, {
             time: 5000,
             type: 'success',
-            icon: <img src={save} alt="Card updated."/>,
+            icon: <img src={save} alt="Card updated." />,
           });
         }
       });
@@ -73,6 +74,7 @@ export default class CreditCards extends Component {
    * Called when a row is selected.
    *
    * @param {object} row - The row of the selected card.
+   * @returns {null} none
    */
   onRowSelect(row) {
     this.state.onCardToDeleteState(row._id, row.name);
@@ -82,12 +84,10 @@ export default class CreditCards extends Component {
    * Formats a number to a dollar amount.
    *
    * @param {number} cell - number to format.
-   * @returns {string}
+   * @returns {string} dollar amount
    */
   dollarFormatter(cell) {
-    return (
-      `$${utils.createDollar(parseFloat(cell))}`
-    );
+    return `$${utils.createDollar(parseFloat(cell))}`;
   }
 
   render() {
@@ -102,9 +102,10 @@ export default class CreditCards extends Component {
       onSelect: this.onRowSelect,
     };
     const { creditCards, user, cardToDelete, onCardUpdateState } = this.props;
-    return this.state.isLoading === true
-      ? <p>Loading!!!</p>
-      : <div className="col-md-6">
+    return this.state.isLoading === true ? (
+      <p>Loading!!!</p>
+    ) : (
+      <div className="col-md-6">
         <h4>Credit Cards</h4>
         <BootstrapTable
           data={creditCards}
@@ -114,18 +115,10 @@ export default class CreditCards extends Component {
           cellEdit={cellEditProp}
           selectRow={selectRowProp}
         >
-          <TableHeaderColumn
-            isKey
-            dataField="_id"
-            dataSort={false}
-            hidden
-          >
+          <TableHeaderColumn isKey dataField="_id" dataSort={false} hidden>
             ID
           </TableHeaderColumn>
-          <TableHeaderColumn
-            dataField="name"
-            dataSort
-          >
+          <TableHeaderColumn dataField="name" dataSort>
             Name
           </TableHeaderColumn>
           <TableHeaderColumn
@@ -142,10 +135,7 @@ export default class CreditCards extends Component {
           >
             Balance
           </TableHeaderColumn>
-          <TableHeaderColumn
-            dataField="interest_rate"
-            dataSort
-          >
+          <TableHeaderColumn dataField="interest_rate" dataSort>
             Rate
           </TableHeaderColumn>
         </BootstrapTable>
@@ -155,8 +145,9 @@ export default class CreditCards extends Component {
           cardToDelete={cardToDelete}
           onCardUpdateState={onCardUpdateState}
         />
-        <AlertContainer ref={a => this.msg = a} {...alertOptions} />
-      </div>;
+        <AlertContainer ref={a => (this.msg = a)} {...alertOptions} />
+      </div>
+    );
   }
 }
 

@@ -1,3 +1,11 @@
 {
-    "extends": "airbnb"
+  "extends": ["airbnb", "prettier"],
+  "parser": "babel-eslint",
+  "rules": {
+    "react/jsx-filename-extension": "off",
+    "no-underscore-dangle": "off",
+    "camelcase": "off",
+    "quotes": ["single"]
+  },
+  "plugins": ["react", "jsx-a11y", "import"]
 }

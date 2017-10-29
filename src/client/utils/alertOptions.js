@@ -1,8 +1,9 @@
-export const alertOptions = {
+const alertOptions = {
   offset: 60,
   position: 'top right',
   theme: 'light',
   time: 5000,
-  transition: 'fade',
+  transition: 'fade'
 };
 
+export default alertOptions;

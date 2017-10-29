@@ -5,12 +5,12 @@ import {
   Form,
   FormGroup,
   FormControl,
-  ControlLabel,
+  ControlLabel
 } from 'react-bootstrap';
 import AlertContainer from 'react-alert';
 import PropTypes from 'prop-types';
 import utils from '../utils/utils';
-import { alertOptions } from '../utils/alertOptions';
+import alertOptions from '../utils/alertOptions';
 import save from '../icons/save.png';
 
 export default class AddCard extends Component {
@@ -22,7 +22,7 @@ export default class AddCard extends Component {
       name: '',
       limit: 0,
       balance: 0,
-      interest_rate: 0,
+      interest_rate: 0
     };
     this.handleChange = this.handleChange.bind(this);
     this.save = this.save.bind(this);
@@ -36,7 +36,7 @@ export default class AddCard extends Component {
 
   componentWillReceiveProps(props) {
     this.setState({
-      user: props.user,
+      user: props.user
     });
   }
 
@@ -45,6 +45,7 @@ export default class AddCard extends Component {
    * edited.
    *
    * @param {object} e - Event of change.
+   * @returns {null} none
    */
   handleChange(e) {
     const { value, id } = e.target;
@@ -70,53 +71,49 @@ export default class AddCard extends Component {
    * Saves the card that was added to the database
    * and updates the component.
    *
+   * @returns {null} none
    */
   save() {
     const { creditCards, onCardUpdateState } = this.props;
     const { user, name, limit, balance, interest_rate } = this.state;
-    utils.addCreditCard(
-      user,
-      name,
-      limit,
-      balance,
-      interest_rate,
-    )
-      .then((res) => {
-        const temp = creditCards;
-        const { _id, update_at, __v } = res;
-        temp.push({
-          _id,
-          user,
-          name,
-          limit: parseFloat(limit),
-          balance: parseFloat(balance),
-          interest_rate: parseFloat(interest_rate),
-          update_at,
-          __v,
-        });
-        onCardUpdateState(temp);
-        this.msg.show('Card added.', {
-          time: 5000,
-          type: 'success',
-          icon: <img src={save} alt="Card added." />,
-        });
+    utils.addCreditCard(user, name, limit, balance, interest_rate).then(res => {
+      const temp = creditCards;
+      const { _id, update_at, __v } = res;
+      temp.push({
+        _id,
+        user,
+        name,
+        limit: parseFloat(limit),
+        balance: parseFloat(balance),
+        interest_rate: parseFloat(interest_rate),
+        update_at,
+        __v
       });
+      onCardUpdateState(temp);
+      this.msg.show('Card added.', {
+        time: 5000,
+        type: 'success',
+        icon: <img src={save} alt="Card added." />
+      });
+    });
     this.close();
   }
 
   /**
    * Closes the add card modal.
    *
+   * @returns {null} none
    */
   close() {
     this.setState({
-      showModal: false,
+      showModal: false
     });
   }
 
   /**
    * Opens the add card modal.
    *
+   * @returns {null} none
    */
   open() {
     this.setState({
@@ -125,7 +122,7 @@ export default class AddCard extends Component {
       name: '',
       limit: '',
       balance: '',
-      interest_rate: '',
+      interest_rate: ''
     });
   }
 
@@ -133,10 +130,7 @@ export default class AddCard extends Component {
     const { showModal, name, limit, balance, interest_rate } = this.state;
     return (
       <div>
-        <Button
-          bsSize="lg"
-          onClick={this.open}
-        >
+        <Button bsSize="lg" onClick={this.open}>
           Add Card
         </Button>
         <Modal show={showModal} onHide={this.close}>
@@ -145,9 +139,7 @@ export default class AddCard extends Component {
           </Modal.Header>
           <Modal.Body>
             <Form>
-              <FormGroup
-                validationState={this.getValidationState}
-              >
+              <FormGroup validationState={this.getValidationState}>
                 <ControlLabel>Edit card name</ControlLabel>
                 <FormControl
                   id="name"
@@ -192,7 +184,7 @@ export default class AddCard extends Component {
             <Button onClick={this.close}>Cancel</Button>
           </Modal.Footer>
         </Modal>
-        <AlertContainer ref={a => this.msg = a} {...alertOptions} />
+        <AlertContainer ref={a => (this.msg = a)} {...alertOptions} />
       </div>
     );
   }
@@ -201,11 +193,11 @@ export default class AddCard extends Component {
 AddCard.propTypes = {
   user: PropTypes.string.isRequired,
   creditCards: PropTypes.arrayOf(PropTypes.object).isRequired,
-  onCardUpdateState: PropTypes.func.isRequired,
+  onCardUpdateState: PropTypes.func.isRequired
 };
 
 AddCard.defaultProps = {
   user: '',
   creditCards: [],
-  onCardUpdateState: () => {},
+  onCardUpdateState: () => {}
 };
