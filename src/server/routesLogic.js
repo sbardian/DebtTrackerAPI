@@ -3,6 +3,7 @@
  */
 'use strict'
 
+const jwt = require('jsonwebtoken');
 const CreditCard = require('./models/CreditCard');
 const Total = require('./models/Total');
 const User = require('./models/User');
@@ -27,10 +28,20 @@ const routesLogic = {
         } else {
           req.session.userId = user._id;
           console.log('login req session = ', req.session.userId);
+          let payload  = {
+            admin: false,
+          };
+          let token = jwt.sign(payload, 'superSecret', { expiresIn: 1440 });
+          let data = {
+            userId: req.session.userId,
+            username: user.username,
+            token: token,
+          };
+          console.log('backend data = ', data);
           res.set({
             location: '/',
           });
-          return res.status(301).send(req.session.username);
+          return res.status(200).send(data);
         }
       });
     }
@@ -97,7 +108,7 @@ const routesLogic = {
         if (err) {
           return next(err);
         } else {
-          return res.redirect('/login');
+          return res.status(200).end();
         }
       });
     }

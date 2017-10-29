@@ -5,7 +5,8 @@ import utils from '../utils/utils';
 import CreditCards from '../components/CreditCards';
 import PieChart from '../components/PieChart';
 import Totals from '../components/Totals';
-import { ButtonContainer, TitleContainer } from '../styles';
+import { ButtonContainer, TitleContainer, titleStyle, logoutStyle } from '../styles';
+import { Link } from 'react-router';
 
 export default class DashboardContainer extends Component {
   constructor(props) {
@@ -21,6 +22,7 @@ export default class DashboardContainer extends Component {
     this.handleCardUpdateState = this.handleCardToDeleteState.bind(this);
     this.handleCardToDeleteState = this.handleCardToDeleteState.bind(this);
     this.handleTotalUpdateState = this.handleTotalUpdateState.bind(this);
+    this.logout = this.logout.bind(this);
   }
 
   componentDidMount() {
@@ -28,12 +30,11 @@ export default class DashboardContainer extends Component {
       .then((cards) => {
         this.setState({
           isLoading: false,
-          username: 'Brian',
           creditCards: cards,
+          username: this.props.location.state.username,
         });
       })
       .catch(err => {
-        console.log('Bad request, err = ', err);
         browserHistory.push({
           pathname: '/login',
         });
@@ -47,11 +48,18 @@ export default class DashboardContainer extends Component {
   }
 
   /**
-   *
+   * Logout from the app.
    *
    */
-  failboat() {
-
+  logout() {
+    utils.userLogout()
+        .then((res) => {
+          if(res.status === 200) {
+            browserHistory.push({
+              pathname: '/login',
+            });
+          }
+        });
   }
 
   /**
@@ -92,18 +100,20 @@ export default class DashboardContainer extends Component {
   }
 
   render() {
-    const { user } = this.state.username;
-    const { isLoading, creditCards, cardToDelete, totals } = this.state;
+    const { username, isLoading, creditCards, cardToDelete, totals } = this.state;
     return (
       <div>
         <div className="row" style={TitleContainer}>
-          <h3>{user} Credit Status:</h3>
+          <h3 style={titleStyle} >{username} Credit Status:</h3>
+          <Link onClick={this.logout} style={logoutStyle} >
+              Logout
+          </Link>
         </div>
         <div className="container">
           <div className="row">
             <CreditCards
               isLoading={isLoading}
-              user={user}
+              user={username}
               creditCards={creditCards}
               cardToDelete={cardToDelete}
               onCardUpdateState={this.handleCardUpdateState}
@@ -118,7 +128,7 @@ export default class DashboardContainer extends Component {
               creditCards={creditCards}
               totals={totals}
               onTotalUpdateState={this.handleTotalUpdateState}
-              user={user}
+              user={username}
             />
           </div>
         </div>
@@ -129,9 +139,9 @@ export default class DashboardContainer extends Component {
 }
 
 DashboardContainer.propTypes = {
-    user: PropTypes.string,
+    username: PropTypes.string,
 };
 
 DashboardContainer.defaultProps = {
-  user: '',
+  username: '',
 };

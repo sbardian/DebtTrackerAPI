@@ -20,17 +20,26 @@ const utils = {
   },
 
   /**
+   * Axios instance
+   *
+   * @private
+   */
+  _axios() {
+    return axios.create();
+  },
+
+  /**
    * Post to Logout
    *
    */
   userLogout() {
     return (
-        axios({
+        utils._axios()({
           method: 'get',
           url: LOGOUT_URL,
         })
-            .then(response => response)
-            .catch(err => err)
+          .then(response => response)
+          .catch(err => err)
     )
   },
 
@@ -42,7 +51,7 @@ const utils = {
    */
   userLogin(email, password) {
     return (
-        axios({
+        utils._axios()({
           method: 'post',
           url: LOGIN_URL,
           data: {
@@ -65,7 +74,7 @@ const utils = {
    */
   registerUser(username, email, password, passwordConf ) {
     return (
-        axios({
+        utils._axios()({
           method: 'post',
           url: REGISTER_URL,
           data: {
@@ -85,7 +94,8 @@ const utils = {
    *
    */
   getCreditCards() {
-    return axios.get(CREDITCARDS_URL, { withCredentials: true, })
+    console.log('axios = ', this._axios);
+    return utils._axios().get(CREDITCARDS_URL, { withCredentials: true, })
       .then(response => response.data.message);
   },
 
@@ -100,14 +110,14 @@ const utils = {
    */
   saveCreditCard(id, name, limit, balance, interest_rate) {
     return (
-      axios({
-        method: 'put',
-        url: `${CREDITCARDS_URL}${id}`,
-        data: {
-          name,
-          limit,
-          balance,
-          interest_rate,
+        utils._axios()({
+          method: 'put',
+          url: `${CREDITCARDS_URL}${id}`,
+          data: {
+            name,
+            limit,
+            balance,
+            interest_rate,
         },
       })
         .then(response => response.data)
@@ -122,9 +132,9 @@ const utils = {
    */
   deleteCreditCards(id) {
     return (
-      axios({
-        method: 'delete',
-        url: `${CREDITCARDS_URL}${id}`,
+        utils._axios()({
+          method: 'delete',
+          url: `${CREDITCARDS_URL}${id}`,
       })
         .then(response => response.data)
         .catch(err => err.data)
@@ -142,15 +152,15 @@ const utils = {
    */
   addCreditCard(user, name, limit, balance, interest_rate) {
     return (
-      axios({
-        method: 'post',
-        url: CREDITCARDS_URL,
-        data: {
-          user,
-          name,
-          limit,
-          balance,
-          interest_rate,
+        utils._axios()({
+          method: 'post',
+          url: CREDITCARDS_URL,
+          data: {
+            user,
+            name,
+            limit,
+            balance,
+            interest_rate,
         },
       })
         .then(response => response.data)
@@ -165,7 +175,7 @@ const utils = {
    * @param {float} total - new total debt.
    */
   addNewTotal(user, total) {
-    return axios({
+    return utils._axios()({
       method: 'post',
       url: TOTALS_URL,
       data: {
@@ -182,7 +192,7 @@ const utils = {
    *
    */
   getTotals() {
-    return axios.get(TOTALS_URL, { withCredentials: true, })
+    return utils._axios().get(TOTALS_URL, { withCredentials: true, })
       .then(response => response.data.message)
       .catch(err => err);
   },
@@ -194,9 +204,9 @@ const utils = {
    */
   deleteTotals(id) {
     return (
-      axios({
-        method: 'delete',
-        url: `${TOTALS_URL}${id}`,
+        utils._axios()({
+          method: 'delete',
+          url: `${TOTALS_URL}${id}`,
       })
         .then(response => response.data.message)
         .catch(err => err.data)

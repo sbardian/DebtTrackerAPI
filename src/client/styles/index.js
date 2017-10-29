@@ -40,6 +40,12 @@ const styles = {
   tableHeaderStyle: {
     background: 'white',
   },
+  titleStyle: {
+    float: 'left',
+  },
+  logoutStyle: {
+    float: 'right',
+  },
 };
 
 module.exports = styles;

@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
+import { browserHistory } from 'react-router';
 import { Link } from 'react-router';
 import { Form, FormControl, ControlLabel, FormGroup, Col, Checkbox, Button } from 'react-bootstrap';
 import { transparentBg } from '../styles';
+import utils from '../utils/utils';
 
 export default class Home extends Component {
   constructor(props) {
@@ -13,7 +15,41 @@ export default class Home extends Component {
     };
     this.userSelect = this.userSelect.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.userLogin = this.userLogin.bind(this);
   }
+
+  /**
+   * User login
+   *
+   *
+   */
+  userLogin(e) {
+    const { email, password } = this.state;
+    e.preventDefault();
+    utils.userLogin(email, password)
+        .then(response => {
+          if(response.status === 200) {
+            console.log('login response ', response);
+            this.setState({
+              username: response.data.username,
+            });
+            browserHistory.push({
+              pathname: `/`,
+              state: {
+                username: response.data.username,
+                token: response.data.token,
+              },
+            });
+          }
+          else {
+            console.log('bad response ', response);
+          }
+        })
+        .catch(err => {
+          console.log('error in userLogin ', err);
+        });
+  }
+
 
   /**
    * Updates state based on table cell that was
@@ -55,7 +91,7 @@ export default class Home extends Component {
         <div className="container">
           <div className="row">
             <div className="col-md-4 col-md-offset-4">
-              <Form action="/auth/login" method="post">
+              <Form horizontal onSubmit={this.userLogin}>
                 <FormGroup>
                   <Col componentClass={ControlLabel} sm={2}>
                     Email
