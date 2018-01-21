@@ -1,3 +1,16 @@
 {
-    "extends": "airbnb"
+  "extends": ["airbnb-base", "prettier"],
+  "parser": "babel-eslint",
+  "rules": {
+    "valid-jsdoc": [
+      "error",
+      {
+        "prefer": {
+          "arg": "param",
+          "argument": "param",
+          "return": "returns"
+        }
+      }
+    ]
+  }
 }
