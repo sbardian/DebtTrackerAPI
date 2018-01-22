@@ -4,7 +4,7 @@ import { PropTypes } from 'prop-types';
 import AlertContainer from 'react-alert';
 import TotalsTable from './TotalsTable';
 import utils from '../utils/utils';
-import { alertOptions } from '../utils/alertOptions';
+import alertOptions from '../utils/alertOptions';
 import save from '../icons/save.png';
 import { TotalsContainer } from '../styles/index';
 
@@ -13,7 +13,7 @@ export default class Totals extends Component {
     super(props);
     this.state = {
       totalAvailable: 0,
-      totalDebt: 0,
+      totalDebt: 0
     };
     this.saveNewTotal = this.saveNewTotal.bind(this);
   }
@@ -21,7 +21,7 @@ export default class Totals extends Component {
   componentWillReceiveProps() {
     this.setState({
       totalAvailable: 0,
-      totalDebt: 0,
+      totalDebt: 0
     });
   }
 
@@ -32,7 +32,7 @@ export default class Totals extends Component {
    */
   computeDebt() {
     let total = this.state.totalDebt;
-    this.props.creditCards.map((card) => {
+    this.props.creditCards.map(card => {
       total += card.balance;
     });
     return utils.createDollar(total);
@@ -45,7 +45,7 @@ export default class Totals extends Component {
    */
   computeAvailable() {
     let total = this.state.totalAvailable;
-    this.props.creditCards.map((card) => {
+    this.props.creditCards.map(card => {
       total += card.limit;
     });
     return utils.createDollar(total);
@@ -58,7 +58,7 @@ export default class Totals extends Component {
    */
   computeNewTotal() {
     let total = this.state.totalDebt;
-    this.props.creditCards.map((card) => {
+    this.props.creditCards.map(card => {
       total += card.balance;
     });
     return total;
@@ -72,20 +72,19 @@ export default class Totals extends Component {
   saveNewTotal() {
     const self = this;
     const newTotal = self.computeNewTotal();
-    utils.addNewTotal(self.props.user, newTotal)
-      .then(() => {
-        const temp = self.props.totals;
-        temp.push({
-          user: self.props.user,
-          total: newTotal,
-        });
-        self.props.onTotalUpdateState(temp);
-        this.msg.show('Total saved.', {
-          time: 5000,
-          type: 'success',
-          icon: <img src={save} alt="Total saved." />,
-        });
+    utils.addNewTotal(self.props.user, newTotal).then(() => {
+      const temp = self.props.totals;
+      temp.push({
+        user: self.props.user,
+        total: newTotal
       });
+      self.props.onTotalUpdateState(temp);
+      this.msg.show('Total saved.', {
+        time: 5000,
+        type: 'success',
+        icon: <img src={save} alt="Total saved." />
+      });
+    });
   }
 
   // TODO: rewrite without calling functions in rendor. Do these calculations and calls while setting state
@@ -103,10 +102,7 @@ export default class Totals extends Component {
           </div>
           <div className="col-md-4">
             <h4>Save current total</h4>
-            <Button
-              bsSize="lg"
-              onClick={this.saveNewTotal}
-            >
+            <Button bsSize="lg" onClick={this.saveNewTotal}>
               Save
             </Button>
           </div>
@@ -117,7 +113,7 @@ export default class Totals extends Component {
             onTotalUpdateState={this.props.onTotalUpdateState}
           />
         </div>
-        <AlertContainer ref={a => this.msg = a} {...alertOptions} />
+        <AlertContainer ref={a => (this.msg = a)} {...alertOptions} />
       </div>
     );
   }
@@ -125,11 +121,11 @@ export default class Totals extends Component {
 
 Totals.propTypes = {
   creditCards: PropTypes.arrayOf(PropTypes.object).isRequired,
-  onTotalUpdateState: PropTypes.func.isRequired,
+  onTotalUpdateState: PropTypes.func.isRequired
 };
 
 Totals.defaultProps = {
   totals: [],
   creditCards: [],
-  onTotalUpdateState: () => {},
+  onTotalUpdateState: () => {}
 };

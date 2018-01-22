@@ -1,12 +1,16 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { browserHistory } from 'react-router';
+import { Link, browserHistory } from 'react-router';
 import utils from '../utils/utils';
 import CreditCards from '../components/CreditCards';
 import PieChart from '../components/PieChart';
 import Totals from '../components/Totals';
-import { ButtonContainer, TitleContainer, titleStyle, logoutStyle } from '../styles';
-import { Link } from 'react-router';
+import {
+  ButtonContainer,
+  TitleContainer,
+  titleStyle,
+  logoutStyle
+} from '../styles';
 
 export default class DashboardContainer extends Component {
   constructor(props) {
@@ -17,7 +21,7 @@ export default class DashboardContainer extends Component {
       cardToDelete: null,
       totals: [],
       loggedIn: false,
-      username: '',
+      username: ''
     };
     this.handleCardUpdateState = this.handleCardToDeleteState.bind(this);
     this.handleCardToDeleteState = this.handleCardToDeleteState.bind(this);
@@ -26,50 +30,51 @@ export default class DashboardContainer extends Component {
   }
 
   componentDidMount() {
-    utils.getCreditCards()
-      .then((cards) => {
+    utils
+      .getCreditCards()
+      .then(cards => {
         this.setState({
           isLoading: false,
           creditCards: cards,
-          username: this.props.location.state.username,
+          username: this.props.location.state.username
         });
       })
-      .catch(err => {
+      .catch(() => {
         browserHistory.push({
-          pathname: '/login',
+          pathname: '/login'
         });
       });
-    utils.getTotals()
-      .then((totals) => {
-        this.setState({
-          totals: totals,
-        });
+    utils.getTotals().then(totals => {
+      this.setState({
+        totals
       });
+    });
   }
 
   /**
    * Logout from the app.
    *
+   * @returns {*} none
    */
   logout() {
-    utils.userLogout()
-        .then((res) => {
-          if(res.status === 200) {
-            browserHistory.push({
-              pathname: '/login',
-            });
-          }
+    utils.userLogout().then(res => {
+      if (res.status === 200) {
+        browserHistory.push({
+          pathname: '/login'
         });
+      }
+    });
   }
 
   /**
    * Updates credit cards array.
    *
    * @param {array} creditCards - array of credit cards.
+   * @returns {*} none
    */
   handleCardUpdateState(creditCards) {
     this.setState({
-      creditCards,
+      creditCards
     });
   }
 
@@ -78,13 +83,14 @@ export default class DashboardContainer extends Component {
    *
    * @param {string} id - id of card to delete.
    * @param {string} name - name of card to delete.
+   * @returns {*} none
    */
   handleCardToDeleteState(id, name) {
     this.setState({
       cardToDelete: {
         id,
-        name,
-      },
+        name
+      }
     });
   }
 
@@ -92,21 +98,28 @@ export default class DashboardContainer extends Component {
    * Updates totals array.
    *
    * @param {array} totals - array of totals.
+   * @returns {*} none
    */
   handleTotalUpdateState(totals) {
     this.setState({
-      totals,
+      totals
     });
   }
 
   render() {
-    const { username, isLoading, creditCards, cardToDelete, totals } = this.state;
+    const {
+      username,
+      isLoading,
+      creditCards,
+      cardToDelete,
+      totals
+    } = this.state;
     return (
       <div>
         <div className="row" style={TitleContainer}>
-          <h3 style={titleStyle} >{username} Credit Status:</h3>
-          <Link onClick={this.logout} style={logoutStyle} >
-              Logout
+          <h3 style={titleStyle}>{username} Credit Status:</h3>
+          <Link onClick={this.logout} style={logoutStyle}>
+            Logout
           </Link>
         </div>
         <div className="container">
@@ -119,9 +132,7 @@ export default class DashboardContainer extends Component {
               onCardUpdateState={this.handleCardUpdateState}
               onCardToDeleteState={this.handleCardToDeleteState}
             />
-            <PieChart
-              cards={creditCards}
-            />
+            <PieChart cards={creditCards} />
           </div>
           <div className="row">
             <Totals
@@ -139,9 +150,9 @@ export default class DashboardContainer extends Component {
 }
 
 DashboardContainer.propTypes = {
-    username: PropTypes.string,
+  username: PropTypes.string
 };
 
 DashboardContainer.defaultProps = {
-  username: '',
+  username: ''
 };

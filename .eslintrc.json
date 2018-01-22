@@ -2,6 +2,7 @@
   "extends": ["airbnb-base", "prettier"],
   "parser": "babel-eslint",
   "rules": {
+    "no-unused-vars": "off",
     "valid-jsdoc": [
       "error",
       {
@@ -12,5 +13,6 @@
         }
       }
     ]
-  }
+  },
+  "plugins": ["react", "jsx-a11y", "import"]
 }

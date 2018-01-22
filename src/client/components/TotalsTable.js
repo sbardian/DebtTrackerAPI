@@ -7,21 +7,21 @@ import Moment from 'moment';
 import utils from '../utils/utils';
 import check from '../icons/check.png';
 import error from '../icons/error.png';
-import { alertOptions } from '../utils/alertOptions';
+import alertOptions from '../utils/alertOptions';
 import { tableHeaderStyle } from '../styles/index';
 
 export default class TotalsTable extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isLoading: true,
+      isLoading: true
     };
     this.buttonFormatter = this.buttonFormatter.bind(this);
   }
 
   componentWillReceiveProps(props) {
     this.setState({
-      isLoading: props.isLoading,
+      isLoading: props.isLoading
     });
   }
 
@@ -29,45 +29,41 @@ export default class TotalsTable extends React.Component {
    * Formats a number to a dollar amount.
    *
    * @param {number} cell - number to format.
-   * @returns {string}
+   * @returns {string} string
    */
   dollarFormatter(cell) {
-    return (
-      `$${utils.createDollar(parseFloat(cell))}`
-    );
+    return `$${utils.createDollar(parseFloat(cell))}`;
   }
 
   /**
    * Formats a date.
    *
    * @param {number} cell - date to format.
-   * @returns {*}
+   * @returns {*} date
    */
   dateFormatter(cell) {
     const date = new Moment(cell);
-    return (
-      date.format('LL')
-    );
+    return date.format('LL');
   }
 
   /**
    * Deletes a total.
    *
    * @param {object} row - row to delete.
+   * @returns {*} none
    */
   deleteTotal(row) {
-    utils.deleteTotals(row._id)
-      .then((response) => {
-        const temp = this.props.totals;
-        const index = temp.findIndex(x => x._id === row._id);
-        this.msg.show('Total deleted.', {
-          time: 5000,
-          type: 'success',
-          icon: <img src={check} alt="Total deleted." />,
-        });
-        temp.splice(index, 1);
-        this.props.onTotalUpdateState(temp);
+    utils.deleteTotals(row._id).then(response => {
+      const temp = this.props.totals;
+      const index = temp.findIndex(x => x._id === row._id);
+      this.msg.show('Total deleted.', {
+        time: 5000,
+        type: 'success',
+        icon: <img src={check} alt="Total deleted." />
       });
+      temp.splice(index, 1);
+      this.props.onTotalUpdateState(temp);
+    });
   }
 
   /**
@@ -81,7 +77,9 @@ export default class TotalsTable extends React.Component {
     return (
       <ButtonToolbar>
         <Button
-          onClick={() => { this.deleteTotal(row); }}
+          onClick={() => {
+            this.deleteTotal(row);
+          }}
           bsStyle="danger"
           bsSize="small"
         >
@@ -94,9 +92,10 @@ export default class TotalsTable extends React.Component {
   render() {
     const { isLoading } = this.state;
     const { totals } = this.props;
-    return isLoading === true
-      ? <p>Loading!!!</p>
-      : <div className="col-md-12">
+    return isLoading === true ? (
+      <p>Loading!!!</p>
+    ) : (
+      <div className="col-md-12">
         <h4>Debt Totals</h4>
         <BootstrapTable
           data={totals}
@@ -105,12 +104,7 @@ export default class TotalsTable extends React.Component {
           multiColumnSort={4}
           headerStyle={tableHeaderStyle}
         >
-          <TableHeaderColumn
-            isKey
-            dataField="_id"
-            dataSort={false}
-            hidden
-          >
+          <TableHeaderColumn isKey dataField="_id" dataSort={false} hidden>
             ID
           </TableHeaderColumn>
           <TableHeaderColumn
@@ -134,17 +128,18 @@ export default class TotalsTable extends React.Component {
             Delete
           </TableHeaderColumn>
         </BootstrapTable>
-        <AlertContainer ref={a => this.msg = a} {...alertOptions} />
-      </div>;
+        <AlertContainer ref={a => (this.msg = a)} {...alertOptions} />
+      </div>
+    );
   }
 }
 
 TotalsTable.propTypes = {
   isLoading: PropTypes.bool,
-  totals: PropTypes.arrayOf(PropTypes.object).isRequired,
+  totals: PropTypes.arrayOf(PropTypes.object).isRequired
 };
 
 TotalsTable.defaultProps = {
   isLoading: false,
-  totals: [],
+  totals: []
 };

@@ -1,5 +1,5 @@
-import historyApiFallback from 'connect-history-api-fallback';
 import express from 'express';
+import historyApiFallback from 'connect-history-api-fallback';
 import session from 'express-session';
 import bodyParser from 'body-parser';
 import cors from 'cors';

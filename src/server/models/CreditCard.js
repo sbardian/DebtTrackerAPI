@@ -2,8 +2,8 @@
  * Created by sbardian on 12/12/16.
  */
 
-const mongoose = require('mongoose');
-const bluebird = require('bluebird');
+import mongoose from 'mongoose';
+import bluebird from 'bluebird';
 
 mongoose.Promise = bluebird;
 

@@ -12,7 +12,7 @@ export default class PayOffDetailsContainer extends React.Component {
    * Called when slider is moved.
    *
    * @param {array} props - component props.
-   * @returns {XML}
+   * @returns {XML} xml
    */
   static handleSlide(props) {
     const { value, dragging, index, ...restProps } = props;
@@ -39,7 +39,7 @@ export default class PayOffDetailsContainer extends React.Component {
       totalSave: null,
       balance: 0,
       singlePaymentMax: 0,
-      paymentAmount: 0,
+      paymentAmount: 0
     };
     this.log = this.log.bind(this);
     this.calc = this.calc.bind(this);
@@ -54,28 +54,30 @@ export default class PayOffDetailsContainer extends React.Component {
    * pay off a card, based on paymentAmount.
    *
    * @param {float} paymentAmount - payment amount.
+   * @returns {*} none
    */
   calc(paymentAmount) {
     const intRate = this.props.location.state.card[0].interest_rate;
     const balance = this.props.location.state.card[0].balance;
-    let monthlyPayment = paymentAmount || this.props.location.state.card[0].balance * 0.023;
+    let monthlyPayment =
+      paymentAmount || this.props.location.state.card[0].balance * 0.023;
     monthlyPayment = monthlyPayment < 25 ? 25 : monthlyPayment;
-    const monthlyIntRate = (intRate / 365) * 30;
+    const monthlyIntRate = intRate / 365 * 30;
     let months = 0;
     let totalPaid = 0;
     let totalInterest = 0;
     let newBalance = balance;
     let x = 0;
     do {
-      const interest = (monthlyIntRate * newBalance) / 100;
+      const interest = monthlyIntRate * newBalance / 100;
       totalInterest += interest;
       const paid = monthlyPayment - interest;
       totalPaid = totalPaid + interest + paid;
       x += paid;
       newBalance -= paid;
       months += 1;
-      if ((paid * months) > balance) {
-        totalPaid = (totalPaid - (totalPaid - balance)) + totalInterest;
+      if (paid * months > balance) {
+        totalPaid = totalPaid - (totalPaid - balance) + totalInterest;
       }
 
       // TODO: uncomment 2 lines below for updating minimum monthly payment
@@ -86,15 +88,15 @@ export default class PayOffDetailsContainer extends React.Component {
     this.setState({
       months,
       total: totalPaid,
-      paymentAmount: monthlyPayment,
+      paymentAmount: monthlyPayment
     });
     if (!paymentAmount) {
       this.setState({
-        singlePaymentMax: (balance + ((balance * monthlyIntRate) / 100) + 1),
+        singlePaymentMax: balance + balance * monthlyIntRate / 100 + 1,
         minimum: monthlyPayment,
         monthsSave: months,
         balance,
-        totalSave: totalPaid,
+        totalSave: totalPaid
       });
     }
   }
@@ -103,10 +105,11 @@ export default class PayOffDetailsContainer extends React.Component {
    * Logs the payment amount for updating component.
    *
    * @param {float} value - payment amount.
+   * @returns {*} none
    */
   log(value) {
     this.setState({
-      paymentAmount: value,
+      paymentAmount: value
     });
     this.calc(value);
   }
@@ -120,20 +123,22 @@ export default class PayOffDetailsContainer extends React.Component {
       totalSave,
       total,
       months,
-      paymentAmount,
+      paymentAmount
     } = this.state;
     const {
       user,
       name,
       limit,
       balance,
-      interest_rate,
+      interest_rate
     } = this.props.location.state.card[0];
 
-    marks[`${Math.trunc(minimum)}`] =
-      <string>${utils.createDollar(Math.trunc(minimum))}</string>;
-    marks[`${Math.trunc(singlePaymentMax)}`] =
-      <string>${utils.createDollar(Math.trunc(singlePaymentMax))}</string>;
+    marks[`${Math.trunc(minimum)}`] = (
+      <string>${utils.createDollar(Math.trunc(minimum))}</string>
+    );
+    marks[`${Math.trunc(singlePaymentMax)}`] = (
+      <string>${utils.createDollar(Math.trunc(singlePaymentMax))}</string>
+    );
 
     return (
       <div className="container">
@@ -193,10 +198,7 @@ export default class PayOffDetailsContainer extends React.Component {
         <div className="row">
           <div className="col-md-12">
             <Link to={`/`}>
-              <button
-                type="button"
-                className="btn btn-lg"
-              >
+              <button type="button" className="btn btn-lg">
                 Back
               </button>
             </Link>
@@ -215,9 +217,9 @@ PayOffDetailsContainer.propTypes = {
       name: PropTypes.string,
       limit: PropTypes.number,
       balance: PropTypes.number,
-      interest_rate: PropTypes.number,
-    }),
-  }),
+      interest_rate: PropTypes.number
+    })
+  })
 };
 
 PayOffDetailsContainer.defaultProps = {
@@ -228,5 +230,5 @@ PayOffDetailsContainer.defaultProps = {
   name: '',
   limit: 0,
   balance: 0,
-  interest_rate: 0,
+  interest_rate: 0
 };
