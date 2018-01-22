@@ -1,15 +1,15 @@
-
-const express = require('express');
-const bodyParser = require('body-parser');
+import historyApiFallback from 'connect-history-api-fallback';
+import express from 'express';
+import session from 'express-session';
+import bodyParser from 'body-parser';
+import cors from 'cors';
+import mongoose from 'mongoose';
+import bluebird from 'bluebird';
 import apiRoutes from './apiRoutes';
 import authRoutes from './authRoutes';
-const session = require('express-session');
-const mongoose = require('mongoose');
-import historyApiFallback from 'connect-history-api-fallback';
-const bluebird = require('bluebird');
-const cors = require('cors');
+import routesLogic from './routesLogic';
+
 const MongoStore = require('connect-mongo')(session);
-const routesLogic = require('./routesLogic');
 
 const server = {
   /**
@@ -27,36 +27,38 @@ const server = {
 
     expressServer.use(cors(corsOptions));
 
-    mongoose.connect(
-        'mongodb://localhost/DeptTracker',
-        { useMongoClient: true,
-          promiseLibrary: bluebird,
-        });
+    mongoose.connect('mongodb://localhost/DeptTracker', {
+      useMongoClient: true,
+      promiseLibrary: bluebird,
+    });
 
     const db = mongoose.connection;
 
-    //handle mongo error
+    // handle mongo error
     db.on('error', console.error.bind(console, 'connection error:'));
-    db.once('open', function () {
-      // we're connected!
+
+    db.once('open', () => {
+      // Connected!
     });
 
     // use sessions for tracking logins
     // TODO: use env var for secret, using npm script
-    expressServer.use(session({
-      secret: 'shit sandwich dawg',
-      resave: false,
-      saveUninitialized: true,
-      store: new MongoStore({
-        mongooseConnection: db,
-        autoRemove: 'interval',
-        autoRemoveInterval: 10,
-      })
-    }));
+    expressServer.use(
+      session({
+        secret: 'shit sandwich dawg',
+        resave: false,
+        saveUninitialized: true,
+        store: new MongoStore({
+          mongooseConnection: db,
+          autoRemove: 'interval',
+          autoRemoveInterval: 10,
+        }),
+      }),
+    );
 
     // configure server to use bodyParser()
     // this will let us get the data from a POST
-    expressServer.use(bodyParser.urlencoded({extended: true}));
+    expressServer.use(bodyParser.urlencoded({ extended: true }));
     expressServer.use(bodyParser.json());
 
     // routes to login/register/logout
@@ -69,14 +71,16 @@ const server = {
     // middleware to use for all requests
     const expressStatic = express.static('dist/client');
     expressServer.use(expressStatic);
-    expressServer.use(historyApiFallback({
-      disableDotRule: true,
-      verbose: true,
-    }));
+    expressServer.use(
+      historyApiFallback({
+        disableDotRule: true,
+        verbose: true,
+      }),
+    );
     expressServer.use(expressStatic);
 
     return expressServer;
-  }
+  },
 };
 
 module.exports = server;

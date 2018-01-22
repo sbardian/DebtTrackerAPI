@@ -1,35 +1,39 @@
-const express = require('express');
-const routesLogic = require('./routesLogic');
+import express from 'express';
+import routesLogic from './routesLogic';
 
 const router = express.Router();
 
 /**
  * routes ending in '/creditcards'
  */
-router.route('/creditcards')
-    .post((req, res) => routesLogic.addCreditCard(req, res))
-    .get((req, res, next) => routesLogic.getAllCreditCards(req, res, next));
+router
+  .route('/creditcards')
+  .post((req, res) => routesLogic.addCreditCard(req, res))
+  .get((req, res, next) => routesLogic.getAllCreditCards(req, res, next));
 
 /**
  * routes ending in '/creditcards/id'
  */
-router.route('/creditcards/:id')
-    .get((req, res) => routesLogic.getCreditCardByID(req, res))
-    .put((req, res) => routesLogic.putOrUpdate(req, res))
-    .delete((req, res) => routesLogic.deleteCreditCard(req, res));
+router
+  .route('/creditcards/:id')
+  .get((req, res) => routesLogic.getCreditCardByID(req, res))
+  .put((req, res) => routesLogic.putOrUpdate(req, res))
+  .delete((req, res) => routesLogic.deleteCreditCard(req, res));
 
 /**
  * routes ending in '/totals'
  */
-router.route('/totals')
-    .post((req, res) => routesLogic.addTotal(req, res))
-    .get((req, res) => routesLogic.getTotals(req, res));
+router
+  .route('/totals')
+  .post((req, res) => routesLogic.addTotal(req, res))
+  .get((req, res) => routesLogic.getTotals(req, res));
 
 /**
  * routes ending in '/totals/id
  */
-router.route('/totals/:id')
-    .delete((req, res) => routesLogic.deleteTotal(req, res));
+router
+  .route('/totals/:id')
+  .delete((req, res) => routesLogic.deleteTotal(req, res));
 
 /**
  * route ending in '/'
