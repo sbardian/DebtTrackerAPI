@@ -1,7 +1,13 @@
+/* eslint no-use-before-define: 0 */
+/* eslint func-names: 0 */
+/* eslint prefer-arrow-callback: 0 */
+/* eslint consistent-return: 0 */
+/* eslint no-shadow: 0 */
+
 import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
 
-let UserSchema = new mongoose.Schema({
+const UserSchema = new mongoose.Schema({
   email: {
     type: String,
     unique: true,
@@ -44,9 +50,9 @@ UserSchema.statics.authenticate = (email, password, callback) => {
 };
 
 // hashing a password before storing it to the database
-UserSchema.pre('save', next => {
+UserSchema.pre('save', function(next) {
   const user = this;
-  bcrypt.hash(user.password, 10, (err, hash) => {
+  bcrypt.hash(user.password, 10, function(err, hash) {
     if (err) {
       return next(err);
     }

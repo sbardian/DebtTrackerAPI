@@ -11,9 +11,7 @@ router.route('/login').post(routesLogic.login);
 /**
  * route ending in '/register'
  */
-router
-  .route('/register')
-  .post((req, res, next) => routesLogic.register(req, res, next));
+router.route('/register').post(routesLogic.register);
 
 /**
  * route ending in '/logout'

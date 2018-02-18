@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { browserHistory } from 'react-router';
-import { Link } from 'react-router';
+import { browserHistory, Link } from 'react-router';
 import {
   Form,
   FormControl,
@@ -8,7 +7,7 @@ import {
   FormGroup,
   Col,
   Checkbox,
-  Button
+  Button,
 } from 'react-bootstrap';
 import { transparentBg } from '../styles';
 import utils from '../utils/utils';
@@ -19,7 +18,7 @@ export default class Home extends Component {
     this.state = {
       user: '',
       email: '',
-      password: ''
+      password: '',
     };
     this.userSelect = this.userSelect.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -40,14 +39,14 @@ export default class Home extends Component {
         if (response.status === 200) {
           console.log('login response ', response);
           this.setState({
-            username: response.data.username
+            username: response.data.username,
           });
           browserHistory.push({
             pathname: `/`,
             state: {
               username: response.data.username,
-              token: response.data.token
-            }
+              token: response.data.token,
+            },
           });
         } else {
           console.log('bad response ', response);
@@ -87,7 +86,7 @@ export default class Home extends Component {
    */
   userSelect(e) {
     this.setState({
-      user: e.target.value
+      user: e.target.value,
     });
   }
 
