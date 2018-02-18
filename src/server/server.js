@@ -8,6 +8,7 @@ import bluebird from 'bluebird';
 import apiRoutes from './apiRoutes';
 import authRoutes from './authRoutes';
 import routesLogic from './routesLogic';
+import { config } from './yargs';
 
 const MongoStore = require('connect-mongo')(session);
 
@@ -18,6 +19,7 @@ const server = {
    * @returns {express} expressServer - The express server instance.
    */
   init() {
+    const { databaseUrl, sessionSecret } = config;
     const expressServer = express();
 
     const corsOptions = {
@@ -27,7 +29,7 @@ const server = {
 
     expressServer.use(cors(corsOptions));
 
-    mongoose.connect('mongodb://localhost/DeptTracker', {
+    mongoose.connect(databaseUrl, {
       useMongoClient: true,
       promiseLibrary: bluebird,
     });
@@ -45,7 +47,7 @@ const server = {
     // TODO: use env var for secret, using npm script
     expressServer.use(
       session({
-        secret: 'shit sandwich dawg',
+        secret: sessionSecret,
         resave: false,
         saveUninitialized: true,
         store: new MongoStore({
