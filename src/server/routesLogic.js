@@ -1,15 +1,9 @@
-/**
- * Created by sbardian on 12/13/16.
- */
-'use strict'
-
 const jwt = require('jsonwebtoken');
 const CreditCard = require('./models/CreditCard');
 const Total = require('./models/Total');
 const User = require('./models/User');
 
 const routesLogic = {
-
   /**
    * Login|Auth to the app
    *
@@ -18,35 +12,28 @@ const routesLogic = {
    * @param next
    */
   login(req, res, next) {
-    console.log('login request');
     if (req.body.email && req.body.password) {
-      User.authenticate(req.body.email, req.body.password, function (error, user) {
+      User.authenticate(req.body.email, req.body.password, (error, user) => {
         if (error || !user) {
-          let err = new Error('Wrong email or password.');
+          const err = new Error('Wrong email or password.');
           err.status = 401;
           return next(err);
-        } else {
-          req.session.userId = user._id;
-          console.log('login req session = ', req.session.userId);
-          let payload  = {
-            admin: false,
-          };
-          let token = jwt.sign(payload, 'superSecret', { expiresIn: 1440 });
-          let data = {
-            userId: req.session.userId,
-            username: user.username,
-            token: token,
-          };
-          console.log('backend data = ', data);
-          res.set({
-            location: '/',
-          });
-          return res.status(200).send(data);
         }
+        req.session.userId = user._id;
+        const payload = {
+          admin: false,
+        };
+        const token = jwt.sign(payload, 'superSecret', { expiresIn: 1440 });
+        const data = {
+          userId: req.session.userId,
+          username: user.username,
+          token,
+        };
+        res.set({
+          location: '/',
+        });
+        return res.status(200).send(data);
       });
-    }
-    else {
-      console.log('error on body - ', req.body);
     }
   },
 
@@ -61,35 +48,35 @@ const routesLogic = {
   register(req, res, next) {
     // confirm that user typed same password twice
     if (req.body.password !== req.body.passwordConf) {
-      let err = new Error('Passwords do not match.');
+      const err = new Error('Passwords do not match.');
       err.status = 400;
-      res.send("passwords dont match");
+      res.send('passwords dont match');
       return next(err);
     }
-    if (req.body.email &&
-        req.body.username &&
-        req.body.password &&
-        req.body.passwordConf) {
-      let userData = {
+    if (
+      req.body.email &&
+      req.body.username &&
+      req.body.password &&
+      req.body.passwordConf
+    ) {
+      const userData = {
         email: req.body.email,
         username: req.body.username,
         password: req.body.password,
         passwordConf: req.body.passwordConf,
       };
-      User.create(userData, function (error, user) {
+      User.create(userData, (error, user) => {
         if (error) {
           return next(error);
-        } else {
-          req.session.userId = user._id;
-          console.log('register req = ', req.session);
-          res.set({
-            location: '/',
-          });
-          return res.status(301).send(req.session.username);
         }
+        req.session.userId = user._id;
+        res.set({
+          location: '/',
+        });
+        return res.status(301).send(req.session.username);
       });
     } else {
-      let err = new Error('All fields required.');
+      const err = new Error('All fields required.');
       err.status = 400;
       return next(err);
     }
@@ -104,12 +91,11 @@ const routesLogic = {
    */
   logout(req, res, next) {
     if (req.session) {
-      req.session.destroy(function (err) {
+      req.session.destroy(err => {
         if (err) {
           return next(err);
-        } else {
-          return res.status(200).end();
         }
+        return res.status(200).end();
       });
     }
   },
@@ -129,7 +115,7 @@ const routesLogic = {
     db.limit = req.body.limit;
     db.balance = req.body.balance;
     db.interest_rate = req.body.interest_rate;
-    db.save((err) => {
+    db.save(err => {
       if (err) {
         response = { error: true, message: 'Error adding data' };
       } else {
@@ -153,30 +139,23 @@ const routesLogic = {
    */
   getAllCreditCards(req, res, next) {
     // TODO: Update to use query to sort (ex: 'sort=balance', 'sort=interest_rate'.
-    console.log('getAllCreditCards req session = ', req.session.userId);
-    User.findById(req.session.userId)
-        .exec(function (error, user) {
-          if (error) {
-            console.log('error = ', error);
-            return next(error);
-          } else {
-            if (user === null) {
-              console.log('no user object');
-              return res.redirect('/login');
-            } else {
-              console.log('session = ', req.session.userId);
-              let response = {};
-              CreditCard.find({ userId: req.session.userId }, (err, data) => {
-                if (err) {
-                  response = { error: true, message: 'Error fetching data' };
-                } else {
-                  response = { error: false, message: data };
-                }
-                res.json(response);
-              }).sort([['balance', 'descending']]);
-            }
-          }
-        });
+    User.findById(req.session.userId).exec((error, user) => {
+      if (error) {
+        return next(error);
+      }
+      if (user === null) {
+        return res.redirect('/login');
+      }
+      let response = {};
+      CreditCard.find({ userId: req.session.userId }, (err, data) => {
+        if (err) {
+          response = { error: true, message: 'Error fetching data' };
+        } else {
+          response = { error: false, message: data };
+        }
+        res.json(response);
+      }).sort([['balance', 'descending']]);
+    });
   },
 
   /**
@@ -227,7 +206,10 @@ const routesLogic = {
           if (err) {
             response = { error: true, message: 'Error updating data' };
           } else {
-            response = { error: false, message: `Data is updated for ${req.body.name}` };
+            response = {
+              error: false,
+              message: `Data is updated for ${req.body.name}`,
+            };
           }
           res.json(response);
         });
@@ -243,7 +225,7 @@ const routesLogic = {
    */
   deleteCreditCard(req, res) {
     let response = {};
-    CreditCard.findById(req.params.id, (err) => {
+    CreditCard.findById(req.params.id, err => {
       if (err) {
         response = { error: true, message: 'Error fetching data' };
       } else {
@@ -251,7 +233,10 @@ const routesLogic = {
           if (err) {
             response = { error: true, message: 'Error deleting data' };
           } else {
-            response = { error: false, message: `Data associated with ${req.params.id} is deleted` };
+            response = {
+              error: false,
+              message: `Data associated with ${req.params.id} is deleted`,
+            };
           }
           res.json(response);
         });
@@ -289,7 +274,7 @@ const routesLogic = {
     db.userId = req.session.userId;
     db.user = req.body.user;
     db.total = req.body.total;
-    db.save((err) => {
+    db.save(err => {
       if (err) {
         response = { error: true, message: 'Error adding data' };
       } else {
@@ -313,7 +298,7 @@ const routesLogic = {
    */
   deleteTotal(req, res) {
     let response = {};
-    Total.findById(req.params.id, (err) => {
+    Total.findById(req.params.id, err => {
       if (err) {
         response = { error: true, message: 'Error fetching data' };
       } else {
@@ -321,7 +306,10 @@ const routesLogic = {
           if (err) {
             response = { error: true, message: 'Error deleting data' };
           } else {
-            response = { error: false, message: `Data associated with ${req.params.id} is deleted` };
+            response = {
+              error: false,
+              message: `Data associated with ${req.params.id} is deleted`,
+            };
           }
           res.json(response);
         });
@@ -335,13 +323,10 @@ const routesLogic = {
    */
   checkAuth(req, res, next) {
     if (!(req.session && req.session.userId)) {
-      console.log('No Session.');
       return res.status(401).end();
     }
-    console.log('Session found: ', req.session.userId);
     return next();
-  }
-
+  },
 };
 
 module.exports = routesLogic;

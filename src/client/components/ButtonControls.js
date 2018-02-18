@@ -14,14 +14,14 @@ export default class ButtonControls extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      cardToDelete: null
+      cardToDelete: null,
     };
     this.deleteCard = this.deleteCard.bind(this);
   }
 
   componentWillReceiveProps(props) {
     this.setState({
-      cardToDelete: props.cardToDelete
+      cardToDelete: props.cardToDelete,
     });
   }
 
@@ -36,7 +36,7 @@ export default class ButtonControls extends Component {
     const { creditCards, onCardUpdateState } = this.props;
     if (cardToDelete !== null) {
       const ans = confirm(
-        `Confirm deleting this credit card ${cardToDelete.name}?`
+        `Confirm deleting this credit card ${cardToDelete.name}?`,
       );
       if (ans) {
         utils.deleteCreditCards(cardToDelete.id).then(response => {
@@ -45,7 +45,7 @@ export default class ButtonControls extends Component {
             this.msg.show(response.message, {
               time: 5000,
               type: 'error',
-              icon: <img src={error} alt="Error deleting card." />
+              icon: <img src={error} alt="Error deleting card." />,
             });
           } else {
             const temp = creditCards;
@@ -55,7 +55,7 @@ export default class ButtonControls extends Component {
             this.msg.show(response.message, {
               time: 5000,
               type: 'success',
-              icon: <img src={check} alt="Card deleted." />
+              icon: <img src={check} alt="Card deleted." />,
             });
           }
         });
@@ -87,5 +87,5 @@ export default class ButtonControls extends Component {
 
 ButtonControls.propTypes = {
   creditCards: PropTypes.arrayOf(PropTypes.object).isRequired,
-  onCardUpdateState: PropTypes.func.isRequired
+  onCardUpdateState: PropTypes.func.isRequired,
 };

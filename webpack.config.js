@@ -1,12 +1,8 @@
-/**
- * Created by sbardian on 12/11/16.
- */
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const path = require('path');
 
-'use strict';
-let webpack = require('webpack');
-let HtmlWebpackPlugin = require('html-webpack-plugin');
-let HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
-  template: __dirname + '/src/client/index.html',
+const HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
+  template: path.join(__dirname, '/src/client/index.html'),
   filename: 'index.html',
   inject: 'body',
 });
@@ -14,7 +10,7 @@ let HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
 module.exports = {
   entry: ['./src/client/index.js'],
   output: {
-    path: __dirname + '/dist/client',
+    path: path.join(__dirname, '/dist/client'),
     publicPath: '/',
     filename: 'index_bundle.js',
   },
