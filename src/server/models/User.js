@@ -1,8 +1,6 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
 
-const User = mongoose.model('User', UserSchema);
-
 let UserSchema = new mongoose.Schema({
   email: {
     type: String,
@@ -42,7 +40,6 @@ UserSchema.statics.authenticate = (email, password, callback) => {
       }
       return callback();
     });
-    return callback();
   });
 };
 
@@ -57,5 +54,7 @@ UserSchema.pre('save', next => {
     next();
   });
 });
+
+const User = mongoose.model('User', UserSchema);
 
 module.exports = User;
