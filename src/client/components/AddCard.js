@@ -5,7 +5,7 @@ import {
   Form,
   FormGroup,
   FormControl,
-  ControlLabel
+  ControlLabel,
 } from 'react-bootstrap';
 import AlertContainer from 'react-alert';
 import PropTypes from 'prop-types';
@@ -14,6 +14,10 @@ import alertOptions from '../utils/alertOptions';
 import save from '../icons/save.png';
 
 export default class AddCard extends Component {
+  static getValidationState() {
+    // TODO: do we care to validate anything?
+  }
+
   constructor(props) {
     super(props);
     this.state = {
@@ -22,7 +26,7 @@ export default class AddCard extends Component {
       name: '',
       limit: 0,
       balance: 0,
-      interest_rate: 0
+      interest_rate: 0,
     };
     this.handleChange = this.handleChange.bind(this);
     this.save = this.save.bind(this);
@@ -30,13 +34,9 @@ export default class AddCard extends Component {
     this.open = this.open.bind(this);
   }
 
-  static getValidationState() {
-    // TODO: do we care to validate anything?
-  }
-
   componentWillReceiveProps(props) {
     this.setState({
-      user: props.user
+      user: props.user,
     });
   }
 
@@ -87,13 +87,13 @@ export default class AddCard extends Component {
         balance: parseFloat(balance),
         interest_rate: parseFloat(interest_rate),
         update_at,
-        __v
+        __v,
       });
       onCardUpdateState(temp);
       this.msg.show('Card added.', {
         time: 5000,
         type: 'success',
-        icon: <img src={save} alt="Card added." />
+        icon: <img src={save} alt="Card added." />,
       });
     });
     this.close();
@@ -106,7 +106,7 @@ export default class AddCard extends Component {
    */
   close() {
     this.setState({
-      showModal: false
+      showModal: false,
     });
   }
 
@@ -122,7 +122,7 @@ export default class AddCard extends Component {
       name: '',
       limit: '',
       balance: '',
-      interest_rate: ''
+      interest_rate: '',
     });
   }
 
@@ -193,11 +193,11 @@ export default class AddCard extends Component {
 AddCard.propTypes = {
   user: PropTypes.string.isRequired,
   creditCards: PropTypes.arrayOf(PropTypes.object).isRequired,
-  onCardUpdateState: PropTypes.func.isRequired
+  onCardUpdateState: PropTypes.func.isRequired,
 };
 
 AddCard.defaultProps = {
   user: '',
   creditCards: [],
-  onCardUpdateState: () => {}
+  onCardUpdateState: () => {},
 };
