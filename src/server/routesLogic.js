@@ -53,27 +53,33 @@ const routesLogic = {
       res.send('passwords dont match');
       return next(err);
     }
-    if (
-      req.body.email &&
-      req.body.username &&
-      req.body.password &&
-      req.body.passwordConf
-    ) {
+    const { email, username, password, passwordConf } = req.body;
+    if (email && username && password && passwordConf) {
       const userData = {
-        email: req.body.email,
-        username: req.body.username,
-        password: req.body.password,
-        passwordConf: req.body.passwordConf,
+        email,
+        username,
+        password,
+        passwordConf,
       };
       User.create(userData, (error, user) => {
         if (error) {
+          console.log('error in create: ', error);
           return next(error);
         }
         req.session.userId = user._id;
+        const payload = {
+          admin: false,
+        };
+        const token = jwt.sign(payload, 'superSecret', { expiresIn: 1440 });
+        const data = {
+          userId: req.session.userId,
+          username: user.username,
+          token,
+        };
         res.set({
           location: '/',
         });
-        return res.status(301).send(req.session.username);
+        return res.status(200).send(data);
       });
     } else {
       const err = new Error('All fields required.');

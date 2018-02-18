@@ -5,8 +5,9 @@ import {
   ControlLabel,
   FormGroup,
   Col,
-  Button
+  Button,
 } from 'react-bootstrap';
+import { browserHistory } from 'react-router';
 import { transparentBg } from '../styles';
 import utils from '../utils/utils';
 
@@ -18,10 +19,11 @@ export default class Home extends Component {
       username: '',
       email: '',
       password: '',
-      passwordConf: ''
+      passwordConf: '',
     };
     this.userSelect = this.userSelect.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.registerUser = this.registerUser.bind(this);
   }
 
   /**
@@ -32,7 +34,7 @@ export default class Home extends Component {
    */
   userSelect(e) {
     this.setState({
-      user: e.target.value
+      user: e.target.value,
     });
   }
 
@@ -63,8 +65,32 @@ export default class Home extends Component {
     }
   }
 
+  registerUser(e) {
+    e.preventDefault();
+    const { username, email, password, passwordConf } = this.state;
+    utils
+      .registerUser(username, email, password, passwordConf)
+      .then(response => {
+        if (response && response.status === 200) {
+          this.setState({
+            username: response.data.username,
+          });
+          browserHistory.push({
+            pathname: `/`,
+            state: {
+              username: response.data.username,
+              token: response.data.token,
+            },
+          });
+        }
+      })
+      .catch(err => {
+        console.log('error registering: ', err);
+      });
+  }
+
   render() {
-    const { email, username, password, passwordConf } = this.state;
+    const { username, email, password, passwordConf } = this.state;
     return (
       <div className="jumbotron col-sm-12 text-center" style={transparentBg}>
         <h1>DebtTracker</h1>
@@ -72,7 +98,7 @@ export default class Home extends Component {
         <div className="container">
           <div className="row">
             <div className="col-md-4 col-md-offset-4">
-              <Form action="/auth/register" method="post">
+              <Form onSubmit={this.registerUser}>
                 <FormGroup>
                   <Col componentClass={ControlLabel} sm={2}>
                     Email
