@@ -16,8 +16,6 @@ router.route('/register').post(routesLogic.register);
 /**
  * route ending in '/logout'
  */
-router
-  .route('/logout')
-  .get((req, res, next) => routesLogic.logout(req, res, next));
+router.route('/logout').get(routesLogic.logout);
 
 export default router;

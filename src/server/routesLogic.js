@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken');
 const CreditCard = require('./models/CreditCard');
 const Total = require('./models/Total');
 const User = require('./models/User');
+const { config } = require('./yargs');
 
 const routesLogic = {
   /**
@@ -12,8 +13,9 @@ const routesLogic = {
    * @param next
    */
   login(req, res, next) {
-    if (req.body.email && req.body.password) {
-      User.authenticate(req.body.email, req.body.password, (error, user) => {
+    const { email, password } = req.body;
+    if (email && password) {
+      User.authenticate(email, password, (error, user) => {
         if (error || !user) {
           const err = new Error('Wrong email or password.');
           err.status = 401;
@@ -23,7 +25,9 @@ const routesLogic = {
         const payload = {
           admin: false,
         };
-        const token = jwt.sign(payload, 'superSecret', { expiresIn: 1440 });
+        const token = jwt.sign(payload, config.sessionSecret, {
+          expiresIn: 1440,
+        });
         const data = {
           userId: req.session.userId,
           username: user.username,
@@ -70,7 +74,9 @@ const routesLogic = {
         const payload = {
           admin: false,
         };
-        const token = jwt.sign(payload, 'superSecret', { expiresIn: 1440 });
+        const token = jwt.sign(payload, config.sessionSecret, {
+          expiresIn: 1440,
+        });
         const data = {
           userId: req.session.userId,
           username: user.username,
@@ -328,10 +334,18 @@ const routesLogic = {
    *
    */
   checkAuth(req, res, next) {
-    if (!(req.session && req.session.userId)) {
-      return res.status(401).end();
-    }
-    return next();
+    jwt.verify(
+      req.headers.authorization.split(' ')[1],
+      config.sessionSecret,
+      (err, decoded) => {
+        console.log('decoded, ', decoded);
+        if (req.session && req.session.userId) {
+          console.log('session success');
+          return next();
+        }
+        return res.status(401).end();
+      },
+    );
   },
 };
 
