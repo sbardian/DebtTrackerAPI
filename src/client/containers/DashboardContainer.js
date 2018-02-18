@@ -22,6 +22,7 @@ export default class DashboardContainer extends Component {
       totals: [],
       loggedIn: false,
       username: '',
+      token: '',
     };
     this.handleCardUpdateState = this.handleCardToDeleteState.bind(this);
     this.handleCardToDeleteState = this.handleCardToDeleteState.bind(this);
@@ -30,15 +31,15 @@ export default class DashboardContainer extends Component {
   }
 
   componentDidMount() {
+    const { token, username } = this.props.location.state;
     utils
-      .getCreditCards()
+      .getCreditCards(token)
       .then(cards => {
         this.setState({
           isLoading: false,
           creditCards: cards,
-          username: this.props.location.state.username
-            ? this.props.location.state.username
-            : this.props.username,
+          username: username || this.props.username,
+          token: token || '',
         });
       })
       .catch(() => {
@@ -46,7 +47,7 @@ export default class DashboardContainer extends Component {
           pathname: '/login',
         });
       });
-    utils.getTotals().then(totals => {
+    utils.getTotals(token).then(totals => {
       this.setState({
         totals,
       });
@@ -60,7 +61,7 @@ export default class DashboardContainer extends Component {
    */
   // eslint-disable-next-line class-methods-use-this
   logout() {
-    utils.userLogout().then(res => {
+    utils.userLogout(this.state.token).then(res => {
       if (res.status === 200) {
         browserHistory.push({
           pathname: '/login',
@@ -116,6 +117,7 @@ export default class DashboardContainer extends Component {
       creditCards,
       cardToDelete,
       totals,
+      token,
     } = this.state;
     return (
       <div>

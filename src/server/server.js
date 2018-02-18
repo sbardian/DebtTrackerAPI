@@ -44,7 +44,6 @@ const server = {
     });
 
     // use sessions for tracking logins
-    // TODO: use env var for secret, using npm script
     expressServer.use(
       session({
         secret: sessionSecret,

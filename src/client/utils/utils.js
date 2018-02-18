@@ -1,4 +1,5 @@
 const axios = require('axios');
+
 const API_BASE_URL = `/api/`;
 const AUTH_BASE_URL = `/auth/`;
 const CREDITCARDS_URL = `${API_BASE_URL}creditcards/`;
@@ -8,7 +9,6 @@ const LOGIN_URL = `${AUTH_BASE_URL}login/`;
 const LOGOUT_URL = `${AUTH_BASE_URL}logout/`;
 
 const utils = {
-
   /**
    * Formats a number to a dollar. (USD)
    *
@@ -24,8 +24,10 @@ const utils = {
    *
    * @private
    */
-  _axios() {
-    return axios.create();
+  _axios(token) {
+    return axios.create({
+      headers: { Authorization: `Bearer ${token}` },
+    });
   },
 
   /**
@@ -33,14 +35,13 @@ const utils = {
    *
    */
   userLogout() {
-    return (
-        utils._axios()({
-          method: 'get',
-          url: LOGOUT_URL,
-        })
-          .then(response => response)
-          .catch(err => err)
-    )
+    return utils
+      ._axios()({
+        method: 'get',
+        url: LOGOUT_URL,
+      })
+      .then(response => response)
+      .catch(err => err);
   },
 
   /**
@@ -50,18 +51,17 @@ const utils = {
    * @param password
    */
   userLogin(email, password) {
-    return (
-        utils._axios()({
-          method: 'post',
-          url: LOGIN_URL,
-          data: {
-            email,
-            password,
-          },
-        })
-          .then(response => response)
-          .catch(err => err)
-    )
+    return utils
+      ._axios()({
+        method: 'post',
+        url: LOGIN_URL,
+        data: {
+          email,
+          password,
+        },
+      })
+      .then(response => response)
+      .catch(err => err);
   },
 
   /**
@@ -72,30 +72,30 @@ const utils = {
    * @param password
    * @param passwordConf
    */
-  registerUser(username, email, password, passwordConf ) {
-    return (
-        utils._axios()({
-          method: 'post',
-          url: REGISTER_URL,
-          data: {
-            username,
-            email,
-            password,
-            passwordConf,
-          }
-        })
-          .then(response => response)
-          .catch(err => err.data)
-    )
+  registerUser(username, email, password, passwordConf) {
+    return utils
+      ._axios()({
+        method: 'post',
+        url: REGISTER_URL,
+        data: {
+          username,
+          email,
+          password,
+          passwordConf,
+        },
+      })
+      .then(response => response)
+      .catch(err => err.data);
   },
 
   /**
    * Returns array of credit cards from API.
    *
    */
-  getCreditCards() {
-    console.log('axios = ', this._axios);
-    return utils._axios().get(CREDITCARDS_URL, { withCredentials: true, })
+  getCreditCards(token) {
+    return utils
+      ._axios(token)
+      .get(CREDITCARDS_URL, { withCredentials: true })
       .then(response => response.data.message);
   },
 
@@ -108,21 +108,20 @@ const utils = {
    * @param {float} balance - balance of card.
    * @param {float} interest_rate - interest rate of card.
    */
-  saveCreditCard(id, name, limit, balance, interest_rate) {
-    return (
-        utils._axios()({
-          method: 'put',
-          url: `${CREDITCARDS_URL}${id}`,
-          data: {
-            name,
-            limit,
-            balance,
-            interest_rate,
+  saveCreditCard(id, name, limit, balance, interest_rate, token) {
+    return utils
+      ._axios(token)({
+        method: 'put',
+        url: `${CREDITCARDS_URL}${id}`,
+        data: {
+          name,
+          limit,
+          balance,
+          interest_rate,
         },
       })
-        .then(response => response.data)
-        .catch(err => err.data)
-    );
+      .then(response => response.data)
+      .catch(err => err.data);
   },
 
   /**
@@ -130,15 +129,14 @@ const utils = {
    *
    * @param {string} id - id of card to delete.
    */
-  deleteCreditCards(id) {
-    return (
-        utils._axios()({
-          method: 'delete',
-          url: `${CREDITCARDS_URL}${id}`,
+  deleteCreditCards(id, token) {
+    return utils
+      ._axios(token)({
+        method: 'delete',
+        url: `${CREDITCARDS_URL}${id}`,
       })
-        .then(response => response.data)
-        .catch(err => err.data)
-    );
+      .then(response => response.data)
+      .catch(err => err.data);
   },
 
   /**
@@ -150,22 +148,21 @@ const utils = {
    * @param {float} balance - balance of card.
    * @param {float} interest_rate - interest rate of card.
    */
-  addCreditCard(user, name, limit, balance, interest_rate) {
-    return (
-        utils._axios()({
-          method: 'post',
-          url: CREDITCARDS_URL,
-          data: {
-            user,
-            name,
-            limit,
-            balance,
-            interest_rate,
+  addCreditCard(user, name, limit, balance, interest_rate, token) {
+    return utils
+      ._axios(token)({
+        method: 'post',
+        url: CREDITCARDS_URL,
+        data: {
+          user,
+          name,
+          limit,
+          balance,
+          interest_rate,
         },
       })
-        .then(response => response.data)
-        .catch(err => err.data)
-    );
+      .then(response => response.data)
+      .catch(err => err.data);
   },
 
   /**
@@ -174,25 +171,28 @@ const utils = {
    * @param {string} user - name of user.
    * @param {float} total - new total debt.
    */
-  addNewTotal(user, total) {
-    return utils._axios()({
-      method: 'post',
-      url: TOTALS_URL,
-      data: {
-        user,
-        total,
-      },
-    })
+  addNewTotal(user, total, token) {
+    return utils
+      ._axios(token)({
+        method: 'post',
+        url: TOTALS_URL,
+        data: {
+          user,
+          total,
+        },
+      })
       .then(response => response.data)
-      .catch(err => err.data)
+      .catch(err => err.data);
   },
 
   /**
    * Returns promise of totals from the database.
    *
    */
-  getTotals() {
-    return utils._axios().get(TOTALS_URL, { withCredentials: true, })
+  getTotals(token) {
+    return utils
+      ._axios(token)
+      .get(TOTALS_URL, { withCredentials: true })
       .then(response => response.data.message)
       .catch(err => err);
   },
@@ -202,37 +202,24 @@ const utils = {
    *
    * @param id ID of the total to delete
    */
-  deleteTotals(id) {
-    return (
-        utils._axios()({
-          method: 'delete',
-          url: `${TOTALS_URL}${id}`,
+  deleteTotals(id, token) {
+    return utils
+      ._axios(token)({
+        method: 'delete',
+        url: `${TOTALS_URL}${id}`,
       })
-        .then(response => response.data.message)
-        .catch(err => err.data)
-    );
+      .then(response => response.data.message)
+      .catch(err => err.data);
   },
 
   // TODO: Remove and add this functionality to the API
   getUserCards(cards, user) {
-    const userCards = [];
-    cards.map((card) => {
-      if (card.user === user) {
-        userCards.push(card);
-      }
-    });
-    return userCards;
+    return cards.filter(card => card.user === user);
   },
 
   // TODO: Remove and add this functionality to the API
   getUserTotals(totals, user) {
-    const userTotals = [];
-    totals.map((total) => {
-      if (total.user === user) {
-        userTotals.push(total);
-      }
-    });
-    return userTotals;
+    return totals.filter(total => total.user === user);
   },
 };
 
