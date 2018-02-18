@@ -4,8 +4,7 @@
   "rules": {
     "react/jsx-filename-extension": "off",
     "no-underscore-dangle": "off",
-    "camelcase": "off",
-    "quotes": ["single"]
+    "camelcase": "off"
   },
   "plugins": ["react", "jsx-a11y", "import"]
 }
