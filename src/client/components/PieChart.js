@@ -9,13 +9,13 @@ export default class PieChart extends Component {
     this.chartEvents = [
       {
         eventName: 'select',
-        callback: (Chart) => {
+        callback: Chart => {
           let i;
-          Chart.chart.getSelection().map((x) => {
+          Chart.chart.getSelection().map(x => {
             i = x.row;
           });
           const name = Chart.props.data[i + 1][0];
-          const selectedCard = self.props.cards.filter((x) => {
+          const selectedCard = self.props.cards.filter(x => {
             if (x.name === name) {
               return x;
             }
@@ -24,6 +24,7 @@ export default class PieChart extends Component {
             pathname: `/payoff/${name}`,
             state: {
               card: selectedCard,
+              username: this.props.username,
             },
           });
         },
@@ -34,7 +35,7 @@ export default class PieChart extends Component {
   render() {
     const myData = [];
     myData.push(['Card Name', 'Balance']);
-    this.props.cards.map((card) => {
+    this.props.cards.map(card => {
       myData.push([card.name, card.balance]);
     });
     return (

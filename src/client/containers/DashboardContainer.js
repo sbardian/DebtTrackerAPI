@@ -36,7 +36,9 @@ export default class DashboardContainer extends Component {
         this.setState({
           isLoading: false,
           creditCards: cards,
-          username: this.props.location.state.username,
+          username: this.props.location.state.username
+            ? this.props.location.state.username
+            : this.props.username,
         });
       })
       .catch(() => {
@@ -133,7 +135,7 @@ export default class DashboardContainer extends Component {
               onCardUpdateState={this.handleCardUpdateState}
               onCardToDeleteState={this.handleCardToDeleteState}
             />
-            <PieChart cards={creditCards} />
+            <PieChart cards={creditCards} username={username} />
           </div>
           <div className="row">
             <Totals

@@ -39,7 +39,7 @@ export default class PayOffDetailsContainer extends React.Component {
       totalSave: null,
       balance: 0,
       singlePaymentMax: 0,
-      paymentAmount: 0
+      paymentAmount: 0,
     };
     this.log = this.log.bind(this);
     this.calc = this.calc.bind(this);
@@ -88,7 +88,7 @@ export default class PayOffDetailsContainer extends React.Component {
     this.setState({
       months,
       total: totalPaid,
-      paymentAmount: monthlyPayment
+      paymentAmount: monthlyPayment,
     });
     if (!paymentAmount) {
       this.setState({
@@ -96,7 +96,7 @@ export default class PayOffDetailsContainer extends React.Component {
         minimum: monthlyPayment,
         monthsSave: months,
         balance,
-        totalSave: totalPaid
+        totalSave: totalPaid,
       });
     }
   }
@@ -109,7 +109,7 @@ export default class PayOffDetailsContainer extends React.Component {
    */
   log(value) {
     this.setState({
-      paymentAmount: value
+      paymentAmount: value,
     });
     this.calc(value);
   }
@@ -123,15 +123,15 @@ export default class PayOffDetailsContainer extends React.Component {
       totalSave,
       total,
       months,
-      paymentAmount
+      paymentAmount,
     } = this.state;
     const {
-      user,
       name,
       limit,
       balance,
-      interest_rate
+      interest_rate,
     } = this.props.location.state.card[0];
+    const { username } = this.props.location.state;
 
     marks[`${Math.trunc(minimum)}`] = (
       <string>${utils.createDollar(Math.trunc(minimum))}</string>
@@ -197,7 +197,7 @@ export default class PayOffDetailsContainer extends React.Component {
         </div>
         <div className="row">
           <div className="col-md-12">
-            <Link to={`/`}>
+            <Link to={{ pathname: '/', state: { username } }}>
               <button type="button" className="btn btn-lg">
                 Back
               </button>
@@ -217,9 +217,9 @@ PayOffDetailsContainer.propTypes = {
       name: PropTypes.string,
       limit: PropTypes.number,
       balance: PropTypes.number,
-      interest_rate: PropTypes.number
-    })
-  })
+      interest_rate: PropTypes.number,
+    }),
+  }),
 };
 
 PayOffDetailsContainer.defaultProps = {
@@ -230,5 +230,5 @@ PayOffDetailsContainer.defaultProps = {
   name: '',
   limit: 0,
   balance: 0,
-  interest_rate: 0
+  interest_rate: 0,
 };
