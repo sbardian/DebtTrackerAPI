@@ -22,21 +22,6 @@ export const getAllCreditCards = (req, res, next) => {
   });
 };
 
-export const getCreditCardByID = (req, res) => {
-  let response = {};
-  CreditCard.findById(req.params.id, (err, data) => {
-    if (err) {
-      response = { error: true, message: 'Error fetching data' };
-    } else {
-      response = { error: false, message: data };
-    }
-    res.json(response);
-  });
-};
-
-/*
- * wtf. .  above works but not below.
- *
 export const getCreditCardById = (req, res) => {
   let response = {};
   CreditCard.findById(req.params.id, (err, data) => {
@@ -48,7 +33,6 @@ export const getCreditCardById = (req, res) => {
     res.json(response);
   });
 };
-*/
 
 export const addCreditCard = (req, res) => {
   const db = new CreditCard();

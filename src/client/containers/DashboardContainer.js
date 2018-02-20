@@ -30,6 +30,7 @@ export default class DashboardContainer extends Component {
     this.logout = this.logout.bind(this);
   }
 
+  // TODO: error after logout not going to login page. . .
   componentDidMount() {
     const { token, username } = this.props.location.state;
     utils

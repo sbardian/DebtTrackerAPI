@@ -4,7 +4,7 @@ export { register } from './register';
 export { logout } from './logout';
 export {
   getAllCreditCards,
-  getCreditCardByID,
+  getCreditCardById,
   addCreditCard,
   deleteCreditCard,
   putOrUpdate,
