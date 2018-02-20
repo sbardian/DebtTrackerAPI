@@ -131,7 +131,7 @@ export default class PayOffDetailsContainer extends React.Component {
       balance,
       interest_rate,
     } = this.props.location.state.card[0];
-    const { username } = this.props.location.state;
+    const { username, token } = this.props.location.state;
 
     marks[`${Math.trunc(minimum)}`] = (
       <string>${utils.createDollar(Math.trunc(minimum))}</string>
@@ -197,7 +197,7 @@ export default class PayOffDetailsContainer extends React.Component {
         </div>
         <div className="row">
           <div className="col-md-12">
-            <Link to={{ pathname: '/', state: { username } }}>
+            <Link to={{ pathname: '/', state: { username, token } }}>
               <button type="button" className="btn btn-lg">
                 Back
               </button>

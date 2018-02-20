@@ -25,6 +25,7 @@ export default class PieChart extends Component {
             state: {
               card: selectedCard,
               username: this.props.username,
+              token: this.props.token,
             },
           });
         },
