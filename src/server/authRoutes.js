@@ -1,21 +1,21 @@
 import express from 'express';
-import routesLogic from './routesLogic';
+import { login, register, logout } from './routesLogic';
 
 const router = express.Router();
 
 /**
  * route ending in '/login'
  */
-router.route('/login').post(routesLogic.login);
+router.route('/login').post(login);
 
 /**
  * route ending in '/register'
  */
-router.route('/register').post(routesLogic.register);
+router.route('/register').post(register);
 
 /**
  * route ending in '/logout'
  */
-router.route('/logout').get(routesLogic.logout);
+router.route('/logout').get(logout);
 
 export default router;

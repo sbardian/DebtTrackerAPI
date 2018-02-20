@@ -1,5 +1,14 @@
 import express from 'express';
-import routesLogic from './routesLogic';
+import {
+  getAllCreditCards,
+  getCreditCardByID,
+  addCreditCard,
+  deleteCreditCard,
+  putOrUpdate,
+  getTotals,
+  addTotal,
+  deleteTotal,
+} from './routesLogic';
 
 const router = express.Router();
 
@@ -8,29 +17,29 @@ const router = express.Router();
  */
 router
   .route('/creditcards')
-  .post(routesLogic.addCreditCard)
-  .get(routesLogic.getAllCreditCards);
+  .post(addCreditCard)
+  .get(getAllCreditCards);
 
 /**
  * routes ending in '/creditcards/id'
  */
 router
   .route('/creditcards/:id')
-  .get(routesLogic.getCreditCardByID)
-  .put(routesLogic.putOrUpdate)
-  .delete(routesLogic.deleteCreditCard);
+  .get(getCreditCardByID)
+  .put(putOrUpdate)
+  .delete(deleteCreditCard);
 
 /**
  * routes ending in '/totals'
  */
 router
   .route('/totals')
-  .post(routesLogic.addTotal)
-  .get(routesLogic.getTotals);
+  .post(addTotal)
+  .get(getTotals);
 
 /**
  * routes ending in '/totals/id
  */
-router.route('/totals/:id').delete(routesLogic.deleteTotal);
+router.route('/totals/:id').delete(deleteTotal);
 
 export default router;
