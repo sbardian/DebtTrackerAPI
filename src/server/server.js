@@ -7,7 +7,7 @@ import mongoose from 'mongoose';
 import bluebird from 'bluebird';
 import apiRoutes from './apiRoutes';
 import authRoutes from './authRoutes';
-import routesLogic from './routesLogic';
+import { checkAuth } from './routesLogic';
 import { config } from './yargs';
 
 const MongoStore = require('connect-mongo')(session);
@@ -67,7 +67,7 @@ const server = {
 
     // REGISTER OUR API ROUTES
     // all of our routes will be prefixed with /api
-    expressServer.use('/api', routesLogic.checkAuth, apiRoutes);
+    expressServer.use('/api', checkAuth, apiRoutes);
 
     // middleware to use for all requests
     const expressStatic = express.static('dist/client');
