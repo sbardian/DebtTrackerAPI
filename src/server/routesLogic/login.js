@@ -1,4 +1,4 @@
-import { sessionSecret } from '../yargs';
+import { config } from '../yargs';
 
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
@@ -16,7 +16,7 @@ export const login = (req, res, next) => {
       const payload = {
         admin: false,
       };
-      const token = jwt.sign(payload, sessionSecret, {
+      const token = jwt.sign(payload, config.sessionSecret, {
         expiresIn: 1440,
       });
       const data = {

@@ -1,11 +1,11 @@
-import { sessionSecret } from '../yargs';
+import { config } from '../yargs';
 
 const jwt = require('jsonwebtoken');
 
 export const checkAuth = (req, res, next) => {
   jwt.verify(
     req.headers.authorization.split(' ')[1],
-    sessionSecret,
+    config.sessionSecret,
     (err, decoded) => {
       console.log('decoded, ', decoded);
       if (req.session && req.session.userId) {
