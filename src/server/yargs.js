@@ -1,7 +1,7 @@
 const yargs = require('yargs');
 
 const config = yargs
-  .env()
+  .env('DT')
   .usage('Usage: $0 [options]')
   .option('session-secret', {
     describe: 'Express session secret',

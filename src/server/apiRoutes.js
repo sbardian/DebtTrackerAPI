@@ -1,7 +1,7 @@
 import express from 'express';
 import {
   getAllCreditCards,
-  getCreditCardByID,
+  getCreditCardById,
   addCreditCard,
   deleteCreditCard,
   putOrUpdate,
@@ -25,7 +25,7 @@ router
  */
 router
   .route('/creditcards/:id')
-  .get(getCreditCardByID)
+  .get(getCreditCardById)
   .put(putOrUpdate)
   .delete(deleteCreditCard);
 
