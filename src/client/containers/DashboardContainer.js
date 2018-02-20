@@ -32,6 +32,17 @@ export default class DashboardContainer extends Component {
 
   // TODO: error after logout not going to login page. . .
   componentDidMount() {
+    if (
+      !(
+        this.props.location &&
+        this.props.location.state &&
+        this.props.location.state.username &&
+        this.props.location.state.token
+      )
+    ) {
+      browserHistory.push('/login');
+      return;
+    }
     const { token, username } = this.props.location.state;
     utils
       .getCreditCards(token)
@@ -39,14 +50,12 @@ export default class DashboardContainer extends Component {
         this.setState({
           isLoading: false,
           creditCards: cards,
-          username: username || this.props.username,
-          token: token || '',
+          username,
+          token,
         });
       })
       .catch(() => {
-        browserHistory.push({
-          pathname: '/login',
-        });
+        browserHistory.push('/login');
       });
     utils.getTotals(token).then(totals => {
       this.setState({
@@ -138,7 +147,7 @@ export default class DashboardContainer extends Component {
               onCardUpdateState={this.handleCardUpdateState}
               onCardToDeleteState={this.handleCardToDeleteState}
             />
-            <PieChart cards={creditCards} username={username} />
+            <PieChart cards={creditCards} username={username} token={token} />
           </div>
           <div className="row">
             <Totals
