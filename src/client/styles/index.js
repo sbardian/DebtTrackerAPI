@@ -45,6 +45,7 @@ const styles = {
   },
   logoutStyle: {
     float: 'right',
+    paddingRight: 10,
   },
 };
 

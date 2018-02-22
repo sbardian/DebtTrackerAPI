@@ -14,14 +14,18 @@ export const login = (req, res, next) => {
       }
       req.session.userId = user._id;
       const payload = {
-        admin: false,
+        isAdmin: false,
       };
+      if (user.isAdmin) {
+        payload.isAdmin = true;
+      }
       const token = jwt.sign(payload, config.sessionSecret, {
         expiresIn: 1440,
       });
       const data = {
         userId: req.session.userId,
         username: user.username,
+        isAdmin: payload.isAdmin,
         token,
       };
       res.set({
