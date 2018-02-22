@@ -5,7 +5,7 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import mongoose from 'mongoose';
 import bluebird from 'bluebird';
-import apiRoutes from './apiRoutes';
+import { apiRoutes } from './apiRoutes';
 import { authRoutes } from './authRoutes';
 import { checkAuth } from './routesLogic';
 import { config } from './yargs';
@@ -68,7 +68,7 @@ const server = {
 
     // REGISTER OUR API ROUTES
     // all of our routes will be prefixed with /api
-    expressServer.use('/api', checkAuth, apiRoutes);
+    expressServer.use('/api', checkAuth, apiRoutes(router));
 
     // middleware to use for all requests
     const expressStatic = express.static('dist/client');

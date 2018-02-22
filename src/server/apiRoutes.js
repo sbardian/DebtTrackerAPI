@@ -1,4 +1,3 @@
-import express from 'express';
 import {
   getAllCreditCards,
   getCreditCardById,
@@ -10,36 +9,38 @@ import {
   deleteTotal,
 } from './routesLogic';
 
-const router = express.Router();
+const apiRoutes = router => {
+  /**
+   * routes ending in '/creditcards'
+   */
+  router
+    .route('/creditcards')
+    .post(addCreditCard)
+    .get(getAllCreditCards);
 
-/**
- * routes ending in '/creditcards'
- */
-router
-  .route('/creditcards')
-  .post(addCreditCard)
-  .get(getAllCreditCards);
+  /**
+   * routes ending in '/creditcards/id'
+   */
+  router
+    .route('/creditcards/:id')
+    .get(getCreditCardById)
+    .put(putOrUpdate)
+    .delete(deleteCreditCard);
 
-/**
- * routes ending in '/creditcards/id'
- */
-router
-  .route('/creditcards/:id')
-  .get(getCreditCardById)
-  .put(putOrUpdate)
-  .delete(deleteCreditCard);
+  /**
+   * routes ending in '/totals'
+   */
+  router
+    .route('/totals')
+    .post(addTotal)
+    .get(getTotals);
 
-/**
- * routes ending in '/totals'
- */
-router
-  .route('/totals')
-  .post(addTotal)
-  .get(getTotals);
+  /**
+   * routes ending in '/totals/id
+   */
+  router.route('/totals/:id').delete(deleteTotal);
 
-/**
- * routes ending in '/totals/id
- */
-router.route('/totals/:id').delete(deleteTotal);
+  return router;
+};
 
-export default router;
+export { apiRoutes };
