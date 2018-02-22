@@ -19,6 +19,7 @@ export default class Home extends Component {
       user: '',
       email: '',
       password: '',
+      isAdmin: false,
     };
     this.userSelect = this.userSelect.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -45,6 +46,7 @@ export default class Home extends Component {
             pathname: `/`,
             state: {
               username: response.data.username,
+              isAdmin: response.data.isAdmin,
               token: response.data.token,
             },
           });

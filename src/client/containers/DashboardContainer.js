@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link, browserHistory } from 'react-router';
+import { Button, SplitButton, MenuItem } from 'react-bootstrap';
 import utils from '../utils/utils';
 import CreditCards from '../components/CreditCards';
 import PieChart from '../components/PieChart';
@@ -22,6 +23,7 @@ export default class DashboardContainer extends Component {
       totals: [],
       loggedIn: false,
       username: '',
+      isAdmin: false,
       token: '',
     };
     this.handleCardUpdateState = this.handleCardToDeleteState.bind(this);
@@ -43,7 +45,7 @@ export default class DashboardContainer extends Component {
       browserHistory.push('/login');
       return;
     }
-    const { token, username } = this.props.location.state;
+    const { token, username, isAdmin } = this.props.location.state;
     utils
       .getCreditCards(token)
       .then(cards => {
@@ -51,6 +53,7 @@ export default class DashboardContainer extends Component {
           isLoading: false,
           creditCards: cards,
           username,
+          isAdmin,
           token,
         });
       })
@@ -127,6 +130,7 @@ export default class DashboardContainer extends Component {
       creditCards,
       cardToDelete,
       totals,
+      isAdmin,
       token,
     } = this.state;
     return (
@@ -134,8 +138,23 @@ export default class DashboardContainer extends Component {
         <div className="row" style={TitleContainer}>
           <h3 style={titleStyle}>{username} Credit Status:</h3>
           <Link onClick={this.logout} style={logoutStyle}>
-            Logout
+            <Button>Logout</Button>
           </Link>
+          <span style={logoutStyle}>
+            {isAdmin ? (
+              <SplitButton title="Admin" key={1} id={`dropdown-basic-${1}`}>
+                <MenuItem eventKey="1">Action</MenuItem>
+                <MenuItem eventKey="2">Another action</MenuItem>
+                <MenuItem eventKey="3" active>
+                  Active Item
+                </MenuItem>
+                <MenuItem divider />
+                <MenuItem eventKey="4">Separated link</MenuItem>
+              </SplitButton>
+            ) : (
+              ''
+            )}
+          </span>
         </div>
         <div className="container">
           <div className="row">
@@ -166,8 +185,10 @@ export default class DashboardContainer extends Component {
 
 DashboardContainer.propTypes = {
   username: PropTypes.string,
+  isAdmin: PropTypes.bool,
 };
 
 DashboardContainer.defaultProps = {
   username: '',
+  isAdmin: false,
 };
