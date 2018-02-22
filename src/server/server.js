@@ -6,7 +6,7 @@ import cors from 'cors';
 import mongoose from 'mongoose';
 import bluebird from 'bluebird';
 import apiRoutes from './apiRoutes';
-import authRoutes from './authRoutes';
+import { authRoutes } from './authRoutes';
 import { checkAuth } from './routesLogic';
 import { config } from './yargs';
 
@@ -21,6 +21,7 @@ const server = {
   init() {
     const { databaseUrl, sessionSecret } = config;
     const expressServer = express();
+    const router = express.Router();
 
     const corsOptions = {
       credentials: true,
@@ -63,7 +64,7 @@ const server = {
     expressServer.use(bodyParser.json());
 
     // routes to login/register/logout
-    expressServer.use('/auth', authRoutes);
+    expressServer.use('/auth', authRoutes(router));
 
     // REGISTER OUR API ROUTES
     // all of our routes will be prefixed with /api
