@@ -1,4 +1,5 @@
 import { config } from '../yargs';
+import { log } from '../utils';
 
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
@@ -22,7 +23,7 @@ export const register = (req, res, next) => {
     };
     User.create(userData, (error, user) => {
       if (error) {
-        console.log('error in create: ', error);
+        log.error('error in create: ', error);
         return next(error);
       }
       req.session.userId = user._id;

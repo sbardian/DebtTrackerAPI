@@ -9,6 +9,7 @@ import { apiRoutes } from './apiRoutes';
 import { authRoutes } from './authRoutes';
 import { checkAuth } from './routesLogic';
 import { config } from './yargs';
+import { log } from './utils';
 
 const MongoStore = require('connect-mongo')(session);
 
@@ -38,10 +39,10 @@ const server = {
     const db = mongoose.connection;
 
     // handle mongo error
-    db.on('error', console.error.bind(console, 'connection error:'));
+    db.on('error', log.error.bind(log, 'connection error:'));
 
     db.once('open', () => {
-      // Connected!
+      log.info('Connected to the database!');
     });
 
     // use sessions for tracking logins
