@@ -13,12 +13,8 @@ import { log } from './utils';
 
 const MongoStore = require('connect-mongo')(session);
 
-const server = {
-  /**
-   * Initialize server, and routes.
-   *
-   * @returns {express} expressServer - The express server instance.
-   */
+export const server = {
+  // Initialize server, and routes.
   init() {
     const { databaseUrl, sessionSecret } = config;
     const expressServer = express();
@@ -85,5 +81,3 @@ const server = {
     return expressServer;
   },
 };
-
-module.exports = server;
