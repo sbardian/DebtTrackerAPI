@@ -26,25 +26,14 @@ export default class Home extends Component {
     this.registerUser = this.registerUser.bind(this);
   }
 
-  /**
-   * Sets the state of the user selected.
-   *
-   * @param {object} e - Event of selection.
-   * @returns {null} none
-   */
+  // Sets the state of the user selected.
   userSelect(e) {
     this.setState({
       user: e.target.value,
     });
   }
 
-  /**
-   * Updates state based on table cell that was
-   * edited.
-   *
-   * @param {object} e - Event of change.
-   * @returns {null} none
-   */
+  // Updates state based on table cell that was edited.
   handleChange(e) {
     const { value, id } = e.target;
     switch (id) {

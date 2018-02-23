@@ -26,11 +26,7 @@ export default class Home extends Component {
     this.userLogin = this.userLogin.bind(this);
   }
 
-  /**
-   * User login
-   * @param {object} e event
-   * @returns {null} none
-   */
+  // User login
   userLogin(e) {
     const { email, password } = this.state;
     e.preventDefault();
@@ -59,13 +55,7 @@ export default class Home extends Component {
       });
   }
 
-  /**
-   * Updates state based on table cell that was
-   * edited.
-   *
-   * @param {object} e - Event of change.
-   * @returns {null} none
-   */
+  // Updates state based on table cell that was edited.
   handleChange(e) {
     const { value, id } = e.target;
     switch (id) {
@@ -80,12 +70,7 @@ export default class Home extends Component {
     }
   }
 
-  /**
-   * Sets the state of the user selected.
-   *
-   * @param {object} e - Event of selection.
-   * @returns {null} none
-   */
+  // Sets the state of the user selected.
   userSelect(e) {
     this.setState({
       user: e.target.value,

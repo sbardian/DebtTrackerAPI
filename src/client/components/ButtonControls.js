@@ -25,12 +25,7 @@ export default class ButtonControls extends Component {
     });
   }
 
-  /**
-   * Deletes the select card from the database
-   * and updates the component.
-   *
-   * @returns {null} none
-   */
+  // Deletes the select card from the database and updates the component.
   deleteCard() {
     const { cardToDelete } = this.state;
     const { creditCards, onCardUpdateState } = this.props;

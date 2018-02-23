@@ -13,7 +13,7 @@ export default class Totals extends Component {
     super(props);
     this.state = {
       totalAvailable: 0,
-      totalDebt: 0
+      totalDebt: 0,
     };
     this.saveNewTotal = this.saveNewTotal.bind(this);
   }
@@ -21,15 +21,11 @@ export default class Totals extends Component {
   componentWillReceiveProps() {
     this.setState({
       totalAvailable: 0,
-      totalDebt: 0
+      totalDebt: 0,
     });
   }
 
-  /**
-   * Computes the total debt.
-   *
-   * @returns {string} dollar amount
-   */
+  // Computes the total debt.
   computeDebt() {
     let total = this.state.totalDebt;
     this.props.creditCards.map(card => {
@@ -38,11 +34,7 @@ export default class Totals extends Component {
     return utils.createDollar(total);
   }
 
-  /**
-   * Computes the available credit.
-   *
-   * @returns {string} dollar amount
-   */
+  // Computes the available credit.
   computeAvailable() {
     let total = this.state.totalAvailable;
     this.props.creditCards.map(card => {
@@ -51,11 +43,7 @@ export default class Totals extends Component {
     return utils.createDollar(total);
   }
 
-  /**
-   * Computes new total debt.
-   *
-   * @returns {number} total
-   */
+  // Computes new total debt.
   computeNewTotal() {
     let total = this.state.totalDebt;
     this.props.creditCards.map(card => {
@@ -65,11 +53,7 @@ export default class Totals extends Component {
   }
 
   // TODO: remove self and use this.
-  /**
-   * Saves a new total debt.
-   *
-   * @returns {null} none
-   */
+  // Saves a new total debt.
   saveNewTotal() {
     const self = this;
     const newTotal = self.computeNewTotal();
@@ -77,13 +61,13 @@ export default class Totals extends Component {
       const temp = self.props.totals;
       temp.push({
         user: self.props.user,
-        total: newTotal
+        total: newTotal,
       });
       self.props.onTotalUpdateState(temp);
       this.msg.show('Total saved.', {
         time: 5000,
         type: 'success',
-        icon: <img src={save} alt="Total saved." />
+        icon: <img src={save} alt="Total saved." />,
       });
     });
   }
@@ -122,11 +106,11 @@ export default class Totals extends Component {
 
 Totals.propTypes = {
   creditCards: PropTypes.arrayOf(PropTypes.object).isRequired,
-  onTotalUpdateState: PropTypes.func.isRequired
+  onTotalUpdateState: PropTypes.func.isRequired,
 };
 
 Totals.defaultProps = {
   totals: [],
   creditCards: [],
-  onTotalUpdateState: () => {}
+  onTotalUpdateState: () => {},
 };
