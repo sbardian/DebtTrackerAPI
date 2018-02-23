@@ -30,6 +30,8 @@ export default class ButtonControls extends Component {
     const { cardToDelete } = this.state;
     const { creditCards, onCardUpdateState } = this.props;
     if (cardToDelete !== null) {
+      // TODO: replace this using react-bootstrap Alert.
+      // https://react-bootstrap.github.io/components/alerts/
       const ans = confirm(
         `Confirm deleting this credit card ${cardToDelete.name}?`,
       );
