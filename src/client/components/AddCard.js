@@ -40,13 +40,7 @@ export default class AddCard extends Component {
     });
   }
 
-  /**
-   * Updates state based on table cell that was
-   * edited.
-   *
-   * @param {object} e - Event of change.
-   * @returns {null} none
-   */
+  // Updates state based on table cell that was edited.
   handleChange(e) {
     const { value, id } = e.target;
     switch (id) {
@@ -67,12 +61,7 @@ export default class AddCard extends Component {
     }
   }
 
-  /**
-   * Saves the card that was added to the database
-   * and updates the component.
-   *
-   * @returns {null} none
-   */
+  // Saves the card that was added to the database and updates the component.
   save() {
     const { creditCards, onCardUpdateState } = this.props;
     const { user, name, limit, balance, interest_rate } = this.state;
@@ -99,22 +88,14 @@ export default class AddCard extends Component {
     this.close();
   }
 
-  /**
-   * Closes the add card modal.
-   *
-   * @returns {null} none
-   */
+  // Closes the add card modal.
   close() {
     this.setState({
       showModal: false,
     });
   }
 
-  /**
-   * Opens the add card modal.
-   *
-   * @returns {null} none
-   */
+  // Opens the add card modal.
   open() {
     this.setState({
       showModal: true,

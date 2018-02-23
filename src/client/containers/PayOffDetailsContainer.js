@@ -8,12 +8,7 @@ import { listStyle, wrapperStyle } from '../styles';
 import utils from '../utils/utils';
 
 export default class PayOffDetailsContainer extends React.Component {
-  /**
-   * Called when slider is moved.
-   *
-   * @param {array} props - component props.
-   * @returns {XML} xml
-   */
+  // Called when slider is moved.
   static handleSlide(props) {
     const { value, dragging, index, ...restProps } = props;
     return (
@@ -49,13 +44,8 @@ export default class PayOffDetailsContainer extends React.Component {
     this.calc();
   }
 
-  /**
-   * Calculates the total paid and number of months to
-   * pay off a card, based on paymentAmount.
-   *
-   * @param {float} paymentAmount - payment amount.
-   * @returns {*} none
-   */
+  // Calculates the total paid and number of months to
+  // pay off a card, based on paymentAmount.
   calc(paymentAmount) {
     const intRate = this.props.location.state.card[0].interest_rate;
     const balance = this.props.location.state.card[0].balance;
@@ -101,12 +91,7 @@ export default class PayOffDetailsContainer extends React.Component {
     }
   }
 
-  /**
-   * Logs the payment amount for updating component.
-   *
-   * @param {float} value - payment amount.
-   * @returns {*} none
-   */
+  // Logs the payment amount for updating component.
   log(value) {
     this.setState({
       paymentAmount: value,

@@ -32,7 +32,6 @@ export default class DashboardContainer extends Component {
     this.logout = this.logout.bind(this);
   }
 
-  // TODO: error after logout not going to login page. . .
   componentDidMount() {
     if (
       !(
@@ -67,11 +66,7 @@ export default class DashboardContainer extends Component {
     });
   }
 
-  /**
-   * Logout from the app.
-   *
-   * @returns {*} none
-   */
+  // Logout from the app.
   // eslint-disable-next-line class-methods-use-this
   logout() {
     utils.userLogout(this.state.token).then(res => {
@@ -83,25 +78,14 @@ export default class DashboardContainer extends Component {
     });
   }
 
-  /**
-   * Updates credit cards array.
-   *
-   * @param {array} creditCards - array of credit cards.
-   * @returns {*} none
-   */
+  // Updates credit cards array.
   handleCardUpdateState(creditCards) {
     this.setState({
       creditCards,
     });
   }
 
-  /**
-   * Sets state of card to delete.
-   *
-   * @param {string} id - id of card to delete.
-   * @param {string} name - name of card to delete.
-   * @returns {*} none
-   */
+  // Sets state of card to delete.
   handleCardToDeleteState(id, name) {
     this.setState({
       cardToDelete: {
@@ -111,12 +95,7 @@ export default class DashboardContainer extends Component {
     });
   }
 
-  /**
-   * Updates totals array.
-   *
-   * @param {array} totals - array of totals.
-   * @returns {*} none
-   */
+  // Updates totals array.
   handleTotalUpdateState(totals) {
     this.setState({
       totals,

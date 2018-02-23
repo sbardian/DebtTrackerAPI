@@ -26,12 +26,7 @@ export default class CreditCards extends Component {
     });
   }
 
-  /**
-   * Called after a cards cell has been edited.
-   *
-   * @param {object} row - The row of the edited cell.
-   * @returns {null} none
-   */
+  // Called after a cards cell has been edited.
   onAfterSaveCell(row) {
     const self = this;
     utils
@@ -70,22 +65,12 @@ export default class CreditCards extends Component {
       });
   }
 
-  /**
-   * Called when a row is selected.
-   *
-   * @param {object} row - The row of the selected card.
-   * @returns {null} none
-   */
+  // Called when a row is selected.
   onRowSelect(row) {
     this.state.onCardToDeleteState(row._id, row.name);
   }
 
-  /**
-   * Formats a number to a dollar amount.
-   *
-   * @param {number} cell - number to format.
-   * @returns {string} dollar amount
-   */
+  // Formats a number to a dollar amount.
   dollarFormatter(cell) {
     return `$${utils.createDollar(parseFloat(cell))}`;
   }

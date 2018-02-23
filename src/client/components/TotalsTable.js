@@ -14,44 +14,29 @@ export default class TotalsTable extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isLoading: true
+      isLoading: true,
     };
     this.buttonFormatter = this.buttonFormatter.bind(this);
   }
 
   componentWillReceiveProps(props) {
     this.setState({
-      isLoading: props.isLoading
+      isLoading: props.isLoading,
     });
   }
 
-  /**
-   * Formats a number to a dollar amount.
-   *
-   * @param {number} cell - number to format.
-   * @returns {string} string
-   */
+  // Formats a number to a dollar amount.
   dollarFormatter(cell) {
     return `$${utils.createDollar(parseFloat(cell))}`;
   }
 
-  /**
-   * Formats a date.
-   *
-   * @param {number} cell - date to format.
-   * @returns {*} date
-   */
+  // Formats a date.
   dateFormatter(cell) {
     const date = new Moment(cell);
     return date.format('LL');
   }
 
-  /**
-   * Deletes a total.
-   *
-   * @param {object} row - row to delete.
-   * @returns {*} none
-   */
+  // Deletes a total.
   deleteTotal(row) {
     utils.deleteTotals(row._id).then(response => {
       const temp = this.props.totals;
@@ -59,20 +44,14 @@ export default class TotalsTable extends React.Component {
       this.msg.show('Total deleted.', {
         time: 5000,
         type: 'success',
-        icon: <img src={check} alt="Total deleted." />
+        icon: <img src={check} alt="Total deleted." />,
       });
       temp.splice(index, 1);
       this.props.onTotalUpdateState(temp);
     });
   }
 
-  /**
-   * Returns a delete button for a total row.
-   *
-   * @param {object} cell cell
-   * @param {object} row row
-   * @returns {XML} xml
-   */
+  // Returns a delete button for a total row.
   buttonFormatter(cell, row) {
     return (
       <ButtonToolbar>
@@ -136,10 +115,10 @@ export default class TotalsTable extends React.Component {
 
 TotalsTable.propTypes = {
   isLoading: PropTypes.bool,
-  totals: PropTypes.arrayOf(PropTypes.object).isRequired
+  totals: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 TotalsTable.defaultProps = {
   isLoading: false,
-  totals: []
+  totals: [],
 };
