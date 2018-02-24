@@ -8,6 +8,9 @@
 # Build path
 dist
 
+# myCommands
+.myCommands
+
 # User-specific stuff:
 .idea/
 .idea/workspace.xml
