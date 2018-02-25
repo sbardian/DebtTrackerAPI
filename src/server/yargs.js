@@ -12,7 +12,7 @@ const config = yargs
     type: 'string',
   })
   .group(['session-secret', 'database-url'], 'Server Options:')
-  .demandOption(['session-secret', 'database-url'])
+  .demandOption(['session-secret'])
   .wrap(Math.min(100, yargs.terminalWidth()))
   .alias('h', 'help')
   .alias('v', 'version').argv;
