@@ -13,71 +13,70 @@ import { log } from './utils';
 
 const MongoStore = require('connect-mongo')(session);
 
-export const server = {
-  // Initialize server, and routes.
-  init() {
-    const { databaseUrl, sessionSecret } = config;
-    const expressServer = express();
-    const router = express.Router();
+// Initialize server, and routes.
+const { databaseUrl, sessionSecret } = config;
+const expressServer = express();
+const router = express.Router();
 
-    const corsOptions = {
-      credentials: true,
-      origin: true,
-    };
-
-    expressServer.use(cors(corsOptions));
-
-    mongoose.connect(databaseUrl, {
-      useMongoClient: true,
-      promiseLibrary: bluebird,
-    });
-
-    const db = mongoose.connection;
-
-    // handle mongo error
-    db.on('error', log.error.bind(log, 'connection error:'));
-
-    db.once('open', () => {
-      log.info('Connected to the database!');
-    });
-
-    // use sessions for tracking logins
-    expressServer.use(
-      session({
-        secret: sessionSecret,
-        resave: false,
-        saveUninitialized: true,
-        store: new MongoStore({
-          mongooseConnection: db,
-          autoRemove: 'interval',
-          autoRemoveInterval: 10,
-        }),
-      }),
-    );
-
-    // configure server to use bodyParser()
-    // this will let us get the data from a POST
-    expressServer.use(bodyParser.urlencoded({ extended: true }));
-    expressServer.use(bodyParser.json());
-
-    // routes to login/register/logout
-    expressServer.use('/auth', authRoutes(router));
-
-    // REGISTER OUR API ROUTES
-    // all of our routes will be prefixed with /api
-    expressServer.use('/api', checkAuth, apiRoutes(router));
-
-    // middleware to use for all requests
-    const expressStatic = express.static('dist/client');
-    expressServer.use(expressStatic);
-    expressServer.use(
-      historyApiFallback({
-        disableDotRule: true,
-        verbose: true,
-      }),
-    );
-    expressServer.use(expressStatic);
-
-    return expressServer;
-  },
+const corsOptions = {
+  credentials: true,
+  origin: true,
 };
+
+expressServer.use(cors(corsOptions));
+
+const dbUri =
+  process.env.NODE_ENV === 'test' ? global.__MONGO_URI__ : databaseUrl;
+
+mongoose.connect(dbUri, {
+  useMongoClient: true,
+  promiseLibrary: bluebird,
+});
+
+const db = mongoose.connection;
+
+// handle mongo error
+db.on('error', log.error.bind(log, 'connection error:'));
+
+db.once('open', () => {
+  log.info('Connected to the database!');
+});
+
+// use sessions for tracking logins
+expressServer.use(
+  session({
+    secret: sessionSecret,
+    resave: false,
+    saveUninitialized: true,
+    store: new MongoStore({
+      mongooseConnection: db,
+      autoRemove: 'interval',
+      autoRemoveInterval: 10,
+    }),
+  }),
+);
+
+// configure server to use bodyParser()
+// this will let us get the data from a POST
+expressServer.use(bodyParser.urlencoded({ extended: true }));
+expressServer.use(bodyParser.json());
+
+// routes to login/register/logout
+expressServer.use('/auth', authRoutes(router));
+
+// REGISTER OUR API ROUTES
+// all of our routes will be prefixed with /api
+expressServer.use('/api', checkAuth, apiRoutes(router));
+
+// middleware to use for all requests
+const expressStatic = express.static('dist/client');
+expressServer.use(expressStatic);
+expressServer.use(
+  historyApiFallback({
+    disableDotRule: true,
+    verbose: true,
+  }),
+);
+expressServer.use(expressStatic);
+
+export { expressServer as server };

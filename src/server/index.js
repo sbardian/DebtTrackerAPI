@@ -1,4 +1,6 @@
 import { server } from './server';
+import { log } from './utils';
 
+log.info('server = ', typeof server);
 // Start server.
-server.init().listen(9090);
+server.listen(9090);

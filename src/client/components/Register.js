@@ -57,6 +57,7 @@ export default class Home extends Component {
   registerUser(e) {
     e.preventDefault();
     const { username, email, password, passwordConf } = this.state;
+    // TODO: confirm password and passwordConf match
     utils
       .registerUser(username, email, password, passwordConf)
       .then(response => {
