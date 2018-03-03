@@ -16,7 +16,6 @@ export const SUCCESS_REGISTER_MOCK_USER = {
 
 export const FAILURE_REGISTER_MOCK_USER = {
   email: 'fail@fail.com',
-  username: 'fail',
   password: 'failpass',
   passwordConf: 'failpass2',
   isAdmin: false,
