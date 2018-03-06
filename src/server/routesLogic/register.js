@@ -4,27 +4,31 @@ import { log } from '../utils';
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
 
-export const register = (req, res, next) => {
+export const register = async (req, res, next) => {
   // confirm that user typed same password twice
-  if (req.body.password !== req.body.passwordConf) {
+  const { email, username, password, passwordConf } = req.body;
+  const userData = {
+    email,
+    username,
+    password,
+    passwordConf,
+    isAdmin: false,
+  };
+  if (password !== passwordConf) {
     const err = new Error('Passwords do not match.');
     err.status = 400;
-    res.send('passwords dont match');
     return next(err);
   }
-  const { email, username, password, passwordConf } = req.body;
-  if (email && username && password && passwordConf) {
-    const userData = {
-      email,
-      username,
-      password,
-      passwordConf,
-      isAdmin: false,
-    };
-    User.create(userData, (error, user) => {
-      if (error) {
-        log.error('error in create: ', error);
-        return next(error);
+  if (!(email && username && password && passwordConf)) {
+    const err = new Error('All fields are required.');
+    err.status = 400;
+    return next(err);
+  }
+  try {
+    await User.create(userData, (err, user) => {
+      if (err) {
+        log.error('Error creating user: ', err);
+        return next(err);
       }
       req.session.userId = user._id;
       const payload = {
@@ -38,14 +42,15 @@ export const register = (req, res, next) => {
         username: user.username,
         token,
       };
-      res.set({
-        location: '/',
-      });
-      return res.status(200).send(data);
+      res
+        .set({
+          location: '/',
+        })
+        .status(200)
+        .send(data);
     });
-  } else {
-    const err = new Error('All fields required.');
-    err.status = 400;
-    return next(err);
+  } catch (err) {
+    return res.status(400).send(err.message);
   }
+  return next();
 };
