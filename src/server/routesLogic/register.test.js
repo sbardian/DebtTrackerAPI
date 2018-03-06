@@ -6,45 +6,52 @@ import {
   SUCCESS_REGISTER_MOCK_USER,
   NO_USERNAME_MOCK_USER,
   BAD_PASSWORD_CONF_MOCK_USER,
-} from '../testEnv/fictures';
+} from '../testEnv/fixtures';
 
 let db;
 let users;
 
-beforeAll(async () => {
+beforeEach(async () => {
   mongoose.connect(global.__MONGO_URI__, {
     useMongoClient: true,
     promiseLibrary: bluebird,
   });
   db = await mongoose.connection;
+  users = await db.collection('users');
 });
 
-afterAll(async () => {
-  await users.removeAll({});
+afterEach(async () => {
+  await users.remove({});
   await db.close();
 });
 
 describe('Test /register API paths', () => {
-  it('Register success, return 200 status: ', () =>
-    request(server)
-      .post('/auth/register')
-      .type('form')
-      .set('Accept', 'text/html, application/json')
-      .send(SUCCESS_REGISTER_MOCK_USER)
-      .expect(200));
-  it('Register failure. No username, return 400 status: ', () =>
-    request(server)
-      .post('/auth/register')
-      .type('form')
-      .set('Accept', 'text/html, application/json')
-      .send(NO_USERNAME_MOCK_USER)
-      .expect(400));
+  describe('Register success', () => {
+    it('Register success, return 200 status: ', () =>
+      request(server)
+        .post('/auth/register')
+        .type('form')
+        .set('Accept', 'text/html, application/json')
+        .send(SUCCESS_REGISTER_MOCK_USER)
+        .expect(200));
+  });
+  describe('Register no username', () => {
+    it('Register failure, return 400 status: ', () =>
+      request(server)
+        .post('/auth/register')
+        .type('form')
+        .set('Accept', 'text/html, application/json')
+        .send(NO_USERNAME_MOCK_USER)
+        .expect(400));
+  });
   // TODO: validate password and passwordConf match in client
-  it('Register failure. Passwords do not match, return 400 status: ', () =>
-    request(server)
-      .post('/auth/register')
-      .type('form')
-      .set('Accept', 'text/html, application/json')
-      .send(BAD_PASSWORD_CONF_MOCK_USER)
-      .expect(400));
+  describe('Register Passwords do not match', () => {
+    it('Register failure, return 400 status: ', () =>
+      request(server)
+        .post('/auth/register')
+        .type('form')
+        .set('Accept', 'text/html, application/json')
+        .send(BAD_PASSWORD_CONF_MOCK_USER)
+        .expect(400));
+  });
 });

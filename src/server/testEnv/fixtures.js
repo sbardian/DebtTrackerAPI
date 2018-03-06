@@ -14,8 +14,17 @@ export const SUCCESS_REGISTER_MOCK_USER = {
   isAdmin: false,
 };
 
-export const FAILURE_REGISTER_MOCK_USER = {
+export const BAD_PASSWORD_CONF_MOCK_USER = {
+  email: 'success@success.com',
+  username: 'success',
+  password: 'success',
+  passwordConf: 'wrongPass',
+  isAdmin: false,
+};
+
+export const NO_USERNAME_MOCK_USER = {
   email: 'fail@fail.com',
+  username: null,
   password: 'failpass',
   passwordConf: 'failpass2',
   isAdmin: false,

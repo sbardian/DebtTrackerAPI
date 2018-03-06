@@ -2,7 +2,7 @@ import request from 'supertest';
 import mongoose from 'mongoose';
 import bluebird from 'bluebird';
 import { server } from '../server';
-import { LOGIN_MOCK_USER } from '../testEnv/fictures';
+import { LOGIN_MOCK_USER } from '../testEnv/fixtures';
 
 let db;
 let users;
@@ -18,7 +18,7 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
-  await users.removeAll({});
+  await users.remove({});
   await db.close();
 });
 
