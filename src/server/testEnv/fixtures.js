@@ -29,3 +29,11 @@ export const NO_USERNAME_MOCK_USER = {
   passwordConf: 'failpass2',
   isAdmin: false,
 };
+
+export const CREDIT_CARDS = {
+  name: 'test',
+  limit: 10000,
+  balance: 5000,
+  interest_rate: 10,
+  updated_at: Date.now,
+};

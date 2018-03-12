@@ -6,6 +6,7 @@
   "scripts": {
     "pretest": "npm run clean",
     "test": "jest --no-cache --runInBand --forceExit",
+    "test:watch": "jest --watch",
     "lint": "eslint . ",
     "build": "npm run build:server && npm run build:client",
     "prebuild": "npm run clean",
@@ -73,6 +74,7 @@
     "prettier": "^1.10.2",
     "rimraf": "^2.6.2",
     "supertest": "^3.0.0",
+    "supertest-session": "^3.1.2",
     "webpack": "^1.15.0",
     "webpack-dev-server": "^1.16.5"
   }

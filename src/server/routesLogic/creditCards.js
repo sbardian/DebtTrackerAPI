@@ -1,3 +1,5 @@
+import logger from 'console';
+
 const User = require('../models/User');
 const CreditCard = require('../models/CreditCard');
 
@@ -23,6 +25,7 @@ export const getAllCreditCards = (req, res, next) => {
 };
 
 export const getCreditCardById = (req, res) => {
+  logger.info('request = ', req.params);
   let response = {};
   CreditCard.findById(req.params.id, (err, data) => {
     if (err) {
