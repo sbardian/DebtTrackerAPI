@@ -44,3 +44,7 @@ export const INVALID_CREDIT_CARD = {
   balance: 5000,
   interest_rate: 10,
 };
+
+export const INVALID_CREDIT_CARD_ID = {
+  id: '8675309',
+};

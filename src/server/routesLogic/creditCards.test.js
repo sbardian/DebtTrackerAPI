@@ -8,6 +8,7 @@ import {
   LOGIN_MOCK_USER,
   CREDIT_CARD,
   INVALID_CREDIT_CARD,
+  INVALID_CREDIT_CARD_ID,
 } from '../testEnv/fixtures';
 
 jest.mock('./checkAuth');
@@ -16,6 +17,7 @@ let serverSession;
 let db;
 let users;
 let creditCards;
+let creditCardId;
 let userId;
 
 beforeAll(async () => {
@@ -52,6 +54,9 @@ beforeAll(async () => {
 
   // insert our mock credit cards
   await creditCards.insertOne(Object.assign(CREDIT_CARD, { userId }));
+  creditCardId = await creditCards.findOne({ name: 'testCard' });
+  creditCardId = creditCardId._id;
+  logger.log('>>>>>>> ', creditCardId);
 });
 
 afterAll(async () => {
@@ -92,6 +97,23 @@ describe('Test creditCards API paths', () => {
         .send(INVALID_CREDIT_CARD)
         .expect(200);
       expect(response.body.error).toEqual(true);
+    });
+  });
+
+  describe('Test deleteCreditCard', () => {
+    it('deleteCreditCard success, return 200 status, and error = false: ', async () => {
+      const response = await serverSession
+        .delete(`/api/creditcards/${creditCardId}`)
+        .set('Accept', 'text/html, application/json')
+        .expect(200);
+      expect(response.body.error).toBe(false);
+    });
+    it('deleteCreditCard failure, return 200 status, and error = true: ', async () => {
+      const response = await serverSession
+        .delete(`/api/creditcards/${INVALID_CREDIT_CARD_ID}`)
+        .set('Accept', 'text/html, application/json')
+        .expect(200);
+      expect(response.body.error).toBe(true);
     });
   });
 });
