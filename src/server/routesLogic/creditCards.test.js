@@ -4,7 +4,11 @@ import request from 'supertest';
 import session from 'supertest-session';
 import logger from 'console';
 import { server } from '../server';
-import { LOGIN_MOCK_USER, CREDIT_CARDS } from '../testEnv/fixtures';
+import {
+  LOGIN_MOCK_USER,
+  CREDIT_CARD,
+  INVALID_CREDIT_CARD,
+} from '../testEnv/fixtures';
 
 jest.mock('./checkAuth');
 
@@ -47,7 +51,7 @@ beforeAll(async () => {
     });
 
   // insert our mock credit cards
-  await creditCards.insertOne(Object.assign(CREDIT_CARDS, { userId }));
+  await creditCards.insertOne(Object.assign(CREDIT_CARD, { userId }));
 });
 
 afterAll(async () => {
@@ -71,15 +75,23 @@ describe('Test creditCards API paths', () => {
         .expect(302);
     });
   });
+
   describe('Test addCreditCard', () => {
     it('addCreditCard success, return 200 status, and error = false: ', async () => {
       const response = await serverSession
         .post('/api/creditcards')
         .set('Accept', 'text/html, application/json')
-        .send(Object.assign(CREDIT_CARDS, { userId }))
+        .send(CREDIT_CARD)
         .expect(200);
-      logger.info('response = ', response.body);
       expect(response.body.message).toEqual('Data added');
+    });
+    it('addCreditCard failure, return 200 status, and error = true: ', async () => {
+      const response = await serverSession
+        .post('/api/creditcards')
+        .set('Accept', 'text/html, application/json')
+        .send(INVALID_CREDIT_CARD)
+        .expect(200);
+      expect(response.body.error).toEqual(true);
     });
   });
 });

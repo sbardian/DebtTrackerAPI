@@ -30,10 +30,17 @@ export const NO_USERNAME_MOCK_USER = {
   isAdmin: false,
 };
 
-export const CREDIT_CARDS = {
-  name: 'test',
+export const CREDIT_CARD = {
+  user: 'test',
+  name: 'testCard',
   limit: 10000,
   balance: 5000,
   interest_rate: 10,
   updated_at: Date.now,
+};
+
+export const INVALID_CREDIT_CARD = {
+  limit: 10000,
+  balance: 5000,
+  interest_rate: 10,
 };
