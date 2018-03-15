@@ -78,20 +78,19 @@ export const deleteCreditCard = (req, res) => {
   let response = {};
   CreditCard.findById(req.params.id, err => {
     if (err) {
-      response = { error: true, message: 'Error fetching data' };
-    } else {
-      CreditCard.remove({ _id: req.params.id }, () => {
-        if (err) {
-          response = { error: true, message: 'Error deleting data' };
-        } else {
-          response = {
-            error: false,
-            message: `Data associated with ${req.params.id} is deleted`,
-          };
-        }
-        res.json(response);
-      });
+      return res.json({ error: true, message: 'Error fetching data' });
     }
+    CreditCard.remove({ _id: req.params.id }, () => {
+      if (err) {
+        response = { error: true, message: 'Error deleting data' };
+      } else {
+        response = {
+          error: false,
+          message: `Data associated with ${req.params.id} is deleted`,
+        };
+      }
+      res.json(response);
+    });
   });
 };
 
