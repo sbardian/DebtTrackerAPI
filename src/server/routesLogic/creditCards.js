@@ -38,24 +38,36 @@ export const getCreditCardById = (req, res) => {
 };
 
 export const addCreditCard = (req, res) => {
-  const db = new CreditCard();
   let response = {};
-  db.userId = req.session.userId;
-  db.user = req.body.user;
-  db.name = req.body.name;
-  db.limit = req.body.limit;
-  db.balance = req.body.balance;
-  db.interest_rate = req.body.interest_rate;
-  db.save(err => {
+  const creditCard = new CreditCard();
+  creditCard.userId = req.session.userId;
+  creditCard.user = req.body.user;
+  creditCard.name = req.body.name;
+  creditCard.limit = req.body.limit;
+  creditCard.balance = req.body.balance;
+  creditCard.interest_rate = req.body.interest_rate;
+  if (
+    !(
+      creditCard.userId &&
+      creditCard.user &&
+      creditCard.name &&
+      creditCard.limit &&
+      creditCard.balance &&
+      creditCard.interest_rate
+    )
+  ) {
+    return res.json({ error: true, message: 'One more more fields missing' });
+  }
+  creditCard.save(err => {
     if (err) {
       response = { error: true, message: 'Error adding data' };
     } else {
       response = {
         error: false,
         message: 'Data added',
-        _id: db.id,
-        updated_at: db.updated_at,
-        __v: db.v,
+        _id: creditCard.id,
+        updated_at: creditCard.updated_at,
+        __v: creditCard.v,
       };
     }
     res.json(response);
