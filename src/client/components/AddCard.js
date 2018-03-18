@@ -63,11 +63,11 @@ export default class AddCard extends Component {
 
   // Saves the card that was added to the database and updates the component.
   save() {
-    const { creditCards, onCardUpdateState } = this.props;
-    const { user, name, limit, balance, interest_rate } = this.state;
+    const { user, creditCards, onCardUpdateState } = this.props;
+    const { name, limit, balance, interest_rate } = this.state;
     utils.addCreditCard(user, name, limit, balance, interest_rate).then(res => {
       const temp = creditCards;
-      const { _id, update_at, __v } = res;
+      const { _id, update_at, __v } = res.data;
       temp.push({
         _id,
         user,

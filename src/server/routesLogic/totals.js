@@ -2,7 +2,8 @@ const Total = require('../models/Total');
 
 export const getTotals = (req, res) => {
   let response = {};
-  Total.find({ userId: req.session.userId }, (err, data) => {
+  // console.log('req  >>>  ', req.session);
+  Total.find({ userId: req.session && req.session.userId }, (err, data) => {
     if (err) {
       response = { error: true, message: 'Error fetching data' };
     } else {
@@ -15,42 +16,46 @@ export const getTotals = (req, res) => {
 export const addTotal = (req, res) => {
   const db = new Total();
   let response = {};
-  db.userId = req.session.userId;
+  if (!(req.session.userId && req.body.user && req.body.total)) {
+    return res.json({
+      error: true,
+      message: 'Error adding data',
+    });
+  }
+  db.userId = req.session && req.session.userId;
   db.user = req.body.user;
   db.total = req.body.total;
   db.save(err => {
     if (err) {
-      response = { error: true, message: 'Error adding data' };
-    } else {
-      response = {
-        error: false,
-        message: 'Data added',
-        id: db.id,
-        updated_at: db.updated_at,
-        v: db.v,
-      };
+      return res.json({ error: true, message: 'Error adding data' });
     }
-    res.json(response);
+    response = {
+      error: false,
+      message: 'Data added',
+      id: db.id,
+      updated_at: db.updated_at,
+      v: db.v,
+    };
+    return res.json(response);
   });
 };
 
 export const deleteTotal = (req, res) => {
   let response = {};
-  Total.findById(req.params.id, err => {
+  Total.findById(req.params.id, (err, data) => {
     if (err) {
-      response = { error: true, message: 'Error fetching data' };
-    } else {
-      Total.remove({ _id: req.params.id }, () => {
-        if (err) {
-          response = { error: true, message: 'Error deleting data' };
-        } else {
-          response = {
-            error: false,
-            message: `Data associated with ${req.params.id} is deleted`,
-          };
-        }
-        res.json(response);
-      });
+      return res.json({ error: true, message: 'Error fetching data' });
     }
+    Total.remove({ _id: req.params.id }, error => {
+      if (error) {
+        return res.json({ error: true, message: 'Error deleting data' });
+      }
+      response = {
+        error: false,
+        message: `Data associated with ${req.params.id} is deleted`,
+        data,
+      };
+      res.json(response);
+    });
   });
 };

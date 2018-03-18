@@ -25,36 +25,46 @@ const corsOptions = {
 
 expressServer.use(cors(corsOptions));
 
-const dbUri =
-  process.env.NODE_ENV === 'test' ? global.__MONGO_URI__ : databaseUrl;
+// Only load DB when in production
+if (process.env.NODE_ENV !== 'test') {
+  console.error('setting up database. . . Prod dawg');
+  mongoose.connect(databaseUrl, {
+    useMongoClient: true,
+    promiseLibrary: bluebird,
+  });
 
-mongoose.connect(dbUri, {
-  useMongoClient: true,
-  promiseLibrary: bluebird,
-});
+  const db = mongoose.connection;
 
-const db = mongoose.connection;
+  // handle mongo error
+  db.on('error', log.error.bind(log, 'connection error:'));
 
-// handle mongo error
-db.on('error', log.error.bind(log, 'connection error:'));
+  db.once('open', () => {
+    log.info('Connected to the database!');
+  });
 
-db.once('open', () => {
-  log.info('Connected to the database!');
-});
-
-// use sessions for tracking logins
-expressServer.use(
-  session({
-    secret: sessionSecret,
-    resave: false,
-    saveUninitialized: true,
-    store: new MongoStore({
-      mongooseConnection: db,
-      autoRemove: 'interval',
-      autoRemoveInterval: 10,
+  expressServer.use(
+    session({
+      name: 'DT_Session',
+      secret: sessionSecret,
+      resave: false,
+      saveUninitialized: true,
+      store: new MongoStore({
+        mongooseConnection: db,
+        autoRemove: 'interval',
+        autoRemoveInterval: 10,
+      }),
     }),
-  }),
-);
+  );
+} else {
+  expressServer.use(
+    session({
+      name: 'DT_Session',
+      secret: sessionSecret,
+      resave: false,
+      saveUninitialized: true,
+    }),
+  );
+}
 
 // configure server to use bodyParser()
 // this will let us get the data from a POST

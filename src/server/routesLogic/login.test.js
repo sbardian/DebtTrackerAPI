@@ -1,41 +1,44 @@
-import request from 'supertest';
-import mongoose from 'mongoose';
-import bluebird from 'bluebird';
+import session from 'supertest-session';
+import mockingoose from 'mockingoose';
 import { server } from '../server';
-import { LOGIN_MOCK_USER } from '../testEnv/fixtures';
+import { LOGIN_SUCCESS_MOCK_USER } from '../testEnv/fixtures';
 
-let db;
-let users;
+jest.mock('./checkAuth');
 
-beforeAll(async () => {
-  mongoose.connect(global.__MONGO_URI__, {
-    useMongoClient: true,
-    promiseLibrary: bluebird,
-  });
-  db = await mongoose.connection;
-  users = await db.collection('users');
-  await users.insertOne(LOGIN_MOCK_USER);
-});
+describe('Test /login API routes', () => {
+  const serverSession = session(server);
 
-afterAll(async () => {
-  await users.remove({});
-  await db.close();
-});
-
-describe('Test Login API paths', () => {
-  it('Login success, return 200 status: ', () =>
-    request(server)
+  it('Login success, return 200 status: ', async () => {
+    mockingoose.User.toReturn(LOGIN_SUCCESS_MOCK_USER, 'findOne');
+    const response = await serverSession
       .post('/auth/login')
       .set('Accept', 'text/html, application/json')
       .send({
-        email: LOGIN_MOCK_USER.email,
-        password: LOGIN_MOCK_USER.passwordConf,
-      })
-      .expect(200));
-  it('Login failure, return 401 status: ', () =>
-    request(server)
+        email: LOGIN_SUCCESS_MOCK_USER.email,
+        password: LOGIN_SUCCESS_MOCK_USER.passwordConf,
+      });
+    expect(response.statusCode).toBe(200);
+  });
+  it('Login failure, bad password, return 401 status: ', async () => {
+    mockingoose.User.toReturn(LOGIN_SUCCESS_MOCK_USER, 'findOne');
+    const response = await serverSession
       .post('/auth/login')
       .set('Accept', 'text/html, application/json')
-      .send({ email: LOGIN_MOCK_USER.email, password: 'InvalidPassword' })
-      .expect(401));
+      .send({
+        email: LOGIN_SUCCESS_MOCK_USER.email,
+        password: 'InvalidPassword',
+      });
+    expect(response.statusCode).toBe(401);
+  });
+  it('Login failure, no password, return 401 status: ', async () => {
+    mockingoose.User.toReturn(LOGIN_SUCCESS_MOCK_USER, 'findOne');
+    const response = await serverSession
+      .post('/auth/login')
+      .set('Accept', 'text/html, application/json')
+      .send({
+        email: LOGIN_SUCCESS_MOCK_USER.email,
+        password: null,
+      });
+    expect(response.statusCode).toBe(401);
+  });
 });
