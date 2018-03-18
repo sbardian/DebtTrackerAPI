@@ -1,9 +1,11 @@
-export const LOGIN_MOCK_USER = {
+export const LOGIN_SUCCESS_MOCK_USER = {
+  _id: '5a8e41866c6f9f2f5d53330e',
   email: 'test@test.com',
   username: 'test',
-  password: '$2a$10$9fEj.goY9ZR1INP8iup/1exbhGBj8BBmOKfUWJwpZmD8.cPF3zrhi',
-  passwordConf: 'testpass',
-  isAdmin: false,
+  password: '$2a$10$IL3eU58fJ6ltVpYg0txAa.arQNXI6el9Lmrrc78hdnnbfU5tg3HcW',
+  passwordConf: 'test',
+  isAdmin: true,
+  __v: 0,
 };
 
 export const SUCCESS_REGISTER_MOCK_USER = {
@@ -36,7 +38,6 @@ export const CREDIT_CARD = {
   limit: 10000,
   balance: 5000,
   interest_rate: 10,
-  updated_at: Date.now,
 };
 
 export const INVALID_CREDIT_CARD = {
@@ -45,6 +46,22 @@ export const INVALID_CREDIT_CARD = {
   interest_rate: 10,
 };
 
-export const INVALID_CREDIT_CARD_ID = {
-  id: '8675309',
+export const VALID_TOTAL = {
+  user: 'test',
+  total: 20000,
+};
+
+export const INVALID_TOTAL = {
+  error: true,
+  message: 'Error deleting data',
+};
+
+export const INVALID_FINDING_TOTAL = {
+  error: true,
+  message: 'Error fetching data',
+};
+
+export const INVALID_DELETING_TOTAL = {
+  error: true,
+  message: 'Error deleting data',
 };

@@ -5,7 +5,7 @@ const CreditCard = require('../models/CreditCard');
 
 export const getAllCreditCards = (req, res, next) => {
   // TODO: Update to use query to sort (ex: 'sort=balance', 'sort=interest_rate'.
-  User.findById(req.session.userId).exec((error, user) => {
+  User.findById(req.session && req.session.userId).exec((error, user) => {
     if (error) {
       return next(error);
     }
@@ -40,34 +40,36 @@ export const getCreditCardById = (req, res) => {
 export const addCreditCard = (req, res) => {
   let response = {};
   const creditCard = new CreditCard();
+  if (
+    !(
+      req.session.userId &&
+      req.body.user &&
+      req.body.name &&
+      req.body.limit &&
+      req.body.balance &&
+      req.body.interest_rate
+    )
+  ) {
+    response = {
+      error: true,
+      message: 'Error adding data, all fields required',
+    };
+    return res.json(response);
+  }
   creditCard.userId = req.session.userId;
   creditCard.user = req.body.user;
   creditCard.name = req.body.name;
   creditCard.limit = req.body.limit;
   creditCard.balance = req.body.balance;
   creditCard.interest_rate = req.body.interest_rate;
-  if (
-    !(
-      creditCard.userId &&
-      creditCard.user &&
-      creditCard.name &&
-      creditCard.limit &&
-      creditCard.balance &&
-      creditCard.interest_rate
-    )
-  ) {
-    return res.json({ error: true, message: 'One more more fields missing' });
-  }
-  creditCard.save(err => {
+  creditCard.save((err, data) => {
     if (err) {
       response = { error: true, message: 'Error adding data' };
     } else {
       response = {
         error: false,
         message: 'Data added',
-        _id: creditCard.id,
-        updated_at: creditCard.updated_at,
-        __v: creditCard.v,
+        data,
       };
     }
     res.json(response);

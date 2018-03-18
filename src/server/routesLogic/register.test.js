@@ -1,6 +1,5 @@
-import request from 'supertest';
-import mongoose from 'mongoose';
-import bluebird from 'bluebird';
+import session from 'supertest-session';
+import mockingoose from 'mockingoose';
 import { server } from '../server';
 import {
   SUCCESS_REGISTER_MOCK_USER,
@@ -8,50 +7,35 @@ import {
   BAD_PASSWORD_CONF_MOCK_USER,
 } from '../testEnv/fixtures';
 
-let db;
-let users;
+describe('Test /register API routes', () => {
+  const serverSession = session(server);
 
-beforeEach(async () => {
-  mongoose.connect(global.__MONGO_URI__, {
-    useMongoClient: true,
-    promiseLibrary: bluebird,
+  it('Register success, return 200 status: ', async () => {
+    mockingoose.User.toReturn(SUCCESS_REGISTER_MOCK_USER, 'save');
+    const respons = await serverSession
+      .post('/auth/register')
+      .type('form')
+      .set('Accept', 'text/html, application/json')
+      .send(SUCCESS_REGISTER_MOCK_USER);
+    expect(respons.statusCode).toBe(200);
   });
-  db = await mongoose.connection;
-  users = await db.collection('users');
-});
-
-afterEach(async () => {
-  await users.remove({});
-  await db.close();
-});
-
-describe('Test /register API paths', () => {
-  describe('Register success', () => {
-    it('Register success, return 200 status: ', () =>
-      request(server)
-        .post('/auth/register')
-        .type('form')
-        .set('Accept', 'text/html, application/json')
-        .send(SUCCESS_REGISTER_MOCK_USER)
-        .expect(200));
-  });
-  describe('Register no username', () => {
-    it('Register failure, return 400 status: ', () =>
-      request(server)
-        .post('/auth/register')
-        .type('form')
-        .set('Accept', 'text/html, application/json')
-        .send(NO_USERNAME_MOCK_USER)
-        .expect(400));
+  it('Register failure no username, return 400 status: ', async () => {
+    mockingoose.User.toReturn(NO_USERNAME_MOCK_USER, 'save');
+    const response = await serverSession
+      .post('/auth/register')
+      .type('form')
+      .set('Accept', 'text/html, application/json')
+      .send(NO_USERNAME_MOCK_USER);
+    expect(response.statusCode).toBe(400);
   });
   // TODO: validate password and passwordConf match in client
-  describe('Register Passwords do not match', () => {
-    it('Register failure, return 400 status: ', () =>
-      request(server)
-        .post('/auth/register')
-        .type('form')
-        .set('Accept', 'text/html, application/json')
-        .send(BAD_PASSWORD_CONF_MOCK_USER)
-        .expect(400));
+  it('Register failure password do not match, return 400 status: ', async () => {
+    mockingoose.User.toReturn(BAD_PASSWORD_CONF_MOCK_USER, 'save');
+    const response = await serverSession
+      .post('/auth/register')
+      .type('form')
+      .set('Accept', 'text/html, application/json')
+      .send(BAD_PASSWORD_CONF_MOCK_USER);
+    expect(response.statusCode).toBe(400);
   });
 });

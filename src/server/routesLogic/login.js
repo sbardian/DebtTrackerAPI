@@ -33,5 +33,9 @@ export const login = (req, res, next) => {
       });
       return res.status(200).send(data);
     });
+  } else {
+    const err = new Error('Wrong email or password.');
+    err.status = 401;
+    return next(err);
   }
 };
