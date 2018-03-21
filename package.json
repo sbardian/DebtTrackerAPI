@@ -39,7 +39,7 @@
     "rc-slider": "^7.0.8",
     "rc-tooltip": "^3.4.9",
     "react": "^15.6.1",
-    "react-alert": "^2.3.0",
+    "react-alert": "^3.0.0",
     "react-bootstrap": "^0.30.10",
     "react-bootstrap-table": "^2.11.2",
     "react-dom": "^15.6.1",
