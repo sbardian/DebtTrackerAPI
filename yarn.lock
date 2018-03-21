@@ -384,7 +384,7 @@ axobject-query@^0.1.0:
   dependencies:
     ast-types-flow "0.0.7"
 
-babel-cli@^6.26.0:
+babel-cli@6.26.0:
   version "6.26.0"
   resolved "https://registry.yarnpkg.com/babel-cli/-/babel-cli-6.26.0.tgz#502ab54874d7db88ad00b887a06383ce03d002f1"
   dependencies:
@@ -413,7 +413,7 @@ babel-code-frame@^6.22.0, babel-code-frame@^6.26.0:
     esutils "^2.0.2"
     js-tokens "^3.0.2"
 
-babel-core@^6.0.0, babel-core@^6.26.0:
+babel-core@6.26.0, babel-core@^6.0.0, babel-core@^6.26.0:
   version "6.26.0"
   resolved "https://registry.yarnpkg.com/babel-core/-/babel-core-6.26.0.tgz#af32f78b31a6fcef119c87b0fd8d9753f03a0bb8"
   dependencies:
@@ -437,7 +437,7 @@ babel-core@^6.0.0, babel-core@^6.26.0:
     slash "^1.0.0"
     source-map "^0.5.6"
 
-babel-eslint@^8.2.1:
+babel-eslint@8.2.1:
   version "8.2.1"
   resolved "https://registry.yarnpkg.com/babel-eslint/-/babel-eslint-8.2.1.tgz#136888f3c109edc65376c23ebf494f36a3e03951"
   dependencies:
@@ -583,14 +583,14 @@ babel-helpers@^6.24.1:
     babel-runtime "^6.22.0"
     babel-template "^6.24.1"
 
-babel-jest@^22.4.1:
+babel-jest@22.4.1, babel-jest@^22.4.1:
   version "22.4.1"
   resolved "https://registry.yarnpkg.com/babel-jest/-/babel-jest-22.4.1.tgz#ff53ebca45957347f27ff4666a31499fbb4c4ddd"
   dependencies:
     babel-plugin-istanbul "^4.1.5"
     babel-preset-jest "^22.4.1"
 
-babel-loader@^6.4.1:
+babel-loader@6.4.1:
   version "6.4.1"
   resolved "https://registry.yarnpkg.com/babel-loader/-/babel-loader-6.4.1.tgz#0b34112d5b0748a8dcdbf51acf6f9bd42d50b8ca"
   dependencies:
@@ -894,7 +894,7 @@ babel-polyfill@^6.26.0:
     core-js "^2.5.0"
     regenerator-runtime "^0.10.5"
 
-babel-preset-env@^1.6.1:
+babel-preset-env@1.6.1:
   version "1.6.1"
   resolved "https://registry.yarnpkg.com/babel-preset-env/-/babel-preset-env-1.6.1.tgz#a18b564cc9b9afdf4aae57ae3c1b0d99188e6f48"
   dependencies:
@@ -942,7 +942,7 @@ babel-preset-jest@^22.4.1:
     babel-plugin-jest-hoist "^22.4.1"
     babel-plugin-syntax-object-rest-spread "^6.13.0"
 
-babel-preset-react@^6.24.1:
+babel-preset-react@6.24.1:
   version "6.24.1"
   resolved "https://registry.yarnpkg.com/babel-preset-react/-/babel-preset-react-6.24.1.tgz#ba69dfaea45fc3ec639b6a4ecea6e17702c91380"
   dependencies:
@@ -1653,7 +1653,7 @@ cosmiconfig@^2.1.0, cosmiconfig@^2.1.1:
     parse-json "^2.2.0"
     require-from-string "^1.1.0"
 
-coveralls@^2.13.3:
+coveralls@2.13.3:
   version "2.13.3"
   resolved "https://registry.yarnpkg.com/coveralls/-/coveralls-2.13.3.tgz#9ad7c2ae527417f361e8b626483f48ee92dd2bc7"
   dependencies:
@@ -2174,13 +2174,13 @@ eslint-config-airbnb-base@^11.3.0:
   dependencies:
     eslint-restricted-globals "^0.1.1"
 
-eslint-config-airbnb@^15.1.0:
+eslint-config-airbnb@15.1.0:
   version "15.1.0"
   resolved "https://registry.yarnpkg.com/eslint-config-airbnb/-/eslint-config-airbnb-15.1.0.tgz#fd432965a906e30139001ba830f58f73aeddae8e"
   dependencies:
     eslint-config-airbnb-base "^11.3.0"
 
-eslint-config-prettier@^2.9.0:
+eslint-config-prettier@2.9.0:
   version "2.9.0"
   resolved "https://registry.yarnpkg.com/eslint-config-prettier/-/eslint-config-prettier-2.9.0.tgz#5ecd65174d486c22dff389fe036febf502d468a3"
   dependencies:
@@ -2200,7 +2200,7 @@ eslint-module-utils@^2.1.1:
     debug "^2.6.8"
     pkg-dir "^1.0.0"
 
-eslint-plugin-import@^2.7.0:
+eslint-plugin-import@2.8.0:
   version "2.8.0"
   resolved "https://registry.yarnpkg.com/eslint-plugin-import/-/eslint-plugin-import-2.8.0.tgz#fa1b6ef31fcb3c501c09859c1b86f1fc5b986894"
   dependencies:
@@ -2215,7 +2215,7 @@ eslint-plugin-import@^2.7.0:
     minimatch "^3.0.3"
     read-pkg-up "^2.0.0"
 
-eslint-plugin-jsx-a11y@^5.1.1:
+eslint-plugin-jsx-a11y@5.1.1:
   version "5.1.1"
   resolved "https://registry.yarnpkg.com/eslint-plugin-jsx-a11y/-/eslint-plugin-jsx-a11y-5.1.1.tgz#5c96bb5186ca14e94db1095ff59b3e2bd94069b1"
   dependencies:
@@ -2227,7 +2227,7 @@ eslint-plugin-jsx-a11y@^5.1.1:
     emoji-regex "^6.1.0"
     jsx-ast-utils "^1.4.0"
 
-eslint-plugin-react@^7.5.1:
+eslint-plugin-react@7.5.1:
   version "7.5.1"
   resolved "https://registry.yarnpkg.com/eslint-plugin-react/-/eslint-plugin-react-7.5.1.tgz#52e56e8d80c810de158859ef07b880d2f56ee30b"
   dependencies:
@@ -2251,7 +2251,7 @@ eslint-visitor-keys@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/eslint-visitor-keys/-/eslint-visitor-keys-1.0.0.tgz#3f3180fb2e291017716acb4c9d6d5b5c34a6a81d"
 
-eslint@^4.6.1:
+eslint@4.16.0:
   version "4.16.0"
   resolved "https://registry.yarnpkg.com/eslint/-/eslint-4.16.0.tgz#934ada9e98715e1d7bbfd6f6f0519ed2fab35cc1"
   dependencies:
@@ -3079,7 +3079,7 @@ html-tag-names@^1.1.1:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/html-tag-names/-/html-tag-names-1.1.2.tgz#f65168964c5a9c82675efda882875dcb2a875c22"
 
-html-webpack-plugin@^2.30.1:
+html-webpack-plugin@2.30.1:
   version "2.30.1"
   resolved "https://registry.yarnpkg.com/html-webpack-plugin/-/html-webpack-plugin-2.30.1.tgz#7f9c421b7ea91ec460f56527d78df484ee7537d5"
   dependencies:
@@ -3668,7 +3668,7 @@ jest-environment-jsdom@^22.4.1:
     jest-util "^22.4.1"
     jsdom "^11.5.1"
 
-jest-environment-node@^22.4.1:
+jest-environment-node@22.4.1, jest-environment-node@^22.4.1:
   version "22.4.1"
   resolved "https://registry.yarnpkg.com/jest-environment-node/-/jest-environment-node-22.4.1.tgz#418850eb654596b8d6e36c2021cbedbc23df8e16"
   dependencies:
@@ -3836,7 +3836,7 @@ jest-worker@^22.2.2:
   dependencies:
     merge-stream "^1.0.1"
 
-jest@^22.4.2:
+jest@22.4.2:
   version "22.4.2"
   resolved "https://registry.yarnpkg.com/jest/-/jest-22.4.2.tgz#34012834a49bf1bdd3bc783850ab44e4499afc20"
   dependencies:
@@ -4389,7 +4389,7 @@ minimist@~0.0.1:
   dependencies:
     minimist "0.0.8"
 
-mockingoose@^2.9.1:
+mockingoose@2.9.1:
   version "2.9.1"
   resolved "https://registry.yarnpkg.com/mockingoose/-/mockingoose-2.9.1.tgz#bea36e930fc65d1be96a0e5d015a9d408cb3d98d"
 
@@ -4415,7 +4415,7 @@ mongodb-core@3.0.3:
     bson "~1.0.4"
     require_optional "^1.0.1"
 
-mongodb-memory-server@^1.7.0:
+mongodb-memory-server@1.7.0:
   version "1.7.0"
   resolved "https://registry.yarnpkg.com/mongodb-memory-server/-/mongodb-memory-server-1.7.0.tgz#726eca78b4d71399b8182ad87bead068b3e44416"
   dependencies:
@@ -4441,7 +4441,7 @@ mongodb@2.2.34, "mongodb@>= 1.2.0 <3.0.0":
     mongodb-core "2.1.18"
     readable-stream "2.2.7"
 
-mongodb@^3.0.3:
+mongodb@3.0.3:
   version "3.0.3"
   resolved "https://registry.yarnpkg.com/mongodb/-/mongodb-3.0.3.tgz#83b33e01f26b4a2e1f8a2b3427cabbaee31df017"
   dependencies:
@@ -4465,7 +4465,7 @@ mongoose@^4.12.2:
     regexp-clone "0.0.1"
     sliced "1.0.1"
 
-moxios@^0.4.0:
+moxios@0.4.0:
   version "0.4.0"
   resolved "https://registry.yarnpkg.com/moxios/-/moxios-0.4.0.tgz#fc0da2c65477d725ca6b9679d58370ed0c52f53b"
 
@@ -4680,7 +4680,7 @@ nwmatcher@^1.4.3:
   version "1.4.3"
   resolved "https://registry.yarnpkg.com/nwmatcher/-/nwmatcher-1.4.3.tgz#64348e3b3d80f035b40ac11563d278f8b72db89c"
 
-nyc@^10.3.2:
+nyc@10.3.2:
   version "10.3.2"
   resolved "https://registry.yarnpkg.com/nyc/-/nyc-10.3.2.tgz#f27f4d91f2a9db36c24f574ff5c6efff0233de46"
   dependencies:
@@ -5274,7 +5274,7 @@ preserve@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/preserve/-/preserve-0.2.0.tgz#815ed1f6ebc65926f865b310c0713bcb3315ce4b"
 
-prettier@^1.10.2:
+prettier@1.10.2:
   version "1.10.2"
   resolved "https://registry.yarnpkg.com/prettier/-/prettier-1.10.2.tgz#1af8356d1842276a99a5b5529c82dd9e9ad3cc93"
 
@@ -5965,7 +5965,7 @@ right-align@^0.1.1:
   dependencies:
     align-text "^0.1.1"
 
-rimraf@2, rimraf@^2.2.8, rimraf@^2.3.3, rimraf@^2.5.1, rimraf@^2.5.4, rimraf@^2.6.1, rimraf@^2.6.2:
+rimraf@2, rimraf@2.6.2, rimraf@^2.2.8, rimraf@^2.3.3, rimraf@^2.5.1, rimraf@^2.5.4, rimraf@^2.6.1:
   version "2.6.2"
   resolved "https://registry.yarnpkg.com/rimraf/-/rimraf-2.6.2.tgz#2ed8150d24a16ea8651e6d6ef0f47c4158ce7a36"
   dependencies:
@@ -6417,7 +6417,7 @@ superagent@^2.0.0:
     qs "^6.1.0"
     readable-stream "^2.0.5"
 
-supertest-session@^3.1.2:
+supertest-session@3.1.2:
   version "3.1.2"
   resolved "https://registry.yarnpkg.com/supertest-session/-/supertest-session-3.1.2.tgz#f5d1a1e03267eb4466e70c65b3f4f31c04dd3050"
   dependencies:
@@ -6881,7 +6881,7 @@ webpack-dev-middleware@^1.10.2:
     range-parser "^1.0.3"
     time-stamp "^2.0.0"
 
-webpack-dev-server@^1.16.5:
+webpack-dev-server@1.16.5:
   version "1.16.5"
   resolved "https://registry.yarnpkg.com/webpack-dev-server/-/webpack-dev-server-1.16.5.tgz#0cbd5f2d2ac8d4e593aacd5c9702e7bbd5e59892"
   dependencies:
@@ -6899,7 +6899,7 @@ webpack-dev-server@^1.16.5:
     supports-color "^3.1.1"
     webpack-dev-middleware "^1.10.2"
 
-webpack@^1.15.0:
+webpack@1.15.0:
   version "1.15.0"
   resolved "https://registry.yarnpkg.com/webpack/-/webpack-1.15.0.tgz#4ff31f53db03339e55164a9d468ee0324968fe98"
   dependencies:
