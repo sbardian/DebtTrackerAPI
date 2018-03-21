@@ -5,11 +5,11 @@ export const getTotals = (req, res) => {
   // console.log('req  >>>  ', req.session);
   Total.find({ userId: req.session && req.session.userId }, (err, data) => {
     if (err) {
-      response = { error: true, message: 'Error fetching data' };
-    } else {
-      response = { error: false, message: data };
+      return res
+        .status(400)
+        .json({ error: true, message: 'Error fetching data' });
     }
-    res.json(response);
+    return res.json({ error: false, message: data });
   }).sort([['updated_at', 'descending']]);
 };
 
@@ -17,7 +17,7 @@ export const addTotal = (req, res) => {
   const db = new Total();
   let response = {};
   if (!(req.session.userId && req.body.user && req.body.total)) {
-    return res.json({
+    return res.status(400).json({
       error: true,
       message: 'Error adding data',
     });
@@ -27,7 +27,9 @@ export const addTotal = (req, res) => {
   db.total = req.body.total;
   db.save(err => {
     if (err) {
-      return res.json({ error: true, message: 'Error adding data' });
+      return res
+        .status(400)
+        .json({ error: true, message: 'Error adding data' });
     }
     response = {
       error: false,
@@ -44,11 +46,15 @@ export const deleteTotal = (req, res) => {
   let response = {};
   Total.findById(req.params.id, (err, data) => {
     if (err) {
-      return res.json({ error: true, message: 'Error fetching data' });
+      return res
+        .status(400)
+        .json({ error: true, message: 'Error fetching data' });
     }
     Total.remove({ _id: req.params.id }, error => {
       if (error) {
-        return res.json({ error: true, message: 'Error deleting data' });
+        return res
+          .status(400)
+          .json({ error: true, message: 'Error deleting data' });
       }
       response = {
         error: false,

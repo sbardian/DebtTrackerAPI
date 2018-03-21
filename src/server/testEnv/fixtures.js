@@ -38,7 +38,7 @@ export const NO_USERNAME_MOCK_USER = {
   email: 'fail@fail.com',
   username: null,
   password: 'failpass',
-  passwordConf: 'failpass2',
+  passwordConf: 'failpass',
   isAdmin: false,
 };
 
@@ -74,4 +74,8 @@ export const INVALID_FINDING_TOTAL = {
 export const INVALID_DELETING_TOTAL = {
   error: true,
   message: 'Error deleting data',
+};
+
+export const VALID_USERID = {
+  userId: '8675309',
 };

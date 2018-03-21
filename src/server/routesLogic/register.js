@@ -1,5 +1,4 @@
 import { config } from '../yargs';
-import { log } from '../utils';
 
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
@@ -15,42 +14,40 @@ export const register = async (req, res, next) => {
     isAdmin: false,
   };
   if (password !== passwordConf) {
-    const err = new Error('Passwords do not match.');
-    err.status = 400;
-    return next(err);
+    return res
+      .status(400)
+      .json({ error: true, message: 'Passwords do not match.' });
   }
   if (!(email && username && password && passwordConf)) {
-    const err = new Error('All fields are required.');
-    err.status = 400;
-    return next(err);
+    return res
+      .status(400)
+      .json({ error: true, message: 'All fields are required.' });
   }
-  try {
-    await User.create(userData, (err, user) => {
-      if (err) {
-        log.error('Error creating user: ', err);
-        return next(err);
-      }
-      req.session.userId = user._id;
-      const payload = {
-        isAdmin: false,
-      };
-      const token = jwt.sign(payload, config.sessionSecret, {
-        expiresIn: 1440,
-      });
-      const data = {
-        userId: req.session.userId,
-        username: user.username,
-        token,
-      };
-      res
-        .set({
-          location: '/',
-        })
-        .status(200)
-        .send(data);
+  await User.create(userData, (err, user) => {
+    if (err) {
+      return res
+        .status(400)
+        .json({ error: true, message: `Error creating user: ${err}` });
+    }
+    req.session.userId = user._id;
+    const payload = {
+      isAdmin: false,
+    };
+    const token = jwt.sign(payload, config.sessionSecret, {
+      expiresIn: 1440,
     });
-  } catch (err) {
-    return res.status(400).send(err.message);
-  }
+    const data = {
+      userId: req.session.userId,
+      username: user.username,
+      token,
+    };
+    res
+      .set({
+        location: '/',
+      })
+      .status(200)
+      .send(data);
+  });
+
   return next();
 };

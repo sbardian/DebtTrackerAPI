@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "pretest": "npm run clean",
-    "test": "jest --no-cache --runInBand --forceExit",
+    "test": "jest --forceExit",
     "test:watch": "jest --watch",
     "lint": "eslint . ",
     "build": "npm run build:server && npm run build:client",
