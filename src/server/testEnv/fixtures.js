@@ -1,10 +1,20 @@
-export const LOGIN_SUCCESS_MOCK_USER = {
+export const LOGIN_SUCCESS_MOCK_USER_ADMIN = {
   _id: '5a8e41866c6f9f2f5d53330e',
   email: 'test@test.com',
   username: 'test',
   password: '$2a$10$IL3eU58fJ6ltVpYg0txAa.arQNXI6el9Lmrrc78hdnnbfU5tg3HcW',
   passwordConf: 'test',
   isAdmin: true,
+  __v: 0,
+};
+
+export const LOGIN_SUCCESS_MOCK_USER = {
+  _id: '5a8e41866c6f9f2f5d53330e',
+  email: 'test@test.com',
+  username: 'test',
+  password: '$2a$10$IL3eU58fJ6ltVpYg0txAa.arQNXI6el9Lmrrc78hdnnbfU5tg3HcW',
+  passwordConf: 'test',
+  isAdmin: false,
   __v: 0,
 };
 
