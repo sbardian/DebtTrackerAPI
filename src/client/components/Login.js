@@ -10,8 +10,6 @@ import {
   withStyles,
 } from 'material-ui/styles';
 import Typography from 'material-ui/Typography';
-import AppBar from 'material-ui/AppBar';
-import Toolbar from 'material-ui/Toolbar';
 import Button from 'material-ui/Button';
 import utils from '../utils/utils';
 
@@ -20,7 +18,6 @@ const styles = theme => ({
     flexGrow: 1,
   },
   paper: {
-    padding: theme.spacing.unit * 2,
     textAlign: 'center',
     color: theme.palette.text.secondary,
     padding: 0,
