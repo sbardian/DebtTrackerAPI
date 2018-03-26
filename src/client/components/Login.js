@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { browserHistory, Link } from 'react-router';
-import CssBaseline from 'material-ui/CssBaseline';
 import TextField from 'material-ui/TextField';
 import Grid from 'material-ui/Grid';
 import Paper from 'material-ui/Paper';
@@ -16,6 +15,10 @@ import utils from '../utils/utils';
 const styles = theme => ({
   root: {
     flexGrow: 1,
+  },
+  container: {
+    display: 'flex',
+    marginTop: '20px',
   },
   paper: {
     textAlign: 'center',
@@ -37,7 +40,7 @@ const styles = theme => ({
     width: 235,
   },
   button: {
-    margin: '10px',
+    margin: '20px 10px 20px 10px',
   },
 });
 
@@ -112,10 +115,10 @@ class Home extends Component {
     const { classes } = this.props;
     const { email, password } = this.state;
     return (
-      <Grid container className={classes.root}>
+      <Grid className={classes.root}>
         <MuiThemeProvider theme={theme}>
-          <Grid item xs={12}>
-            <Grid container justify={'center'}>
+          <Grid item xs={12} justify={'center'} className={classes.container}>
+            <Grid>
               <Paper className={classes.paper}>
                 <Typography
                   className={classes.title}
