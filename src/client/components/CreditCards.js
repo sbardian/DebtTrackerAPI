@@ -1,7 +1,13 @@
 import React, { Component } from 'react';
-import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
+// import { BootstrapTable, TableCell } from 'react-bootstrap-table';
 import PropTypes from 'prop-types';
 import AlertContainer from 'react-alert';
+import Table, {
+  TableBody,
+  TableHead,
+  TableCell,
+  TableRow,
+} from 'material-ui/Table';
 import utils from '../utils/utils';
 import ButtonControls from '../components/ButtonControls';
 import alertOptions from '../utils/alertOptions';
@@ -92,38 +98,28 @@ export default class CreditCards extends Component {
     ) : (
       <div className="col-md-6">
         <h4>Credit Cards</h4>
-        <BootstrapTable
-          data={creditCards}
-          striped
-          hover
-          multiColumnSort={4}
-          cellEdit={cellEditProp}
-          selectRow={selectRowProp}
-        >
-          <TableHeaderColumn isKey dataField="_id" dataSort={false} hidden>
-            ID
-          </TableHeaderColumn>
-          <TableHeaderColumn dataField="name" dataSort>
-            Name
-          </TableHeaderColumn>
-          <TableHeaderColumn
-            dataField="limit"
-            dataSort
-            dataFormat={this.dollarFormatter}
-          >
-            Limit
-          </TableHeaderColumn>
-          <TableHeaderColumn
-            dataField="balance"
-            dataSort
-            dataFormat={this.dollarFormatter}
-          >
-            Balance
-          </TableHeaderColumn>
-          <TableHeaderColumn dataField="interest_rate" dataSort>
-            Rate
-          </TableHeaderColumn>
-        </BootstrapTable>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>ID</TableCell>
+              <TableCell>Name</TableCell>
+              <TableCell>Limit</TableCell>
+              <TableCell>Balance</TableCell>
+              <TableCell>Interest Rate</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {creditCards.map(card => (
+              <TableRow key={card._id}>
+                <TableCell>{card._id}</TableCell>
+                <TableCell>{card.name}</TableCell>
+                <TableCell>{card.limit}</TableCell>
+                <TableCell>{card.balance}</TableCell>
+                <TableCell>{card.interest_rate}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
         <ButtonControls
           user={user}
           creditCards={creditCards}
