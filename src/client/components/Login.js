@@ -31,9 +31,6 @@ const styles = theme => ({
     paddingTop: '50px',
     backgroundColor: '#bbff99',
   },
-  form: {
-    fontSize: '2rem !important',
-  },
   textField: {
     marginLeft: theme.spacing.unit,
     marginRight: theme.spacing.unit,
@@ -46,7 +43,6 @@ const styles = theme => ({
 
 const theme = createMuiTheme({
   typography: {
-    fontSize: 32,
     // Use the system font over Roboto.
     fontFamily:
       '-apple-system,system-ui,BlinkMacSystemFont,' +

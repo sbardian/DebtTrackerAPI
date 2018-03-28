@@ -145,6 +145,8 @@ export default class DashboardContainer extends Component {
               onCardUpdateState={this.handleCardUpdateState}
               onCardToDeleteState={this.handleCardToDeleteState}
             />
+          </div>
+          <div className="row" style={{ paddingTop: '20px' }}>
             <PieChart cards={creditCards} username={username} token={token} />
           </div>
           <div className="row">

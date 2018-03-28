@@ -2,78 +2,142 @@ import React, { Component } from 'react';
 // import { BootstrapTable, TableCell } from 'react-bootstrap-table';
 import PropTypes from 'prop-types';
 import AlertContainer from 'react-alert';
+import Toolbar from 'material-ui/Toolbar';
 import Table, {
   TableBody,
   TableHead,
   TableCell,
   TableRow,
 } from 'material-ui/Table';
+import Checkbox from 'material-ui/Checkbox';
+import { withStyles } from 'material-ui/styles';
+import { lighten } from 'material-ui/styles/colorManipulator';
+import Paper from 'material-ui/Paper';
 import utils from '../utils/utils';
+import TableToolbar from '../components/TableToolbar';
 import ButtonControls from '../components/ButtonControls';
 import alertOptions from '../utils/alertOptions';
 import save from '../icons/save.png';
 import error from '../icons/error.png';
 
-export default class CreditCards extends Component {
-  constructor(props) {
-    super(props);
+const styles = theme => ({
+  container: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'flex-end',
+  },
+  root: {
+    width: '100%',
+    marginTop: theme.spacing.unit * 3,
+    overflowX: 'auto',
+  },
+  highlight:
+    theme.palette.type === 'light'
+      ? {
+          color: theme.palette.secondary.main,
+          backgroundColor: lighten(theme.palette.secondary.light, 0.85),
+        }
+      : {
+          color: theme.palette.text.primary,
+          backgroundColor: theme.palette.secondary.dark,
+        },
+  spacer: {
+    flex: '1 1 100%',
+  },
+  actions: {
+    color: theme.palette.text.secondary,
+  },
+  title: {
+    flex: '0 0 auto',
+  },
+  table: {
+    minWidth: 800,
+  },
+  tableWrapper: {
+    overflowX: 'auto',
+  },
+});
+
+class CreditCards extends Component {
+  constructor(props, context) {
+    super(props, context);
     this.state = {
       isLoading: true,
       onCardToDeleteState: '',
+      order: 'asc',
+      data: [],
+      orderBy: 'calories',
+      selected: [],
+      page: 0,
+      rowsPerPage: 5,
     };
-    this.onRowSelect = this.onRowSelect.bind(this);
-    this.onAfterSaveCell = this.onAfterSaveCell.bind(this);
+    this.handleRequestSort = this.handleRequestSort.bind(this);
+    this.handleSelectAllClick = this.handleSelectAllClick.bind(this);
+    this.handleClick = this.handleClick.bind(this);
+    this.handleChangePage = this.handleChangePage.bind(this);
+    this.handleChangeRowsPerPage = this.handleChangeRowsPerPage.bind(this);
+    this.isSelected = this.isSelected.bind(this);
   }
 
   componentWillReceiveProps(props) {
     this.setState({
       isLoading: props.isLoading,
       onCardToDeleteState: props.onCardToDeleteState,
+      data: props.creditCards,
     });
   }
 
-  // Called after a cards cell has been edited.
-  onAfterSaveCell(row) {
-    const self = this;
-    utils
-      .saveCreditCard(
-        row._id,
-        row.name,
-        parseFloat(row.limit),
-        parseFloat(row.balance),
-        parseFloat(row.interest_rate),
-      )
-      .then(response => {
-        if (response.error) {
-          this.msg.show(response.message, {
-            time: 5000,
-            type: 'error',
-            icon: <img src={error} alt="Error updating card." />,
-          });
-        } else {
-          const temp = self.props.creditCards;
-          const index = temp.findIndex(x => x.name === row.name);
-          temp[index] = {
-            __v: 0,
-            _id: row._id,
-            name: row.name,
-            limit: parseFloat(row.limit),
-            balance: parseFloat(row.balance),
-            interest_rate: parseFloat(row.interest_rate),
-          };
-          self.props.onCardUpdateState(temp);
-          this.msg.show(response.message, {
-            time: 5000,
-            type: 'success',
-            icon: <img src={save} alt="Card updated." />,
-          });
-        }
-      });
+  handleRequestSort(event, property) {
+    const orderBy = property;
+    let order = 'desc';
+    if (this.state.orderBy === property && this.state.order === 'desc') {
+      order = 'asc';
+    }
+    const data =
+      order === 'desc'
+        ? this.state.data.sort((a, b) => (b[orderBy] < a[orderBy] ? -1 : 1))
+        : this.state.data.sort((a, b) => (a[orderBy] < b[orderBy] ? -1 : 1));
+    this.setState({ data, order, orderBy });
   }
 
-  // Called when a row is selected.
-  onRowSelect(row) {
-    this.state.onCardToDeleteState(row._id, row.name);
+  handleSelectAllClick(event, checked) {
+    console.log('clicked');
+    if (checked) {
+      this.setState({ selected: this.state.data.map(n => n._id) });
+      return;
+    }
+    this.setState({ selected: [] });
+  }
+
+  handleClick(event, id) {
+    const { selected } = this.state;
+    const selectedIndex = selected.indexOf(id);
+    let newSelected = [];
+    if (selectedIndex === -1) {
+      newSelected = newSelected.concat(selected, id);
+    } else if (selectedIndex === 0) {
+      newSelected = newSelected.concat(selected.slice(1));
+    } else if (selectedIndex === selected.length - 1) {
+      newSelected = newSelected.concat(selected.slice(0, -1));
+    } else if (selectedIndex > 0) {
+      newSelected = newSelected.concat(
+        selected.slice(0, selectedIndex),
+        selected.slice(selectedIndex + 1),
+      );
+    }
+    this.setState({ selected: newSelected });
+  }
+
+  handleChangePage(event, page) {
+    this.setState({ page });
+  }
+
+  handleChangeRowsPerPage(event) {
+    this.setState({ rowsPerPage: event.target.value });
+  }
+
+  isSelected(id) {
+    this.state.selected.indexOf(id) !== -1;
   }
 
   // Formats a number to a dollar amount.
@@ -82,50 +146,76 @@ export default class CreditCards extends Component {
   }
 
   render() {
-    const cellEditProp = {
-      mode: 'click',
-      blurToSave: true,
-      afterSaveCell: this.onAfterSaveCell,
-    };
-    const selectRowProp = {
-      mode: 'radio',
-      clickToSelect: true,
-      onSelect: this.onRowSelect,
-    };
-    const { creditCards, user, cardToDelete, onCardUpdateState } = this.props;
+    const { data, selected, rowsPerPage, page } = this.state;
+    console.log('data = ', data);
+    const {
+      classes,
+      creditCards,
+      user,
+      cardToDelete,
+      onCardUpdateState,
+      order,
+      orderBy
+    } = this.props;
+    const emptyRows =
+      rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
+    const numSelected = selected.length;
+    const rowCount = creditCards.length;
+
     return this.state.isLoading === true ? (
       <p>Loading!!!</p>
     ) : (
-      <div className="col-md-6">
-        <h4>Credit Cards</h4>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>ID</TableCell>
-              <TableCell>Name</TableCell>
-              <TableCell>Limit</TableCell>
-              <TableCell>Balance</TableCell>
-              <TableCell>Interest Rate</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {creditCards.map(card => (
-              <TableRow key={card._id}>
-                <TableCell>{card._id}</TableCell>
-                <TableCell>{card.name}</TableCell>
-                <TableCell>{card.limit}</TableCell>
-                <TableCell>{card.balance}</TableCell>
-                <TableCell>{card.interest_rate}</TableCell>
+      <div className={classes.container}>
+        <Paper className={classes.root}>
+          <TableToolbar numSelected={numSelected} />
+          <Table className={classes.customTableFontSize}>
+            <TableHead>
+              <TableRow>
+                <TableCell>
+                  <Checkbox
+                    indeterminate={numSelected > 0 && numSelected < rowCount}
+                    checked={numSelected === rowCount}
+                    onChange={this.handleSelectAllClick}
+                  />
+                </TableCell>
+                <TableCell>Name</TableCell>
+                <TableCell>Limit</TableCell>
+                <TableCell>Balance</TableCell>
+                <TableCell>Interest Rate</TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-        <ButtonControls
+            </TableHead>
+            <TableBody>
+              {data.map(card => {
+                const isSelected = this.isSelected(card._id);
+                return (
+                  <TableRow
+                    hover
+                    onClick={event => this.handleClick(event, card._id)}
+                    role="checkbox"
+                    aria-checked={isSelected}
+                    tabIndex={-1}
+                    key={card._id}
+                    selected={isSelected}
+                  >
+                    <TableCell>
+                      <Checkbox selected={isSelected} />
+                    </TableCell>
+                    <TableCell>{card.name}</TableCell>
+                    <TableCell>{this.dollarFormatter(card.limit)}</TableCell>
+                    <TableCell>{this.dollarFormatter(card.balance)}</TableCell>
+                    <TableCell>{card.interest_rate}</TableCell>
+                  </TableRow>
+                );
+              })}
+            </TableBody>
+          </Table>
+        </Paper>
+        {/* <ButtonControls
           user={user}
           creditCards={creditCards}
           cardToDelete={cardToDelete}
           onCardUpdateState={onCardUpdateState}
-        />
+        /> */}
         <AlertContainer ref={a => (this.msg = a)} {...alertOptions} />
       </div>
     );
@@ -146,3 +236,5 @@ CreditCards.defaultProps = {
   cardToDelete: {},
   onCardUpdateState: () => {},
 };
+
+export default withStyles(styles)(CreditCards);

@@ -40,7 +40,12 @@ export default class PieChart extends Component {
       myData.push([card.name, card.balance]);
     });
     return (
-      <div className="col-md-6">
+      <div
+        style={{ 
+          display: 'flex', 
+          justifyContent: 'center', 
+          alignItems: 'flex-end' }} 
+      >
         <Chart
           chartType="PieChart"
           data={myData}
@@ -64,8 +69,8 @@ export default class PieChart extends Component {
             },
           }}
           graph_id="PieChart"
-          width="100%"
-          height="600px"
+          width="800px"
+          height="800px"
           chartEvents={this.chartEvents}
         />
       </div>
