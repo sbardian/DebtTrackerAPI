@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 // import { BootstrapTable, TableCell } from 'react-bootstrap-table';
 import PropTypes from 'prop-types';
 import AlertContainer from 'react-alert';
-import Toolbar from 'material-ui/Toolbar';
 import Table, {
   TableBody,
   TableHead,
@@ -101,7 +100,6 @@ class CreditCards extends Component {
   }
 
   handleSelectAllClick(event, checked) {
-    console.log('clicked');
     if (checked) {
       this.setState({ selected: this.state.data.map(n => n._id) });
       return;
@@ -137,7 +135,7 @@ class CreditCards extends Component {
   }
 
   isSelected(id) {
-    this.state.selected.indexOf(id) !== -1;
+    return this.state.selected.indexOf(id) !== -1;
   }
 
   // Formats a number to a dollar amount.
@@ -147,7 +145,6 @@ class CreditCards extends Component {
 
   render() {
     const { data, selected, rowsPerPage, page } = this.state;
-    console.log('data = ', data);
     const {
       classes,
       creditCards,
@@ -157,8 +154,8 @@ class CreditCards extends Component {
       order,
       orderBy
     } = this.props;
-    const emptyRows =
-      rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
+    // const emptyRows =
+    //   rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
     const numSelected = selected.length;
     const rowCount = creditCards.length;
 
@@ -198,7 +195,7 @@ class CreditCards extends Component {
                     selected={isSelected}
                   >
                     <TableCell>
-                      <Checkbox selected={isSelected} />
+                      <Checkbox checked={isSelected} />
                     </TableCell>
                     <TableCell>{card.name}</TableCell>
                     <TableCell>{this.dollarFormatter(card.limit)}</TableCell>
