@@ -11,7 +11,7 @@ import { browserHistory } from 'react-router';
 import { transparentBg } from '../styles';
 import utils from '../utils/utils';
 
-export default class Home extends Component {
+export default class Register extends Component {
   constructor(props) {
     super(props);
     this.state = {

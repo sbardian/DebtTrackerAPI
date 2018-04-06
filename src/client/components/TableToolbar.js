@@ -1,3 +1,4 @@
+/* eslint react/prefer-stateless-function: 0 */
 import React, { Component } from 'react';
 import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
@@ -42,16 +43,8 @@ const toolbarStyles = theme => ({
 });
 
 class TableToolbar extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isLoading: true,
-      onCardToDeleteState: '',
-    };
-  }
-
   render() {
-    const { numSelected, classes } = this.props;
+    const { numSelected, onDelete, classes } = this.props;
     return (
       <Toolbar
         className={classNames(classes.root, {
@@ -71,7 +64,7 @@ class TableToolbar extends Component {
         <div className={classes.actions}>
           {numSelected > 0 ? (
             <Tooltip title="Delete">
-              <IconButton aria-label="Delete">
+              <IconButton onClick={onDelete} aria-label="Delete">
                 <DeleteIcon />
               </IconButton>
             </Tooltip>

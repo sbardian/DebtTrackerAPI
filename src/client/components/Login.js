@@ -50,7 +50,7 @@ const theme = createMuiTheme({
   },
 });
 
-class Home extends Component {
+class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -71,7 +71,6 @@ class Home extends Component {
       .userLogin(email, password)
       .then(response => {
         if (response.status === 200) {
-          console.log('login response ', response);
           this.setState({
             username: response.data.username,
           });
@@ -170,4 +169,4 @@ class Home extends Component {
   }
 }
 
-export default withStyles(styles)(Home);
+export default withStyles(styles)(Login);
