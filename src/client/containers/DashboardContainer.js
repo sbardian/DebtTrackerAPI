@@ -1,35 +1,26 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import AlertContainer from 'react-alert';
 import { Link, browserHistory } from 'react-router';
-import { Button, SplitButton, MenuItem } from 'react-bootstrap';
 import utils from '../utils/utils';
 import CreditCards from '../components/CreditCards';
 import PieChart from '../components/PieChart';
 import Totals from '../components/Totals';
-import {
-  ButtonContainer,
-  TitleContainer,
-  titleStyle,
-  logoutStyle,
-} from '../styles';
+import alertOptions from '../utils/alertOptions';
+import check from '../icons/check.png';
+import error from '../icons/error.png';
 
 export default class DashboardContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
       isLoading: true,
-      creditCards: [],
-      cardToDelete: null,
-      totals: [],
-      loggedIn: false,
       username: '',
       isAdmin: false,
       token: '',
+      creditCards: [],
+      selectAll: false,
     };
-    this.handleCardUpdateState = this.handleCardToDeleteState.bind(this);
-    this.handleCardToDeleteState = this.handleCardToDeleteState.bind(this);
-    this.handleTotalUpdateState = this.handleTotalUpdateState.bind(this);
-    this.logout = this.logout.bind(this);
   }
 
   componentDidMount() {
@@ -47,10 +38,13 @@ export default class DashboardContainer extends Component {
     const { token, username, isAdmin } = this.props.location.state;
     utils
       .getCreditCards(token)
-      .then(cards => {
+      .then(creditCards => {
         this.setState({
           isLoading: false,
-          creditCards: cards,
+          creditCards: creditCards.map(card => ({
+            ...card,
+            isSelected: false,
+          })),
           username,
           isAdmin,
           token,
@@ -59,117 +53,93 @@ export default class DashboardContainer extends Component {
       .catch(() => {
         browserHistory.push('/login');
       });
-    utils.getTotals(token).then(totals => {
-      this.setState({
-        totals,
-      });
-    });
   }
 
-  // Logout from the app.
-  // eslint-disable-next-line class-methods-use-this
-  logout() {
-    utils.userLogout(this.state.token).then(res => {
-      if (res.status === 200) {
-        browserHistory.push({
-          pathname: '/login',
+  handleSelectAll = () => {
+    const { selectAll, creditCards } = this.state;
+    this.setState({
+      selectAll: !selectAll,
+      creditCards: creditCards.map(card => ({
+        ...card,
+        isSelected: !selectAll,
+      })),
+    });
+  };
+
+  handleSelectSingle = selected => {
+    const { creditCards } = this.state;
+    this.setState({
+      creditCards: creditCards.map(card => {
+        if (card._id === selected._id) {
+          return { ...card, isSelected: !card.isSelected };
+        }
+        return card;
+      }),
+    });
+  };
+
+  handleDelete = () => {
+    const { creditCards } = this.state;
+    creditCards.forEach(card => {
+      if (card.isSelected) {
+        utils.deleteCreditCards(card._id).then(response => {
+          if (response.error) {
+            this.msg.show(response.message, {
+              time: 5000,
+              type: 'error',
+              icon: <img src={error} alt="Error deleting card." />,
+            });
+          } else {
+            const index = creditCards.findIndex(x => x._id === card._id);
+            creditCards.splice(index, 1);
+            this.setState({
+              creditCards,
+            });
+            // this.setState(
+            //   {
+            //     creditCards: creditCards.filter(
+            //       current => card._id !== current._id,
+            //     ),
+            //   },
+            //   () => {
+            //     console.log('length: ', this.state.creditCards.length);
+            //   },
+            // );
+            this.msg.show(response.message, {
+              time: 5000,
+              type: 'success',
+              icon: <img src={check} alt="Card deleted." />,
+            });
+          }
         });
       }
+      return null;
     });
-  }
-
-  // Updates credit cards array.
-  handleCardUpdateState(creditCards) {
-    this.setState({
-      creditCards,
-    });
-  }
-
-  // Sets state of card to delete.
-  handleCardToDeleteState(id, name) {
-    this.setState({
-      cardToDelete: {
-        id,
-        name,
-      },
-    });
-  }
-
-  // Updates totals array.
-  handleTotalUpdateState(totals) {
-    this.setState({
-      totals,
-    });
-  }
+  };
 
   render() {
-    const {
-      username,
-      isLoading,
-      creditCards,
-      cardToDelete,
-      totals,
-      isAdmin,
-      token,
-    } = this.state;
-    return (
+    const { isLoading, username, isAdmin, token, creditCards } = this.state;
+
+    return isLoading === true ? (
+      <p>Loading!!!</p>
+    ) : (
       <div>
-        <div className="row" style={TitleContainer}>
-          <h3 style={titleStyle}>{username} Credit Status:</h3>
-          <Link onClick={this.logout} style={logoutStyle}>
-            <Button>Logout</Button>
-          </Link>
-          <span style={logoutStyle}>
-            {isAdmin ? (
-              <SplitButton title="Admin" key={1} id={`dropdown-basic-${1}`}>
-                <MenuItem eventKey="1">Action</MenuItem>
-                <MenuItem eventKey="2">Another action</MenuItem>
-                <MenuItem eventKey="3" active>
-                  Active Item
-                </MenuItem>
-                <MenuItem divider />
-                <MenuItem eventKey="4">Separated link</MenuItem>
-              </SplitButton>
-            ) : (
-              ''
-            )}
-          </span>
-        </div>
-        <div className="container">
+        <div style={{ margin: '200px', marginTop: '100px' }}>
+          <div>{username}</div>
           <div className="row">
             <CreditCards
-              isLoading={isLoading}
-              user={username}
               creditCards={creditCards}
-              cardToDelete={cardToDelete}
-              onCardUpdateState={this.handleCardUpdateState}
-              onCardToDeleteState={this.handleCardToDeleteState}
+              onSelectAll={this.handleSelectAll}
+              onSelect={this.handleSelectSingle}
+              onDelete={this.handleDelete}
             />
           </div>
           <div className="row" style={{ paddingTop: '20px' }}>
             <PieChart cards={creditCards} username={username} token={token} />
           </div>
-          <div className="row">
-            <Totals
-              creditCards={creditCards}
-              totals={totals}
-              onTotalUpdateState={this.handleTotalUpdateState}
-              user={username}
-            />
-          </div>
         </div>
-        <div className="row" style={ButtonContainer} />
+        <AlertContainer ref={a => (this.msg = a)} {...alertOptions} />
       </div>
     );
   }
 }
-
-DashboardContainer.propTypes = {
-  username: PropTypes.string,
-  isAdmin: PropTypes.bool,
-};
-
-DashboardContainer.defaultProps = {
-  username: '',
-  isAdmin: false,
-};

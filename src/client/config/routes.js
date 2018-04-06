@@ -9,7 +9,7 @@ import PayOffDetailsContainer from '../containers/PayOffDetailsContainer';
 
 const routes = (
   <Router history={browserHistory}>
-    <Route path="/" component={Main} >
+    <Route path="/" component={Main}>
       <IndexRoute component={Dashboard} />
       <Route path="/login" component={Login} />
       <Route path="/logout" component={Logout} />
