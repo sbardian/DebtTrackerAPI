@@ -117,6 +117,10 @@ export default class DashboardContainer extends Component {
     });
   };
 
+  handleAdd = () => {
+    console.log('add card clicked');
+  };
+
   render() {
     const { isLoading, username, isAdmin, token, creditCards } = this.state;
 
@@ -132,6 +136,7 @@ export default class DashboardContainer extends Component {
               onSelectAll={this.handleSelectAll}
               onSelect={this.handleSelectSingle}
               onDelete={this.handleDelete}
+              onAdd={this.handleAdd}
             />
           </div>
           <div className="row" style={{ paddingTop: '20px' }}>

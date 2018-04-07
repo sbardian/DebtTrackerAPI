@@ -70,6 +70,7 @@ class CreditCards extends Component {
       onSelectAll,
       onSelect,
       onDelete,
+      onAdd,
     } = this.props;
 
     const numSelected = creditCards.filter(card => card.isSelected).length;
@@ -78,7 +79,11 @@ class CreditCards extends Component {
     return (
       <div className={classes.container}>
         <Paper className={classes.root}>
-          <TableToolbar numSelected={numSelected} onDelete={onDelete} />
+          <TableToolbar
+            numSelected={numSelected}
+            onDelete={onDelete}
+            onAdd={onAdd}
+          />
           <Table className={classes.customTableFontSize}>
             <TableHead>
               <TableRow>
