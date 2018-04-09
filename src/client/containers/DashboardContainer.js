@@ -9,6 +9,7 @@ import Totals from '../components/Totals';
 import alertOptions from '../utils/alertOptions';
 import check from '../icons/check.png';
 import error from '../icons/error.png';
+import save from '../icons/save.png';
 
 export default class DashboardContainer extends Component {
   constructor(props) {
@@ -95,16 +96,6 @@ export default class DashboardContainer extends Component {
             this.setState({
               creditCards,
             });
-            // this.setState(
-            //   {
-            //     creditCards: creditCards.filter(
-            //       current => card._id !== current._id,
-            //     ),
-            //   },
-            //   () => {
-            //     console.log('length: ', this.state.creditCards.length);
-            //   },
-            // );
             this.msg.show(response.message, {
               time: 5000,
               type: 'success',
@@ -117,8 +108,33 @@ export default class DashboardContainer extends Component {
     });
   };
 
-  handleAdd = () => {
-    console.log('add card clicked');
+  handleAdd = card => {
+    const { username, creditCards } = this.state;
+    const { name, limit, balance, interest_rate } = card;
+    utils
+      .addCreditCard(username, name, limit, balance, interest_rate)
+      .then(res => {
+        const temp = creditCards;
+        const { _id, update_at, __v } = res.data;
+        temp.push({
+          _id,
+          username,
+          name,
+          limit: parseFloat(limit),
+          balance: parseFloat(balance),
+          interest_rate: parseFloat(interest_rate),
+          update_at,
+          __v,
+        });
+        this.setState({
+          creditCards: temp,
+        });
+        this.msg.show('Card added.', {
+          time: 5000,
+          type: 'success',
+          icon: <img src={save} alt="Card added." />,
+        });
+      });
   };
 
   render() {
