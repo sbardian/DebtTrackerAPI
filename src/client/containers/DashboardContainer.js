@@ -31,6 +31,8 @@ class DashboardContainer extends Component {
       creditCards: [],
       selectAll: false,
       totals: [],
+      totalDebt: 0,
+      totalAvailable: 0,
       tab: 0,
     };
   }
@@ -158,8 +160,50 @@ class DashboardContainer extends Component {
       });
   };
 
+  // Computes the total debt.
+  computeDebt() {
+    let total = this.state.totalDebt;
+    this.state.creditCards.forEach(card => {
+      total += card.balance;
+    });
+    return utils.createDollar(total);
+  }
+
+  // Computes the available credit.
+  computeAvailable() {
+    let total = this.state.totalAvailable;
+    this.state.creditCards.forEach(card => {
+      total += card.limit;
+    });
+    return utils.createDollar(total);
+  }
+
+  // Computes new total debt.
+  computeNewTotal() {
+    let total = this.state.totalDebt;
+    this.state.creditCards.forEach(card => {
+      total += card.balance;
+    });
+    return total;
+  }
+
   handleTotalAdd = () => {
-    console.log('OnAddTotal clicked');
+    const newTotal = this.computeNewTotal();
+    utils.addNewTotal(this.state.username, newTotal).then(() => {
+      const temp = this.state.totals;
+      temp.push({
+        user: this.state.username,
+        total: newTotal,
+      });
+      this.setState({
+        totals: temp,
+      });
+      this.msg.show('Total saved.', {
+        time: 5000,
+        type: 'success',
+        icon: <img src={save} alt="Total saved." />,
+      });
+    });
   };
 
   render() {
