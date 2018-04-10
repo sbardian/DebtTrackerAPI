@@ -34,7 +34,7 @@ export const addTotal = (req, res) => {
     response = {
       error: false,
       message: 'Data added',
-      id: db.id,
+      _id: db.id,
       updated_at: db.updated_at,
       v: db.v,
     };

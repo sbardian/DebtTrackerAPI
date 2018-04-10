@@ -189,11 +189,14 @@ class DashboardContainer extends Component {
 
   handleTotalAdd = () => {
     const newTotal = this.computeNewTotal();
-    utils.addNewTotal(this.state.username, newTotal).then(() => {
+    utils.addNewTotal(this.state.username, newTotal).then(res => {
       const temp = this.state.totals;
+      const { _id, updated_at } = res;
       temp.push({
         user: this.state.username,
         total: newTotal,
+        _id,
+        updated_at,
       });
       this.setState({
         totals: temp,
