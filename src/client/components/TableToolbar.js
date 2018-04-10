@@ -118,9 +118,4 @@ class TableToolbar extends Component {
   }
 }
 
-TableToolbar.propTypes = {
-  classes: PropTypes.object.isRequired,
-  numSelected: PropTypes.number.isRequired,
-};
-
 export default withStyles(toolbarStyles)(TableToolbar);
