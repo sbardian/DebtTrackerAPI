@@ -1,116 +1,59 @@
+/* eslint react/prefer-stateless-function: 0 */
 import React, { Component } from 'react';
-import { Button } from 'react-bootstrap';
-import { PropTypes } from 'prop-types';
-import AlertContainer from 'react-alert';
-import TotalsTable from './TotalsTable';
+import Table, {
+  TableBody,
+  TableHead,
+  TableCell,
+  TableRow,
+} from 'material-ui/Table';
+import Paper from 'material-ui/Paper';
+import { withStyles } from 'material-ui/styles';
+import Moment from 'moment';
 import utils from '../utils/utils';
-import alertOptions from '../utils/alertOptions';
-import save from '../icons/save.png';
-import { TotalsContainer } from '../styles/index';
 
-export default class Totals extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      totalAvailable: 0,
-      totalDebt: 0,
-    };
-    this.saveNewTotal = this.saveNewTotal.bind(this);
-  }
+const styles = theme => ({
+  root: {
+    width: '100%',
+    marginTop: theme.spacing.unit * 3,
+    overflowX: 'auto',
+  },
+  table: {
+    minWidth: 700,
+  },
+});
 
-  componentWillReceiveProps() {
-    this.setState({
-      totalAvailable: 0,
-      totalDebt: 0,
-    });
-  }
+class Totals extends Component {
+  // Formats a date.
+  dateFormatter = cell => {
+    const date = new Moment(cell);
+    return date.format('LL');
+  };
 
-  // Computes the total debt.
-  computeDebt() {
-    let total = this.state.totalDebt;
-    this.props.creditCards.map(card => {
-      total += card.balance;
-    });
-    return utils.createDollar(total);
-  }
-
-  // Computes the available credit.
-  computeAvailable() {
-    let total = this.state.totalAvailable;
-    this.props.creditCards.map(card => {
-      total += card.limit;
-    });
-    return utils.createDollar(total);
-  }
-
-  // Computes new total debt.
-  computeNewTotal() {
-    let total = this.state.totalDebt;
-    this.props.creditCards.map(card => {
-      total += card.balance;
-    });
-    return total;
-  }
-
-  // TODO: remove self and use this.
-  // Saves a new total debt.
-  saveNewTotal() {
-    const self = this;
-    const newTotal = self.computeNewTotal();
-    utils.addNewTotal(self.props.user, newTotal).then(() => {
-      const temp = self.props.totals;
-      temp.push({
-        user: self.props.user,
-        total: newTotal,
-      });
-      self.props.onTotalUpdateState(temp);
-      this.msg.show('Total saved.', {
-        time: 5000,
-        type: 'success',
-        icon: <img src={save} alt="Total saved." />,
-      });
-    });
-  }
-
-  // TODO: rewrite without calling functions in rendor. Do these calculations and calls while setting state
   render() {
+    const { classes, totals } = this.props;
     return (
-      <div style={TotalsContainer}>
-        <div className="row">
-          <div className="col-md-4">
-            <h4>Total Available Credit</h4>
-            ${this.computeAvailable()}
-          </div>
-          <div className="col-md-4">
-            <h4>Total Debt</h4>
-            ${this.computeDebt()}
-          </div>
-          <div className="col-md-4">
-            <h4>Save current total</h4>
-            <Button bsSize="lg" onClick={this.saveNewTotal}>
-              Save
-            </Button>
-          </div>
-        </div>
-        <div className="row">
-          <TotalsTable
-            totals={this.props.totals}
-            onTotalUpdateState={this.props.onTotalUpdateState}
-          />
-        </div>
-        <AlertContainer ref={a => (this.msg = a)} {...alertOptions} />
-      </div>
+      <Paper className={classes.root}>
+        <Table className={classes.table}>
+          <TableHead>
+            <TableRow>
+              <TableCell>Date</TableCell>
+              <TableCell numeric>Total</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {totals.map(total => (
+              <TableRow key={total._id}>
+                <TableCell>{this.dateFormatter(total.updated_at)}</TableCell>
+                <TableCell numeric>{`$${utils.createDollar(
+                  total.total,
+                )}`}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </Paper>
     );
   }
 }
 
-Totals.propTypes = {
-  creditCards: PropTypes.arrayOf(PropTypes.object).isRequired,
-  onTotalUpdateState: PropTypes.func.isRequired,
-};
-
-Totals.defaultProps = {
-  totals: [],
-  creditCards: [],
-  onTotalUpdateState: () => {},
-};
+export default withStyles(styles)(Totals);
