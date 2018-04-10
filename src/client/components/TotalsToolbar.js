@@ -44,8 +44,8 @@ class TotalsToolbar extends React.Component {
         </div>
         <div className={classes.spacer} />
         <div className={classes.alignIcons}>
-          <Tooltip title="Add Card">
-            <IconButton onClick={onAddTotal} aria-label="Add Card">
+          <Tooltip title="Add Total">
+            <IconButton onClick={onAddTotal} aria-label="Add Total">
               <AddCircleOutline />
             </IconButton>
           </Tooltip>
