@@ -21,6 +21,7 @@ export default class DashboardContainer extends Component {
       token: '',
       creditCards: [],
       selectAll: false,
+      totals: [],
     };
   }
 
@@ -54,6 +55,11 @@ export default class DashboardContainer extends Component {
       .catch(() => {
         browserHistory.push('/login');
       });
+    utils.getTotals(token).then(totals => {
+      this.setState({
+        totals,
+      });
+    });
   }
 
   handleSelectAll = () => {
@@ -138,7 +144,7 @@ export default class DashboardContainer extends Component {
   };
 
   render() {
-    const { isLoading, username, isAdmin, token, creditCards } = this.state;
+    const { isLoading, username, isAdmin, token, creditCards, totals } = this.state;
 
     return isLoading === true ? (
       <p>Loading!!!</p>
@@ -157,6 +163,9 @@ export default class DashboardContainer extends Component {
           </div>
           <div className="row" style={{ paddingTop: '20px' }}>
             <PieChart cards={creditCards} username={username} token={token} />
+          </div>
+          <div>
+            <Totals totals={totals} />
           </div>
         </div>
         <AlertContainer ref={a => (this.msg = a)} {...alertOptions} />
