@@ -17,10 +17,16 @@ const styles = theme => ({
   flex: {
     flex: 1,
   },
+  formContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'column',
+  },
   textField: {
     marginLeft: theme.spacing.unit,
     marginRight: theme.spacing.unit,
-    width: 200,
+    width: 400,
   },
 });
 
@@ -94,38 +100,40 @@ class AddDialog extends Component {
             </Button>
           </Toolbar>
         </AppBar>
-        <TextField
-          id="name"
-          label="Name"
-          className={classes.textField}
-          value={this.state.name}
-          onChange={this.handleChange('name')}
-          margin="normal"
-        />
-        <TextField
-          id="limit"
-          label="Limit"
-          className={classes.textField}
-          value={this.state.limit}
-          onChange={this.handleChange('limit')}
-          margin="normal"
-        />
-        <TextField
-          id="balance"
-          label="Balance"
-          className={classes.textField}
-          value={this.state.balance}
-          onChange={this.handleChange('balance')}
-          margin="normal"
-        />
-        <TextField
-          id="interest_rate"
-          label="Interest Rate"
-          className={classes.textField}
-          value={this.state.interest_rate}
-          onChange={this.handleChange('interest_rate')}
-          margin="normal"
-        />
+        <div className={classes.formContainer}>
+          <TextField
+            id="name"
+            label="Name"
+            className={classes.textField}
+            value={this.state.name}
+            onChange={this.handleChange('name')}
+            margin="normal"
+          />
+          <TextField
+            id="limit"
+            label="Limit"
+            className={classes.textField}
+            value={this.state.limit}
+            onChange={this.handleChange('limit')}
+            margin="normal"
+          />
+          <TextField
+            id="balance"
+            label="Balance"
+            className={classes.textField}
+            value={this.state.balance}
+            onChange={this.handleChange('balance')}
+            margin="normal"
+          />
+          <TextField
+            id="interest_rate"
+            label="Interest Rate"
+            className={classes.textField}
+            value={this.state.interest_rate}
+            onChange={this.handleChange('interest_rate')}
+            margin="normal"
+          />
+        </div>
       </Dialog>
     );
   }
