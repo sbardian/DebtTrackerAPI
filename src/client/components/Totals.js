@@ -9,6 +9,7 @@ import Table, {
 import Paper from 'material-ui/Paper';
 import { withStyles } from 'material-ui/styles';
 import Moment from 'moment';
+import TotalsToolbar from './TotalsToolbar';
 import utils from '../utils/utils';
 
 const styles = theme => ({
@@ -30,9 +31,10 @@ class Totals extends Component {
   };
 
   render() {
-    const { classes, totals } = this.props;
+    const { classes, totals, onAddTotal } = this.props;
     return (
       <Paper className={classes.root}>
+        <TotalsToolbar onAddTotal={onAddTotal} />
         <Table className={classes.table}>
           <TableHead>
             <TableRow>

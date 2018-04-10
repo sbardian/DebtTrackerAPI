@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import AlertContainer from 'react-alert';
 import { Link, browserHistory } from 'react-router';
+import { withStyles } from 'material-ui/styles';
+import Paper from 'material-ui/Paper';
+import Tabs, { Tab } from 'material-ui/Tabs';
 import utils from '../utils/utils';
 import CreditCards from '../components/CreditCards';
 import PieChart from '../components/PieChart';
@@ -11,7 +14,13 @@ import check from '../icons/check.png';
 import error from '../icons/error.png';
 import save from '../icons/save.png';
 
-export default class DashboardContainer extends Component {
+const styles = theme => ({
+  root: {
+    flexGrow: 1,
+  },
+});
+
+class DashboardContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -22,6 +31,7 @@ export default class DashboardContainer extends Component {
       creditCards: [],
       selectAll: false,
       totals: [],
+      tab: 0,
     };
   }
 
@@ -62,7 +72,11 @@ export default class DashboardContainer extends Component {
     });
   }
 
-  handleSelectAll = () => {
+  handleTabChange = (event, tab) => {
+    this.setState({ tab });
+  };
+
+  handleCreditCardSelectAll = () => {
     const { selectAll, creditCards } = this.state;
     this.setState({
       selectAll: !selectAll,
@@ -73,7 +87,7 @@ export default class DashboardContainer extends Component {
     });
   };
 
-  handleSelectSingle = selected => {
+  handleCreditCardSelectSingle = selected => {
     const { creditCards } = this.state;
     this.setState({
       creditCards: creditCards.map(card => {
@@ -85,7 +99,7 @@ export default class DashboardContainer extends Component {
     });
   };
 
-  handleDelete = () => {
+  handleCreditCardDelete = () => {
     const { creditCards } = this.state;
     creditCards.forEach(card => {
       if (card.isSelected) {
@@ -114,14 +128,14 @@ export default class DashboardContainer extends Component {
     });
   };
 
-  handleAdd = card => {
+  handleCreditCardAdd = card => {
     const { username, creditCards } = this.state;
     const { name, limit, balance, interest_rate } = card;
     utils
       .addCreditCard(username, name, limit, balance, interest_rate)
       .then(res => {
         const temp = creditCards;
-        const { _id, update_at, __v } = res.data;
+        const { _id, updated_at, __v } = res.data;
         temp.push({
           _id,
           username,
@@ -129,8 +143,9 @@ export default class DashboardContainer extends Component {
           limit: parseFloat(limit),
           balance: parseFloat(balance),
           interest_rate: parseFloat(interest_rate),
-          update_at,
+          updated_at,
           __v,
+          isSelected: false,
         });
         this.setState({
           creditCards: temp,
@@ -143,33 +158,61 @@ export default class DashboardContainer extends Component {
       });
   };
 
+  handleTotalAdd = () => {
+    console.log('OnAddTotal clicked');
+  };
+
   render() {
-    const { isLoading, username, isAdmin, token, creditCards, totals } = this.state;
+    const {
+      isLoading,
+      username,
+      isAdmin,
+      token,
+      creditCards,
+      totals,
+      tab,
+    } = this.state;
+
+    const { classes } = this.props;
 
     return isLoading === true ? (
       <p>Loading!!!</p>
     ) : (
       <div>
-        <div style={{ margin: '200px', marginTop: '100px' }}>
-          <div>{username}</div>
-          <div className="row">
-            <CreditCards
-              creditCards={creditCards}
-              onSelectAll={this.handleSelectAll}
-              onSelect={this.handleSelectSingle}
-              onDelete={this.handleDelete}
-              onAdd={this.handleAdd}
-            />
-          </div>
+        <Paper className={classes.root}>
+          <Tabs
+            value={tab}
+            onChange={this.handleTabChange}
+            indicatorColor="primary"
+            textColor="primary"
+            centered
+          >
+            <Tab label="Credit Cards" />
+            <Tab label="Chart" />
+            <Tab label="Totals" />
+          </Tabs>
+        </Paper>
+        {tab === 0 && (
+          <CreditCards
+            creditCards={creditCards}
+            onSelectAll={this.handleCreditCardSelectAll}
+            onSelect={this.handleCreditCardSelectSingle}
+            onDelete={this.handleCreditCardDelete}
+            onAdd={this.handleCreditCardAdd}
+          />
+        )}
+        {tab === 1 && (
           <div className="row" style={{ paddingTop: '20px' }}>
             <PieChart cards={creditCards} username={username} token={token} />
           </div>
-          <div>
-            <Totals totals={totals} />
-          </div>
-        </div>
+        )}
+        {tab === 2 && (
+          <Totals onAddTotal={this.handleTotalAdd} totals={totals} />
+        )}
         <AlertContainer ref={a => (this.msg = a)} {...alertOptions} />
       </div>
     );
   }
 }
+
+export default withStyles(styles)(DashboardContainer);
