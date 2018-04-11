@@ -9,6 +9,8 @@ import utils from '../utils/utils';
 import CreditCards from '../components/CreditCards';
 import PieChart from '../components/PieChart';
 import Totals from '../components/Totals';
+import AddDialog from '../components/AddDialog';
+import Slide from 'material-ui/transitions/Slide';
 import alertOptions from '../utils/alertOptions';
 import check from '../icons/check.png';
 import error from '../icons/error.png';
@@ -34,6 +36,7 @@ class DashboardContainer extends Component {
       totalDebt: 0,
       totalAvailable: 0,
       tab: 0,
+      dialogOpen: false,
     };
   }
 
@@ -214,6 +217,19 @@ class DashboardContainer extends Component {
     });
   };
 
+  handleDialogClickOpen = () => {
+    console.log('open');
+    this.setState({ dialogOpen: true });
+  };
+
+  handleDialogClose = () => {
+    this.setState({ dialogOpen: false });
+  };
+
+  DialogTransition = props => {
+    return <Slide direction="up" {...props} />;
+  };
+
   render() {
     const {
       isLoading,
@@ -245,14 +261,23 @@ class DashboardContainer extends Component {
           </Tabs>
         </Paper>
         {tab === 0 && (
-          <CreditCards
-            creditCards={creditCards}
-            onSelectAll={this.handleCreditCardSelectAll}
-            onSelect={this.handleCreditCardSelectSingle}
-            onDelete={this.handleCreditCardDelete}
-            onAdd={this.handleCreditCardAdd}
-            onEdit={this.handleCreditCardEdit}
-          />
+          <div>
+            <CreditCards
+              creditCards={creditCards}
+              onSelectAll={this.handleCreditCardSelectAll}
+              onSelect={this.handleCreditCardSelectSingle}
+              onDelete={this.handleCreditCardDelete}
+              onEdit={this.handleCreditCardEdit}
+              onDialogClickOpen={this.handleDialogClickOpen}
+            />
+            <AddDialog
+              onOpen={this.handleDialogClickOpen}
+              onClose={this.handleDialogClose}
+              onTransition={this.DialogTransition}
+              dialogOpen={this.state.dialogOpen}
+              onAdd={this.handleCreditCardAdd}
+            />
+          </div>
         )}
         {tab === 1 && (
           <div className="row" style={{ paddingTop: '20px' }}>
