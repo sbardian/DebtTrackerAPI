@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import AlertContainer from 'react-alert';
-import { Link, browserHistory } from 'react-router';
+import { browserHistory } from 'react-router';
 import { withStyles } from 'material-ui/styles';
 import Paper from 'material-ui/Paper';
 import Tabs, { Tab } from 'material-ui/Tabs';
@@ -14,7 +14,7 @@ import check from '../icons/check.png';
 import error from '../icons/error.png';
 import save from '../icons/save.png';
 
-const styles = theme => ({
+const styles = () => ({
   root: {
     flexGrow: 1,
   },
