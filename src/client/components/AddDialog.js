@@ -41,6 +41,15 @@ class AddDialog extends Component {
     };
   }
 
+  componentWillReceiveProps(props) {
+    this.setState({
+      name: props.cardToEdit.name,
+      balance: props.cardToEdit.balance,
+      limit: props.cardToEdit.limit,
+      interest_rate: props.cardToEdit.interest_rate,
+    });
+  }
+
   handleChange = name => event => {
     this.setState({
       [name]: event.target.value,
@@ -48,8 +57,8 @@ class AddDialog extends Component {
   };
 
   save = () => {
-    const { onAdd, onClose } = this.props;
-    onAdd(this.state);
+    const { onSave, onClose } = this.props;
+    onSave(this.state);
     this.setState({
       name: '',
       balance: '',
@@ -71,7 +80,17 @@ class AddDialog extends Component {
   };
 
   render() {
-    const { classes, dialogOpen, onOpen, onClose, onTransition } = this.props;
+    const {
+      classes,
+      dialogOpen,
+      onOpen,
+      onClose,
+      onTransition,
+      onSave,
+      cardToEdit,
+      title,
+    } = this.props;
+
     return (
       <Dialog
         fullScreen
@@ -86,7 +105,7 @@ class AddDialog extends Component {
               color="inherit"
               className={classes.flex}
             >
-              Add Credit Card
+              {title}
             </Typography>
             <Button color="inherit" onClick={() => this.save()}>
               save

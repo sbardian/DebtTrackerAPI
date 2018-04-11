@@ -37,6 +37,9 @@ class DashboardContainer extends Component {
       totalAvailable: 0,
       tab: 0,
       dialogOpen: false,
+      cardToEdit: {},
+      onSave: () => {},
+      dialogTitle: '',
     };
   }
 
@@ -133,7 +136,16 @@ class DashboardContainer extends Component {
     });
   };
 
-  handleCreditCardAdd = card => {
+  handleCreditCardAdd = () => {
+    this.setState({
+      cardToEdit: {},
+      onSave: this.handleCreditCardAddSave,
+      dialogTitle: 'Add Credit Card',
+    });
+    this.handleDialogClickOpen();
+  };
+
+  handleCreditCardAddSave = card => {
     const { username, creditCards } = this.state;
     const { name, limit, balance, interest_rate } = card;
     utils
@@ -166,9 +178,18 @@ class DashboardContainer extends Component {
   handleCreditCardEdit = () => {
     this.state.creditCards.forEach(card => {
       if (card.isSelected) {
-        console.log('editing : ', card.name);
+        this.setState({
+          cardToEdit: card,
+          onSave: this.handleCreditCardEditSave,
+          dialogTitle: 'Edit Credit Card',
+        });
+        this.handleDialogClickOpen();
       }
     });
+  };
+
+  handleCreditCardEditSave = card => {
+    console.log('saving after edit: ', card);
   };
 
   computeDebt() {
@@ -218,7 +239,6 @@ class DashboardContainer extends Component {
   };
 
   handleDialogClickOpen = () => {
-    console.log('open');
     this.setState({ dialogOpen: true });
   };
 
@@ -226,9 +246,7 @@ class DashboardContainer extends Component {
     this.setState({ dialogOpen: false });
   };
 
-  DialogTransition = props => {
-    return <Slide direction="up" {...props} />;
-  };
+  DialogTransition = props => <Slide direction="up" {...props} />;
 
   render() {
     const {
@@ -239,6 +257,9 @@ class DashboardContainer extends Component {
       creditCards,
       totals,
       tab,
+      onSave,
+      cardToEdit,
+      dialogTitle,
     } = this.state;
 
     const { classes } = this.props;
@@ -267,15 +288,17 @@ class DashboardContainer extends Component {
               onSelectAll={this.handleCreditCardSelectAll}
               onSelect={this.handleCreditCardSelectSingle}
               onDelete={this.handleCreditCardDelete}
+              onAdd={this.handleCreditCardAdd}
               onEdit={this.handleCreditCardEdit}
-              onDialogClickOpen={this.handleDialogClickOpen}
             />
             <AddDialog
               onOpen={this.handleDialogClickOpen}
               onClose={this.handleDialogClose}
               onTransition={this.DialogTransition}
               dialogOpen={this.state.dialogOpen}
-              onAdd={this.handleCreditCardAdd}
+              onSave={onSave}
+              cardToEdit={cardToEdit}
+              title={dialogTitle}
             />
           </div>
         )}
