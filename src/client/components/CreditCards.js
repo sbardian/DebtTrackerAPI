@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-// import { BootstrapTable, TableCell } from 'react-bootstrap-table';
 import PropTypes from 'prop-types';
 import AlertContainer from 'react-alert';
 import Table, {
@@ -13,11 +12,8 @@ import { withStyles } from 'material-ui/styles';
 import { lighten } from 'material-ui/styles/colorManipulator';
 import Paper from 'material-ui/Paper';
 import utils from '../utils/utils';
-import TableToolbar from '../components/TableToolbar';
-import ButtonControls from '../components/ButtonControls';
+import CreditCardsToolbar from '../components/CreditCardsToolbar';
 import alertOptions from '../utils/alertOptions';
-import save from '../icons/save.png';
-import error from '../icons/error.png';
 
 const styles = theme => ({
   container: {
@@ -79,7 +75,7 @@ class CreditCards extends Component {
     return (
       <div className={classes.container}>
         <Paper className={classes.root}>
-          <TableToolbar
+          <CreditCardsToolbar
             numSelected={numSelected}
             onDelete={onDelete}
             onAdd={onAdd}
