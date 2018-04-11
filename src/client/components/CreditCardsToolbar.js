@@ -61,6 +61,7 @@ class TableToolbar extends Component {
   handleClose = () => {
     this.setState({ dialogOpen: false });
   };
+
   Transition = props => {
     return <Slide direction="up" {...props} />;
   };
