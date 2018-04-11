@@ -84,7 +84,7 @@ class TableToolbar extends Component {
         </div>
         <div className={classes.spacer} />
         <div className={classes.actions}>
-          {numSelected === 1 ? (
+          {numSelected === 1 && (
             <div className={classes.alignIcons}>
               <Tooltip title="Delete">
                 <IconButton onClick={onDelete} aria-label="Delete">
@@ -97,13 +97,15 @@ class TableToolbar extends Component {
                 </IconButton>
               </Tooltip>
             </div>
-          ) : numSelected > 1 ? (
+          )}
+          {numSelected > 1 && (
             <Tooltip title="Delete">
               <IconButton onClick={onDelete} aria-label="Delete">
                 <DeleteIcon />
               </IconButton>
             </Tooltip>
-          ) : (
+          )}
+          {numSelected < 1 && (
             <div className={classes.alignIcons}>
               <Tooltip title="Add Card">
                 <IconButton
