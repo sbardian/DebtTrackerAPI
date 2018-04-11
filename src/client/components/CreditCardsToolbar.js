@@ -13,8 +13,6 @@ import { withStyles } from 'material-ui/styles';
 import { lighten } from 'material-ui/styles/colorManipulator';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
-import Slide from 'material-ui/transitions/Slide';
-import AddDialog from './AddDialog';
 
 const toolbarStyles = theme => ({
   root: {
@@ -49,25 +47,10 @@ const toolbarStyles = theme => ({
 class TableToolbar extends Component {
   constructor() {
     super();
-    this.state = {
-      dialogOpen: false,
-    };
   }
 
-  handleClickOpen = () => {
-    this.setState({ dialogOpen: true });
-  };
-
-  handleClose = () => {
-    this.setState({ dialogOpen: false });
-  };
-
-  Transition = props => {
-    return <Slide direction="up" {...props} />;
-  };
-
   render() {
-    const { numSelected, onDelete, onAdd, onEdit, classes } = this.props;
+    const { numSelected, onDelete, onAdd, onEdit, classes, onDialogClickOpen } = this.props;
     return (
       <Toolbar
         className={classNames(classes.root, {
@@ -110,7 +93,7 @@ class TableToolbar extends Component {
             <div className={classes.alignIcons}>
               <Tooltip title="Add Card">
                 <IconButton
-                  onClick={this.handleClickOpen}
+                  onClick={onDialogClickOpen}
                   aria-label="Add Card"
                 >
                   <AddCircleOutline />
@@ -124,13 +107,6 @@ class TableToolbar extends Component {
             </div>
           )}
         </div>
-        <AddDialog
-          onOpen={this.handleClickOpen}
-          onClose={this.handleClose}
-          onTransition={this.Transition}
-          dialogOpen={this.state.dialogOpen}
-          onAdd={onAdd}
-        />
       </Toolbar>
     );
   }
