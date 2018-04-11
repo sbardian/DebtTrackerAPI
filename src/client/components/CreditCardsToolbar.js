@@ -1,4 +1,5 @@
 /* eslint react/prefer-stateless-function: 0 */
+/* eslint no-nested-ternary: 0 */
 import React, { Component } from 'react';
 import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
@@ -7,6 +8,7 @@ import IconButton from 'material-ui/IconButton';
 import DeleteIcon from 'material-ui-icons/Delete';
 import FilterListIcon from 'material-ui-icons/FilterList';
 import AddCircleOutline from 'material-ui-icons/AddCircleOutline';
+import EditIcon from 'material-ui-icons/Edit';
 import { withStyles } from 'material-ui/styles';
 import { lighten } from 'material-ui/styles/colorManipulator';
 import classNames from 'classnames';
@@ -64,7 +66,7 @@ class TableToolbar extends Component {
   };
 
   render() {
-    const { numSelected, onDelete, onAdd, classes } = this.props;
+    const { numSelected, onDelete, onAdd, onEdit, classes } = this.props;
     return (
       <Toolbar
         className={classNames(classes.root, {
@@ -82,7 +84,20 @@ class TableToolbar extends Component {
         </div>
         <div className={classes.spacer} />
         <div className={classes.actions}>
-          {numSelected > 0 ? (
+          {numSelected === 1 ? (
+            <div className={classes.alignIcons}>
+              <Tooltip title="Delete">
+                <IconButton onClick={onDelete} aria-label="Delete">
+                  <DeleteIcon />
+                </IconButton>
+              </Tooltip>
+              <Tooltip title="Edit">
+                <IconButton onClick={onEdit} aria-label="Edit">
+                  <EditIcon />
+                </IconButton>
+              </Tooltip>
+            </div>
+          ) : numSelected > 1 ? (
             <Tooltip title="Delete">
               <IconButton onClick={onDelete} aria-label="Delete">
                 <DeleteIcon />

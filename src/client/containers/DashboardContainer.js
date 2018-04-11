@@ -160,7 +160,14 @@ class DashboardContainer extends Component {
       });
   };
 
-  // Computes the total debt.
+  handleCreditCardEdit = () => {
+    this.state.creditCards.forEach(card => {
+      if (card.isSelected) {
+        console.log('editing : ', card.name);
+      }
+    });
+  };
+
   computeDebt() {
     let total = this.state.totalDebt;
     this.state.creditCards.forEach(card => {
@@ -169,7 +176,6 @@ class DashboardContainer extends Component {
     return utils.createDollar(total);
   }
 
-  // Computes the available credit.
   computeAvailable() {
     let total = this.state.totalAvailable;
     this.state.creditCards.forEach(card => {
@@ -178,7 +184,6 @@ class DashboardContainer extends Component {
     return utils.createDollar(total);
   }
 
-  // Computes new total debt.
   computeNewTotal() {
     let total = this.state.totalDebt;
     this.state.creditCards.forEach(card => {
@@ -246,6 +251,7 @@ class DashboardContainer extends Component {
             onSelect={this.handleCreditCardSelectSingle}
             onDelete={this.handleCreditCardDelete}
             onAdd={this.handleCreditCardAdd}
+            onEdit={this.handleCreditCardEdit}
           />
         )}
         {tab === 1 && (
