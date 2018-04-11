@@ -82,7 +82,6 @@ class CreditCards extends Component {
             onDelete={onDelete}
             onAdd={onAdd}
             onEdit={onEdit}
-            onDialogClickOpen={onDialogClickOpen}
           />
           <Table className={classes.customTableFontSize}>
             <TableHead>

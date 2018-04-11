@@ -1,5 +1,4 @@
 /* eslint react/prefer-stateless-function: 0 */
-/* eslint no-nested-ternary: 0 */
 import React, { Component } from 'react';
 import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
@@ -45,12 +44,8 @@ const toolbarStyles = theme => ({
 });
 
 class TableToolbar extends Component {
-  constructor() {
-    super();
-  }
-
   render() {
-    const { numSelected, onDelete, onAdd, onEdit, classes, onDialogClickOpen } = this.props;
+    const { numSelected, onDelete, onAdd, onEdit, classes } = this.props;
     return (
       <Toolbar
         className={classNames(classes.root, {
@@ -92,10 +87,7 @@ class TableToolbar extends Component {
           {numSelected < 1 && (
             <div className={classes.alignIcons}>
               <Tooltip title="Add Card">
-                <IconButton
-                  onClick={onDialogClickOpen}
-                  aria-label="Add Card"
-                >
+                <IconButton onClick={onAdd} aria-label="Add Card">
                   <AddCircleOutline />
                 </IconButton>
               </Tooltip>
