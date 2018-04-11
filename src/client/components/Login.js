@@ -112,7 +112,13 @@ class Login extends Component {
     return (
       <Grid className={classes.root}>
         <MuiThemeProvider theme={theme}>
-          <Grid item xs={12} justify={'center'} className={classes.container}>
+          <Grid
+            container
+            item
+            xs={12}
+            justify={'center'}
+            className={classes.container}
+          >
             <Grid>
               <Paper className={classes.paper}>
                 <Typography
