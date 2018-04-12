@@ -34,6 +34,8 @@ class AddDialog extends Component {
   constructor() {
     super();
     this.state = {
+      _id: '',
+      userId: '',
       name: '',
       balance: '',
       limit: '',
@@ -42,11 +44,21 @@ class AddDialog extends Component {
   }
 
   componentWillReceiveProps(props) {
+    const {
+      _id,
+      userId,
+      name,
+      balance,
+      limit,
+      interest_rate,
+    } = props.cardToEdit;
     this.setState({
-      name: props.cardToEdit.name,
-      balance: props.cardToEdit.balance,
-      limit: props.cardToEdit.limit,
-      interest_rate: props.cardToEdit.interest_rate,
+      _id,
+      userId,
+      name,
+      balance,
+      limit,
+      interest_rate,
     });
   }
 
@@ -60,6 +72,8 @@ class AddDialog extends Component {
     const { onSave, onClose } = this.props;
     onSave(this.state);
     this.setState({
+      _id: '',
+      userId: '',
       name: '',
       balance: '',
       limit: '',
@@ -70,6 +84,8 @@ class AddDialog extends Component {
 
   close = () => {
     this.setState({
+      _id: '',
+      userId: '',
       name: '',
       balance: '',
       limit: '',

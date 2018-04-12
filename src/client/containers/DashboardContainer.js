@@ -189,7 +189,44 @@ class DashboardContainer extends Component {
   };
 
   handleCreditCardEditSave = card => {
-    console.log('saving after edit: ', card);
+    const { creditCards } = this.state;
+    utils
+      .saveCreditCard(
+        card._id,
+        card.name,
+        parseFloat(card.limit),
+        parseFloat(card.balance),
+        parseFloat(card.interest_rate),
+      )
+      .then(response => {
+        if (response.error) {
+          this.msg.show(response.message, {
+            time: 5000,
+            type: 'error',
+            icon: <img src={error} alt="Error updating card." />,
+          });
+        } else {
+          const temp = creditCards;
+          const index = temp.findIndex(x => x.name === card.name);
+          temp[index] = {
+            __v: 0,
+            _id: card._id,
+            isSelected: false,
+            name: card.name,
+            limit: parseFloat(card.limit),
+            balance: parseFloat(card.balance),
+            interest_rate: parseFloat(card.interest_rate),
+          };
+          this.setState({
+            creditCards: temp,
+          });
+          this.msg.show(response.message, {
+            time: 5000,
+            type: 'success',
+            icon: <img src={save} alt="Card updated." />,
+          });
+        }
+      });
   };
 
   computeDebt() {
