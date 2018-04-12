@@ -206,7 +206,7 @@ class DashboardContainer extends Component {
           });
         } else {
           const temp = creditCards;
-          const index = temp.findIndex(x => x.name === name);
+          const index = temp.findIndex(x => x._id === _id);
           temp[index] = {
             __v: 0,
             _id,
