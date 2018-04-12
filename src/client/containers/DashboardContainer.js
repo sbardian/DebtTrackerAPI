@@ -5,12 +5,12 @@ import { browserHistory } from 'react-router';
 import { withStyles } from 'material-ui/styles';
 import Paper from 'material-ui/Paper';
 import Tabs, { Tab } from 'material-ui/Tabs';
+import Slide from 'material-ui/transitions/Slide';
 import utils from '../utils/utils';
 import CreditCards from '../components/CreditCards';
 import PieChart from '../components/PieChart';
 import Totals from '../components/Totals';
 import AddDialog from '../components/AddDialog';
-import Slide from 'material-ui/transitions/Slide';
 import alertOptions from '../utils/alertOptions';
 import check from '../icons/check.png';
 import error from '../icons/error.png';
@@ -95,11 +95,11 @@ class DashboardContainer extends Component {
     });
   };
 
-  handleCreditCardSelectSingle = selected => {
+  handleCreditCardSelectSingle = ({ _id }) => {
     const { creditCards } = this.state;
     this.setState({
       creditCards: creditCards.map(card => {
-        if (card._id === selected._id) {
+        if (card._id === _id) {
           return { ...card, isSelected: !card.isSelected };
         }
         return card;
@@ -145,9 +145,8 @@ class DashboardContainer extends Component {
     this.handleDialogClickOpen();
   };
 
-  handleCreditCardAddSave = card => {
+  handleCreditCardAddSave = ({ name, limit, balance, interest_rate }) => {
     const { username, creditCards } = this.state;
-    const { name, limit, balance, interest_rate } = card;
     utils
       .addCreditCard(username, name, limit, balance, interest_rate)
       .then(res => {
@@ -188,15 +187,15 @@ class DashboardContainer extends Component {
     });
   };
 
-  handleCreditCardEditSave = card => {
+  handleCreditCardEditSave = ({ _id, name, limit, balance, interest_rate }) => {
     const { creditCards } = this.state;
     utils
       .saveCreditCard(
-        card._id,
-        card.name,
-        parseFloat(card.limit),
-        parseFloat(card.balance),
-        parseFloat(card.interest_rate),
+        _id,
+        name,
+        parseFloat(limit),
+        parseFloat(balance),
+        parseFloat(interest_rate),
       )
       .then(response => {
         if (response.error) {
@@ -207,15 +206,15 @@ class DashboardContainer extends Component {
           });
         } else {
           const temp = creditCards;
-          const index = temp.findIndex(x => x.name === card.name);
+          const index = temp.findIndex(x => x.name === name);
           temp[index] = {
             __v: 0,
-            _id: card._id,
+            _id,
             isSelected: false,
-            name: card.name,
-            limit: parseFloat(card.limit),
-            balance: parseFloat(card.balance),
-            interest_rate: parseFloat(card.interest_rate),
+            name,
+            limit: parseFloat(limit),
+            balance: parseFloat(balance),
+            interest_rate: parseFloat(interest_rate),
           };
           this.setState({
             creditCards: temp,
