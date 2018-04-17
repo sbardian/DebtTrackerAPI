@@ -6,6 +6,7 @@ import Logout from '../components/Logout';
 import Register from '../components/Register';
 import Dashboard from '../containers/DashboardContainer';
 import PayOffDetailsContainer from '../containers/PayOffDetailsContainer';
+import PayOffDetails from '../components/PayOffDetails';
 
 const routes = (
   <Router history={browserHistory}>
@@ -15,6 +16,7 @@ const routes = (
       <Route path="/logout" component={Logout} />
       <Route path="/register" component={Register} />
       <Route path="payoff/:card" component={PayOffDetailsContainer} />
+      <Route path="payoffdetails/:card" component={PayOffDetails} />
     </Route>
   </Router>
 );

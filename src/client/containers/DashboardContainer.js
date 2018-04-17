@@ -228,6 +228,26 @@ class DashboardContainer extends Component {
       });
   };
 
+  handleOnDetails = () => {
+    const p = new Promise(resolve => {
+      this.state.creditCards.forEach(card => {
+        if (card.isSelected) {
+          resolve(card);
+        }
+      });
+    });
+    p.then(card => {
+      browserHistory.push({
+        pathname: `/payoffdetails/${card.name}`,
+        state: {
+          card,
+          username: this.state.username,
+          token: this.state.token,
+        },
+      });
+    });
+  };
+
   computeDebt() {
     let total = this.state.totalDebt;
     this.state.creditCards.forEach(card => {
@@ -326,6 +346,7 @@ class DashboardContainer extends Component {
               onDelete={this.handleCreditCardDelete}
               onAdd={this.handleCreditCardAdd}
               onEdit={this.handleCreditCardEdit}
+              onDetails={this.handleOnDetails}
             />
             <AddDialog
               onOpen={this.handleDialogClickOpen}
