@@ -8,6 +8,7 @@ import DeleteIcon from 'material-ui-icons/Delete';
 import FilterListIcon from 'material-ui-icons/FilterList';
 import AddCircleOutline from 'material-ui-icons/AddCircleOutline';
 import EditIcon from 'material-ui-icons/Edit';
+import DetailsIcon from 'material-ui-icons/Details';
 import { withStyles } from 'material-ui/styles';
 import { lighten } from 'material-ui/styles/colorManipulator';
 import classNames from 'classnames';
@@ -45,7 +46,14 @@ const toolbarStyles = theme => ({
 
 class TableToolbar extends Component {
   render() {
-    const { numSelected, onDelete, onAdd, onEdit, classes } = this.props;
+    const {
+      numSelected,
+      onDelete,
+      onAdd,
+      onEdit,
+      onDetails,
+      classes,
+    } = this.props;
     return (
       <Toolbar
         className={classNames(classes.root, {
@@ -73,6 +81,11 @@ class TableToolbar extends Component {
               <Tooltip title="Edit">
                 <IconButton onClick={onEdit} aria-label="Edit">
                   <EditIcon />
+                </IconButton>
+              </Tooltip>
+              <Tooltip title="Details">
+                <IconButton onClick={onDetails} aria-label="Details">
+                  <DetailsIcon />
                 </IconButton>
               </Tooltip>
             </div>

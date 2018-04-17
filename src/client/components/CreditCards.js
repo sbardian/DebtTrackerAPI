@@ -68,6 +68,7 @@ class CreditCards extends Component {
       onDelete,
       onAdd,
       onEdit,
+      onDetails,
       onDialogClickOpen,
     } = this.props;
 
@@ -82,6 +83,7 @@ class CreditCards extends Component {
             onDelete={onDelete}
             onAdd={onAdd}
             onEdit={onEdit}
+            onDetails={onDetails}
           />
           <Table className={classes.customTableFontSize}>
             <TableHead>
