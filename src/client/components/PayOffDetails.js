@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Link } from 'react-router';
 import Typography from 'material-ui/Typography';
 import Button from 'material-ui/Button';
+import AppBar from 'material-ui/AppBar';
+import Toolbar from 'material-ui/Toolbar';
 import Paper from 'material-ui/Paper';
 import { withStyles } from 'material-ui/styles';
 import Tooltip from 'rc-tooltip';
@@ -9,6 +11,11 @@ import Slider, { Handle } from 'rc-slider';
 import utils from '../utils/utils';
 
 const PayOffDetailsStyles = theme => ({
+  appBar: {
+    position: 'relative',
+    backgroundColor: '#bbff99',
+    color: '#666',
+  },
   container: {
     display: 'flex',
     alignItems: 'center',
@@ -33,8 +40,8 @@ const PayOffDetailsStyles = theme => ({
     fontWeight: 'bold',
   },
   wrapperStyle: {
-    marginRight: 500,
-    marginLeft: 500,
+    marginRight: 50,
+    marginLeft: 50,
     width: '100%',
   },
   button: {
@@ -121,13 +128,13 @@ class PayOffDetails extends Component {
     }
   }
 
-    // Logs the payment amount for updating component.
-  log = (value) => {
+  // Logs the payment amount for updating component.
+  log = value => {
     this.setState({
       paymentAmount: value,
     });
     this.calc(value);
-  }
+  };
 
   render() {
     const marks = {};
@@ -138,10 +145,7 @@ class PayOffDetails extends Component {
       balance,
       interest_rate,
     } = this.props.location.state.card;
-    const {
-      username,
-      token,
-    } = this.props.location.state;
+    const { username, token } = this.props.location.state;
     const {
       minimum,
       singlePaymentMax,
@@ -152,15 +156,26 @@ class PayOffDetails extends Component {
       paymentAmount,
     } = this.state;
 
-    marks[`${Math.trunc(minimum)}`] = (
+    marks[`${Math.trunc(minimum)}`] = {};
+    marks[`${Math.trunc(minimum)}`].style = { width: 50, marginLeft: 0 };
+    marks[`${Math.trunc(minimum)}`].label = (
       <string>${utils.createDollar(Math.trunc(minimum))}</string>
     );
-    marks[`${Math.trunc(singlePaymentMax)}`] = (
+    marks[`${Math.trunc(singlePaymentMax)}`] = {};
+    marks[`${Math.trunc(singlePaymentMax)}`].style = {
+      width: 50,
+      marginLeft: 0,
+      left: '96%',
+    };
+    marks[`${Math.trunc(singlePaymentMax)}`].label = (
       <string>${utils.createDollar(Math.trunc(singlePaymentMax))}</string>
     );
 
     return (
       <Paper>
+        <AppBar className={classes.appBar}>
+          <Toolbar/>
+        </AppBar>
         <div className={classes.containerTop}>
           <Typography>
             <strong>Limit: </strong>
@@ -188,9 +203,7 @@ class PayOffDetails extends Component {
           </Typography>
         </div>
         <div className={classes.container}>
-          <div>
-            Adjust payment:
-          </div>
+          <div>Adjust payment:</div>
         </div>
         <div className={classes.container}>
           <h1>${utils.createDollar(paymentAmount)}</h1>
@@ -218,9 +231,7 @@ class PayOffDetails extends Component {
         <div className={classes.container}>
           <div>
             <Link to={{ pathname: '/', state: { username, token } }}>
-              <Button className={classes.button}>
-                Back
-              </Button>
+              <Button className={classes.button}>Back</Button>
             </Link>
           </div>
         </div>
