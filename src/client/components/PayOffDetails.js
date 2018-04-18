@@ -137,7 +137,6 @@ class PayOffDetails extends Component {
   };
 
   render() {
-    const marks = {};
     const { classes } = this.props;
     const {
       name,
@@ -156,25 +155,28 @@ class PayOffDetails extends Component {
       paymentAmount,
     } = this.state;
 
-    marks[`${Math.trunc(minimum)}`] = {};
-    marks[`${Math.trunc(minimum)}`].style = { width: 50, marginLeft: 0 };
-    marks[`${Math.trunc(minimum)}`].label = (
-      <string>${utils.createDollar(Math.trunc(minimum))}</string>
-    );
-    marks[`${Math.trunc(singlePaymentMax)}`] = {};
-    marks[`${Math.trunc(singlePaymentMax)}`].style = {
-      width: 50,
-      marginLeft: 0,
-      left: '96%',
+    const marks = {
+      [`${Math.trunc(minimum)}`]: {
+        style: {
+          width: 50,
+          marginLeft: 0,
+        },
+        label: `$${utils.createDollar(Math.trunc(minimum))}`,
+      },
+      [`${Math.trunc(singlePaymentMax)}`]: {
+        style: {
+          width: 50,
+          marginLeft: 0,
+          left: '96%',
+        },
+        label: `$${utils.createDollar(Math.trunc(singlePaymentMax))}`,
+      },
     };
-    marks[`${Math.trunc(singlePaymentMax)}`].label = (
-      <string>${utils.createDollar(Math.trunc(singlePaymentMax))}</string>
-    );
 
     return (
       <Paper>
         <AppBar className={classes.appBar}>
-          <Toolbar/>
+          <Toolbar />
         </AppBar>
         <div className={classes.containerTop}>
           <Typography>
