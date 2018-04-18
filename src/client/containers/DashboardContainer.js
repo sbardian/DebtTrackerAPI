@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import AlertContainer from 'react-alert';
 import { browserHistory } from 'react-router';
 import { withStyles } from 'material-ui/styles';
+import AppBar from 'material-ui/AppBar';
 import Paper from 'material-ui/Paper';
 import Tabs, { Tab } from 'material-ui/Tabs';
 import Slide from 'material-ui/transitions/Slide';
@@ -16,9 +17,14 @@ import check from '../icons/check.png';
 import error from '../icons/error.png';
 import save from '../icons/save.png';
 
-const styles = () => ({
+const styles = (theme) => ({
   root: {
     flexGrow: 1,
+  },
+  appBar: {
+    position: 'relative',
+    backgroundColor: '#bbff99',
+    color: '#666',
   },
 });
 
@@ -325,17 +331,19 @@ class DashboardContainer extends Component {
     ) : (
       <div>
         <Paper className={classes.root}>
-          <Tabs
-            value={tab}
-            onChange={this.handleTabChange}
-            indicatorColor="primary"
-            textColor="primary"
-            centered
-          >
-            <Tab label="Credit Cards" />
-            <Tab label="Chart" />
-            <Tab label="Totals" />
-          </Tabs>
+          <AppBar className={classes.appBar}>
+            <Tabs
+              value={tab}
+              onChange={this.handleTabChange}
+              indicatorColor="primary"
+              textColor="primary"
+              centered
+            >
+              <Tab label="Credit Cards" />
+              <Tab label="Chart" />
+              <Tab label="Totals" />
+            </Tabs>
+          </AppBar>
         </Paper>
         {tab === 0 && (
           <div>
