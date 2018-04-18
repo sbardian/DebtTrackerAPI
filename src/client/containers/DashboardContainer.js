@@ -17,7 +17,7 @@ import check from '../icons/check.png';
 import error from '../icons/error.png';
 import save from '../icons/save.png';
 
-const styles = (theme) => ({
+const styles = theme => ({
   root: {
     flexGrow: 1,
   },
@@ -235,22 +235,17 @@ class DashboardContainer extends Component {
   };
 
   handleOnDetails = () => {
-    const p = new Promise(resolve => {
-      this.state.creditCards.forEach(card => {
-        if (card.isSelected) {
-          resolve(card);
-        }
-      });
-    });
-    p.then(card => {
-      browserHistory.push({
-        pathname: `/payoffdetails/${card.name}`,
-        state: {
-          card,
-          username: this.state.username,
-          token: this.state.token,
-        },
-      });
+    this.state.creditCards.forEach(card => {
+      if (card.isSelected) {
+        browserHistory.push({
+          pathname: `/payoffdetails/${card.name}`,
+          state: {
+            card,
+            username: this.state.username,
+            token: this.state.token,
+          },
+        });
+      }
     });
   };
 
