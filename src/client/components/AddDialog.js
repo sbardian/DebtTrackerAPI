@@ -11,7 +11,7 @@ import Typography from 'material-ui/Typography';
 const styles = theme => ({
   appBar: {
     position: 'relative',
-    backgroundColor: '#bbff99',
+    // backgroundColor: theme.palette.primary.main,
     color: '#666',
   },
   flex: {

@@ -4,7 +4,6 @@ import AlertContainer from 'react-alert';
 import { browserHistory } from 'react-router';
 import { withStyles } from 'material-ui/styles';
 import AppBar from 'material-ui/AppBar';
-import Paper from 'material-ui/Paper';
 import Tabs, { Tab } from 'material-ui/Tabs';
 import Slide from 'material-ui/transitions/Slide';
 import utils from '../utils/utils';
@@ -23,8 +22,6 @@ const styles = theme => ({
   },
   appBar: {
     position: 'relative',
-    backgroundColor: '#bbff99',
-    color: '#666',
   },
 });
 
@@ -91,56 +88,20 @@ class DashboardContainer extends Component {
     this.setState({ tab });
   };
 
-  // handleCreditCardSelectAll = () => {
-  //   const { selectAll, creditCards } = this.state;
-  //   this.setState({
-  //     selectAll: !selectAll,
-  //     creditCards: creditCards.map(card => ({
-  //       ...card,
-  //       isSelected: !selectAll,
-  //     })),
-  //   });
-  // };
-
   handleCreditCardSelectAll = () => {
-    const { creditCards, selectAll, selectedCards } = this.state;
-    if (selectedCards.length === 0) {
-      this.setState({
-        selectAll: !selectAll,
-        selectedCards: creditCards,
-        creditCards: creditCards.map(card => ({
-          ...card,
-          isSelected: !selectAll,
-        })),
-      });
-    } else {
-      this.setState({
-        selectAll: !selectAll,
-        selectedCards: [],
-        creditCards: creditCards.map(card => ({
-          ...card,
-          isSelected: !selectAll,
-        })),
-      });
-    }
-    console.log('selectedCards = ', this.state.selectedCards);
+    const { creditCards, selectAll } = this.state;
+    this.setState({
+      selectAll: !selectAll,
+      selectedCards: !selectAll ? creditCards : [],
+      creditCards: creditCards.map(card => ({
+        ...card,
+        isSelected: !selectAll,
+      })),
+    });
   };
-
-  // handleCreditCardSelectSingle = ({ _id }) => {
-  //   const { creditCards } = this.state;
-  //   this.setState({
-  //     creditCards: creditCards.map(card => {
-  //       if (card._id === _id) {
-  //         return { ...card, isSelected: !card.isSelected };
-  //       }
-  //       return card;
-  //     }),
-  //   });
-  // };
 
   handleCreditCardSelectSingle = selected => {
     const { creditCards, selectedCards } = this.state;
-    const found = selectedCards.some(card => card._id === selected._id);
     this.setState({
       creditCards: creditCards.map(card => {
         if (card._id === selected._id) {
@@ -148,7 +109,7 @@ class DashboardContainer extends Component {
         }
         return card;
       }),
-      selectedCards: found
+      selectedCards: selected.isSelected
         ? selectedCards.filter(card => card._id !== selected._id)
         : [...selectedCards, selected],
     });
@@ -360,21 +321,18 @@ class DashboardContainer extends Component {
       <p>Loading!!!</p>
     ) : (
       <div>
-        <Paper className={classes.root}>
-          <AppBar className={classes.appBar}>
-            <Tabs
-              value={tab}
-              onChange={this.handleTabChange}
-              indicatorColor="primary"
-              textColor="primary"
-              centered
-            >
-              <Tab label="Credit Cards" />
-              <Tab label="Chart" />
-              <Tab label="Totals" />
-            </Tabs>
-          </AppBar>
-        </Paper>
+        <AppBar color="primary" className={classes.appBar}>
+          <Tabs
+            value={tab}
+            onChange={this.handleTabChange}
+            indicatorColor="primary"
+            centered
+          >
+            <Tab label="Credit Cards" />
+            <Tab label="Chart" />
+            <Tab label="Totals" />
+          </Tabs>
+        </AppBar>
         {tab === 0 && (
           <div>
             <CreditCards

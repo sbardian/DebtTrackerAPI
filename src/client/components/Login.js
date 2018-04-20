@@ -3,11 +3,7 @@ import { browserHistory } from 'react-router';
 import TextField from 'material-ui/TextField';
 import Grid from 'material-ui/Grid';
 import Paper from 'material-ui/Paper';
-import {
-  MuiThemeProvider,
-  createMuiTheme,
-  withStyles,
-} from 'material-ui/styles';
+import { withStyles } from 'material-ui/styles';
 import Typography from 'material-ui/Typography';
 import Button from 'material-ui/Button';
 import utils from '../utils/utils';
@@ -29,7 +25,7 @@ const styles = theme => ({
   title: {
     padding: '40px',
     paddingTop: '50px',
-    backgroundColor: '#bbff99',
+    backgroundColor: theme.palette.primary.main,
   },
   textField: {
     marginLeft: theme.spacing.unit,
@@ -38,15 +34,6 @@ const styles = theme => ({
   },
   button: {
     margin: '20px 10px 20px 10px',
-  },
-});
-
-const theme = createMuiTheme({
-  typography: {
-    // Use the system font over Roboto.
-    fontFamily:
-      '-apple-system,system-ui,BlinkMacSystemFont,' +
-      '"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif',
   },
 });
 
@@ -111,65 +98,63 @@ class Login extends Component {
     const { email, password } = this.state;
     return (
       <Grid className={classes.root}>
-        <MuiThemeProvider theme={theme}>
-          <Grid
-            container
-            item
-            xs={12}
-            justify={'center'}
-            className={classes.container}
-          >
-            <Grid>
-              <Paper className={classes.paper}>
-                <Typography
-                  className={classes.title}
-                  variant="headline"
-                  component="h3"
-                >
-                  DebtTracker
-                </Typography>
-                <form className={classes.form}>
-                  <Grid item xs={12}>
-                    <TextField
-                      id="email"
-                      label="Email"
-                      type="email"
-                      value={email}
-                      placeholder="Email"
-                      onChange={this.handleChange}
-                      className={classes.textField}
-                      margin="normal"
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <TextField
-                      id="password"
-                      label="Password"
-                      type="password"
-                      value={password}
-                      placeholder="Password"
-                      onChange={this.handleChange}
-                      className={classes.textField}
-                      margin="normal"
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Button
-                      variant="raised"
-                      className={classes.button}
-                      onClick={event => this.userLogin(event)}
-                    >
-                      Login
-                    </Button>
-                    <Button variant="raised" className={classes.button}>
-                      Register
-                    </Button>
-                  </Grid>
-                </form>
-              </Paper>
-            </Grid>
+        <Grid
+          container
+          item
+          xs={12}
+          justify={'center'}
+          className={classes.container}
+        >
+          <Grid>
+            <Paper className={classes.paper}>
+              <Typography
+                className={classes.title}
+                variant="headline"
+                component="h3"
+              >
+                DebtTracker
+              </Typography>
+              <form className={classes.form}>
+                <Grid item xs={12}>
+                  <TextField
+                    id="email"
+                    label="Email"
+                    type="email"
+                    value={email}
+                    placeholder="Email"
+                    onChange={this.handleChange}
+                    className={classes.textField}
+                    margin="normal"
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    id="password"
+                    label="Password"
+                    type="password"
+                    value={password}
+                    placeholder="Password"
+                    onChange={this.handleChange}
+                    className={classes.textField}
+                    margin="normal"
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <Button
+                    variant="raised"
+                    className={classes.button}
+                    onClick={event => this.userLogin(event)}
+                  >
+                    Login
+                  </Button>
+                  <Button variant="raised" className={classes.button}>
+                    Register
+                  </Button>
+                </Grid>
+              </form>
+            </Paper>
           </Grid>
-        </MuiThemeProvider>
+        </Grid>
       </Grid>
     );
   }
