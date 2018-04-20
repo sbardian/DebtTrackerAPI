@@ -13,7 +13,7 @@ import utils from '../utils/utils';
 const PayOffDetailsStyles = theme => ({
   appBar: {
     position: 'relative',
-    backgroundColor: '#bbff99',
+    backgroundColor: theme.palette.primary.main,
     color: '#666',
   },
   container: {
