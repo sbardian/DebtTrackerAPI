@@ -46,6 +46,7 @@ class DashboardContainer extends Component {
       cardToEdit: {},
       onSave: () => {},
       dialogTitle: '',
+      selectedCards: [],
     };
   }
 
@@ -90,54 +91,92 @@ class DashboardContainer extends Component {
     this.setState({ tab });
   };
 
+  // handleCreditCardSelectAll = () => {
+  //   const { selectAll, creditCards } = this.state;
+  //   this.setState({
+  //     selectAll: !selectAll,
+  //     creditCards: creditCards.map(card => ({
+  //       ...card,
+  //       isSelected: !selectAll,
+  //     })),
+  //   });
+  // };
+
   handleCreditCardSelectAll = () => {
-    const { selectAll, creditCards } = this.state;
-    this.setState({
-      selectAll: !selectAll,
-      creditCards: creditCards.map(card => ({
-        ...card,
-        isSelected: !selectAll,
-      })),
-    });
+    const { creditCards, selectAll, selectedCards } = this.state;
+    if (selectedCards.length === 0) {
+      this.setState({
+        selectAll: !selectAll,
+        selectedCards: creditCards,
+        creditCards: creditCards.map(card => ({
+          ...card,
+          isSelected: !selectAll,
+        })),
+      });
+    } else {
+      this.setState({
+        selectAll: !selectAll,
+        selectedCards: [],
+        creditCards: creditCards.map(card => ({
+          ...card,
+          isSelected: !selectAll,
+        })),
+      });
+    }
+    console.log('selectedCards = ', this.state.selectedCards);
   };
 
-  handleCreditCardSelectSingle = ({ _id }) => {
-    const { creditCards } = this.state;
+  // handleCreditCardSelectSingle = ({ _id }) => {
+  //   const { creditCards } = this.state;
+  //   this.setState({
+  //     creditCards: creditCards.map(card => {
+  //       if (card._id === _id) {
+  //         return { ...card, isSelected: !card.isSelected };
+  //       }
+  //       return card;
+  //     }),
+  //   });
+  // };
+
+  handleCreditCardSelectSingle = selected => {
+    const { creditCards, selectedCards } = this.state;
+    const found = selectedCards.some(card => card._id === selected._id);
     this.setState({
       creditCards: creditCards.map(card => {
-        if (card._id === _id) {
+        if (card._id === selected._id) {
           return { ...card, isSelected: !card.isSelected };
         }
         return card;
       }),
+      selectedCards: found
+        ? selectedCards.filter(card => card._id !== selected._id)
+        : [...selectedCards, selected],
     });
   };
 
   handleCreditCardDelete = () => {
-    const { creditCards } = this.state;
-    creditCards.forEach(card => {
-      if (card.isSelected) {
-        utils.deleteCreditCards(card._id).then(response => {
-          if (response.error) {
-            this.msg.show(response.message, {
-              time: 5000,
-              type: 'error',
-              icon: <img src={error} alt="Error deleting card." />,
-            });
-          } else {
-            const index = creditCards.findIndex(x => x._id === card._id);
-            creditCards.splice(index, 1);
-            this.setState({
-              creditCards,
-            });
-            this.msg.show(response.message, {
-              time: 5000,
-              type: 'success',
-              icon: <img src={check} alt="Card deleted." />,
-            });
-          }
-        });
-      }
+    const { creditCards, selectedCards } = this.state;
+    selectedCards.forEach(card => {
+      utils.deleteCreditCards(card._id).then(response => {
+        if (response.error) {
+          this.msg.show(response.message, {
+            time: 5000,
+            type: 'error',
+            icon: <img src={error} alt="Error deleting card." />,
+          });
+        } else {
+          const index = creditCards.findIndex(x => x._id === card._id);
+          creditCards.splice(index, 1);
+          this.setState({
+            creditCards,
+          });
+          this.msg.show(response.message, {
+            time: 5000,
+            type: 'success',
+            icon: <img src={check} alt="Card deleted." />,
+          });
+        }
+      });
       return null;
     });
   };
@@ -181,16 +220,14 @@ class DashboardContainer extends Component {
   };
 
   handleCreditCardEdit = () => {
-    this.state.creditCards.forEach(card => {
-      if (card.isSelected) {
-        this.setState({
-          cardToEdit: card,
-          onSave: this.handleCreditCardEditSave,
-          dialogTitle: 'Edit Credit Card',
-        });
-        this.handleDialogClickOpen();
-      }
+    const { selectedCards } = this.state;
+    const card = selectedCards[0];
+    this.setState({
+      cardToEdit: card,
+      onSave: this.handleCreditCardEditSave,
+      dialogTitle: 'Edit Credit Card',
     });
+    this.handleDialogClickOpen();
   };
 
   handleCreditCardEditSave = ({ _id, name, limit, balance, interest_rate }) => {
@@ -235,17 +272,15 @@ class DashboardContainer extends Component {
   };
 
   handleOnDetails = () => {
-    this.state.creditCards.forEach(card => {
-      if (card.isSelected) {
-        browserHistory.push({
-          pathname: `/payoffdetails/${card.name}`,
-          state: {
-            card,
-            username: this.state.username,
-            token: this.state.token,
-          },
-        });
-      }
+    const { selectedCards } = this.state;
+    const card = selectedCards[0];
+    browserHistory.push({
+      pathname: `/payoffdetails/${card.name}`,
+      state: {
+        card,
+        username: this.state.username,
+        token: this.state.token,
+      },
     });
   };
 
