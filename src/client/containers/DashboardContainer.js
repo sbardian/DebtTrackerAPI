@@ -356,7 +356,7 @@ class DashboardContainer extends Component {
           </div>
         )}
         {tab === 1 && (
-          <div className="row" style={{ paddingTop: '20px' }}>
+          <div className="row">
             <PieChart cards={creditCards} username={username} token={token} />
           </div>
         )}
