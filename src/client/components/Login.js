@@ -26,6 +26,7 @@ const styles = theme => ({
     padding: '40px',
     paddingTop: '50px',
     backgroundColor: theme.palette.primary.main,
+    color: '#666',
   },
   textField: {
     marginLeft: theme.spacing.unit,
