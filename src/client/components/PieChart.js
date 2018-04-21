@@ -41,10 +41,11 @@ export default class PieChart extends Component {
     });
     return (
       <div
-        style={{ 
-          display: 'flex', 
-          justifyContent: 'center', 
-          alignItems: 'flex-end' }} 
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'flex-end',
+        }}
       >
         <Chart
           chartType="PieChart"

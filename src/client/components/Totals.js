@@ -13,11 +13,6 @@ import TotalsToolbar from './TotalsToolbar';
 import utils from '../utils/utils';
 
 const styles = theme => ({
-  root: {
-    width: '100%',
-    marginTop: theme.spacing.unit * 3,
-    overflowX: 'auto',
-  },
   table: {
     minWidth: 700,
   },
@@ -33,7 +28,7 @@ class Totals extends Component {
   render() {
     const { classes, totals, onAddTotal } = this.props;
     return (
-      <Paper className={classes.root}>
+      <Paper>
         <TotalsToolbar onAddTotal={onAddTotal} />
         <Table className={classes.table}>
           <TableHead>
