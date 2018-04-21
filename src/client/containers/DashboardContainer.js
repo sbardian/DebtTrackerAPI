@@ -326,6 +326,7 @@ class DashboardContainer extends Component {
             value={tab}
             onChange={this.handleTabChange}
             indicatorColor="primary"
+            textColor="#666"
             centered
           >
             <Tab label="Credit Cards" />
