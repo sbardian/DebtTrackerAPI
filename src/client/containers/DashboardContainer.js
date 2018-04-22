@@ -4,6 +4,10 @@ import AlertContainer from 'react-alert';
 import { browserHistory } from 'react-router';
 import { withStyles } from 'material-ui/styles';
 import AppBar from 'material-ui/AppBar';
+import Button from 'material-ui/Button';
+import Toolbar from 'material-ui/Toolbar';
+import TextField from 'material-ui/TextField';
+import Typography from 'material-ui/Typography';
 import Tabs, { Tab } from 'material-ui/Tabs';
 import Slide from 'material-ui/transitions/Slide';
 import utils from '../utils/utils';
@@ -19,6 +23,13 @@ import save from '../icons/save.png';
 const styles = theme => ({
   root: {
     flexGrow: 1,
+  },
+  appBarMain: {
+    background: '#4ba3c7',
+    position: 'relative',
+  },
+  flex: {
+    flex: 1,
   },
   appBar: {
     position: 'relative',
@@ -304,6 +315,18 @@ class DashboardContainer extends Component {
 
   DialogTransition = props => <Slide direction="up" {...props} />;
 
+  // Logout from the app.
+  // eslint-disable-next-line class-methods-use-this
+  logout =() => {
+    utils.userLogout(this.state.token).then(res => {
+      if (res.status === 200) {
+        browserHistory.push({
+          pathname: '/login',
+        });
+      }
+    });
+  }
+
   render() {
     const {
       isLoading,
@@ -324,6 +347,22 @@ class DashboardContainer extends Component {
       <p>Loading!!!</p>
     ) : (
       <div>
+        <div> 
+          <AppBar className={classes.appBarMain}>
+            <Toolbar>
+              <Typography
+                variant="title"
+                color="inherit"
+                className={classes.flex}
+              >
+                {username}
+              </Typography>
+              <Button color="inherit" onClick={() => this.logout()}>
+                logout
+              </Button>
+            </Toolbar>
+          </AppBar>
+        </div>
         <AppBar color="primary" className={classes.appBar}>
           <Tabs
             value={tab}
