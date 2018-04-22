@@ -23,6 +23,9 @@ const styles = theme => ({
   appBar: {
     position: 'relative',
   },
+  tabs: {
+    color: '#666',
+  },
 });
 
 class DashboardContainer extends Component {
@@ -326,7 +329,7 @@ class DashboardContainer extends Component {
             value={tab}
             onChange={this.handleTabChange}
             indicatorColor="primary"
-            textColor="#666"
+            className={classes.tabs}
             centered
           >
             <Tab label="Credit Cards" />
