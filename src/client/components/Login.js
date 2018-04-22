@@ -80,6 +80,13 @@ class Login extends Component {
       });
   }
 
+  // User Registration
+  register = () => {
+    browserHistory.push({
+      pathname: `/register`,
+    });
+  };
+
   // Updates state based on table cell that was edited.
   handleChange(e) {
     const { value, id } = e.target;
@@ -152,7 +159,11 @@ class Login extends Component {
                     >
                       Login
                     </Button>
-                    <Button variant="raised" className={classes.button}>
+                    <Button
+                      variant="raised"
+                      className={classes.button}
+                      onClick={() => this.register()}
+                    >
                       Register
                     </Button>
                   </Grid>
