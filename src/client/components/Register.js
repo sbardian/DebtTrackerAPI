@@ -1,61 +1,57 @@
+/* eslint react/prefer-stateless-function: 0 */
 import React, { Component } from 'react';
-import {
-  Form,
-  FormControl,
-  ControlLabel,
-  FormGroup,
-  Col,
-  Button,
-} from 'react-bootstrap';
+import { withStyles } from 'material-ui/styles';
 import { browserHistory } from 'react-router';
-import { transparentBg } from '../styles';
+import Button from 'material-ui/Button';
+import Dialog from 'material-ui/Dialog';
+import AppBar from 'material-ui/AppBar';
+import Toolbar from 'material-ui/Toolbar';
+import TextField from 'material-ui/TextField';
+import Typography from 'material-ui/Typography';
 import utils from '../utils/utils';
 
-export default class Register extends Component {
+const styles = theme => ({
+  appBar: {
+    position: 'relative',
+    // backgroundColor: theme.palette.primary.main,
+    color: '#666',
+  },
+  flex: {
+    flex: 1,
+  },
+  formContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'column',
+  },
+  textField: {
+    marginLeft: theme.spacing.unit,
+    marginRight: theme.spacing.unit,
+    width: 400,
+  },
+});
+
+class Register extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: '',
       username: '',
       email: '',
       password: '',
       passwordConf: '',
     };
-    this.userSelect = this.userSelect.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.registerUser = this.registerUser.bind(this);
   }
 
-  // Sets the state of the user selected.
-  userSelect(e) {
+  handleChange = name => event => {
     this.setState({
-      user: e.target.value,
+      [name]: event.target.value,
     });
-  }
+  };
 
-  // Updates state based on table cell that was edited.
-  handleChange(e) {
-    const { value, id } = e.target;
-    switch (id) {
-      case 'username':
-        this.setState({ username: value });
-        break;
-      case 'email':
-        this.setState({ email: value });
-        break;
-      case 'password':
-        this.setState({ password: value });
-        break;
-      case 'passwordConf':
-        this.setState({ passwordConf: value });
-        break;
-      default:
-        break;
-    }
-  }
-
-  registerUser(e) {
-    e.preventDefault();
+  registerUser() {
     const { username, email, password, passwordConf } = this.state;
     // TODO: confirm password and passwordConf match
     utils
@@ -79,90 +75,77 @@ export default class Register extends Component {
       });
   }
 
+  close() {
+    browserHistory.push({
+      pathname: `/login`,
+    });
+  }
+
   render() {
+    const { classes } = this.props;
     const { username, email, password, passwordConf } = this.state;
     return (
-      <div className="jumbotron col-sm-12 text-center" style={transparentBg}>
-        <h1>DebtTracker</h1>
-        <p className="lead">Lets get started!</p>
-        <div className="container">
-          <div className="row">
-            <div className="col-md-4 col-md-offset-4">
-              <Form onSubmit={this.registerUser}>
-                <FormGroup>
-                  <Col componentClass={ControlLabel} sm={2}>
-                    Email
-                  </Col>
-                  <Col sm={10}>
-                    <FormControl
-                      id="email"
-                      name="email"
-                      type="email"
-                      placeholder="Email"
-                      value={email}
-                      onChange={this.handleChange}
-                    />
-                  </Col>
-                </FormGroup>
-
-                <FormGroup>
-                  <Col componentClass={ControlLabel} sm={2}>
-                    Username
-                  </Col>
-                  <Col sm={10}>
-                    <FormControl
-                      id="username"
-                      name="username"
-                      type="text"
-                      placeholder="Username"
-                      value={username}
-                      onChange={this.handleChange}
-                    />
-                  </Col>
-                </FormGroup>
-
-                <FormGroup>
-                  <Col componentClass={ControlLabel} sm={2}>
-                    Password
-                  </Col>
-                  <Col sm={10}>
-                    <FormControl
-                      id="password"
-                      name="password"
-                      type="password"
-                      placeholder="Password"
-                      value={password}
-                      onChange={this.handleChange}
-                    />
-                  </Col>
-                </FormGroup>
-
-                <FormGroup>
-                  <Col componentClass={ControlLabel} sm={2}>
-                    Confirm Password
-                  </Col>
-                  <Col sm={10}>
-                    <FormControl
-                      id="passwordConf"
-                      name="passwordConf"
-                      type="password"
-                      placeholder="Confirm Password"
-                      value={passwordConf}
-                      onChange={this.handleChange}
-                    />
-                  </Col>
-                </FormGroup>
-
-                <FormGroup>
-                  <Col smOffset={2} sm={10}>
-                    <Button type="submit">Register</Button>
-                  </Col>
-                </FormGroup>
-              </Form>
-            </div>
-          </div>
+      <div>
+        <AppBar className={classes.appBar}>
+          <Toolbar>
+            <Typography
+              variant="title"
+              color="inherit"
+              className={classes.flex}
+            >
+              Register
+            </Typography>
+            <Button color="inherit" onClick={() => this.registerUser()}>
+              register
+            </Button>
+            <Button
+              color="inherit"
+              onClick={() => this.close()}
+              aria-label="Close"
+            >
+              cancel
+            </Button>
+          </Toolbar>
+        </AppBar>
+        <div className={classes.formContainer}>
+          <TextField
+            id="email"
+            label="Email"
+            className={classes.textField}
+            value={this.state.email}
+            onChange={this.handleChange('email')}
+            margin="normal"
+          />
+          <TextField
+            id="username"
+            label="Username"
+            className={classes.textField}
+            value={this.state.username}
+            onChange={this.handleChange('username')}
+            margin="normal"
+          />
+          <TextField
+            id="password"
+            label="Password"
+            type="password"
+            className={classes.textField}
+            value={this.state.password}
+            onChange={this.handleChange('password')}
+            margin="normal"
+          />
+          <TextField
+            id="passwordConf"
+            label="Confirm Password"
+            type="password"
+            className={classes.textField}
+            value={this.state.passwordConf}
+            onChange={this.handleChange('passwordConf')}
+            margin="normal"
+          />
         </div>
       </div>
     );
   }
 }
+
+export default withStyles(styles)(Register);
