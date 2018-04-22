@@ -37,6 +37,9 @@ const styles = theme => ({
   tabs: {
     color: '#666',
   },
+  chart: {
+    background: '#fff',
+  },
 });
 
 class DashboardContainer extends Component {
@@ -403,7 +406,7 @@ class DashboardContainer extends Component {
           </div>
         )}
         {tab === 1 && (
-          <div className="row">
+          <div className={classes.chart}>
             <PieChart cards={creditCards} username={username} token={token} />
           </div>
         )}
