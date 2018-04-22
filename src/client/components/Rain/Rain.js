@@ -1,4 +1,5 @@
 import React from 'react';
+import Proptypes from 'prop-types';
 import rain from '../../styles/rain.css';
 
 const randRange = (minNum, maxNum) =>
@@ -9,8 +10,7 @@ const getStyle = (dropLeft, dropTop) => ({
   top: `${dropTop}px`,
 });
 
-const Rain = props => {
-  const { count } = props;
+const Rain = ({ count }) => {
   const drops = [];
   for (let x = 1; x <= count; x++) {
     const dropLeft = randRange(0, 1600);
@@ -26,6 +26,10 @@ const Rain = props => {
     );
   }
   return <div>{drops.map(drop => drop)}</div>;
+};
+
+Rain.propTypes = {
+  count: Proptypes.number.isRequired,
 };
 
 export default Rain;
