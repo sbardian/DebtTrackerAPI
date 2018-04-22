@@ -2,6 +2,7 @@ import React from 'react';
 import Proptypes from 'prop-types';
 import rain from '../../styles/rain.css';
 
+// TODO: attempt an interval or something to randomize the amount of drops
 const randRange = (minNum, maxNum) =>
   Math.floor(Math.random() * (maxNum - minNum + 1)) + minNum;
 
