@@ -8,27 +8,27 @@ export default class PieChart extends Component {
     const self = this;
     this.chartEvents = [
       {
-        eventName: 'select',
-        callback: Chart => {
-          let i;
-          Chart.chart.getSelection().map(x => {
-            i = x.row;
-          });
-          const name = Chart.props.data[i + 1][0];
-          const selectedCard = self.props.cards.filter(x => {
-            if (x.name === name) {
-              return x;
-            }
-          });
-          browserHistory.push({
-            pathname: `/payoff/${name}`,
-            state: {
-              card: selectedCard,
-              username: this.props.username,
-              token: this.props.token,
-            },
-          });
-        },
+        // eventName: 'select',
+        // callback: Chart => {
+        //   let i;
+        //   Chart.chart.getSelection().map(x => {
+        //     i = x.row;
+        //   });
+        //   const name = Chart.props.data[i + 1][0];
+        //   const selectedCard = self.props.cards.filter(x => {
+        //     if (x.name === name) {
+        //       return x;
+        //     }
+        //   });
+        //   browserHistory.push({
+        //     pathname: `/payoff/${name}`,
+        //     state: {
+        //       card: selectedCard,
+        //       username: this.props.username,
+        //       token: this.props.token,
+        //     },
+        //   });
+        // },
       },
     ];
   }
