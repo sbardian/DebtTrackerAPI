@@ -62,6 +62,7 @@ class DashboardContainer extends Component {
   }
 
   componentDidMount() {
+    console.log('this.props = ', this.props);
     if (
       !(
         this.props.location &&
@@ -395,6 +396,9 @@ class DashboardContainer extends Component {
               onSave={onSave}
               cardToEdit={cardToEdit}
               title={dialogTitle}
+              username={username}
+              isAdmin={isAdmin}
+              token={token}
             />
           </div>
         )}
