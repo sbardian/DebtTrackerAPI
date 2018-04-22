@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
+import { browserHistory } from 'react-router';
 import Typography from 'material-ui/Typography';
 import Button from 'material-ui/Button';
 import AppBar from 'material-ui/AppBar';
@@ -15,6 +16,9 @@ const PayOffDetailsStyles = theme => ({
     position: 'relative',
     backgroundColor: theme.palette.primary.main,
     color: '#666',
+  },
+  flex: {
+    flex: 1,
   },
   container: {
     display: 'flex',
@@ -136,6 +140,18 @@ class PayOffDetails extends Component {
     this.calc(value);
   };
 
+  back = () => {
+    console.log('payoff props - ', this.props);
+    browserHistory.push({
+      pathname: '/',
+      state: {
+        username: this.props.location.state.username,
+        isAdmin: this.props.location.state.isAdmin,
+        token: this.props.location.state.token,
+      },
+    });
+  }
+
   render() {
     const { classes } = this.props;
     const {
@@ -176,7 +192,18 @@ class PayOffDetails extends Component {
     return (
       <Paper>
         <AppBar className={classes.appBar}>
-          <Toolbar />
+        <Toolbar>
+            <Typography
+              variant="title"
+              color="inherit"
+              className={classes.flex}
+            >
+              Pay Off Details
+            </Typography>
+            <Button color="inherit" onClick={() => this.back()}>
+              back
+            </Button>
+          </Toolbar>
         </AppBar>
         <div className={classes.containerTop}>
           <Typography>
@@ -228,13 +255,6 @@ class PayOffDetails extends Component {
           </div>
           <div>
             Total Paid: <h1>${utils.createDollar(total)}</h1>
-          </div>
-        </div>
-        <div className={classes.container}>
-          <div>
-            <Link to={{ pathname: '/', state: { username, token } }}>
-              <Button className={classes.button}>Back</Button>
-            </Link>
           </div>
         </div>
       </Paper>
