@@ -1,0 +1,43 @@
+html {
+  height: 100%;
+}
+body {
+  background: #000;
+  background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fff), to(#81d4fa));
+  background: -moz-linear-gradient(top, rgba(#fff) 0%, #81d4fa 100%);
+  overflow: hidden;
+}
+
+.drop {
+  background: -webkit-gradient(
+    linear,
+    0% 0%,
+    0% 100%,
+    from(rgba(255, 255, 255, 0.1)),
+    to(rgba(255, 255, 255, 0.9))
+  );
+  background: -moz-linear-gradient(
+    top,
+    rgba(255, 255, 255, 0.1) 0%,
+    rgba(255, 255, 255, 0.9) 100%
+  );
+  width: 10px;
+  height: 800px;
+  position: absolute;
+  z-index: -1;
+  -webkit-animation: fall 8s linear infinite;
+  -moz-animation: fall 8s linear infinite;
+}
+
+/* animate the drops*/
+@-webkit-keyframes fall {
+  to {
+    margin-top: 2000px;
+  }
+}
+
+@-moz-keyframes fall {
+  to {
+    margin-top: 2000px;
+  }
+}

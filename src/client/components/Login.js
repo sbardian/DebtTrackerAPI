@@ -6,6 +6,7 @@ import Paper from 'material-ui/Paper';
 import { withStyles } from 'material-ui/styles';
 import Typography from 'material-ui/Typography';
 import Button from 'material-ui/Button';
+import Rain from './Rain/Rain';
 import utils from '../utils/utils';
 
 const styles = theme => ({
@@ -97,66 +98,70 @@ class Login extends Component {
   render() {
     const { classes } = this.props;
     const { email, password } = this.state;
+
     return (
-      <Grid className={classes.root}>
-        <Grid
-          container
-          item
-          xs={12}
-          justify={'center'}
-          className={classes.container}
-        >
-          <Grid>
-            <Paper className={classes.paper}>
-              <Typography
-                className={classes.title}
-                variant="headline"
-                component="h3"
-              >
-                DebtTracker
-              </Typography>
-              <form className={classes.form}>
-                <Grid item xs={12}>
-                  <TextField
-                    id="email"
-                    label="Email"
-                    type="email"
-                    value={email}
-                    placeholder="Email"
-                    onChange={this.handleChange}
-                    className={classes.textField}
-                    margin="normal"
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    id="password"
-                    label="Password"
-                    type="password"
-                    value={password}
-                    placeholder="Password"
-                    onChange={this.handleChange}
-                    className={classes.textField}
-                    margin="normal"
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <Button
-                    variant="raised"
-                    className={classes.button}
-                    onClick={event => this.userLogin(event)}
-                  >
-                    Login
-                  </Button>
-                  <Button variant="raised" className={classes.button}>
-                    Register
-                  </Button>
-                </Grid>
-              </form>
-            </Paper>
+      <div>
+        <Rain count={30} />
+        <Grid className={classes.root}>
+          <Grid
+            container
+            item
+            xs={12}
+            justify={'center'}
+            className={classes.container}
+          >
+            <Grid>
+              <Paper className={classes.paper}>
+                <Typography
+                  className={classes.title}
+                  variant="headline"
+                  component="h3"
+                >
+                  DebtTracker
+                </Typography>
+                <form className={classes.form}>
+                  <Grid item xs={12}>
+                    <TextField
+                      id="email"
+                      label="Email"
+                      type="email"
+                      value={email}
+                      placeholder="Email"
+                      onChange={this.handleChange}
+                      className={classes.textField}
+                      margin="normal"
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField
+                      id="password"
+                      label="Password"
+                      type="password"
+                      value={password}
+                      placeholder="Password"
+                      onChange={this.handleChange}
+                      className={classes.textField}
+                      margin="normal"
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Button
+                      variant="raised"
+                      className={classes.button}
+                      onClick={event => this.userLogin(event)}
+                    >
+                      Login
+                    </Button>
+                    <Button variant="raised" className={classes.button}>
+                      Register
+                    </Button>
+                  </Grid>
+                </form>
+              </Paper>
+            </Grid>
           </Grid>
         </Grid>
-      </Grid>
+      </div>
     );
   }
 }
