@@ -5,7 +5,7 @@ body {
   background: #000;
   background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fff), to(#81d4fa));
   background: -moz-linear-gradient(top, rgba(#fff) 0%, #81d4fa 100%);
-  overflow: auto;
+  overflow: hidden;
 }
 
 .drop {

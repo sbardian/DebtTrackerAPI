@@ -52,6 +52,10 @@ class Login extends Component {
     this.userLogin = this.userLogin.bind(this);
   }
 
+  componentDidMount() {
+    document.body.style.overflowY = 'hidden';
+  }
+
   // User login
   userLogin(e) {
     const { email, password } = this.state;
