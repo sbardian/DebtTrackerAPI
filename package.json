@@ -43,7 +43,7 @@
     "rc-tooltip": "^3.4.9",
     "react": "15.6.1",
     "react-alert": "^2.3.0",
-    "react-bootstrap": "^0.30.10",
+    "react-bootstrap": "^0.32.0",
     "react-bootstrap-table": "^2.11.2",
     "react-dom": "^15.6.1",
     "react-google-charts": "^1.5.5",
