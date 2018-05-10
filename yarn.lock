@@ -2,17 +2,6 @@
 # yarn lockfile v1
 
 
-"@allenfang/react-toastr@2.8.2":
-  version "2.8.2"
-  resolved "https://registry.yarnpkg.com/@allenfang/react-toastr/-/react-toastr-2.8.2.tgz#0bef6585189e0571dd6bdfc4ef98bc9f9c47da0c"
-  dependencies:
-    classnames "^2.2.5"
-    element-class "^0.2.2"
-    lodash "^4.16.1"
-    react "^0.14.0 || <15.4.0"
-    react-addons-update "^0.14.0 || <15.4.0"
-    react-dom "^0.14.0 || <15.4.0"
-
 "@babel/code-frame@7.0.0-beta.36":
   version "7.0.0-beta.36"
   resolved "https://registry.yarnpkg.com/@babel/code-frame/-/code-frame-7.0.0-beta.36.tgz#2349d7ec04b3a06945ae173280ef8579b63728e4"
@@ -1021,7 +1010,7 @@ babel-register@^6.26.0:
     mkdirp "^0.5.1"
     source-map-support "^0.4.15"
 
-babel-runtime@6.x, babel-runtime@^6.11.6, babel-runtime@^6.18.0, babel-runtime@^6.22.0, babel-runtime@^6.26.0:
+babel-runtime@6.x, babel-runtime@^6.18.0, babel-runtime@^6.22.0, babel-runtime@^6.26.0:
   version "6.26.0"
   resolved "https://registry.yarnpkg.com/babel-runtime/-/babel-runtime-6.26.0.tgz#965c7058668e82b55d7bfe04ff2337bc8b5647fe"
   dependencies:
@@ -1459,7 +1448,7 @@ clap@^1.0.9:
   dependencies:
     chalk "^1.1.3"
 
-classnames@^2.1.2, classnames@^2.2.5:
+classnames@^2.2.5:
   version "2.2.5"
   resolved "https://registry.yarnpkg.com/classnames/-/classnames-2.2.5.tgz#fb3801d453467649ef3603c7d61a02bd129bde6d"
 
@@ -2157,10 +2146,6 @@ electron-to-chromium@^1.2.7, electron-to-chromium@^1.3.30:
   version "1.3.31"
   resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.31.tgz#00d832cba9fe2358652b0c48a8816c8e3a037e9f"
 
-element-class@^0.2.2:
-  version "0.2.2"
-  resolved "https://registry.yarnpkg.com/element-class/-/element-class-0.2.2.tgz#9d3bbd0767f9013ef8e1c8ebe722c1402a60050e"
-
 emoji-regex@^6.1.0:
   version "6.5.1"
   resolved "https://registry.yarnpkg.com/emoji-regex/-/emoji-regex-6.5.1.tgz#9baea929b155565c11ea41c6626eaa65cef992c2"
@@ -2627,7 +2612,7 @@ fb-watchman@^2.0.0:
   dependencies:
     bser "^2.0.0"
 
-fbjs@^0.8.1, fbjs@^0.8.12, fbjs@^0.8.16, fbjs@^0.8.4, fbjs@^0.8.9:
+fbjs@^0.8.1, fbjs@^0.8.12, fbjs@^0.8.16, fbjs@^0.8.9:
   version "0.8.16"
   resolved "https://registry.yarnpkg.com/fbjs/-/fbjs-0.8.16.tgz#5e67432f550dc41b572bf55847b8aca64e5337db"
   dependencies:
@@ -3342,7 +3327,7 @@ interpret@^0.6.4:
   version "0.6.6"
   resolved "https://registry.yarnpkg.com/interpret/-/interpret-0.6.6.tgz#fecd7a18e7ce5ca6abfb953e1f86213a49f1625b"
 
-invariant@^2.1.0, invariant@^2.2.0, invariant@^2.2.1:
+invariant@^2.2.0, invariant@^2.2.1:
   version "2.2.2"
   resolved "https://registry.yarnpkg.com/invariant/-/invariant-2.2.2.tgz#9e1f56ac0acdb6bf303306f338be3b204ae60360"
   dependencies:
@@ -4207,10 +4192,6 @@ kareem@1.5.0:
   version "1.5.0"
   resolved "https://registry.yarnpkg.com/kareem/-/kareem-1.5.0.tgz#e3e4101d9dcfde299769daf4b4db64d895d17448"
 
-keycode@^2.1.2:
-  version "2.1.9"
-  resolved "https://registry.yarnpkg.com/keycode/-/keycode-2.1.9.tgz#964a23c54e4889405b4861a5c9f0480d45141dfa"
-
 keycode@^2.1.9:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/keycode/-/keycode-2.2.0.tgz#3d0af56dc7b8b8e5cba8d0a97f107204eec22b04"
@@ -4383,7 +4364,7 @@ lodash@^4.13.1, lodash@^4.14.0, lodash@^4.17.4:
   version "4.17.5"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.5.tgz#99a92d65c0272debe8c96b6057bc8fbfa3bed511"
 
-lodash@^4.16.1, lodash@^4.17.2, lodash@^4.17.3, lodash@^4.2.0, lodash@^4.3.0:
+lodash@^4.17.2, lodash@^4.17.3, lodash@^4.2.0, lodash@^4.3.0:
   version "4.17.4"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.4.tgz#78203a4d1c328ae1d86dca6460e369b57f4055ae"
 
@@ -4657,9 +4638,9 @@ mongodb-core@3.0.8:
     bson "~1.0.4"
     require_optional "^1.0.1"
 
-mongodb-memory-server@1.7.3:
-  version "1.7.3"
-  resolved "https://registry.yarnpkg.com/mongodb-memory-server/-/mongodb-memory-server-1.7.3.tgz#fea4aab16bd4eb5bc541bba001b5738f756a6960"
+mongodb-memory-server@1.7.0:
+  version "1.7.0"
+  resolved "https://registry.yarnpkg.com/mongodb-memory-server/-/mongodb-memory-server-1.7.0.tgz#726eca78b4d71399b8182ad87bead068b3e44416"
   dependencies:
     babel-runtime "^6.26.0"
     debug "^3.1.0"
@@ -4670,7 +4651,7 @@ mongodb-memory-server@1.7.3:
     lockfile "^1.0.3"
     md5-file "^3.2.3"
     mkdirp "^0.5.1"
-    request "^2.85.0"
+    request "^2.83.0"
     request-promise "^4.2.2"
     tmp "^0.0.33"
     uuid "^3.2.1"
@@ -5741,10 +5722,6 @@ rc@^1.1.7:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
-"react-addons-update@^0.14.0 || <15.4.0":
-  version "15.3.2"
-  resolved "https://registry.yarnpkg.com/react-addons-update/-/react-addons-update-15.3.2.tgz#b6385c4db1e5df371825e0615b04360ed94430fe"
-
 react-alert@^2.3.0:
   version "2.4.0"
   resolved "https://registry.yarnpkg.com/react-alert/-/react-alert-2.4.0.tgz#b4c9ce74919b46be330a7addbf46e7561c295bc7"
@@ -5753,32 +5730,6 @@ react-alert@^2.3.0:
     glamorous "^3.13.1"
     nanoid "^0.2.2"
     react-transition-group "^1.1.2"
-
-react-bootstrap-table@^2.11.2:
-  version "2.11.2"
-  resolved "https://registry.yarnpkg.com/react-bootstrap-table/-/react-bootstrap-table-2.11.2.tgz#7b8036a79de140c052b5b2ed8ee6c34e786a3dbc"
-  dependencies:
-    "@allenfang/react-toastr" "2.8.2"
-    classnames "^2.1.2"
-
-react-bootstrap@^0.30.10:
-  version "0.30.10"
-  resolved "https://registry.yarnpkg.com/react-bootstrap/-/react-bootstrap-0.30.10.tgz#dbba6909595f2af4d91937db0f96ec8c2df2d1a8"
-  dependencies:
-    babel-runtime "^6.11.6"
-    classnames "^2.2.5"
-    dom-helpers "^3.2.0"
-    invariant "^2.2.1"
-    keycode "^2.1.2"
-    prop-types "^15.5.6"
-    react-overlays "^0.6.12"
-    react-prop-types "^0.4.0"
-    uncontrollable "^4.0.1"
-    warning "^3.0.0"
-
-"react-dom@^0.14.0 || <15.4.0":
-  version "15.3.2"
-  resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-15.3.2.tgz#c46b0aa5380d7b838e7a59c4a7beff2ed315531f"
 
 react-dom@^15.3.2, react-dom@^15.6.1:
   version "15.6.2"
@@ -5828,27 +5779,12 @@ react-lifecycles-compat@^1.0.2:
   version "1.1.4"
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-1.1.4.tgz#fc005c72849b7ed364de20a0f64ff58ebdc2009a"
 
-react-overlays@^0.6.12:
-  version "0.6.12"
-  resolved "https://registry.yarnpkg.com/react-overlays/-/react-overlays-0.6.12.tgz#a079c750cc429d7db4c7474a95b4b54033e255c3"
-  dependencies:
-    classnames "^2.2.5"
-    dom-helpers "^3.2.0"
-    react-prop-types "^0.4.0"
-    warning "^3.0.0"
-
 react-popper@^0.8.0:
   version "0.8.3"
   resolved "https://registry.yarnpkg.com/react-popper/-/react-popper-0.8.3.tgz#0f73333137c9fb0af6ec4074d2d0585a0a0461e1"
   dependencies:
     popper.js "^1.12.9"
     prop-types "^15.6.0"
-
-react-prop-types@^0.4.0:
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/react-prop-types/-/react-prop-types-0.4.0.tgz#f99b0bfb4006929c9af2051e7c1414a5c75b93d0"
-  dependencies:
-    warning "^3.0.0"
 
 react-router@^3.0.5:
   version "3.2.0"
@@ -5900,14 +5836,6 @@ react@15.6.1:
     loose-envify "^1.1.0"
     object-assign "^4.1.0"
     prop-types "^15.5.10"
-
-"react@^0.14.0 || <15.4.0":
-  version "15.3.2"
-  resolved "https://registry.yarnpkg.com/react/-/react-15.3.2.tgz#a7bccd2fee8af126b0317e222c28d1d54528d09e"
-  dependencies:
-    fbjs "^0.8.4"
-    loose-envify "^1.1.0"
-    object-assign "^4.1.0"
 
 react@^15.3.2:
   version "15.6.2"
@@ -6202,33 +6130,6 @@ request@2.81.0:
 request@^2.81.0, request@^2.83.0:
   version "2.83.0"
   resolved "https://registry.yarnpkg.com/request/-/request-2.83.0.tgz#ca0b65da02ed62935887808e6f510381034e3356"
-  dependencies:
-    aws-sign2 "~0.7.0"
-    aws4 "^1.6.0"
-    caseless "~0.12.0"
-    combined-stream "~1.0.5"
-    extend "~3.0.1"
-    forever-agent "~0.6.1"
-    form-data "~2.3.1"
-    har-validator "~5.0.3"
-    hawk "~6.0.2"
-    http-signature "~1.2.0"
-    is-typedarray "~1.0.0"
-    isstream "~0.1.2"
-    json-stringify-safe "~5.0.1"
-    mime-types "~2.1.17"
-    oauth-sign "~0.8.2"
-    performance-now "^2.1.0"
-    qs "~6.5.1"
-    safe-buffer "^5.1.1"
-    stringstream "~0.0.5"
-    tough-cookie "~2.3.3"
-    tunnel-agent "^0.6.0"
-    uuid "^3.1.0"
-
-request@^2.85.0:
-  version "2.85.0"
-  resolved "https://registry.yarnpkg.com/request/-/request-2.85.0.tgz#5a03615a47c61420b3eb99b7dba204f83603e1fa"
   dependencies:
     aws-sign2 "~0.7.0"
     aws4 "^1.6.0"
@@ -7080,12 +6981,6 @@ unbzip2-stream@^1.0.9:
   dependencies:
     buffer "^3.0.1"
     through "^2.3.6"
-
-uncontrollable@^4.0.1:
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/uncontrollable/-/uncontrollable-4.1.0.tgz#e0358291252e1865222d90939b19f2f49f81c1a9"
-  dependencies:
-    invariant "^2.1.0"
 
 uniq@^1.0.1:
   version "1.0.1"
