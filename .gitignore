@@ -8,6 +8,9 @@
 # Build path
 dist
 
+# package-lock.json
+package-lock.json
+
 # myCommands
 .myCommands
 
