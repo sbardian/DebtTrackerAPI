@@ -73,7 +73,7 @@
     "mongodb": "3.0.8",
     "mongodb-memory-server": "1.7.0",
     "moxios": "0.4.0",
-    "nyc": "10.3.2",
+    "nyc": "11.8.0",
     "prettier": "1.12.1",
     "rimraf": "2.6.2",
     "supertest-session": "3.2.0",
