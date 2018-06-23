@@ -9,5 +9,5 @@
       }
     ]
   ],
-  "plugins": ["transform-object-rest-spread", "inline-import"]
+  "plugins": ["transform-object-rest-spread"]
 }
