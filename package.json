@@ -42,7 +42,7 @@
     "rc-slider": "^8.6.1",
     "rc-tooltip": "^3.4.9",
     "react": "^16.4.1",
-    "react-alert": "^2.3.0",
+    "react-alert": "^4.0.0",
     "react-dom": "^16.4.1",
     "react-google-charts": "^3.0.0",
     "react-router": "^3.0.5",
