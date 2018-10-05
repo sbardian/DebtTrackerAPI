@@ -41,13 +41,9 @@ export const register = async (req, res, next) => {
       username: user.username,
       token,
     };
-    res
-      .set({
-        location: '/',
-      })
-      .status(200)
-      .send(data);
+    res.set({
+      location: '/',
+    });
+    return res.status(200).send(data);
   });
-
-  return next();
 };
