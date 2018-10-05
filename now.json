@@ -1,0 +1,7 @@
+{
+  "env": {
+    "DT_SESSION_SECRET": "@dt_session_secret",
+    "DT_DATABASE_URL": "@dt_database_url"
+  },
+  "alias": "debttracker"
+}
