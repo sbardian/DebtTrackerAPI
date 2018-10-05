@@ -1,9 +1,10 @@
 {
-  "name": "deptrackerapi",
+  "name": "debttrackerapi",
   "version": "1.0.0",
   "description": "API for the DebtTracker App.  Interfaces with MongoDB",
   "main": "index.js",
   "scripts": {
+    "start": "node dist/server/index.js",
     "pretest": "npm run clean",
     "test": "jest --forceExit",
     "test:watch": "jest --watch",
