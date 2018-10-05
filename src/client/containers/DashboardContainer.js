@@ -321,7 +321,7 @@ class DashboardContainer extends Component {
 
   // Logout from the app.
   // eslint-disable-next-line class-methods-use-this
-  logout =() => {
+  logout = () => {
     utils.userLogout(this.state.token).then(res => {
       if (res.status === 200) {
         browserHistory.push({
@@ -329,7 +329,7 @@ class DashboardContainer extends Component {
         });
       }
     });
-  }
+  };
 
   render() {
     const {
@@ -351,7 +351,7 @@ class DashboardContainer extends Component {
       <p>Loading!!!</p>
     ) : (
       <div>
-        <div> 
+        <div>
           <AppBar className={classes.appBarMain}>
             <Toolbar>
               <Typography
@@ -359,7 +359,7 @@ class DashboardContainer extends Component {
                 color="inherit"
                 className={classes.flex}
               >
-                {username}
+                {username.toUpperCase()}
               </Typography>
               <Button color="inherit" onClick={() => this.logout()}>
                 logout
