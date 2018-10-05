@@ -27,10 +27,12 @@ expressServer.use(cors(corsOptions));
 
 // Only load DB when in production
 if (process.env.NODE_ENV !== 'test') {
-  mongoose.connect(databaseUrl, {
-    useMongoClient: true,
-    promiseLibrary: bluebird,
-  });
+  mongoose.connect(
+    databaseUrl,
+    {
+      promiseLibrary: bluebird,
+    },
+  );
 
   const db = mongoose.connection;
 
