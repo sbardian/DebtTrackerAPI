@@ -54,7 +54,7 @@ const styles = theme => ({
 
 class CreditCards extends Component {
   // Formats a number to a dollar amount.
-  dollarFormatter(cell) {
+  static dollarFormatter(cell) {
     return `$${utils.createDollar(parseFloat(cell))}`;
   }
 
