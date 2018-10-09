@@ -1,5 +1,6 @@
 /* eslint react/prefer-stateless-function: 0 */
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
 import Tooltip from 'material-ui/Tooltip';
@@ -12,7 +13,6 @@ import DetailsIcon from 'material-ui-icons/Details';
 import { withStyles } from 'material-ui/styles';
 import { lighten } from 'material-ui/styles/colorManipulator';
 import classNames from 'classnames';
-import PropTypes from 'prop-types';
 
 const toolbarStyles = theme => ({
   root: {

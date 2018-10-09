@@ -26,11 +26,11 @@ const theme = createMuiTheme({
   },
 });
 
-const Main = props => (
+const Main = ({ children }) => (
   <div>
     <CssBaseline />
     <MuiThemeProvider theme={theme}>
-      <div className="main-container">{props.children}</div>
+      <div className="main-container">{children}</div>
     </MuiThemeProvider>
   </div>
 );

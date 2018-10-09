@@ -41,9 +41,9 @@ class Totals extends Component {
             {totals.map(total => (
               <TableRow key={total._id}>
                 <TableCell>{this.dateFormatter(total.updated_at)}</TableCell>
-                <TableCell numeric>{`$${utils.createDollar(
-                  total.total,
-                )}`}</TableCell>
+                <TableCell numeric>
+                  {`$${utils.createDollar(total.total)}`}
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>
