@@ -8,7 +8,8 @@
     "react/jsx-filename-extension": "off",
     "no-underscore-dangle": "off",
     "camelcase": "off",
-    "import/prefer-default-export": "off"
+    "import/prefer-default-export": "off",
+    "react/jsx-one-expression-per-line": "off"
   },
   "plugins": ["react", "jsx-a11y", "import"]
 }
