@@ -24,6 +24,10 @@ const styles = theme => ({
   root: {
     flexGrow: 1,
   },
+  loading: {
+    textAlign: 'center',
+    fontSize: '48pt',
+  },
   appBarMain: {
     background: '#4ba3c7',
     position: 'relative',
@@ -347,8 +351,8 @@ class DashboardContainer extends Component {
 
     const { classes } = this.props;
 
-    return isLoading === true ? (
-      <p>Loading!!!</p>
+    return isLoading ? (
+      <p className={classes.loading}>Loading...</p>
     ) : (
       <div>
         <div>
