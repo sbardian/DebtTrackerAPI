@@ -87,20 +87,40 @@ class PayOffDetails extends Component {
     this.calc();
   }
 
+  // Logs the payment amount for updating component.
+  log = value => {
+    this.setState({
+      paymentAmount: value,
+    });
+    this.calc(value);
+  };
+
+  back = () => {
+    console.log('payoff props - ', this.props);
+    browserHistory.push({
+      pathname: '/',
+      state: {
+        username: this.props.location.state.username,
+        isAdmin: this.props.location.state.isAdmin,
+        token: this.props.location.state.token,
+      },
+    });
+  };
+
   // Calculates the total paid and number of months to
   // pay off a card, based on paymentAmount.
   calc(paymentAmount) {
     const { interest_rate, balance } = this.props.location.state.card;
     let monthlyPayment = paymentAmount || balance * 0.023;
     monthlyPayment = monthlyPayment < 25 ? 25 : monthlyPayment;
-    const monthlyIntRate = interest_rate / 365 * 30;
+    const monthlyIntRate = (interest_rate / 365) * 30;
     let months = 0;
     let totalPaid = 0;
     let totalInterest = 0;
     let newBalance = balance;
     let x = 0;
     do {
-      const interest = monthlyIntRate * newBalance / 100;
+      const interest = (monthlyIntRate * newBalance) / 100;
       totalInterest += interest;
       const paid = monthlyPayment - interest;
       totalPaid = totalPaid + interest + paid;
@@ -123,33 +143,13 @@ class PayOffDetails extends Component {
     });
     if (!paymentAmount) {
       this.setState({
-        singlePaymentMax: balance + balance * monthlyIntRate / 100 + 1,
+        singlePaymentMax: balance + (balance * monthlyIntRate) / 100 + 1,
         minimum: monthlyPayment,
         monthsSave: months,
         balance,
         totalSave: totalPaid,
       });
     }
-  }
-
-  // Logs the payment amount for updating component.
-  log = value => {
-    this.setState({
-      paymentAmount: value,
-    });
-    this.calc(value);
-  };
-
-  back = () => {
-    console.log('payoff props - ', this.props);
-    browserHistory.push({
-      pathname: '/',
-      state: {
-        username: this.props.location.state.username,
-        isAdmin: this.props.location.state.isAdmin,
-        token: this.props.location.state.token,
-      },
-    });
   }
 
   render() {
@@ -192,7 +192,7 @@ class PayOffDetails extends Component {
     return (
       <Paper>
         <AppBar className={classes.appBar}>
-        <Toolbar>
+          <Toolbar>
             <Typography
               variant="title"
               color="inherit"
@@ -207,28 +207,24 @@ class PayOffDetails extends Component {
         </AppBar>
         <div className={classes.containerTop}>
           <Typography>
-            <strong>Limit: </strong>
-            ${utils.createDollar(limit)}
+            <strong>Limit: </strong>${utils.createDollar(limit)}
           </Typography>
           <Typography>
-            <strong>Balance: </strong>
-            ${utils.createDollar(balance)}
+            <strong>Balance: </strong>${utils.createDollar(balance)}
           </Typography>
           <Typography>
             <strong>Interest Rate: </strong>
             {interest_rate}%
           </Typography>
           <Typography>
-            <strong>Minimum Payment: </strong>
-            ${utils.createDollar(minimum)}
+            <strong>Minimum Payment: </strong>${utils.createDollar(minimum)}
           </Typography>
           <Typography>
             <strong>Months to Payoff: </strong>
             {monthsSave}
           </Typography>
           <Typography>
-            <strong>Total Paid: </strong>
-            ${utils.createDollar(totalSave)}
+            <strong>Total Paid: </strong>${utils.createDollar(totalSave)}
           </Typography>
         </div>
         <div className={classes.container}>

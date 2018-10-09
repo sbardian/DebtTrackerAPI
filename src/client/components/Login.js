@@ -56,6 +56,13 @@ class Login extends Component {
     document.body.style.overflowY = 'hidden';
   }
 
+  // User Registration
+  register = () => {
+    browserHistory.push({
+      pathname: `/register`,
+    });
+  };
+
   // User login
   userLogin(e) {
     const { email, password } = this.state;
@@ -84,13 +91,6 @@ class Login extends Component {
       });
   }
 
-  // User Registration
-  register = () => {
-    browserHistory.push({
-      pathname: `/register`,
-    });
-  };
-
   // Updates state based on table cell that was edited.
   handleChange(e) {
     const { value, id } = e.target;
@@ -118,7 +118,7 @@ class Login extends Component {
             container
             item
             xs={12}
-            justify={'center'}
+            justify="center"
             className={classes.container}
           >
             <Grid>

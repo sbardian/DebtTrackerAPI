@@ -1,5 +1,6 @@
 /* eslint react/prefer-stateless-function: 0 */
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
 import Button from 'material-ui/Button';
 import Dialog from 'material-ui/Dialog';
@@ -107,6 +108,8 @@ class AddDialog extends Component {
       title,
     } = this.props;
 
+    const { name, limit, balance, interest_rate } = this.state;
+
     return (
       <Dialog
         fullScreen
@@ -140,7 +143,7 @@ class AddDialog extends Component {
             id="name"
             label="Name"
             className={classes.textField}
-            value={this.state.name}
+            value={name}
             onChange={this.handleChange('name')}
             margin="normal"
           />
@@ -148,7 +151,7 @@ class AddDialog extends Component {
             id="limit"
             label="Limit"
             className={classes.textField}
-            value={this.state.limit}
+            value={limit}
             onChange={this.handleChange('limit')}
             margin="normal"
           />
@@ -156,7 +159,7 @@ class AddDialog extends Component {
             id="balance"
             label="Balance"
             className={classes.textField}
-            value={this.state.balance}
+            value={balance}
             onChange={this.handleChange('balance')}
             margin="normal"
           />
@@ -164,7 +167,7 @@ class AddDialog extends Component {
             id="interest_rate"
             label="Interest Rate"
             className={classes.textField}
-            value={this.state.interest_rate}
+            value={interest_rate}
             onChange={this.handleChange('interest_rate')}
             margin="normal"
           />
@@ -175,3 +178,5 @@ class AddDialog extends Component {
 }
 
 export default withStyles(styles)(AddDialog);
+
+AddDialog.propTypes = {};

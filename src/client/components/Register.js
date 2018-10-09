@@ -57,7 +57,7 @@ class Register extends Component {
     utils
       .registerUser(username, email, password, passwordConf)
       .then(response => {
-        if (response && response.status === 200) {
+        if (response.status === 200) {
           this.setState({
             username: response.data.username,
           });
@@ -112,7 +112,7 @@ class Register extends Component {
             id="email"
             label="Email"
             className={classes.textField}
-            value={this.state.email}
+            value={email}
             onChange={this.handleChange('email')}
             margin="normal"
           />
@@ -120,7 +120,7 @@ class Register extends Component {
             id="username"
             label="Username"
             className={classes.textField}
-            value={this.state.username}
+            value={username}
             onChange={this.handleChange('username')}
             margin="normal"
           />
@@ -129,7 +129,7 @@ class Register extends Component {
             label="Password"
             type="password"
             className={classes.textField}
-            value={this.state.password}
+            value={password}
             onChange={this.handleChange('password')}
             margin="normal"
           />
@@ -138,7 +138,7 @@ class Register extends Component {
             label="Confirm Password"
             type="password"
             className={classes.textField}
-            value={this.state.passwordConf}
+            value={passwordConf}
             onChange={this.handleChange('passwordConf')}
             margin="normal"
           />
