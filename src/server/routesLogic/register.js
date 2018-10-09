@@ -10,7 +10,6 @@ export const register = async (req, res, next) => {
     email,
     username,
     password,
-    passwordConf,
     isAdmin: false,
   };
   if (password !== passwordConf) {
