@@ -256,49 +256,26 @@ class DashboardContainer extends Component {
   };
 
   handleOnDetails = () => {
-    const { selectedCards } = this.state;
+    const { selectedCards, username, token } = this.state;
     const card = selectedCards[0];
     browserHistory.push({
       pathname: `/payoffdetails/${card.name}`,
       state: {
         card,
-        username: this.state.username,
-        token: this.state.token,
+        username,
+        token,
       },
     });
   };
 
-  computeDebt() {
-    let total = this.state.totalDebt;
-    this.state.creditCards.forEach(card => {
-      total += card.balance;
-    });
-    return utils.createDollar(total);
-  }
-
-  computeAvailable() {
-    let total = this.state.totalAvailable;
-    this.state.creditCards.forEach(card => {
-      total += card.limit;
-    });
-    return utils.createDollar(total);
-  }
-
-  computeNewTotal() {
-    let total = this.state.totalDebt;
-    this.state.creditCards.forEach(card => {
-      total += card.balance;
-    });
-    return total;
-  }
-
   handleTotalAdd = () => {
+    const { username, totals } = this.state;
     const newTotal = this.computeNewTotal();
-    utils.addNewTotal(this.state.username, newTotal).then(res => {
-      const temp = this.state.totals;
+    utils.addNewTotal(username, newTotal).then(res => {
+      const temp = totals;
       const { _id, updated_at } = res;
       temp.push({
-        user: this.state.username,
+        user: username,
         total: newTotal,
         _id,
         updated_at,
@@ -325,9 +302,9 @@ class DashboardContainer extends Component {
   DialogTransition = props => <Slide direction="up" {...props} />;
 
   // Logout from the app.
-  // eslint-disable-next-line class-methods-use-this
   logout = () => {
-    utils.userLogout(this.state.token).then(res => {
+    const { token } = this.state;
+    utils.userLogout(token).then(res => {
       if (res.status === 200) {
         browserHistory.push({
           pathname: '/login',
@@ -335,6 +312,33 @@ class DashboardContainer extends Component {
       }
     });
   };
+
+  computeDebt() {
+    const { creditCards, totalDebt } = this.state;
+    let total = totalDebt;
+    creditCards.forEach(card => {
+      total += card.balance;
+    });
+    return utils.createDollar(total);
+  }
+
+  computeAvailable() {
+    const { creditCards, totalAvailable } = this.state;
+    let total = totalAvailable;
+    creditCards.forEach(card => {
+      total += card.limit;
+    });
+    return utils.createDollar(total);
+  }
+
+  computeNewTotal() {
+    const { creditCards, totalDebt } = this.state;
+    let total = totalDebt;
+    creditCards.forEach(card => {
+      total += card.balance;
+    });
+    return total;
+  }
 
   render() {
     const {
@@ -348,6 +352,7 @@ class DashboardContainer extends Component {
       onSave,
       cardToEdit,
       dialogTitle,
+      dialogOpen,
     } = this.state;
 
     const { classes } = this.props;
@@ -400,7 +405,7 @@ class DashboardContainer extends Component {
               onOpen={this.handleDialogClickOpen}
               onClose={this.handleDialogClose}
               onTransition={this.DialogTransition}
-              dialogOpen={this.state.dialogOpen}
+              dialogOpen={dialogOpen}
               onSave={onSave}
               cardToEdit={cardToEdit}
               title={dialogTitle}
