@@ -215,6 +215,7 @@ class DashboardContainer extends Component {
 
   handleCreditCardEditSave = ({ _id, name, limit, balance, interest_rate }) => {
     const { creditCards } = this.state;
+    // TODO: validate credit card data
     utils
       .saveCreditCard(
         _id,
