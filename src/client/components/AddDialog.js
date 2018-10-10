@@ -63,7 +63,7 @@ class AddDialog extends Component {
     });
   }
 
-  handleChange = name => event => {
+  handleChange = (name, event) => {
     this.setState({
       [name]: event.target.value,
     });
@@ -139,32 +139,32 @@ class AddDialog extends Component {
             id="name"
             label="Name"
             className={classes.textField}
-            value={name}
-            onChange={this.handleChange('name')}
+            value={name || ''}
+            onChange={event => this.handleChange('name', event)}
             margin="normal"
           />
           <TextField
             id="limit"
             label="Limit"
             className={classes.textField}
-            value={limit}
-            onChange={this.handleChange('limit')}
+            value={limit || ''}
+            onChange={event => this.handleChange('limit', event)}
             margin="normal"
           />
           <TextField
             id="balance"
             label="Balance"
             className={classes.textField}
-            value={balance}
-            onChange={this.handleChange('balance')}
+            value={balance || ''}
+            onChange={event => this.handleChange('balance', event)}
             margin="normal"
           />
           <TextField
             id="interest_rate"
             label="Interest Rate"
             className={classes.textField}
-            value={interest_rate}
-            onChange={this.handleChange('interest_rate')}
+            value={interest_rate || ''}
+            onChange={event => this.handleChange('interest_rate', event)}
             margin="normal"
           />
         </div>
