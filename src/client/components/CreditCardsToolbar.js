@@ -13,6 +13,7 @@ import DetailsIcon from '@material-ui/icons/Details';
 import { withStyles } from '@material-ui/core/styles';
 import { lighten } from '@material-ui/core/styles/colorManipulator';
 import classNames from 'classnames';
+import withRoot from './withRoot';
 
 const toolbarStyles = theme => ({
   root: {
@@ -62,11 +63,11 @@ class TableToolbar extends Component {
       >
         <div className={classes.title}>
           {numSelected > 0 ? (
-            <Typography color="inherit" variant="subheading">
+            <Typography color="inherit" variant="subtitle1">
               {numSelected} selected
             </Typography>
           ) : (
-            <Typography variant="title">Credit Cards</Typography>
+            <Typography variant="h6">Credit Cards</Typography>
           )}
         </div>
         <div className={classes.spacer} />
@@ -117,4 +118,4 @@ class TableToolbar extends Component {
   }
 }
 
-export default withStyles(toolbarStyles)(TableToolbar);
+export default withRoot(withStyles(toolbarStyles)(TableToolbar));

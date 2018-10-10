@@ -40,7 +40,7 @@ class TotalsToolbar extends React.Component {
     return (
       <Toolbar className={classes.root}>
         <div className={classes.title}>
-          <Typography variant="title">Totals</Typography>
+          <Typography variant="h6">Totals</Typography>
         </div>
         <div className={classes.spacer} />
         <div className={classes.alignIcons}>

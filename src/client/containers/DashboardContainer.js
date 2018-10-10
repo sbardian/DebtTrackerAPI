@@ -369,11 +369,7 @@ class DashboardContainer extends Component {
         <div>
           <AppBar className={classes.appBarMain}>
             <Toolbar>
-              <Typography
-                variant="title"
-                color="inherit"
-                className={classes.flex}
-              >
+              <Typography variant="h6" color="inherit" className={classes.flex}>
                 {username.toUpperCase()}
               </Typography>
               <Button color="inherit" onClick={() => this.logout()}>
