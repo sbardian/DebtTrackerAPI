@@ -115,7 +115,7 @@ class AddDialog extends Component {
         fullScreen
         open={dialogOpen}
         onClose={onClose}
-        transition={onTransition}
+        TransitionComponent={onTransition}
       >
         <AppBar className={classes.appBar}>
           <Toolbar>
