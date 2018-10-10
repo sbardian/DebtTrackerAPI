@@ -19,6 +19,7 @@ import alertOptions from '../utils/alertOptions';
 import check from '../icons/check.png';
 import error from '../icons/error.png';
 import save from '../icons/save.png';
+import withRoot from '../components/withRoot';
 
 const styles = theme => ({
   root: {
@@ -29,7 +30,8 @@ const styles = theme => ({
     fontSize: '48pt',
   },
   appBarMain: {
-    background: '#4ba3c7',
+    // background: '#4ba3c7',
+    background: theme.palette.primary.dark,
     position: 'relative',
   },
   flex: {
@@ -432,4 +434,4 @@ class DashboardContainer extends Component {
   }
 }
 
-export default withStyles(styles)(DashboardContainer);
+export default withRoot(withStyles(styles)(DashboardContainer));
