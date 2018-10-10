@@ -203,8 +203,10 @@ class DashboardContainer extends Component {
   };
 
   handleCreditCardEdit = () => {
-    const { selectedCards } = this.state;
-    const card = selectedCards[0];
+    const { creditCards } = this.state;
+    const [card] = creditCards.filter(c => {
+      if (c.isSelected) return c;
+    });
     this.setState({
       cardToEdit: card,
       onSave: this.handleCreditCardEditSave,
@@ -353,6 +355,7 @@ class DashboardContainer extends Component {
       cardToEdit,
       dialogTitle,
       dialogOpen,
+      selectedCards,
     } = this.state;
 
     const { classes } = this.props;
