@@ -158,14 +158,14 @@ class Login extends Component {
                   </Grid>
                   <Grid item xs={12}>
                     <Button
-                      variant="raised"
+                      variant="contained"
                       className={classes.button}
                       onClick={event => this.userLogin(event)}
                     >
                       Login
                     </Button>
                     <Button
-                      variant="raised"
+                      variant="contained"
                       className={classes.button}
                       onClick={() => this.register()}
                     >
