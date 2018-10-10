@@ -1,13 +1,14 @@
 /* eslint react/prefer-stateless-function: 0 */
 import React, { Component } from 'react';
-import Table, {
+import {
+  Table,
   TableBody,
   TableHead,
   TableCell,
   TableRow,
-} from 'material-ui/Table';
-import Paper from 'material-ui/Paper';
-import { withStyles } from 'material-ui/styles';
+} from '@material-ui/core';
+import Paper from '@material-ui/core/Paper';
+import { withStyles } from '@material-ui/core/styles';
 import Moment from 'moment';
 import TotalsToolbar from './TotalsToolbar';
 import utils from '../utils/utils';

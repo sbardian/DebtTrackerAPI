@@ -1,11 +1,11 @@
 import React from 'react';
-import Toolbar from 'material-ui/Toolbar';
-import { withStyles } from 'material-ui';
-import Typography from 'material-ui/Typography';
-import Tooltip from 'material-ui/Tooltip';
-import IconButton from 'material-ui/IconButton';
-import AddCircleOutline from 'material-ui-icons/AddCircleOutline';
-import { lighten } from 'material-ui/styles/colorManipulator';
+import Toolbar from '@material-ui/core/Toolbar';
+import { withStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
+import Tooltip from '@material-ui/core/Tooltip';
+import IconButton from '@material-ui/core/IconButton';
+import AddCircleOutline from '@material-ui/icons/AddCircleOutline';
+import { lighten } from '@material-ui/core/styles/colorManipulator';
 
 const totalsToolbarStyles = theme => ({
   root: {

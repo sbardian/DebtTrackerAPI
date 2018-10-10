@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
-import { CssBaseline } from 'material-ui';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+// import { CssBaseLine } from '@material-ui/core/CssBaseline';
 
 const theme = createMuiTheme({
   typography: {
@@ -28,7 +28,7 @@ const theme = createMuiTheme({
 
 const Main = ({ children }) => (
   <div>
-    <CssBaseline />
+    {/* <CssBaseLine /> */}
     <MuiThemeProvider theme={theme}>
       <div className="main-container">{children}</div>
     </MuiThemeProvider>

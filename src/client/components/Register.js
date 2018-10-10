@@ -1,13 +1,13 @@
 /* eslint react/prefer-stateless-function: 0 */
 import React, { Component } from 'react';
-import { withStyles } from 'material-ui/styles';
+import { withStyles } from '@material-ui/core/styles';
 import { browserHistory } from 'react-router';
-import Button from 'material-ui/Button';
-import Dialog from 'material-ui/Dialog';
-import AppBar from 'material-ui/AppBar';
-import Toolbar from 'material-ui/Toolbar';
-import TextField from 'material-ui/TextField';
-import Typography from 'material-ui/Typography';
+import Button from '@material-ui/core/Button';
+import Dialog from '@material-ui/core/Dialog';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import TextField from '@material-ui/core/TextField';
+import Typography from '@material-ui/core/Typography';
 import utils from '../utils/utils';
 
 const styles = theme => ({

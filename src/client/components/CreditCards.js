@@ -2,16 +2,17 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import AlertContainer from 'react-alert';
-import Table, {
+import {
+  Table,
   TableBody,
   TableHead,
   TableCell,
   TableRow,
-} from 'material-ui/Table';
-import Checkbox from 'material-ui/Checkbox';
-import { withStyles } from 'material-ui/styles';
-import { lighten } from 'material-ui/styles/colorManipulator';
-import Paper from 'material-ui/Paper';
+} from '@material-ui/core';
+import Checkbox from '@material-ui/core/Checkbox';
+import { withStyles } from '@material-ui/core/styles';
+import { lighten } from '@material-ui/core/styles/colorManipulator';
+import Paper from '@material-ui/core/Paper';
 import utils from '../utils/utils';
 import CreditCardsToolbar from './CreditCardsToolbar';
 import alertOptions from '../utils/alertOptions';
@@ -55,7 +56,7 @@ const styles = theme => ({
 
 class CreditCards extends Component {
   // Formats a number to a dollar amount.
-  static dollarFormatter(cell) {
+  dollarFormatter(cell) {
     return `$${utils.createDollar(parseFloat(cell))}`;
   }
 
@@ -129,21 +130,21 @@ class CreditCards extends Component {
   }
 }
 
-CreditCards.propTypes = {
-  classes: PropTypes.node.isRequired,
-  creditCards: PropTypes.shape({
-    name: PropTypes.string,
-    limit: PropTypes.number,
-    balance: PropTypes.number,
-    interest_rate: PropTypes.number,
-    isSelected: PropTypes.bool,
-  }).isRequired,
-  onSelectAll: PropTypes.func.isRequired,
-  onSelect: PropTypes.func.isRequired,
-  onDelete: PropTypes.func.isRequired,
-  onAdd: PropTypes.func.isRequired,
-  onEdit: PropTypes.func.isRequired,
-  onDetails: PropTypes.func.isRequired,
-};
+// CreditCards.propTypes = {
+// classes: PropTypes.node.isRequired,
+// creditCards: PropTypes.shape({
+//   name: PropTypes.string,
+//   limit: PropTypes.number,
+//   balance: PropTypes.number,
+//   interest_rate: PropTypes.number,
+//   isSelected: PropTypes.bool,
+// }).isRequired,
+// onSelectAll: PropTypes.func.isRequired,
+// onSelect: PropTypes.func.isRequired,
+// onDelete: PropTypes.func.isRequired,
+// onAdd: PropTypes.func.isRequired,
+// onEdit: PropTypes.func.isRequired,
+// onDetails: PropTypes.func.isRequired,
+// };
 
 export default withStyles(styles)(CreditCards);
