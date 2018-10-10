@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import AlertContainer from 'react-alert';
 import { browserHistory } from 'react-router';
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles, withTheme } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
 import Toolbar from '@material-ui/core/Toolbar';
-import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import { Tabs, Tab } from '@material-ui/core';
 import Slide from '@material-ui/core/Slide';
@@ -19,7 +17,6 @@ import alertOptions from '../utils/alertOptions';
 import check from '../icons/check.png';
 import error from '../icons/error.png';
 import save from '../icons/save.png';
-import withRoot from '../components/withRoot';
 
 const styles = theme => ({
   root: {
@@ -430,4 +427,4 @@ class DashboardContainer extends Component {
   }
 }
 
-export default withRoot(withStyles(styles)(DashboardContainer));
+export default withTheme()(withStyles(styles)(DashboardContainer));
