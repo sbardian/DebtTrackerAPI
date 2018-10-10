@@ -8,6 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import Rain from './Rain/Rain';
 import utils from '../utils/utils';
+import withRoot from './withRoot';
 
 const styles = theme => ({
   root: {
@@ -19,7 +20,7 @@ const styles = theme => ({
   },
   paper: {
     textAlign: 'center',
-    color: theme.palette.text.secondary,
+    color: theme.palette.secondary.dark,
     padding: 0,
     width: 400,
   },
@@ -125,7 +126,7 @@ class Login extends Component {
               <Paper className={classes.paper}>
                 <Typography
                   className={classes.title}
-                  variant="headline"
+                  variant="h5"
                   component="h3"
                 >
                   DebtTracker
@@ -181,4 +182,4 @@ class Login extends Component {
   }
 }
 
-export default withStyles(styles)(Login);
+export default withRoot(withStyles(styles)(Login));

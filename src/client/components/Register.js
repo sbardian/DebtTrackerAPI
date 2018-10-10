@@ -88,11 +88,7 @@ class Register extends Component {
       <div>
         <AppBar className={classes.appBar}>
           <Toolbar>
-            <Typography
-              variant="title"
-              color="inherit"
-              className={classes.flex}
-            >
+            <Typography variant="h6" color="inherit" className={classes.flex}>
               Register
             </Typography>
             <Button color="inherit" onClick={() => this.registerUser()}>

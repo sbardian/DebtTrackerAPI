@@ -16,6 +16,7 @@ import Paper from '@material-ui/core/Paper';
 import utils from '../utils/utils';
 import CreditCardsToolbar from './CreditCardsToolbar';
 import alertOptions from '../utils/alertOptions';
+import withRoot from './withRoot';
 
 const styles = theme => ({
   container: {
@@ -27,31 +28,31 @@ const styles = theme => ({
     width: '100%',
     overflowX: 'auto',
   },
-  highlight:
-    theme.palette.type === 'light'
-      ? {
-          color: theme.palette.secondary.main,
-          backgroundColor: lighten(theme.palette.secondary.light, 0.85),
-        }
-      : {
-          color: theme.palette.text.primary,
-          backgroundColor: theme.palette.secondary.dark,
-        },
-  spacer: {
-    flex: '1 1 100%',
-  },
-  actions: {
-    color: theme.palette.text.secondary,
-  },
-  title: {
-    flex: '0 0 auto',
-  },
-  table: {
-    minWidth: 800,
-  },
-  tableWrapper: {
-    overflowX: 'auto',
-  },
+  // highlight:
+  //   theme.palette.type === 'light'
+  //     ? {
+  //         color: theme.palette.secondary.main,
+  //         backgroundColor: lighten(theme.palette.secondary.light, 0.85),
+  //       }
+  //     : {
+  //         color: theme.palette.text.primary,
+  //         backgroundColor: theme.palette.secondary.dark,
+  //       },
+  // spacer: {
+  //   flex: '1 1 100%',
+  // },
+  // actions: {
+  //   color: theme.palette.text.secondary,
+  // },
+  // title: {
+  //   flex: '0 0 auto',
+  // },
+  // table: {
+  //   minWidth: 800,
+  // },
+  // tableWrapper: {
+  //   overflowX: 'auto',
+  // },
 });
 
 class CreditCards extends Component {
@@ -85,7 +86,7 @@ class CreditCards extends Component {
             onEdit={onEdit}
             onDetails={onDetails}
           />
-          <Table className={classes.customTableFontSize}>
+          <Table>
             <TableHead>
               <TableRow>
                 <TableCell>
@@ -147,4 +148,4 @@ class CreditCards extends Component {
 // onDetails: PropTypes.func.isRequired,
 // };
 
-export default withStyles(styles)(CreditCards);
+export default withRoot(withStyles(styles)(CreditCards));

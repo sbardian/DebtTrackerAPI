@@ -119,11 +119,7 @@ class AddDialog extends Component {
       >
         <AppBar className={classes.appBar}>
           <Toolbar>
-            <Typography
-              variant="title"
-              color="inherit"
-              className={classes.flex}
-            >
+            <Typography variant="h6" color="inherit" className={classes.flex}>
               {title}
             </Typography>
             <Button color="inherit" onClick={() => this.save()}>
