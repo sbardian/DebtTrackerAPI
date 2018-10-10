@@ -54,7 +54,7 @@ export const addCreditCard = (req, res) => {
 };
 
 export const deleteCreditCard = (req, res) => {
-  CreditCard.findById(req.params.id, findError => {
+  CreditCard.findById(req.params.id, (findError, card) => {
     if (findError) {
       return res
         .status(400)
@@ -68,7 +68,7 @@ export const deleteCreditCard = (req, res) => {
       }
       return res.json({
         error: false,
-        message: `Data associated with ${req.params.id} is deleted`,
+        message: `Data associated with ${card.name} is deleted`,
       });
     });
   });
