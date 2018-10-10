@@ -3,12 +3,11 @@ import { browserHistory } from 'react-router';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles, withTheme } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import Rain from './Rain/Rain';
 import utils from '../utils/utils';
-import withRoot from './withRoot';
 
 const styles = theme => ({
   root: {
@@ -182,4 +181,4 @@ class Login extends Component {
   }
 }
 
-export default withRoot(withStyles(styles)(Login));
+export default withTheme()(withStyles(styles)(Login));

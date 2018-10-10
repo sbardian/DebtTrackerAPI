@@ -10,13 +10,12 @@ import {
   TableRow,
 } from '@material-ui/core';
 import Checkbox from '@material-ui/core/Checkbox';
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles, withTheme } from '@material-ui/core/styles';
 import { lighten } from '@material-ui/core/styles/colorManipulator';
 import Paper from '@material-ui/core/Paper';
 import utils from '../utils/utils';
 import CreditCardsToolbar from './CreditCardsToolbar';
 import alertOptions from '../utils/alertOptions';
-import withRoot from './withRoot';
 
 const styles = theme => ({
   container: {
@@ -148,4 +147,4 @@ class CreditCards extends Component {
 // onDetails: PropTypes.func.isRequired,
 // };
 
-export default withRoot(withStyles(styles)(CreditCards));
+export default withTheme()(withStyles(styles)(CreditCards));

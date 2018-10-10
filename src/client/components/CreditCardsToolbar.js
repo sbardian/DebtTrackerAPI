@@ -10,10 +10,9 @@ import FilterListIcon from '@material-ui/icons/FilterList';
 import AddCircleOutline from '@material-ui/icons/AddCircleOutline';
 import EditIcon from '@material-ui/icons/Edit';
 import DetailsIcon from '@material-ui/icons/Details';
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles, withTheme } from '@material-ui/core/styles';
 import { lighten } from '@material-ui/core/styles/colorManipulator';
 import classNames from 'classnames';
-import withRoot from './withRoot';
 
 const toolbarStyles = theme => ({
   root: {
@@ -118,4 +117,4 @@ class TableToolbar extends Component {
   }
 }
 
-export default withRoot(withStyles(toolbarStyles)(TableToolbar));
+export default withTheme()(withStyles(toolbarStyles)(TableToolbar));
