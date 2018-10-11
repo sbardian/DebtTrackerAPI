@@ -8,11 +8,12 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
+import { TextValidator, ValidatorForm } from 'react-material-ui-form-validator';
 
 const styles = theme => ({
   appBar: {
     position: 'relative',
-    // backgroundColor: theme.palette.primary.main,
+    backgroundColor: theme.palette.primary.main,
     color: '#666',
   },
   flex: {
@@ -41,6 +42,7 @@ class AddDialog extends Component {
       balance: '',
       limit: '',
       interest_rate: '',
+      test: '',
     };
   }
 
@@ -70,17 +72,31 @@ class AddDialog extends Component {
   };
 
   save = () => {
-    const { onSave, onClose } = this.props;
-    onSave(this.state);
-    this.setState({
-      _id: '',
-      userId: '',
-      name: '',
-      balance: '',
-      limit: '',
-      interest_rate: '',
-    });
-    onClose();
+    const { onSave, onClose, onRequired } = this.props;
+    const { name, limit, balance, interest_rate } = this.state;
+
+    // TODO: find a better way to check this.
+    if (!name || !limit || !balance || !interest_rate) {
+      onRequired();
+    } else if (
+      name === '' ||
+      limit === '' ||
+      balance === '' ||
+      interest_rate === ''
+    ) {
+      onRequired();
+    } else {
+      onSave(this.state);
+      this.setState({
+        _id: '',
+        userId: '',
+        name: '',
+        balance: '',
+        limit: '',
+        interest_rate: '',
+      });
+      onClose();
+    }
   };
 
   close = () => {
@@ -134,40 +150,61 @@ class AddDialog extends Component {
             </Button>
           </Toolbar>
         </AppBar>
-        <div className={classes.formContainer}>
-          <TextField
+        <ValidatorForm className={classes.formContainer} onSubmit={() => {}}>
+          <TextValidator
             id="name"
             label="Name"
+            onChange={event => this.handleChange('name', event)}
+            name="name"
             className={classes.textField}
             value={name || ''}
-            onChange={event => this.handleChange('name', event)}
             margin="normal"
+            validators={['required', 'isString']}
+            errorMessages={['Required', 'Name of the credit card.']}
           />
-          <TextField
+          <TextValidator
             id="limit"
             label="Limit"
+            onChange={event => this.handleChange('limit', event)}
+            name="limit"
             className={classes.textField}
             value={limit || ''}
-            onChange={event => this.handleChange('limit', event)}
             margin="normal"
+            validators={['required', 'isFloat']}
+            errorMessages={[
+              'Required',
+              'Limit for the card.  (e.g. 1500.00 or 1500)',
+            ]}
           />
-          <TextField
+          <TextValidator
             id="balance"
             label="Balance"
+            onChange={event => this.handleChange('balance', event)}
+            name="balance"
             className={classes.textField}
             value={balance || ''}
-            onChange={event => this.handleChange('balance', event)}
             margin="normal"
+            validators={['required', 'isFloat']}
+            errorMessages={[
+              'Required',
+              'Balance for the card.  (e.g. 500.00 or 500)',
+            ]}
           />
-          <TextField
+          <TextValidator
             id="interest_rate"
             label="Interest Rate"
+            onChange={event => this.handleChange('interest_rate', event)}
+            name="interest_rate"
             className={classes.textField}
             value={interest_rate || ''}
-            onChange={event => this.handleChange('interest_rate', event)}
             margin="normal"
+            validators={['required', 'isFloat']}
+            errorMessages={[
+              'Required',
+              'Interest rate for the card.  (e.g. 15.0 or 15)',
+            ]}
           />
-        </div>
+        </ValidatorForm>
       </Dialog>
     );
   }

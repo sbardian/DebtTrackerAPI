@@ -6395,6 +6395,12 @@ react-event-listener@^0.6.2:
     prop-types "^15.6.0"
     warning "^4.0.1"
 
+react-form-validator-core@0.5.0:
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/react-form-validator-core/-/react-form-validator-core-0.5.0.tgz#dfb669bd9475b7dd1c275096f7f3414a6fb3077a"
+  dependencies:
+    react-lifecycles-compat "^3.0.2"
+
 react-google-charts@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/react-google-charts/-/react-google-charts-3.0.0.tgz#9d249c63beaee14d0d1b80064e77dab160754566"
@@ -6414,6 +6420,12 @@ react-lifecycles-compat@^3.0.2, react-lifecycles-compat@^3.0.4:
 react-load-script@^0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/react-load-script/-/react-load-script-0.0.6.tgz#db6851236aaa25bb622677a2eb51dad4f8d2c258"
+
+react-material-ui-form-validator@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/react-material-ui-form-validator/-/react-material-ui-form-validator-2.0.2.tgz#6e1f4178a556805e86561904dcf7a5a75371cec3"
+  dependencies:
+    react-form-validator-core "0.5.0"
 
 react-router@^3.0.5:
   version "3.2.0"
