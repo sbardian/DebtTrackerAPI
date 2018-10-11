@@ -249,8 +249,8 @@ class DashboardContainer extends Component {
           });
           this.msg.show(response.message, {
             time: 5000,
-            type: 'success',
-            icon: <img src={save} alt="Card updated." />,
+            type: 'error',
+            icon: <img src={save} alt="All fields are required." />,
           });
         }
       });
@@ -289,6 +289,14 @@ class DashboardContainer extends Component {
         type: 'success',
         icon: <img src={save} alt="Total saved." />,
       });
+    });
+  };
+
+  handleRequired = () => {
+    this.msg.show('All fields are required.', {
+      time: 5000,
+      type: 'error',
+      icon: <img src={error} alt="Total saved." />,
     });
   };
 
@@ -351,6 +359,7 @@ class DashboardContainer extends Component {
       totals,
       tab,
       onSave,
+      handleRequired,
       cardToEdit,
       dialogTitle,
       dialogOpen,
@@ -405,6 +414,7 @@ class DashboardContainer extends Component {
               onTransition={this.DialogTransition}
               dialogOpen={dialogOpen}
               onSave={onSave}
+              onRequired={this.handleRequired}
               cardToEdit={cardToEdit}
               title={dialogTitle}
               username={username}
