@@ -43,10 +43,8 @@ class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: '',
       email: '',
       password: '',
-      isAdmin: false,
     };
     this.handleChange = this.handleChange.bind(this);
     this.userLogin = this.userLogin.bind(this);
@@ -71,9 +69,9 @@ class Login extends Component {
       .userLogin(email, password)
       .then(response => {
         if (response.status === 200) {
-          this.setState({
-            username: response.data.username,
-          });
+          // this.setState({
+          //   username: response.data.username,
+          // });
           browserHistory.push({
             pathname: `/`,
             state: {
@@ -112,6 +110,8 @@ class Login extends Component {
 
     return (
       <div>
+        <Rain count={30} />
+        <Rain count={30} />
         <Rain count={30} />
         <Grid className={classes.root}>
           <Grid
