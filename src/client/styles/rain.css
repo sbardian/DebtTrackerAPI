@@ -25,18 +25,13 @@ body {
   height: 800px;
   position: absolute;
   z-index: -1;
-  -webkit-animation: fall 8s linear infinite;
-  -moz-animation: fall 8s linear infinite;
+  animation: fall 6s linear infinite;
 }
 
-/* animate the drops*/
-@-webkit-keyframes fall {
-  to {
-    margin-top: 2000px;
+@keyframes fall {
+  from {
+    margin-top: -1800px;
   }
-}
-
-@-moz-keyframes fall {
   to {
     margin-top: 2000px;
   }

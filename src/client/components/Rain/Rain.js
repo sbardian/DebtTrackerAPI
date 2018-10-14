@@ -1,33 +1,47 @@
-import React from 'react';
+import React, { Component } from 'react';
 import Proptypes from 'prop-types';
-import rain from '../../styles/rain.css';
+import '../../styles/rain.css';
 
 // TODO: attempt an interval or something to randomize the amount of drops
 const randRange = (minNum, maxNum) =>
   Math.floor(Math.random() * (maxNum - minNum + 1)) + minNum;
 
-const getStyle = (dropLeft, dropTop) => ({
+const getStyle = (dropLeft, dropTop, delay) => ({
   left: `${dropLeft}px`,
   top: `${dropTop}px`,
+  animationDelay: `${delay}s`,
 });
 
-const Rain = ({ count }) => {
-  const drops = [];
-  for (let x = 1; x <= count; x++) {
-    const dropLeft = randRange(0, 1600);
-    const dropTop = randRange(-1000, 0);
-    const styles = getStyle(dropLeft, dropTop);
-    drops.push(
-      <div
-        key={`drop-${x}`}
-        id={`drop-${x}`}
-        className="drop"
-        style={styles}
-      />,
-    );
+class Rain extends Component {
+  shouldComponentUpdate() {
+    return false;
   }
-  return <div>{drops.map(drop => drop)}</div>;
-};
+
+  render() {
+    const { count } = this.props;
+
+    const drops = [];
+
+    // for (let x = 1; x <= count; x++)
+    let x = 0;
+    while (x <= count) {
+      const dropLeft = randRange(0, 1800);
+      const dropTop = randRange(-2000, -1000);
+      const delay = randRange(0, 5);
+      const styles = getStyle(dropLeft, dropTop, delay);
+      drops.push(
+        <div
+          key={`drop-${x}`}
+          id={`drop-${x}`}
+          className="drop"
+          style={styles}
+        />,
+      );
+      x += 1;
+    }
+    return <div>{drops.map(drop => drop)}</div>;
+  }
+}
 
 Rain.propTypes = {
   count: Proptypes.number.isRequired,
