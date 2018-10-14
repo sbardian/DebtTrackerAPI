@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import AlertContainer from 'react-alert';
 import { browserHistory } from 'react-router';
 import { withStyles, withTheme } from '@material-ui/core/styles';
@@ -359,11 +360,9 @@ class DashboardContainer extends Component {
       totals,
       tab,
       onSave,
-      handleRequired,
       cardToEdit,
       dialogTitle,
       dialogOpen,
-      selectedCards,
     } = this.state;
 
     const { classes } = this.props;
@@ -436,5 +435,9 @@ class DashboardContainer extends Component {
     );
   }
 }
+
+DashboardContainer.propTypes = {
+  classes: PropTypes.shape().isRequired,
+};
 
 export default withTheme()(withStyles(styles)(DashboardContainer));
