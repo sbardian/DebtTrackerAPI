@@ -36,6 +36,8 @@ const Main = ({ children }) => (
   </div>
 );
 
-Main.propTypes = {};
+Main.propTypes = {
+  children: PropTypes.node.isRequired,
+};
 
 export default Main;
