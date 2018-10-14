@@ -6,7 +6,6 @@ import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import { TextValidator, ValidatorForm } from 'react-material-ui-form-validator';
 
@@ -113,16 +112,7 @@ class AddDialog extends Component {
   };
 
   render() {
-    const {
-      classes,
-      dialogOpen,
-      onOpen,
-      onClose,
-      onTransition,
-      onSave,
-      cardToEdit,
-      title,
-    } = this.props;
+    const { classes, dialogOpen, onClose, onTransition, title } = this.props;
 
     const { name, limit, balance, interest_rate } = this.state;
 
@@ -212,4 +202,13 @@ class AddDialog extends Component {
 
 export default withStyles(styles)(AddDialog);
 
-AddDialog.propTypes = {};
+AddDialog.propTypes = {
+  classes: PropTypes.shape().isRequired,
+  onRequired: PropTypes.func.isRequired,
+  dialogOpen: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
+  onTransition: PropTypes.func.isRequired,
+  onSave: PropTypes.func.isRequired,
+  cardToEdit: PropTypes.shape().isRequired,
+  title: PropTypes.string.isRequired,
+};
