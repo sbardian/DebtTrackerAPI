@@ -72,7 +72,7 @@
     "jest": "23.6.0",
     "jest-environment-node": "23.4.0",
     "mockingoose": "2.10.1",
-    "mongodb": "3.1.6",
+    "mongodb": "3.1.8",
     "mongodb-memory-server": "1.9.3",
     "moxios": "0.4.0",
     "prettier": "1.14.3",
