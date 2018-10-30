@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Toolbar from '@material-ui/core/Toolbar';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
@@ -29,7 +30,7 @@ const totalsToolbarStyles = theme => ({
   },
 });
 
-class TotalsToolbar extends React.Component {
+class TotalsToolbar extends Component {
   constructor(props) {
     super(props);
     this.state = {};
@@ -54,5 +55,10 @@ class TotalsToolbar extends React.Component {
     );
   }
 }
+
+TotalsToolbar.propTypes = {
+  classes: PropTypes.shape().isRequired,
+  onAddTotal: PropTypes.func.isRequired,
+};
 
 export default withStyles(totalsToolbarStyles)(TotalsToolbar);

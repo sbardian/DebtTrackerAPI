@@ -1,9 +1,9 @@
 /* eslint react/prefer-stateless-function: 0 */
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { browserHistory } from 'react-router';
 import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import TextField from '@material-ui/core/TextField';
@@ -33,6 +33,12 @@ const styles = theme => ({
 });
 
 class Register extends Component {
+  static close() {
+    browserHistory.push({
+      pathname: `/login`,
+    });
+  }
+
   constructor(props) {
     super(props);
     this.state = {
@@ -75,12 +81,6 @@ class Register extends Component {
       });
   }
 
-  close() {
-    browserHistory.push({
-      pathname: `/login`,
-    });
-  }
-
   render() {
     const { classes } = this.props;
     const { username, email, password, passwordConf } = this.state;
@@ -96,7 +96,7 @@ class Register extends Component {
             </Button>
             <Button
               color="inherit"
-              onClick={() => this.close()}
+              onClick={() => Register.close()}
               aria-label="Close"
             >
               cancel
@@ -143,5 +143,9 @@ class Register extends Component {
     );
   }
 }
+
+Register.propTypes = {
+  classes: PropTypes.shape().isRequired,
+};
 
 export default withStyles(styles)(Register);

@@ -1,5 +1,6 @@
 /* eslint react/prefer-stateless-function: 0 */
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import {
   Table,
   TableBody,
@@ -53,5 +54,21 @@ class Totals extends Component {
     );
   }
 }
+
+Totals.propTypes = {
+  classes: PropTypes.shape().isRequired,
+  onAddTotal: PropTypes.func.isRequired,
+  totals: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      update_at: PropTypes.string.isRequired,
+      total: PropTypes.number.isRequired,
+    }),
+  ),
+};
+
+Totals.defaultProps = {
+  totals: [],
+};
 
 export default withStyles(styles)(Totals);
