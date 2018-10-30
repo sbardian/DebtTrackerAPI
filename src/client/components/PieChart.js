@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Chart } from 'react-google-charts';
-import { browserHistory } from 'react-router';
+// import { browserHistory } from 'react-router';
 
 export default class PieChart extends Component {
   constructor(props) {
     super(props);
-    const self = this;
+    // const self = this;
     this.chartEvents = [
       {
         // eventName: 'select',
@@ -35,10 +36,10 @@ export default class PieChart extends Component {
 
   render() {
     const myData = [];
+    const { cards } = this.props;
+
     myData.push(['Card Name', 'Balance']);
-    this.props.cards.map(card => {
-      myData.push([card.name, card.balance]);
-    });
+    cards.map(card => myData.push([card.name, card.balance]));
     return (
       <div
         style={{
@@ -78,3 +79,12 @@ export default class PieChart extends Component {
     );
   }
 }
+
+PieChart.propTypes = {
+  cards: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      balance: PropTypes.number.isRequired,
+    }),
+  ).isRequired,
+};
