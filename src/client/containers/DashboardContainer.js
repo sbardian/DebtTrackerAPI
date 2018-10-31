@@ -69,7 +69,7 @@ class DashboardContainer extends Component {
   }
 
   componentDidMount() {
-    document.body.style.overflowY = 'auto';
+    // document.body.style.overflowY = 'auto';
     if (
       !(
         this.props.location &&
