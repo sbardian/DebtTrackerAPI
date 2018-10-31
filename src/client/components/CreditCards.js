@@ -1,7 +1,6 @@
 /* eslint-disable no-return-assign */
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
-import AlertContainer from 'react-alert';
 import {
   Table,
   TableBody,
@@ -88,19 +87,14 @@ function CreditCards({
                   <Checkbox checked={card.isSelected} />
                 </TableCell>
                 <TableCell>{card.name}</TableCell>
-                <TableCell>
-                  {useMemo(() => dollarFormatter(card.limit), [card.limit])}
-                </TableCell>
-                <TableCell>
-                  {useMemo(() => dollarFormatter(card.balance), [card.balance])}
-                </TableCell>
+                <TableCell>{dollarFormatter(card.limit)}</TableCell>
+                <TableCell>{dollarFormatter(card.balance)}</TableCell>
                 <TableCell>{card.interest_rate}</TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
       </Paper>
-      <AlertContainer ref={a => (this.msg = a)} {...alertOptions} />
     </div>
   );
 }

@@ -1,9 +1,9 @@
 const alertOptions = {
-  offset: 60,
+  offset: '60px',
   position: 'top right',
-  theme: 'light',
-  time: 5000,
-  transition: 'fade'
+  timeout: 5000,
+  transition: 'fade',
+  zIndex: 1300,
 };
 
 export default alertOptions;
