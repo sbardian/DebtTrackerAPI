@@ -9,12 +9,12 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { Tabs, Tab } from '@material-ui/core';
 import Slide from '@material-ui/core/Slide';
+import { withAlert } from 'react-alert';
 import utils from '../utils/utils';
 import CreditCards from '../components/CreditCards';
 import PieChart from '../components/PieChart';
 import Totals from '../components/Totals';
 import AddDialog from '../components/AddDialog';
-import alertOptions from '../utils/alertOptions';
 import check from '../icons/check.png';
 import error from '../icons/error.png';
 import save from '../icons/save.png';
@@ -139,13 +139,13 @@ class DashboardContainer extends Component {
 
   handleCreditCardDelete = () => {
     const { creditCards, selectedCards } = this.state;
+    const { alert } = this.props;
+
     selectedCards.forEach(card => {
       utils.deleteCreditCards(card._id).then(response => {
         if (response.error) {
-          this.msg.show(response.message, {
-            time: 5000,
+          alert.show(response.message, {
             type: 'error',
-            icon: <img src={error} alt="Error deleting card." />,
           });
         } else {
           const index = creditCards.findIndex(x => x._id === card._id);
@@ -153,10 +153,8 @@ class DashboardContainer extends Component {
           this.setState({
             creditCards,
           });
-          this.msg.show(response.message, {
-            time: 5000,
+          alert.show(response.message, {
             type: 'success',
-            icon: <img src={check} alt="Card deleted." />,
           });
         }
       });
@@ -175,6 +173,8 @@ class DashboardContainer extends Component {
 
   handleCreditCardAddSave = ({ name, limit, balance, interest_rate }) => {
     const { username, creditCards } = this.state;
+    const { alert } = this.props;
+
     utils
       .addCreditCard(username, name, limit, balance, interest_rate)
       .then(res => {
@@ -194,10 +194,8 @@ class DashboardContainer extends Component {
         this.setState({
           creditCards: temp,
         });
-        this.msg.show('Card added.', {
-          time: 5000,
+        alert.show('Card added.', {
           type: 'success',
-          icon: <img src={save} alt="Card added." />,
         });
       });
   };
@@ -217,6 +215,7 @@ class DashboardContainer extends Component {
 
   handleCreditCardEditSave = ({ _id, name, limit, balance, interest_rate }) => {
     const { creditCards } = this.state;
+    const { alert } = this.props;
     // TODO: validate credit card data
     utils
       .saveCreditCard(
@@ -228,10 +227,8 @@ class DashboardContainer extends Component {
       )
       .then(response => {
         if (response.error) {
-          this.msg.show(response.message, {
-            time: 5000,
+          alert.show(response.message, {
             type: 'error',
-            icon: <img src={error} alt="Error updating card." />,
           });
         } else {
           const temp = creditCards;
@@ -248,10 +245,8 @@ class DashboardContainer extends Component {
           this.setState({
             creditCards: temp,
           });
-          this.msg.show(response.message, {
-            time: 5000,
-            type: 'error',
-            icon: <img src={save} alt="All fields are required." />,
+          alert.show(response.message, {
+            type: 'success',
           });
         }
       });
@@ -272,6 +267,8 @@ class DashboardContainer extends Component {
 
   handleTotalAdd = () => {
     const { username, totals } = this.state;
+    const { alert } = this.props;
+
     const newTotal = this.computeNewTotal();
     utils.addNewTotal(username, newTotal).then(res => {
       const temp = totals;
@@ -285,19 +282,17 @@ class DashboardContainer extends Component {
       this.setState({
         totals: temp,
       });
-      this.msg.show('Total saved.', {
-        time: 5000,
+      alert.show('Total saved.', {
         type: 'success',
-        icon: <img src={save} alt="Total saved." />,
       });
     });
   };
 
   handleRequired = () => {
-    this.msg.show('All fields are required.', {
-      time: 5000,
+    const { alert } = this.props;
+
+    alert.show('All fields are required.', {
       type: 'error',
-      icon: <img src={error} alt="Total saved." />,
     });
   };
 
@@ -430,7 +425,6 @@ class DashboardContainer extends Component {
         {tab === 2 && (
           <Totals onAddTotal={this.handleTotalAdd} totals={totals} />
         )}
-        <AlertContainer ref={a => (this.msg = a)} {...alertOptions} />
       </div>
     );
   }
@@ -440,4 +434,4 @@ DashboardContainer.propTypes = {
   classes: PropTypes.shape().isRequired,
 };
 
-export default withTheme()(withStyles(styles)(DashboardContainer));
+export default withTheme()(withStyles(styles)(withAlert(DashboardContainer)));
