@@ -15,9 +15,6 @@ import CreditCards from '../components/CreditCards';
 import PieChart from '../components/PieChart';
 import Totals from '../components/Totals';
 import AddDialog from '../components/AddDialog';
-import check from '../icons/check.png';
-import error from '../icons/error.png';
-import save from '../icons/save.png';
 
 const styles = theme => ({
   root: {
@@ -69,7 +66,7 @@ class DashboardContainer extends Component {
   }
 
   componentDidMount() {
-    // document.body.style.overflowY = 'auto';
+    document.body.style.overflowY = 'auto';
     if (
       !(
         this.props.location &&
