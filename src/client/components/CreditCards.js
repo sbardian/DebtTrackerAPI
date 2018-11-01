@@ -1,7 +1,6 @@
 /* eslint-disable no-return-assign */
-import React, { Component } from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
-import AlertContainer from 'react-alert';
 import {
   Table,
   TableBody,
@@ -28,84 +27,76 @@ const styles = () => ({
   },
 });
 
-class CreditCards extends Component {
+function CreditCards({
+  classes,
+  creditCards,
+  onSelectAll,
+  onSelect,
+  onDelete,
+  onAdd,
+  onEdit,
+  onDetails,
+}) {
   // Formats a number to a dollar amount.
-  static dollarFormatter(cell) {
-    return `$${utils.createDollar(parseFloat(cell))}`;
-  }
+  const dollarFormatter = useMemo(
+    () => cell => `$${utils.createDollar(parseFloat(cell))}`,
+    [],
+  );
 
-  render() {
-    const {
-      classes,
-      creditCards,
-      onSelectAll,
-      onSelect,
-      onDelete,
-      onAdd,
-      onEdit,
-      onDetails,
-    } = this.props;
+  const numSelected = creditCards.filter(card => card.isSelected).length;
+  const totalCards = creditCards.length;
 
-    const numSelected = creditCards.filter(card => card.isSelected).length;
-    const totalCards = creditCards.length;
-
-    return (
-      <div className={classes.container}>
-        <Paper className={classes.root}>
-          <CreditCardsToolbar
-            numSelected={numSelected}
-            onDelete={onDelete}
-            onAdd={onAdd}
-            onEdit={onEdit}
-            onDetails={onDetails}
-          />
-          <Table>
-            <TableHead>
-              <TableRow>
+  return (
+    <div className={classes.container}>
+      <Paper className={classes.root}>
+        <CreditCardsToolbar
+          numSelected={numSelected}
+          onDelete={onDelete}
+          onAdd={onAdd}
+          onEdit={onEdit}
+          onDetails={onDetails}
+        />
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>
+                <Checkbox
+                  indeterminate={numSelected > 0 && numSelected < totalCards}
+                  checked={numSelected === totalCards}
+                  onChange={onSelectAll}
+                />
+              </TableCell>
+              <TableCell>Name</TableCell>
+              <TableCell>Limit</TableCell>
+              <TableCell>Balance</TableCell>
+              <TableCell>Interest Rate</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {creditCards.map(card => (
+              <TableRow
+                hover
+                onClick={() => onSelect(card)}
+                role="checkbox"
+                aria-checked={card.isSelected}
+                tabIndex={-1}
+                key={card._id}
+                selected={card.isSelected}
+              >
                 <TableCell>
-                  <Checkbox
-                    indeterminate={numSelected > 0 && numSelected < totalCards}
-                    checked={numSelected === totalCards}
-                    onChange={onSelectAll}
-                  />
+                  <Checkbox checked={card.isSelected} />
                 </TableCell>
-                <TableCell>Name</TableCell>
-                <TableCell>Limit</TableCell>
-                <TableCell>Balance</TableCell>
-                <TableCell>Interest Rate</TableCell>
+                <TableCell>{card.name}</TableCell>
+                <TableCell>{dollarFormatter(card.limit)}</TableCell>
+                <TableCell>{dollarFormatter(card.balance)}</TableCell>
+                <TableCell>{card.interest_rate}</TableCell>
               </TableRow>
-            </TableHead>
-            <TableBody>
-              {creditCards.map(card => (
-                <TableRow
-                  hover
-                  onClick={() => onSelect(card)}
-                  role="checkbox"
-                  aria-checked={card.isSelected}
-                  tabIndex={-1}
-                  key={card._id}
-                  selected={card.isSelected}
-                >
-                  <TableCell>
-                    <Checkbox checked={card.isSelected} />
-                  </TableCell>
-                  <TableCell>{card.name}</TableCell>
-                  <TableCell>
-                    {CreditCards.dollarFormatter(card.limit)}
-                  </TableCell>
-                  <TableCell>
-                    {CreditCards.dollarFormatter(card.balance)}
-                  </TableCell>
-                  <TableCell>{card.interest_rate}</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </Paper>
-        <AlertContainer ref={a => (this.msg = a)} {...alertOptions} />
-      </div>
-    );
-  }
+            ))}
+          </TableBody>
+        </Table>
+      </Paper>
+    </div>
+  );
 }
 
 CreditCards.propTypes = {

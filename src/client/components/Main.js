@@ -1,7 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import { Provider } from 'react-alert';
+import AlertTemplate from 'react-alert-template-basic';
 import CssBaseline from '@material-ui/core/CssBaseline';
+import alertOptions from '../utils/alertOptions';
 
 const theme = createMuiTheme({
   typography: {
@@ -28,11 +31,13 @@ const theme = createMuiTheme({
 
 const Main = ({ children }) => (
   <div>
-    <MuiThemeProvider theme={theme}>
-      {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-      <CssBaseline />
-      <div className="main-container">{children}</div>
-    </MuiThemeProvider>
+    <Provider template={AlertTemplate} {...alertOptions}>
+      <MuiThemeProvider theme={theme}>
+        {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+        <CssBaseline />
+        <div className="main-container">{children}</div>
+      </MuiThemeProvider>
+    </Provider>
   </div>
 );
 

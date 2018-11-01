@@ -60,8 +60,8 @@ Totals.propTypes = {
   onAddTotal: PropTypes.func.isRequired,
   totals: PropTypes.arrayOf(
     PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      update_at: PropTypes.string.isRequired,
+      _id: PropTypes.string.isRequired,
+      updated_at: PropTypes.string.isRequired,
       total: PropTypes.number.isRequired,
     }),
   ),
