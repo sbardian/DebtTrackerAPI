@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { browserHistory } from 'react-router';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
@@ -180,5 +181,9 @@ class Login extends Component {
     );
   }
 }
+
+Login.propTypes = {
+  classes: PropTypes.shape().isRequired,
+};
 
 export default withTheme()(withStyles(styles)(Login));
