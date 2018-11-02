@@ -33,7 +33,6 @@ const Main = ({ children }) => (
   <div>
     <Provider template={AlertTemplate} {...alertOptions}>
       <MuiThemeProvider theme={theme}>
-        {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
         <CssBaseline />
         <div className="main-container">{children}</div>
       </MuiThemeProvider>
