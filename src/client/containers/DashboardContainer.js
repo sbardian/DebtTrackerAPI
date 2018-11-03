@@ -155,6 +155,9 @@ class DashboardContainer extends Component {
           });
         }
       });
+      this.setState({
+        selectedCards: [],
+      });
       return null;
     });
   };
