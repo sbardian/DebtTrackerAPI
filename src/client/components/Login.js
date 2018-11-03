@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { browserHistory } from 'react-router';
 import TextField from '@material-ui/core/TextField';
@@ -38,13 +38,19 @@ const styles = theme => ({
   button: {
     margin: '20px 10px 20px 10px',
   },
+  failure: {
+    padding: '20px',
+  },
 });
 
 const Login = ({ classes }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loginFailure, setLoginFailure] = useState(false);
 
-  document.body.style.overflowY = 'hidden';
+  useEffect(() => {
+    document.body.style.overflowY = 'hidden';
+  });
 
   const register = () => {
     browserHistory.push({
@@ -58,9 +64,6 @@ const Login = ({ classes }) => {
       .userLogin(email, password)
       .then(response => {
         if (response.status === 200) {
-          // this.setState({
-          //   username: response.data.username,
-          // });
           browserHistory.push({
             pathname: `/`,
             state: {
@@ -70,11 +73,11 @@ const Login = ({ classes }) => {
             },
           });
         } else {
-          console.log('bad response ', response);
+          setLoginFailure(true);
         }
       })
-      .catch(err => {
-        console.log('error in userLogin ', err);
+      .catch(() => {
+        setLoginFailure(true);
       });
   };
 
@@ -151,6 +154,13 @@ const Login = ({ classes }) => {
                   >
                     Register
                   </Button>
+                </Grid>
+                <Grid item xs={12}>
+                  {loginFailure && (
+                    <div className={classes.failure}>
+                      Login Failure, please try again.
+                    </div>
+                  )}
                 </Grid>
               </form>
             </Paper>
