@@ -76,7 +76,7 @@
     "mongodb": "3.1.9",
     "mongodb-memory-server": "1.9.3",
     "moxios": "0.4.0",
-    "prettier": "1.14.3",
+    "prettier": "1.15.1",
     "rimraf": "2.6.2",
     "supertest-session": "3.3.0",
     "webpack": "4.25.1",
