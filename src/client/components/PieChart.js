@@ -34,6 +34,10 @@ export default class PieChart extends Component {
     ];
   }
 
+  shouldComponentUpdate() {
+    return true;
+  }
+
   render() {
     const myData = [];
     const { cards } = this.props;
