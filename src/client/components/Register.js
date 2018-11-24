@@ -1,5 +1,4 @@
-/* eslint react/prefer-stateless-function: 0 */
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { browserHistory } from 'react-router';
@@ -32,41 +31,44 @@ const styles = theme => ({
   },
 });
 
-class Register extends Component {
-  static close() {
+function Register({ classes }) {
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [passwordConf, setPasswordConf] = useState('');
+
+  const close = () => {
     browserHistory.push({
       pathname: `/login`,
     });
-  }
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      username: '',
-      email: '',
-      password: '',
-      passwordConf: '',
-    };
-    this.handleChange = this.handleChange.bind(this);
-    this.registerUser = this.registerUser.bind(this);
-  }
-
-  handleChange = name => event => {
-    this.setState({
-      [name]: event.target.value,
-    });
   };
 
-  registerUser() {
-    const { username, email, password, passwordConf } = this.state;
+  const handleChange = name => event => {
+    switch (name) {
+      case 'username':
+        setUsername(event.target.value);
+        break;
+      case 'email':
+        setEmail(event.target.value);
+        break;
+      case 'password':
+        setPassword(event.target.value);
+        break;
+      case 'passwordConf':
+        setPasswordConf(event.target.value);
+        break;
+      default:
+        break;
+    }
+  };
+
+  const registerUser = () => {
     // TODO: confirm password and passwordConf match
     utils
       .registerUser(username, email, password, passwordConf)
       .then(response => {
         if (response.status === 200) {
-          this.setState({
-            username: response.data.username,
-          });
+          setUsername(response.data.username);
           browserHistory.push({
             pathname: `/`,
             state: {
@@ -79,69 +81,61 @@ class Register extends Component {
       .catch(err => {
         console.log('error registering: ', err);
       });
-  }
+  };
 
-  render() {
-    const { classes } = this.props;
-    const { username, email, password, passwordConf } = this.state;
-    return (
-      <div>
-        <AppBar className={classes.appBar}>
-          <Toolbar>
-            <Typography variant="h6" color="inherit" className={classes.flex}>
-              Register
-            </Typography>
-            <Button color="inherit" onClick={() => this.registerUser()}>
-              register
-            </Button>
-            <Button
-              color="inherit"
-              onClick={() => Register.close()}
-              aria-label="Close"
-            >
-              cancel
-            </Button>
-          </Toolbar>
-        </AppBar>
-        <div className={classes.formContainer}>
-          <TextField
-            id="email"
-            label="Email"
-            className={classes.textField}
-            value={email}
-            onChange={this.handleChange('email')}
-            margin="normal"
-          />
-          <TextField
-            id="username"
-            label="Username"
-            className={classes.textField}
-            value={username}
-            onChange={this.handleChange('username')}
-            margin="normal"
-          />
-          <TextField
-            id="password"
-            label="Password"
-            type="password"
-            className={classes.textField}
-            value={password}
-            onChange={this.handleChange('password')}
-            margin="normal"
-          />
-          <TextField
-            id="passwordConf"
-            label="Confirm Password"
-            type="password"
-            className={classes.textField}
-            value={passwordConf}
-            onChange={this.handleChange('passwordConf')}
-            margin="normal"
-          />
-        </div>
+  return (
+    <div>
+      <AppBar className={classes.appBar}>
+        <Toolbar>
+          <Typography variant="h6" color="inherit" className={classes.flex}>
+            Register
+          </Typography>
+          <Button color="inherit" onClick={() => registerUser()}>
+            register
+          </Button>
+          <Button color="inherit" onClick={() => close()} aria-label="Close">
+            cancel
+          </Button>
+        </Toolbar>
+      </AppBar>
+      <div className={classes.formContainer}>
+        <TextField
+          id="email"
+          label="Email"
+          className={classes.textField}
+          value={email}
+          onChange={handleChange('email')}
+          margin="normal"
+        />
+        <TextField
+          id="username"
+          label="Username"
+          className={classes.textField}
+          value={username}
+          onChange={handleChange('username')}
+          margin="normal"
+        />
+        <TextField
+          id="password"
+          label="Password"
+          type="password"
+          className={classes.textField}
+          value={password}
+          onChange={handleChange('password')}
+          margin="normal"
+        />
+        <TextField
+          id="passwordConf"
+          label="Confirm Password"
+          type="password"
+          className={classes.textField}
+          value={passwordConf}
+          onChange={handleChange('passwordConf')}
+          margin="normal"
+        />
       </div>
-    );
-  }
+    </div>
+  );
 }
 
 Register.propTypes = {
