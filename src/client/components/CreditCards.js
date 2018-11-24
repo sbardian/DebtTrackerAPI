@@ -13,7 +13,6 @@ import { withStyles, withTheme } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import utils from '../utils/utils';
 import CreditCardsToolbar from './CreditCardsToolbar';
-import alertOptions from '../utils/alertOptions';
 
 const styles = () => ({
   container: {
