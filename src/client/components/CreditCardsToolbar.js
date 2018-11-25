@@ -1,5 +1,4 @@
-/* eslint react/prefer-stateless-function: 0 */
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -44,77 +43,83 @@ const toolbarStyles = theme => ({
   },
 });
 
-class TableToolbar extends Component {
-  render() {
-    const {
-      numSelected,
-      onDelete,
-      onAdd,
-      onEdit,
-      onDetails,
-      classes,
-    } = this.props;
-    return (
-      <Toolbar
-        className={classNames(classes.root, {
-          [classes.highlight]: numSelected > 0,
-        })}
-      >
-        <div className={classes.title}>
-          {numSelected > 0 ? (
-            <Typography color="inherit" variant="subtitle1">
-              {numSelected} selected
-            </Typography>
-          ) : (
-            <Typography variant="h6">Credit Cards</Typography>
-          )}
-        </div>
-        <div className={classes.spacer} />
-        <div className={classes.actions}>
-          {numSelected === 1 && (
-            <div className={classes.alignIcons}>
-              <Tooltip title="Delete">
-                <IconButton onClick={onDelete} aria-label="Delete">
-                  <DeleteIcon />
-                </IconButton>
-              </Tooltip>
-              <Tooltip title="Edit">
-                <IconButton onClick={onEdit} aria-label="Edit">
-                  <EditIcon />
-                </IconButton>
-              </Tooltip>
-              <Tooltip title="Details">
-                <IconButton onClick={onDetails} aria-label="Details">
-                  <DetailsIcon />
-                </IconButton>
-              </Tooltip>
-            </div>
-          )}
-          {numSelected > 1 && (
+function TableToolbar({
+  numSelected,
+  onDelete,
+  onAdd,
+  onEdit,
+  onDetails,
+  classes,
+}) {
+  return (
+    <Toolbar
+      className={classNames(classes.root, {
+        [classes.highlight]: numSelected > 0,
+      })}
+    >
+      <div className={classes.title}>
+        {numSelected > 0 ? (
+          <Typography color="inherit" variant="subtitle1">
+            {numSelected} selected
+          </Typography>
+        ) : (
+          <Typography variant="h6">Credit Cards</Typography>
+        )}
+      </div>
+      <div className={classes.spacer} />
+      <div className={classes.actions}>
+        {numSelected === 1 && (
+          <div className={classes.alignIcons}>
             <Tooltip title="Delete">
               <IconButton onClick={onDelete} aria-label="Delete">
                 <DeleteIcon />
               </IconButton>
             </Tooltip>
-          )}
-          {numSelected < 1 && (
-            <div className={classes.alignIcons}>
-              <Tooltip title="Add Card">
-                <IconButton onClick={onAdd} aria-label="Add Card">
-                  <AddCircleOutline />
-                </IconButton>
-              </Tooltip>
-              <Tooltip title="Filter list">
-                <IconButton aria-label="Filter list">
-                  <FilterListIcon />
-                </IconButton>
-              </Tooltip>
-            </div>
-          )}
-        </div>
-      </Toolbar>
-    );
-  }
+            <Tooltip title="Edit">
+              <IconButton onClick={onEdit} aria-label="Edit">
+                <EditIcon />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="Details">
+              <IconButton onClick={onDetails} aria-label="Details">
+                <DetailsIcon />
+              </IconButton>
+            </Tooltip>
+          </div>
+        )}
+        {numSelected > 1 && (
+          <Tooltip title="Delete">
+            <IconButton onClick={onDelete} aria-label="Delete">
+              <DeleteIcon />
+            </IconButton>
+          </Tooltip>
+        )}
+        {numSelected < 1 && (
+          <div className={classes.alignIcons}>
+            <Tooltip title="Add Card">
+              <IconButton onClick={onAdd} aria-label="Add Card">
+                <AddCircleOutline />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="Filter list">
+              <IconButton aria-label="Filter list">
+                <FilterListIcon />
+              </IconButton>
+            </Tooltip>
+          </div>
+        )}
+      </div>
+    </Toolbar>
+  );
 }
+
+TableToolbar.propTypes = {
+  classes: PropTypes.shape().isRequired,
+  numSelected: PropTypes.number.isRequired,
+  onDelete: PropTypes.func.isRequired,
+  onAdd: PropTypes.func.isRequired,
+  onEdit: PropTypes.func.isRequired,
+  onDetails: PropTypes.func.isRequired,
+};
 
 export default withTheme()(withStyles(toolbarStyles)(TableToolbar));
