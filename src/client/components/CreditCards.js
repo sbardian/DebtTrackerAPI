@@ -1,4 +1,3 @@
-/* eslint-disable no-return-assign */
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import {
@@ -36,7 +35,6 @@ function CreditCards({
   onEdit,
   onDetails,
 }) {
-  // Formats a number to a dollar amount.
   const dollarFormatter = useMemo(
     () => cell => `$${utils.createDollar(parseFloat(cell))}`,
     [],
