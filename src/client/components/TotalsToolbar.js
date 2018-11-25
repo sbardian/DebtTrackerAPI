@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import Toolbar from '@material-ui/core/Toolbar';
 import { withStyles } from '@material-ui/core/styles';
@@ -30,30 +30,22 @@ const totalsToolbarStyles = theme => ({
   },
 });
 
-class TotalsToolbar extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
-
-  render() {
-    const { classes, onAddTotal } = this.props;
-    return (
-      <Toolbar className={classes.root}>
-        <div className={classes.title}>
-          <Typography variant="h6">Totals</Typography>
-        </div>
-        <div className={classes.spacer} />
-        <div className={classes.alignIcons}>
-          <Tooltip title="Add Total">
-            <IconButton onClick={onAddTotal} aria-label="Add Total">
-              <AddCircleOutline />
-            </IconButton>
-          </Tooltip>
-        </div>
-      </Toolbar>
-    );
-  }
+function TotalsToolbar({ classes, onAddTotal }) {
+  return (
+    <Toolbar className={classes.root}>
+      <div className={classes.title}>
+        <Typography variant="h6">Totals</Typography>
+      </div>
+      <div className={classes.spacer} />
+      <div className={classes.alignIcons}>
+        <Tooltip title="Add Total">
+          <IconButton onClick={onAddTotal} aria-label="Add Total">
+            <AddCircleOutline />
+          </IconButton>
+        </Tooltip>
+      </div>
+    </Toolbar>
+  );
 }
 
 TotalsToolbar.propTypes = {
