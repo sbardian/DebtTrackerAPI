@@ -1,5 +1,4 @@
-/* eslint react/prefer-stateless-function: 0 */
-import React, { Component } from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import {
   Table,
@@ -14,45 +13,44 @@ import Moment from 'moment';
 import TotalsToolbar from './TotalsToolbar';
 import utils from '../utils/utils';
 
-const styles = theme => ({
+const styles = () => ({
   table: {
     minWidth: 700,
   },
 });
 
-class Totals extends Component {
-  // Formats a date.
-  dateFormatter = cell => {
-    const date = new Moment(cell);
-    return date.format('LL');
-  };
+function Totals({ classes, totals, onAddTotal }) {
+  const dateFormatter = useMemo(
+    () => cell => {
+      const date = new Moment(cell);
+      return date.format('LL');
+    },
+    [],
+  );
 
-  render() {
-    const { classes, totals, onAddTotal } = this.props;
-    return (
-      <Paper>
-        <TotalsToolbar onAddTotal={onAddTotal} />
-        <Table className={classes.table}>
-          <TableHead>
-            <TableRow>
-              <TableCell>Date</TableCell>
-              <TableCell numeric>Total</TableCell>
+  return (
+    <Paper>
+      <TotalsToolbar onAddTotal={onAddTotal} />
+      <Table className={classes.table}>
+        <TableHead>
+          <TableRow>
+            <TableCell>Date</TableCell>
+            <TableCell numeric>Total</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {totals.map(total => (
+            <TableRow key={total._id}>
+              <TableCell>{dateFormatter(total.updated_at)}</TableCell>
+              <TableCell numeric>
+                {`$${utils.createDollar(total.total)}`}
+              </TableCell>
             </TableRow>
-          </TableHead>
-          <TableBody>
-            {totals.map(total => (
-              <TableRow key={total._id}>
-                <TableCell>{this.dateFormatter(total.updated_at)}</TableCell>
-                <TableCell numeric>
-                  {`$${utils.createDollar(total.total)}`}
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </Paper>
-    );
-  }
+          ))}
+        </TableBody>
+      </Table>
+    </Paper>
+  );
 }
 
 Totals.propTypes = {
