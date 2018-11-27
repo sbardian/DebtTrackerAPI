@@ -1,11 +1,11 @@
 describe('Register button test', () => {
   it('Should load register page', () => {
     cy.visit('/')
-      .get('form > :nth-child(3) > :nth-child(2)')
+      .getByText(/^Register$/)
       .click()
-      .get('.MuiTypography-root-139')
+      .getByTestId('title')
       .should('have.text', 'Register')
-      .get('.MuiToolbar-root-271 > :nth-child(2)')
+      .getByTestId('register-button')
       .should('have.text', 'register');
   });
 });
