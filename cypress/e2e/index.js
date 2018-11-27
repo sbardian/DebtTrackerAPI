@@ -1,6 +1,6 @@
 describe('Register button test', () => {
   it('Should load register page', () => {
-    cy.visit('http://localhost:9090')
+    cy.visit('/')
       .get('form > :nth-child(3) > :nth-child(2)')
       .click()
       .get('.MuiTypography-root-139')
