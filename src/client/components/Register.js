@@ -87,10 +87,19 @@ function Register({ classes }) {
     <div>
       <AppBar className={classes.appBar}>
         <Toolbar>
-          <Typography variant="h6" color="inherit" className={classes.flex}>
+          <Typography
+            variant="h6"
+            color="inherit"
+            data-testid="title"
+            className={classes.flex}
+          >
             Register
           </Typography>
-          <Button color="inherit" onClick={() => registerUser()}>
+          <Button
+            color="inherit"
+            data-testid="register-button"
+            onClick={() => registerUser()}
+          >
             register
           </Button>
           <Button color="inherit" onClick={() => close()} aria-label="Close">
