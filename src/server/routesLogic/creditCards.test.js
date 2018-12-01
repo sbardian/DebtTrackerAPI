@@ -82,7 +82,7 @@ describe('Test /creditcards API routes', () => {
       expect(response.body.data.limit).toEqual(10000);
     });
     it('addCreditCard failure, return 400 status, error = true', async () => {
-      mockingoose.CreditCard.toReturn(INVALID_CREDIT_CARD, 'save');
+      mockingoose.CreditCard.toReturn(new Error('Error adding data'), 'save');
       const response = await serverSession
         .post('/api/creditcards')
         .set('Accept', 'text/html, application/json')

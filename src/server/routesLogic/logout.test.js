@@ -29,16 +29,15 @@ describe('Test /logout route', () => {
     });
     it('logout failure, return 400 status, and error = true', async () => {
       const fakeSession = session(server, {
-        before: req => {
+        before: async req => {
           delete req.session;
-          console.log('req.session before = ', req.session);
+          const response = await fakeSession
+            .get('/auth/logout')
+            .set('Accept', 'text/html, application/json');
+          expect(response.statusCode).toBe(400);
+          expect(response.body.error).toEqual(true);
         },
       });
-      const response = await fakeSession
-        .get('/auth/logout')
-        .set('Accept', 'text/html, application/json');
-      expect(response.statusCode).toBe(400);
-      expect(response.body.error).toEqual(true);
     });
   });
 });
