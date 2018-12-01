@@ -1,5 +1,4 @@
 export const logout = (req, res) => {
-  console.log('Session = ', req.session);
   if (req.session) {
     req.session.destroy(err => {
       if (err) {
