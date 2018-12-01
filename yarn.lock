@@ -1482,7 +1482,7 @@ bluebird@3.5.0:
   version "3.5.0"
   resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-3.5.0.tgz#791420d7f551eea2897453a8a77653f96606d67c"
 
-bluebird@^3.5.1:
+bluebird@3.5.1, bluebird@^3.5.1:
   version "3.5.1"
   resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-3.5.1.tgz#d9551f9de98f1fcda1e683d17ee91a0602ee2eb9"
 
@@ -1652,17 +1652,13 @@ bser@^2.0.0:
   dependencies:
     node-int64 "^0.4.0"
 
-bson@^1.1.0:
+bson@^1.1.0, bson@~1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/bson/-/bson-1.1.0.tgz#bee57d1fb6a87713471af4e32bcae36de814b5b0"
 
 bson@~1.0.4:
   version "1.0.6"
   resolved "https://registry.yarnpkg.com/bson/-/bson-1.0.6.tgz#444db59ddd4c24f0cb063aabdc5c8c7b0ceca912"
-
-bson@~1.0.5:
-  version "1.0.9"
-  resolved "https://registry.yarnpkg.com/bson/-/bson-1.0.9.tgz#12319f8323b1254739b7c6bef8d3e89ae05a2f57"
 
 buffer-crc32@~0.2.3:
   version "0.2.13"
@@ -5056,9 +5052,10 @@ jws@^3.1.4:
     jwa "^1.1.4"
     safe-buffer "^5.0.1"
 
-kareem@2.2.1:
-  version "2.2.1"
-  resolved "https://registry.yarnpkg.com/kareem/-/kareem-2.2.1.tgz#9950809415aa3cde62ab43b4f7b919d99816e015"
+kareem@2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/kareem/-/kareem-2.3.0.tgz#ef33c42e9024dce511eeaf440cd684f3af1fc769"
+  integrity sha512-6hHxsp9e6zQU8nXsP+02HGWXwTkOEw6IROhF2ZA28cYbUk4eJ6QbtZvdqZOdD9YPKghG3apk5eOCvs+tLl3lRg==
 
 keycode@^2.1.9:
   version "2.2.0"
@@ -5638,13 +5635,6 @@ mongodb-core@2.1.19:
     bson "~1.0.4"
     require_optional "~1.0.0"
 
-mongodb-core@3.0.9:
-  version "3.0.9"
-  resolved "https://registry.yarnpkg.com/mongodb-core/-/mongodb-core-3.0.9.tgz#8327410c88811013fb3e4ac7c4c670f324349be1"
-  dependencies:
-    bson "~1.0.4"
-    require_optional "^1.0.1"
-
 mongodb-core@3.1.9:
   version "3.1.9"
   resolved "https://registry.yarnpkg.com/mongodb-core/-/mongodb-core-3.1.9.tgz#c31ee407bf932b0149eaed775c17ee09974e4ca3"
@@ -5671,12 +5661,6 @@ mongodb-memory-server@1.9.3:
     tmp "^0.0.33"
     uuid "^3.2.1"
 
-mongodb@3.0.10:
-  version "3.0.10"
-  resolved "https://registry.yarnpkg.com/mongodb/-/mongodb-3.0.10.tgz#f948cb9595adcbfcad7444f6b24a040b653b23e8"
-  dependencies:
-    mongodb-core "3.0.9"
-
 mongodb@3.1.10:
   version "3.1.10"
   resolved "https://registry.yarnpkg.com/mongodb/-/mongodb-3.1.10.tgz#45ad9b74ea376f4122d0881b75e5489b9e504ed7"
@@ -5696,20 +5680,23 @@ mongoose-legacy-pluralize@1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/mongoose-legacy-pluralize/-/mongoose-legacy-pluralize-1.0.2.tgz#3ba9f91fa507b5186d399fb40854bff18fb563e4"
 
-mongoose@^5.1.6:
-  version "5.1.6"
-  resolved "https://registry.yarnpkg.com/mongoose/-/mongoose-5.1.6.tgz#af92762c1e0317c897435594e83d6a5952873a0e"
+mongoose@^5.3.14:
+  version "5.3.14"
+  resolved "https://registry.yarnpkg.com/mongoose/-/mongoose-5.3.14.tgz#14fb782423561187e8e4264deb9e213156ca3ea6"
+  integrity sha512-Vt7uC0+/SuPb+x6IwbtXl4tkUER1xU9INlfrDK1RdfsvvEMfG3FJUGNPVGeTWQaj8xqMBtZKIdUNt58rIAsCYg==
   dependencies:
     async "2.6.1"
-    bson "~1.0.5"
-    kareem "2.2.1"
+    bson "~1.1.0"
+    kareem "2.3.0"
     lodash.get "4.4.2"
-    mongodb "3.0.10"
+    mongodb "3.1.10"
+    mongodb-core "3.1.9"
     mongoose-legacy-pluralize "1.0.2"
-    mpath "0.4.1"
-    mquery "3.0.0"
+    mpath "0.5.1"
+    mquery "3.2.0"
     ms "2.0.0"
     regexp-clone "0.0.1"
+    safe-buffer "5.1.2"
     sliced "1.0.1"
 
 move-concurrently@^1.0.1:
@@ -5727,18 +5714,21 @@ moxios@0.4.0:
   version "0.4.0"
   resolved "https://registry.yarnpkg.com/moxios/-/moxios-0.4.0.tgz#fc0da2c65477d725ca6b9679d58370ed0c52f53b"
 
-mpath@0.4.1:
-  version "0.4.1"
-  resolved "https://registry.yarnpkg.com/mpath/-/mpath-0.4.1.tgz#ed10388430380bf7bbb5be1391e5d6969cb08e89"
+mpath@0.5.1:
+  version "0.5.1"
+  resolved "https://registry.yarnpkg.com/mpath/-/mpath-0.5.1.tgz#17131501f1ff9e6e4fbc8ffa875aa7065b5775ab"
+  integrity sha512-H8OVQ+QEz82sch4wbODFOz+3YQ61FYz/z3eJ5pIdbMEaUzDqA268Wd+Vt4Paw9TJfvDgVKaayC0gBzMIw2jhsg==
 
-mquery@3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/mquery/-/mquery-3.0.0.tgz#e5f387dbabc0b9b69859e550e810faabe0ceabb0"
+mquery@3.2.0:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/mquery/-/mquery-3.2.0.tgz#e276472abd5109686a15eb2a8e0761db813c81cc"
+  integrity sha512-qPJcdK/yqcbQiKoemAt62Y0BAc0fTEKo1IThodBD+O5meQRJT/2HSe5QpBNwaa4CjskoGrYWsEyjkqgiE0qjhg==
   dependencies:
-    bluebird "3.5.0"
-    debug "2.6.9"
+    bluebird "3.5.1"
+    debug "3.1.0"
     regexp-clone "0.0.1"
-    sliced "0.0.5"
+    safe-buffer "5.1.2"
+    sliced "1.0.1"
 
 ms@2.0.0:
   version "2.0.0"
@@ -7310,7 +7300,7 @@ safe-buffer@5.1.1, safe-buffer@^5.0.1, safe-buffer@^5.1.1, safe-buffer@~5.1.0, s
   version "5.1.1"
   resolved "https://registry.yarnpkg.com/safe-buffer/-/safe-buffer-5.1.1.tgz#893312af69b2123def71f57889001671eeb2c853"
 
-safe-buffer@^5.1.0, safe-buffer@^5.1.2:
+safe-buffer@5.1.2, safe-buffer@^5.1.0, safe-buffer@^5.1.2:
   version "5.1.2"
   resolved "https://registry.yarnpkg.com/safe-buffer/-/safe-buffer-5.1.2.tgz#991ec69d296e0313747d59bdfd2b745c35f8828d"
 
@@ -7517,10 +7507,6 @@ slice-ansi@1.0.0:
   resolved "https://registry.yarnpkg.com/slice-ansi/-/slice-ansi-1.0.0.tgz#044f1a49d8842ff307aad6b505ed178bd950134d"
   dependencies:
     is-fullwidth-code-point "^2.0.0"
-
-sliced@0.0.5:
-  version "0.0.5"
-  resolved "https://registry.yarnpkg.com/sliced/-/sliced-0.0.5.tgz#5edc044ca4eb6f7816d50ba2fc63e25d8fe4707f"
 
 sliced@1.0.1:
   version "1.0.1"

@@ -6,8 +6,10 @@
   "scripts": {
     "start": "node dist/server/index.js",
     "pretest": "npm run clean",
-    "test": "jest --forceExit",
-    "test:watch": "jest --watch",
+    "test:server": "jest",
+    "test:client:run": "cypress run",
+    "test:client:open": "cypress open",
+    "test:server:watch": "jest --watch",
     "lint": "eslint . ",
     "build": "npm run build:server && npm run build:client",
     "prebuild": "npm run clean",
@@ -15,8 +17,8 @@
     "build:server": "babel src/server -d dist/server --source-maps --ignore \"**/*.test.js\"",
     "build:client": "webpack"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Brian Andrews",
+  "license": "MIT",
   "dependencies": {
     "@material-ui/core": "^3.2.0",
     "@material-ui/icons": "^3.0.1",
@@ -37,7 +39,7 @@
     "jsonwebtoken": "^8.1.0",
     "log": "^1.4.0",
     "moment": "^2.18.1",
-    "mongoose": "^5.1.6",
+    "mongoose": "^5.3.14",
     "nodemon": "^1.18.7",
     "prop-types": "^15.6.2",
     "rc-slider": "^8.6.1",
