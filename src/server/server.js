@@ -31,6 +31,7 @@ if (process.env.NODE_ENV !== 'test') {
     databaseUrl,
     {
       promiseLibrary: bluebird,
+      useNewUrlParser: true,
     },
   );
 
