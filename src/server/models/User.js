@@ -35,7 +35,8 @@ UserSchema.statics.authenticate = (email, password, callback) => {
   User.findOne({ email }).exec((err, user) => {
     if (err) {
       return callback(err);
-    } else if (!user) {
+    }
+    if (!user) {
       const error = new Error('User not found.');
       error.status = 401;
       return callback(err);

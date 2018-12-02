@@ -1,9 +1,9 @@
 import { config } from '../yargs';
 
-const User = require('../models/User');
 const jwt = require('jsonwebtoken');
+const User = require('../models/User');
 
-export const register = async (req, res, next) => {
+export const register = async (req, res) => {
   // confirm that user typed same password twice
   const { email, username, password, passwordConf } = req.body;
   const userData = {
