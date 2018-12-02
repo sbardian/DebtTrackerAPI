@@ -1,7 +1,7 @@
 import { getUser } from '../../src/client/utils/mockData';
 
-describe('Register button test', () => {
-  it('Should load register page', () => {
+describe('Register test', () => {
+  it('Should register a user', () => {
     const user = getUser();
     cy.visit('/')
       .getByText('Register')
