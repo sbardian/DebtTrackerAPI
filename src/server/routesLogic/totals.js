@@ -1,8 +1,6 @@
 const Total = require('../models/Total');
 
 export const getTotals = (req, res) => {
-  let response = {};
-  // console.log('req  >>>  ', req.session);
   Total.find({ userId: req.session && req.session.userId }, (err, data) => {
     if (err) {
       return res

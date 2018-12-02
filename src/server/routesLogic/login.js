@@ -1,7 +1,7 @@
 import { config } from '../yargs';
 
-const User = require('../models/User');
 const jwt = require('jsonwebtoken');
+const User = require('../models/User');
 
 export const login = (req, res, next) => {
   const { email, password } = req.body;
