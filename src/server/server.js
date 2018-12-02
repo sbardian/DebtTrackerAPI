@@ -9,7 +9,6 @@ import { apiRoutes } from './apiRoutes';
 import { authRoutes } from './authRoutes';
 import { checkAuth } from './routesLogic';
 import { config } from './yargs';
-import { log } from './utils';
 
 const MongoStore = require('connect-mongo')(session);
 
@@ -38,10 +37,10 @@ if (process.env.NODE_ENV !== 'test') {
   const db = mongoose.connection;
 
   // handle mongo error
-  db.on('error', log.error.bind(log, 'connection error:'));
+  db.on('error', () => console.error('connection error:'));
 
   db.once('open', () => {
-    log.info('Connected to the database!');
+    console.info('Connected to the database!');
   });
 
   expressServer.use(
