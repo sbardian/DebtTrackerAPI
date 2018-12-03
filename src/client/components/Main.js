@@ -1,10 +1,16 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { Route, Redirect } from 'react-router-dom';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import { Provider } from 'react-alert';
 import AlertTemplate from 'react-alert-template-basic';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import alertOptions from '../utils/alertOptions';
+import Login from './Login';
+import Logout from './Logout';
+import Register from './Register';
+import Dashboard from '../containers/DashboardContainer';
+import PayOffDetailsContainer from '../containers/PayOffDetailsContainer';
+import PayOffDetails from './PayOffDetails';
 
 const theme = createMuiTheme({
   typography: {
@@ -29,19 +35,23 @@ const theme = createMuiTheme({
   },
 });
 
-const Main = ({ children }) => (
+const Main = () => (
   <div>
     <Provider template={AlertTemplate} {...alertOptions}>
       <MuiThemeProvider theme={theme}>
         <CssBaseline />
-        <div className="main-container">{children}</div>
+        <div className="main-container">
+          <Route exact path="/" render={() => <Redirect to="/dashboard" />} />
+          <Route path="/dashboard" component={Dashboard} />
+          <Route path="/login" component={Login} />
+          <Route path="/logout" component={Logout} />
+          <Route path="/register" component={Register} />
+          <Route path="payoff/:card" component={PayOffDetailsContainer} />
+          <Route path="payoffdetails/:card" component={PayOffDetails} />
+        </div>
       </MuiThemeProvider>
     </Provider>
   </div>
 );
-
-Main.propTypes = {
-  children: PropTypes.node.isRequired,
-};
 
 export default Main;

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import { browserHistory } from 'react-router';
+import { history } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -31,16 +31,14 @@ const styles = theme => ({
   },
 });
 
-function Register({ classes }) {
+function Register({ classes, history }) {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConf, setPasswordConf] = useState('');
 
   const close = () => {
-    browserHistory.push({
-      pathname: `/login`,
-    });
+    history.push('/login');
   };
 
   const handleChange = name => event => {
@@ -69,12 +67,9 @@ function Register({ classes }) {
       .then(response => {
         if (response.status === 200) {
           setUsername(response.data.username);
-          browserHistory.push({
-            pathname: `/`,
-            state: {
-              username: response.data.username,
-              token: response.data.token,
-            },
+          history.push('/dashboard', {
+            username: response.data.username,
+            token: response.data.token,
           });
         }
       })

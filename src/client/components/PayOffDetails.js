@@ -95,14 +95,12 @@ class PayOffDetails extends Component {
   };
 
   back = () => {
-    console.log('payoff props - ', this.props);
-    browserHistory.push({
-      pathname: '/',
-      state: {
-        username: this.props.location.state.username,
-        isAdmin: this.props.location.state.isAdmin,
-        token: this.props.location.state.token,
-      },
+    const { history } = this.props;
+
+    history.push('/', {
+      username: this.props.location.state.username,
+      isAdmin: this.props.location.state.isAdmin,
+      token: this.props.location.state.token,
     });
   };
 

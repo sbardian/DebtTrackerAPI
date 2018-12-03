@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { browserHistory } from 'react-router';
+import { withRouter } from 'react-router-dom';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
@@ -43,7 +43,7 @@ const styles = theme => ({
   },
 });
 
-const Login = ({ classes }) => {
+const Login = ({ classes, history }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loginFailure, setLoginFailure] = useState(false);
@@ -53,9 +53,7 @@ const Login = ({ classes }) => {
   });
 
   const register = () => {
-    browserHistory.push({
-      pathname: `/register`,
-    });
+    history.push('register');
   };
 
   const userLogin = e => {
@@ -64,13 +62,10 @@ const Login = ({ classes }) => {
       .userLogin(email, password)
       .then(response => {
         if (response.status === 200) {
-          browserHistory.push({
-            pathname: `/`,
-            state: {
-              username: response.data.username,
-              isAdmin: response.data.isAdmin,
-              token: response.data.token,
-            },
+          history.push('/dashboard', {
+            username: response.data.username,
+            isAdmin: response.data.isAdmin,
+            token: response.data.token,
           });
         } else {
           setLoginFailure(true);
@@ -175,4 +170,4 @@ Login.propTypes = {
   classes: PropTypes.shape().isRequired,
 };
 
-export default withTheme()(withStyles(styles)(Login));
+export default withTheme()(withRouter(withStyles(styles)(Login)));
