@@ -369,7 +369,11 @@ class DashboardContainer extends Component {
               <Typography variant="h6" color="inherit" className={classes.flex}>
                 {username.toUpperCase()}
               </Typography>
-              <Button color="inherit" onClick={() => this.logout()}>
+              <Button
+                color="inherit"
+                data-testid="logout-button"
+                onClick={() => this.logout()}
+              >
                 logout
               </Button>
             </Toolbar>
