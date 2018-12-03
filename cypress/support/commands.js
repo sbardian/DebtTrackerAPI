@@ -23,3 +23,14 @@
 //
 // -- This is will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
+
+import { getUser } from '../../src/client/utils/mockData';
+
+Cypress.Commands.add('registerUser', () => {
+  const user = getUser();
+  cy.request({
+    url: `${Cypress.config().baseUrl}/auth/register`,
+    method: 'POST',
+    body: user,
+  }).then(response => JSON.parse(response.requestBody));
+});
