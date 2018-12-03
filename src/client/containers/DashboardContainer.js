@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import AlertContainer from 'react-alert';
-import { browserHistory } from 'react-router';
+import { withRouter } from 'react-router-dom';
 import { withStyles, withTheme } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
@@ -67,6 +66,7 @@ class DashboardContainer extends Component {
 
   componentDidMount() {
     document.body.style.overflowY = 'auto';
+    const { history } = this.props;
     if (
       !(
         this.props.location &&
@@ -75,7 +75,7 @@ class DashboardContainer extends Component {
         this.props.location.state.token
       )
     ) {
-      browserHistory.push('/login');
+      history.push('/login');
       return;
     }
     const { token, username, isAdmin } = this.props.location.state;
@@ -94,7 +94,7 @@ class DashboardContainer extends Component {
         });
       })
       .catch(() => {
-        browserHistory.push('/login');
+        history.push('/login');
       });
     utils.getTotals(token).then(totals => {
       this.setState({
@@ -254,14 +254,12 @@ class DashboardContainer extends Component {
 
   handleOnDetails = () => {
     const { selectedCards, username, token } = this.state;
+    const { history } = this.props;
     const card = selectedCards[0];
-    browserHistory.push({
-      pathname: `/payoffdetails/${card.name}`,
-      state: {
-        card,
-        username,
-        token,
-      },
+    history.push(`/payoffdetails/${card.name}`, {
+      card,
+      username,
+      token,
     });
   };
 
@@ -309,11 +307,10 @@ class DashboardContainer extends Component {
   // Logout from the app.
   logout = () => {
     const { token } = this.state;
+    const { history } = this.props;
     utils.userLogout(token).then(res => {
       if (res.status === 200) {
-        browserHistory.push({
-          pathname: '/login',
-        });
+        history.push('/login');
       }
     });
   };
@@ -434,4 +431,6 @@ DashboardContainer.propTypes = {
   classes: PropTypes.shape().isRequired,
 };
 
-export default withTheme()(withStyles(styles)(withAlert(DashboardContainer)));
+export default withTheme()(
+  withRouter(withStyles(styles)(withAlert(DashboardContainer))),
+);

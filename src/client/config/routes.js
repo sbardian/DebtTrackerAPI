@@ -1,23 +1,10 @@
 import React from 'react';
-import { Router, Route, IndexRoute, browserHistory } from 'react-router';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import Main from '../components/Main';
-import Login from '../components/Login';
-import Logout from '../components/Logout';
-import Register from '../components/Register';
-import Dashboard from '../containers/DashboardContainer';
-import PayOffDetailsContainer from '../containers/PayOffDetailsContainer';
-import PayOffDetails from '../components/PayOffDetails';
 
 const routes = (
-  <Router history={browserHistory}>
-    <Route path="/" component={Main}>
-      <IndexRoute component={Dashboard} />
-      <Route path="/login" component={Login} />
-      <Route path="/logout" component={Logout} />
-      <Route path="/register" component={Register} />
-      <Route path="payoff/:card" component={PayOffDetailsContainer} />
-      <Route path="payoffdetails/:card" component={PayOffDetails} />
-    </Route>
+  <Router>
+    <Route path="/" component={Main} />
   </Router>
 );
 
