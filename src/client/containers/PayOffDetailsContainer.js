@@ -1,4 +1,4 @@
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import 'rc-slider/assets/index.css';
 import React from 'react';
 import Slider, { Handle } from 'rc-slider';
@@ -52,14 +52,14 @@ export default class PayOffDetailsContainer extends React.Component {
     let monthlyPayment =
       paymentAmount || this.props.location.state.card[0].balance * 0.023;
     monthlyPayment = monthlyPayment < 25 ? 25 : monthlyPayment;
-    const monthlyIntRate = intRate / 365 * 30;
+    const monthlyIntRate = (intRate / 365) * 30;
     let months = 0;
     let totalPaid = 0;
     let totalInterest = 0;
     let newBalance = balance;
     let x = 0;
     do {
-      const interest = monthlyIntRate * newBalance / 100;
+      const interest = (monthlyIntRate * newBalance) / 100;
       totalInterest += interest;
       const paid = monthlyPayment - interest;
       totalPaid = totalPaid + interest + paid;
@@ -82,7 +82,7 @@ export default class PayOffDetailsContainer extends React.Component {
     });
     if (!paymentAmount) {
       this.setState({
-        singlePaymentMax: balance + balance * monthlyIntRate / 100 + 1,
+        singlePaymentMax: balance + (balance * monthlyIntRate) / 100 + 1,
         minimum: monthlyPayment,
         monthsSave: months,
         balance,
@@ -132,28 +132,24 @@ export default class PayOffDetailsContainer extends React.Component {
             <h2>{name}</h2>
             <ul style={listStyle}>
               <li>
-                <strong>Limit: </strong>
-                ${utils.createDollar(limit)}
+                <strong>Limit: </strong>${utils.createDollar(limit)}
               </li>
               <li>
-                <strong>Balance: </strong>
-                ${utils.createDollar(balance)}
+                <strong>Balance: </strong>${utils.createDollar(balance)}
               </li>
               <li>
                 <strong>Interest Rate: </strong>
                 {interest_rate}%
               </li>
               <li>
-                <strong>Minimum Payment: </strong>
-                ${utils.createDollar(minimum)}
+                <strong>Minimum Payment: </strong>${utils.createDollar(minimum)}
               </li>
               <li>
                 <strong>Months to Payoff: </strong>
                 {monthsSave}
               </li>
               <li>
-                <strong>Total Paid: </strong>
-                ${utils.createDollar(totalSave)}
+                <strong>Total Paid: </strong>${utils.createDollar(totalSave)}
               </li>
             </ul>
           </div>
