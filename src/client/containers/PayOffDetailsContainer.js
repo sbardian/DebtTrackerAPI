@@ -32,7 +32,6 @@ export default class PayOffDetailsContainer extends React.Component {
       monthsSave: null,
       total: null,
       totalSave: null,
-      balance: 0,
       singlePaymentMax: 0,
       paymentAmount: 0,
     };
@@ -47,10 +46,13 @@ export default class PayOffDetailsContainer extends React.Component {
   // Calculates the total paid and number of months to
   // pay off a card, based on paymentAmount.
   calc(paymentAmount) {
-    const intRate = this.props.location.state.card[0].interest_rate;
-    const balance = this.props.location.state.card[0].balance;
-    let monthlyPayment =
-      paymentAmount || this.props.location.state.card[0].balance * 0.023;
+    const {
+      location: {
+        state: { card },
+      },
+    } = this.props;
+    const { interest_rate: intRate, balance } = card[0];
+    let monthlyPayment = paymentAmount || balance * 0.023;
     monthlyPayment = monthlyPayment < 25 ? 25 : monthlyPayment;
     const monthlyIntRate = (intRate / 365) * 30;
     let months = 0;
@@ -85,7 +87,6 @@ export default class PayOffDetailsContainer extends React.Component {
         singlePaymentMax: balance + (balance * monthlyIntRate) / 100 + 1,
         minimum: monthlyPayment,
         monthsSave: months,
-        balance,
         totalSave: totalPaid,
       });
     }
@@ -102,6 +103,11 @@ export default class PayOffDetailsContainer extends React.Component {
   render() {
     const marks = {};
     const {
+      location: {
+        state: { card },
+      },
+    } = this.props;
+    const {
       minimum,
       singlePaymentMax,
       monthsSave,
@@ -110,13 +116,12 @@ export default class PayOffDetailsContainer extends React.Component {
       months,
       paymentAmount,
     } = this.state;
+    const { name, limit, balance, interest_rate } = card[0];
     const {
-      name,
-      limit,
-      balance,
-      interest_rate,
-    } = this.props.location.state.card[0];
-    const { username, token } = this.props.location.state;
+      location: {
+        state: { username, token },
+      },
+    } = this.props;
 
     marks[`${Math.trunc(minimum)}`] = (
       <string>${utils.createDollar(Math.trunc(minimum))}</string>
@@ -205,11 +210,4 @@ PayOffDetailsContainer.propTypes = {
 
 PayOffDetailsContainer.defaultProps = {
   location: [],
-  state: [],
-  card: [],
-  user: '',
-  name: '',
-  limit: 0,
-  balance: 0,
-  interest_rate: 0,
 };
