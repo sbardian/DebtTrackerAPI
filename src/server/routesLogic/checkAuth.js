@@ -6,7 +6,7 @@ export const checkAuth = (req, res, next) => {
   jwt.verify(
     req.headers.authorization.split(' ')[1],
     config.sessionSecret,
-    (err, decoded) => {
+    () => {
       if (req.session && req.session.userId) {
         return next();
       }
