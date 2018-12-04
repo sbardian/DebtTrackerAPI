@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link, browserHistory } from 'react-router';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import AppBar from '@material-ui/core/AppBar';
@@ -76,7 +75,6 @@ class PayOffDetails extends Component {
       monthsSave: null,
       total: null,
       totalSave: null,
-      balance: 0,
       singlePaymentMax: 0,
       paymentAmount: 0,
     };
@@ -95,19 +93,31 @@ class PayOffDetails extends Component {
   };
 
   back = () => {
-    const { history } = this.props;
+    const {
+      history,
+      location: {
+        state: { username, isAdmin, token },
+      },
+    } = this.props;
 
     history.push('/', {
-      username: this.props.location.state.username,
-      isAdmin: this.props.location.state.isAdmin,
-      token: this.props.location.state.token,
+      username,
+      isAdmin,
+      token,
     });
   };
 
   // Calculates the total paid and number of months to
   // pay off a card, based on paymentAmount.
   calc(paymentAmount) {
-    const { interest_rate, balance } = this.props.location.state.card;
+    // const { interest_rate, balance } = this.props.location.state.card;
+    const {
+      location: {
+        state: {
+          card: { interest_rate, balance },
+        },
+      },
+    } = this.props;
     let monthlyPayment = paymentAmount || balance * 0.023;
     monthlyPayment = monthlyPayment < 25 ? 25 : monthlyPayment;
     const monthlyIntRate = (interest_rate / 365) * 30;
@@ -143,7 +153,6 @@ class PayOffDetails extends Component {
         singlePaymentMax: balance + (balance * monthlyIntRate) / 100 + 1,
         minimum: monthlyPayment,
         monthsSave: months,
-        balance,
         totalSave: totalPaid,
       });
     }
@@ -152,12 +161,12 @@ class PayOffDetails extends Component {
   render() {
     const { classes } = this.props;
     const {
-      name,
-      limit,
-      balance,
-      interest_rate,
-    } = this.props.location.state.card;
-    const { username, token } = this.props.location.state;
+      location: {
+        state: {
+          card: { limit, balance, interest_rate },
+        },
+      },
+    } = this.props;
     const {
       minimum,
       singlePaymentMax,
