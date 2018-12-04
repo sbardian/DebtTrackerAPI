@@ -78,7 +78,11 @@ class DashboardContainer extends Component {
       history.push('/login');
       return;
     }
-    const { token, username, isAdmin } = this.props.location.state;
+    const {
+      location: {
+        state: { token, username, isAdmin },
+      },
+    } = this.props;
     utils
       .getCreditCards(token)
       .then(creditCards => {
