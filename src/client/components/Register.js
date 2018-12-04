@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import ReactRouterPropTypes from 'react-router-prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import { history } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -144,6 +144,7 @@ function Register({ classes, history }) {
 
 Register.propTypes = {
   classes: PropTypes.shape().isRequired,
+  history: ReactRouterPropTypes.history().isRequired,
 };
 
 export default withStyles(styles)(Register);
