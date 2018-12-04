@@ -144,7 +144,7 @@ function Register({ classes, history }) {
 
 Register.propTypes = {
   classes: PropTypes.shape().isRequired,
-  history: ReactRouterPropTypes.history().isRequired,
+  history: ReactRouterPropTypes.history.isRequired,
 };
 
 export default withStyles(styles)(Register);

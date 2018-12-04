@@ -169,7 +169,7 @@ const Login = ({ classes, history }) => {
 
 Login.propTypes = {
   classes: PropTypes.shape().isRequired,
-  history: ReactRouterPropTypes.history().isRequired,
+  history: ReactRouterPropTypes.history.isRequired,
 };
 
 export default withTheme()(withRouter(withStyles(styles)(Login)));
