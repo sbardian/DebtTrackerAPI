@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import ReactRouterPropTypes from 'react-router-prop-types';
 import { withRouter } from 'react-router-dom';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
@@ -168,6 +169,7 @@ const Login = ({ classes, history }) => {
 
 Login.propTypes = {
   classes: PropTypes.shape().isRequired,
+  history: ReactRouterPropTypes.history().isRequired,
 };
 
 export default withTheme()(withRouter(withStyles(styles)(Login)));
