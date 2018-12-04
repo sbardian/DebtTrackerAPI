@@ -73,8 +73,8 @@ function Register({ classes, history }) {
           });
         }
       })
-      .catch(err => {
-        console.log('error registering: ', err);
+      .catch(() => {
+        // console.log('error registering: ', err);
       });
   };
 
