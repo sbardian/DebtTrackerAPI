@@ -391,9 +391,9 @@ class DashboardContainer extends Component {
             className={classes.tabs}
             centered
           >
-            <Tab label="Credit Cards" />
-            <Tab label="Chart" />
-            <Tab label="Totals" />
+            <Tab data-testid="creditcards-tab-button" label="Credit Cards" />
+            <Tab data-testid="chart-tab-button" label="Chart" />
+            <Tab data-testid="totals-tab-button" label="Totals" />
           </Tabs>
         </AppBar>
         {tab === 0 && (

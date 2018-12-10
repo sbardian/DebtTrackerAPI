@@ -1,7 +1,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import faker from 'faker';
 
-export const getUser = () => {
+export const getRegisterUser = () => {
   const password = faker.internet.password();
   return {
     email: faker.internet.email(),
