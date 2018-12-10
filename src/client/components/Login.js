@@ -140,6 +140,7 @@ const Login = ({ classes, history }) => {
                     variant="contained"
                     className={classes.button}
                     onClick={event => userLogin(event)}
+                    data-testid="login-button"
                   >
                     Login
                   </Button>
