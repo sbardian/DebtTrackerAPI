@@ -1,8 +1,8 @@
-import { getUser } from '../../src/client/utils/mockData';
+import { getRegisterUser } from '../../src/client/utils/mockData';
 
 describe('Register test', () => {
   it('Should register a user', () => {
-    const user = getUser();
+    const user = getRegisterUser();
     cy.visit('/')
       .getByText('Register')
       .click()

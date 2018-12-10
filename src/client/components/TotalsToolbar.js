@@ -34,7 +34,9 @@ function TotalsToolbar({ classes, onAddTotal }) {
   return (
     <Toolbar className={classes.root}>
       <div className={classes.title}>
-        <Typography variant="h6">Totals</Typography>
+        <Typography data-testid="totals-toolbar-title" variant="h6">
+          Totals
+        </Typography>
       </div>
       <div className={classes.spacer} />
       <div className={classes.alignIcons}>
