@@ -5586,9 +5586,9 @@ mkdirp@0.5.0:
   dependencies:
     minimist "0.0.8"
 
-mockingoose@2.11.0:
-  version "2.11.0"
-  resolved "https://registry.yarnpkg.com/mockingoose/-/mockingoose-2.11.0.tgz#af35ff57035666b5c2fbe48117a9a78b5c5573b9"
+mockingoose@2.12.0:
+  version "2.12.0"
+  resolved "https://registry.yarnpkg.com/mockingoose/-/mockingoose-2.12.0.tgz#c9af6f65c321422ffb1f9b639c3bbce05c232766"
 
 moment@2.22.2:
   version "2.22.2"
