@@ -89,6 +89,6 @@
     "rimraf": "2.6.3",
     "supertest-session": "3.3.0",
     "webpack": "4.28.3",
-    "webpack-cli": "3.1.2"
+    "webpack-cli": "3.2.0"
   }
 }
