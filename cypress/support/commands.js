@@ -35,13 +35,13 @@ Cypress.Commands.add('registerUser', () => {
   }).then(response => JSON.parse(response.requestBody));
 });
 
-Cypress.Commands.add('loginUser', user => {
-  cy.request({
-    url: `${Cypress.config().baseUrl}/auth/login`,
-    method: 'POST',
-    body: {
-      email: user.email,
-      password: user.password,
-    },
-  }).then(response => JSON.parse(response.requestBody));
-});
+// Cypress.Commands.add('loginUser', user => {
+//   cy.request({
+//     url: `${Cypress.config().baseUrl}/auth/login`,
+//     method: 'POST',
+//     body: {
+//       email: user.email,
+//       password: user.password,
+//     },
+//   }).then(response => JSON.parse(response.requestBody));
+// });
