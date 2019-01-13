@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Suspense } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { withStyles, withTheme } from '@material-ui/core/styles';
@@ -11,9 +11,12 @@ import Slide from '@material-ui/core/Slide';
 import { withAlert } from 'react-alert';
 import utils from '../utils/utils';
 import CreditCards from '../components/CreditCards';
-import PieChart from '../components/PieChart';
-import Totals from '../components/Totals';
+// import PieChart from '../components/PieChart';
+// import Totals from '../components/Totals';
 import AddDialog from '../components/AddDialog';
+
+const PieChart = React.lazy(() => import('../components/PieChart'));
+const Totals = React.lazy(() => import('../components/Totals'));
 
 const styles = theme => ({
   root: {
@@ -424,11 +427,15 @@ class DashboardContainer extends Component {
         )}
         {tab === 1 && (
           <div className={classes.chart}>
-            <PieChart cards={creditCards} username={username} token={token} />
+            <Suspense fallback={<div>Loading. . . </div>}>
+              <PieChart cards={creditCards} username={username} token={token} />
+            </Suspense>
           </div>
         )}
         {tab === 2 && (
-          <Totals onAddTotal={this.handleTotalAdd} totals={totals} />
+          <Suspense fallback={<div>Loading. . . </div>}>
+            <Totals onAddTotal={this.handleTotalAdd} totals={totals} />
+          </Suspense>
         )}
       </div>
     );
