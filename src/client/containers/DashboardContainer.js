@@ -68,23 +68,16 @@ class DashboardContainer extends Component {
 
   componentDidMount() {
     document.body.style.overflowY = 'auto';
-    const { history } = this.props;
-    if (
-      !(
-        this.props.location &&
-        this.props.location.state &&
-        this.props.location.state.username &&
-        this.props.location.state.token
-      )
-    ) {
+    const {
+      history,
+      location: { state: { username, token, isAdmin } = {} } = {},
+    } = this.props;
+
+    if (!(username, token)) {
       history.push('/login');
       return;
     }
-    const {
-      location: {
-        state: { token, username, isAdmin },
-      },
-    } = this.props;
+
     utils
       .getCreditCards(token)
       .then(creditCards => {
