@@ -11,8 +11,7 @@ import Slide from '@material-ui/core/Slide';
 import { withAlert } from 'react-alert';
 import utils from '../utils/utils';
 import CreditCards from '../components/CreditCards';
-// import PieChart from '../components/PieChart';
-// import Totals from '../components/Totals';
+import Loading from '../components/Loading';
 import AddDialog from '../components/AddDialog';
 
 const PieChart = React.lazy(() => import('../components/PieChart'));
@@ -427,13 +426,13 @@ class DashboardContainer extends Component {
         )}
         {tab === 1 && (
           <div className={classes.chart}>
-            <Suspense fallback={<div>Loading. . . </div>}>
+            <Suspense fallback={<Loading />}>
               <PieChart cards={creditCards} username={username} token={token} />
             </Suspense>
           </div>
         )}
         {tab === 2 && (
-          <Suspense fallback={<div>Loading. . . </div>}>
+          <Suspense fallback={<Loading />}>
             <Totals onAddTotal={this.handleTotalAdd} totals={totals} />
           </Suspense>
         )}
