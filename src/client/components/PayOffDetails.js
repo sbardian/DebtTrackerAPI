@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import ReactRouterPropTypes from 'react-router-prop-types';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import AppBar from '@material-ui/core/AppBar';
@@ -263,5 +265,24 @@ class PayOffDetails extends Component {
     );
   }
 }
+
+PayOffDetails.defaultProps = {
+  location: [],
+};
+
+PayOffDetails.propTypes = {
+  history: ReactRouterPropTypes.history.isRequired,
+  classes: PropTypes.shape().isRequired,
+  location: PropTypes.shape({
+    state: PropTypes.shape({
+      card: PropTypes.arrayOf(PropTypes.object),
+      user: PropTypes.string,
+      name: PropTypes.string,
+      limit: PropTypes.number,
+      balance: PropTypes.number,
+      interest_rate: PropTypes.number,
+    }),
+  }),
+};
 
 export default withStyles(PayOffDetailsStyles)(PayOffDetails);

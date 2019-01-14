@@ -1,5 +1,6 @@
 import React, { Component, Suspense } from 'react';
 import PropTypes from 'prop-types';
+import ReactRouterPropTypes from 'react-router-prop-types';
 import { withRouter } from 'react-router-dom';
 import { withStyles, withTheme } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -434,8 +435,23 @@ class DashboardContainer extends Component {
   }
 }
 
+DashboardContainer.defaultProps = {
+  location: [],
+};
+
 DashboardContainer.propTypes = {
+  history: ReactRouterPropTypes.history.isRequired,
   classes: PropTypes.shape().isRequired,
+  location: PropTypes.shape({
+    state: PropTypes.shape({
+      card: PropTypes.arrayOf(PropTypes.object),
+      user: PropTypes.string,
+      name: PropTypes.string,
+      limit: PropTypes.number,
+      balance: PropTypes.number,
+      interest_rate: PropTypes.number,
+    }),
+  }),
 };
 
 export default withTheme()(
