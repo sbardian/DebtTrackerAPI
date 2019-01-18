@@ -97,7 +97,11 @@ function TableToolbar({
         {numSelected < 1 && (
           <div className={classes.alignIcons}>
             <Tooltip title="Add Card">
-              <IconButton onClick={onAdd} aria-label="Add Card">
+              <IconButton
+                data-testid="add-card"
+                onClick={onAdd}
+                aria-label="Add Card"
+              >
                 <AddCircleOutline />
               </IconButton>
             </Tooltip>
