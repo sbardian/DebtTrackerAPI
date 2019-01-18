@@ -128,7 +128,11 @@ class AddDialog extends Component {
             <Typography variant="h6" color="inherit" className={classes.flex}>
               {title}
             </Typography>
-            <Button color="inherit" onClick={() => this.save()}>
+            <Button
+              data-testid="save-card-button"
+              color="inherit"
+              onClick={() => this.save()}
+            >
               save
             </Button>
             <Button
