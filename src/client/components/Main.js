@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-import { AlertProvider } from 'react-alerts-plus';
+import { AlertProvider, AlertWrapper } from 'react-alerts-plus';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Login from './Login';
 import Logout from './Logout';
@@ -38,15 +38,26 @@ const Main = () => (
     <AlertProvider>
       <MuiThemeProvider theme={theme}>
         <CssBaseline />
-        <div className="main-container">
-          <Route exact path="/" render={() => <Redirect to="/dashboard" />} />
-          <Route path="/dashboard" component={Dashboard} />
-          <Route path="/login" component={Login} />
-          <Route path="/logout" component={Logout} />
-          <Route path="/register" component={Register} />
-          <Route path="payoff/:card" component={PayOffDetailsContainer} />
-          <Route path="payoffdetails/:card" component={PayOffDetails} />
-        </div>
+        <AlertWrapper>
+          {({ show, close }) => (
+            <div className="main-container">
+              <Route
+                exact
+                path="/"
+                render={() => <Redirect to="/dashboard" />}
+              />
+              <Route
+                path="/dashboard"
+                render={() => <Dashboard showAlert={show} closeAlert={close} />}
+              />
+              <Route path="/login" component={Login} />
+              <Route path="/logout" component={Logout} />
+              <Route path="/register" component={Register} />
+              <Route path="payoff/:card" component={PayOffDetailsContainer} />
+              <Route path="payoffdetails/:card" component={PayOffDetails} />
+            </div>
+          )}
+        </AlertWrapper>
       </MuiThemeProvider>
     </AlertProvider>
   </div>
