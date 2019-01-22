@@ -9,7 +9,6 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { Tabs, Tab } from '@material-ui/core';
 import Slide from '@material-ui/core/Slide';
-import { withAlert } from 'react-alert';
 import utils from '../utils/utils';
 import CreditCards from '../components/CreditCards';
 import Loading from '../components/Loading';
@@ -136,22 +135,25 @@ class DashboardContainer extends Component {
 
   handleCreditCardDelete = () => {
     const { creditCards, selectedCards } = this.state;
-    const { alert } = this.props;
+    const { showAlert } = this.props;
 
     selectedCards.forEach(card => {
       utils.deleteCreditCards(card._id).then(response => {
         if (response.error) {
-          alert.show(response.message, {
-            type: 'error',
-          });
+          showAlert({ message: response.message });
         } else {
           const index = creditCards.findIndex(x => x._id === card._id);
           creditCards.splice(index, 1);
           this.setState({
             creditCards,
           });
-          alert.show(response.message, {
-            type: 'success',
+          showAlert({
+            message: response.message,
+            theme: 'dark',
+            offset: '50px',
+            position: 'top right',
+            duration: 5000,
+            style: { zIndex: 2000 },
           });
         }
       });
@@ -173,7 +175,7 @@ class DashboardContainer extends Component {
 
   handleCreditCardAddSave = ({ name, limit, balance, interest_rate }) => {
     const { username, creditCards } = this.state;
-    const { alert } = this.props;
+    const { showAlert } = this.props;
 
     utils
       .addCreditCard(username, name, limit, balance, interest_rate)
@@ -194,8 +196,13 @@ class DashboardContainer extends Component {
         this.setState({
           creditCards: temp,
         });
-        alert.show('Card added.', {
-          type: 'success',
+        showAlert({
+          message: 'Card Added.',
+          theme: 'dark',
+          offset: '50px',
+          position: 'top right',
+          duration: 5000,
+          style: { zIndex: 2000 },
         });
       });
   };
@@ -215,7 +222,7 @@ class DashboardContainer extends Component {
 
   handleCreditCardEditSave = ({ _id, name, limit, balance, interest_rate }) => {
     const { creditCards } = this.state;
-    const { alert } = this.props;
+    const { showAlert } = this.props;
     // TODO: validate credit card data
     utils
       .saveCreditCard(
@@ -227,9 +234,7 @@ class DashboardContainer extends Component {
       )
       .then(response => {
         if (response.error) {
-          alert.show(response.message, {
-            type: 'error',
-          });
+          showAlert({ message: response.message });
         } else {
           const temp = creditCards;
           const index = temp.findIndex(x => x._id === _id);
@@ -245,8 +250,13 @@ class DashboardContainer extends Component {
           this.setState({
             creditCards: temp,
           });
-          alert.show(response.message, {
-            type: 'success',
+          showAlert({
+            message: response.message,
+            theme: 'dark',
+            offset: '50px',
+            position: 'top right',
+            duration: 5000,
+            style: { zIndex: 2000 },
           });
         }
       });
@@ -265,7 +275,7 @@ class DashboardContainer extends Component {
 
   handleTotalAdd = () => {
     const { username, totals } = this.state;
-    const { alert } = this.props;
+    const { showAlert } = this.props;
 
     const newTotal = this.computeNewTotal();
     utils.addNewTotal(username, newTotal).then(res => {
@@ -280,17 +290,27 @@ class DashboardContainer extends Component {
       this.setState({
         totals: temp,
       });
-      alert.show('Total saved.', {
-        type: 'success',
+      showAlert({
+        message: 'Total saved.',
+        theme: 'dark',
+        offset: '50px',
+        position: 'top right',
+        duration: 5000,
+        style: { zIndex: 2000 },
       });
     });
   };
 
   handleRequired = () => {
-    const { alert } = this.props;
+    const { showAlert } = this.props;
 
-    alert.show('All fields are required.', {
-      type: 'error',
+    showAlert({
+      message: 'All fields are required.',
+      theme: 'dark',
+      offset: '50px',
+      position: 'top right',
+      duration: 5000,
+      style: { zIndex: 2000 },
     });
   };
 
@@ -452,8 +472,7 @@ DashboardContainer.propTypes = {
       interest_rate: PropTypes.number,
     }),
   }),
+  showAlert: PropTypes.func.isRequired,
 };
 
-export default withTheme()(
-  withRouter(withStyles(styles)(withAlert(DashboardContainer))),
-);
+export default withTheme()(withRouter(withStyles(styles)(DashboardContainer)));
