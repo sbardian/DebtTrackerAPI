@@ -2104,7 +2104,7 @@ callsites@^3.0.0:
   resolved "https://registry.yarnpkg.com/callsites/-/callsites-3.0.0.tgz#fb7eb569b72ad7a45812f93fd9430a3e410b3dd3"
   integrity sha512-tWnkwu9YEq2uzlBDI4RcLn8jrFvF9AOi8PxDNU3hZZjJcjkcRAq3vCI+vZcg1SuxISDYe86k9VZFwAxDiJGoAw==
 
-camel-case@3.0.x:
+camel-case@3.0.x, camel-case@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/camel-case/-/camel-case-3.0.0.tgz#ca3c3688a4e9cf3a4cda777dc4dcbc713249cf73"
   integrity sha1-yjw2iKTpzzpM2nd9xNy8cTJJz3M=
@@ -6142,6 +6142,11 @@ lodash.sortby@^4.7.0:
   resolved "https://registry.yarnpkg.com/lodash.sortby/-/lodash.sortby-4.7.0.tgz#edd14c824e2cc9c1e0b0a1b42bb5210516a42438"
   integrity sha1-7dFMgk4sycHgsKG0K7UhBRakJDg=
 
+lodash.throttle@^4.1.1:
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/lodash.throttle/-/lodash.throttle-4.1.1.tgz#c23e91b710242ac70c37f1e1cda9274cc39bf2f4"
+  integrity sha1-wj6RtxAkKscMN/HhzaknTMOb8vQ=
+
 lodash@4.17.11, lodash@^4.17.11:
   version "4.17.11"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.11.tgz#b39ea6229ef607ecd89e2c8df12536891cac9b8d"
@@ -7804,15 +7809,15 @@ rc@^1.1.7:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
-react-alert-template-basic@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/react-alert-template-basic/-/react-alert-template-basic-1.0.0.tgz#89bcf35095faf5ebdd25e1e7c300e6b4234b5ba1"
-  integrity sha512-6x5Us0oc+jj8BDNkvSWfQMESk5SdyGKitXdLb7CwIlIlecyATjCTKSWpLABg8tpKAPOSJu4Dv/fYUqxXEio/XA==
-
-react-alert@^4.0.4:
-  version "4.0.4"
-  resolved "https://registry.yarnpkg.com/react-alert/-/react-alert-4.0.4.tgz#ccd7201e16cd800305625e888ae345c181071ab5"
-  integrity sha512-PYy+FXrgp+WziSVO8t4DRpDVRP4g5jLBHrSpEYMGKmosEG2+Tjcevwwzic3znOwVLpBVlbDH9w2L2yyQOGJuIA==
+react-alerts-plus@^0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/react-alerts-plus/-/react-alerts-plus-0.0.1.tgz#ea8135db9dd7fb7a2dbe98e0ba529672a2ac8b0d"
+  integrity sha512-6/IgNaCokDGsxqDYfBJ5bKUrSeZgzdtACKHyYZSvZgEFzBjtB9MV4EvQLYPNA/Z7YQkRSo/DJXrY0FQ+LUbSgQ==
+  dependencies:
+    prop-types "^15.6.2"
+    react-icons-kit "^1.2.1"
+    react-sizes "^1.0.4"
+    react-transition-group "^2.5.1"
 
 react-dom@^16.8.0-alpha.0:
   version "16.8.0-alpha.0"
@@ -7846,6 +7851,14 @@ react-google-charts@^3.0.0:
   integrity sha512-VCj0vJ31QW0NToV13yj4iJM57V56w3kOcLkkJVgFJ12igGRmNxL/Bz3iz1meU5qMcOTnb4+aztO6eii5Ps7SfQ==
   dependencies:
     react-load-script "^0.0.6"
+
+react-icons-kit@^1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/react-icons-kit/-/react-icons-kit-1.2.1.tgz#8c4ff22fbe70a6e014f1952eac0494bca4b006b5"
+  integrity sha512-H9R9nudQKdGT8j69kamUh8OVDfhV061+pYe6fxjstQZIvylJkQQ7m6AJMu4tg6gK8UK8s5q+YG2ahmY7fLIcyg==
+  dependencies:
+    camel-case "^3.0.0"
+    prop-types "^15.5.8"
 
 react-lifecycles-compat@^3.0.2, react-lifecycles-compat@^3.0.4:
   version "3.0.4"
@@ -7897,10 +7910,28 @@ react-router@^4.3.1:
     prop-types "^15.6.1"
     warning "^4.0.1"
 
+react-sizes@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/react-sizes/-/react-sizes-1.0.4.tgz#7f09beddf972afe6f8662a0ffe446baac35f6bc5"
+  integrity sha512-lGSerZk5EA6zPI/44Smq+EkLeU0Nn+JaRxbbxkGMXYmTSs8sq7DvHJDA7GbjUdgi3gKq4omW6vpHIgQO5ekebg==
+  dependencies:
+    lodash.throttle "^4.1.1"
+    prop-types "^15.6.0"
+
 react-transition-group@^2.2.1:
   version "2.5.0"
   resolved "https://registry.yarnpkg.com/react-transition-group/-/react-transition-group-2.5.0.tgz#70bca0e3546102c4dc5cf3f5f57f73447cce6874"
   integrity sha512-qYB3JBF+9Y4sE4/Mg/9O6WFpdoYjeeYqx0AFb64PTazVy8RPMiE3A47CG9QmM4WJ/mzDiZYslV+Uly6O1Erlgw==
+  dependencies:
+    dom-helpers "^3.3.1"
+    loose-envify "^1.4.0"
+    prop-types "^15.6.2"
+    react-lifecycles-compat "^3.0.4"
+
+react-transition-group@^2.5.1:
+  version "2.5.3"
+  resolved "https://registry.yarnpkg.com/react-transition-group/-/react-transition-group-2.5.3.tgz#26de363cab19e5c88ae5dbae105c706cf953bb92"
+  integrity sha512-2DGFck6h99kLNr8pOFk+z4Soq3iISydwOFeeEVPjTN6+Y01CmvbWmnN02VuTWyFdnRtIDPe+wy2q6Ui8snBPZg==
   dependencies:
     dom-helpers "^3.3.1"
     loose-envify "^1.4.0"
