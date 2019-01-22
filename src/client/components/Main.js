@@ -1,10 +1,8 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-import { Provider } from 'react-alert';
-import AlertTemplate from 'react-alert-template-basic';
+import { AlertProvider } from 'react-alerts-plus';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import alertOptions from '../utils/alertOptions';
 import Login from './Login';
 import Logout from './Logout';
 import Register from './Register';
@@ -37,7 +35,7 @@ const theme = createMuiTheme({
 
 const Main = () => (
   <div>
-    <Provider template={AlertTemplate} {...alertOptions}>
+    <AlertProvider>
       <MuiThemeProvider theme={theme}>
         <CssBaseline />
         <div className="main-container">
@@ -50,7 +48,7 @@ const Main = () => (
           <Route path="payoffdetails/:card" component={PayOffDetails} />
         </div>
       </MuiThemeProvider>
-    </Provider>
+    </AlertProvider>
   </div>
 );
 
