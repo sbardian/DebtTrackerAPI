@@ -47,7 +47,7 @@
     "rc-slider": "^8.6.1",
     "rc-tooltip": "^3.4.9",
     "react": "^16.8.0-alpha.0",
-    "react-alerts-plus": "^0.0.1",
+    "react-alerts-plus": "^0.0.2",
     "react-dom": "^16.8.0-alpha.0",
     "react-google-charts": "^3.0.0",
     "react-material-ui-form-validator": "^2.0.2",
