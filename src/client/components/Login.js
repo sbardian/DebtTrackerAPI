@@ -78,8 +78,8 @@ const Login = ({ classes, history }) => {
   };
 
   // Updates state based on table cell that was edited.
-  const handleChange = e => {
-    const { value, id } = e.target;
+  const handleChange = event => {
+    const { value, id } = event.target;
     switch (id) {
       case 'email':
         setEmail(value);
