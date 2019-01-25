@@ -5,6 +5,7 @@ export default () => (
     style={{
       display: 'flex',
       justifyContent: 'center',
+      padding: '20px',
     }}
   >
     <div
