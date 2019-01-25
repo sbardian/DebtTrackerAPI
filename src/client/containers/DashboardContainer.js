@@ -279,16 +279,12 @@ class DashboardContainer extends Component {
 
     const newTotal = this.computeNewTotal();
     utils.addNewTotal(username, newTotal).then(res => {
-      const temp = totals;
       const { _id, updated_at } = res;
-      temp.push({
-        user: username,
-        total: newTotal,
-        _id,
-        updated_at,
-      });
       this.setState({
-        totals: temp,
+        totals: [
+          { user: username, total: newTotal, _id, updated_at },
+          ...totals,
+        ],
       });
       showAlert({
         message: 'Total saved.',
