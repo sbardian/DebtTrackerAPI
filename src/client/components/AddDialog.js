@@ -113,10 +113,9 @@ const AddDialog = ({
 
   const save = () => {
     // TODO: find a better way to check this.
-    if (!_id || !name || !limit || !balance || !interestRate) {
+    if (!name || !limit || !balance || !interestRate) {
       onRequired();
     } else if (
-      _id === '' ||
       name === '' ||
       limit === '' ||
       balance === '' ||
