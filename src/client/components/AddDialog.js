@@ -1,5 +1,5 @@
 /* eslint react/prefer-stateless-function: 0 */
-import React, { Component, useState, useEffect } from 'react';
+import React, { useEffect, useReducer } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
@@ -41,29 +41,50 @@ const AddDialog = ({
   onTransition,
   title,
 }) => {
-  const [_id, setId] = useState('');
-  const [userId, setUserId] = useState('');
-  const [name, setName] = useState('');
-  const [balance, setBalance] = useState('');
-  const [limit, setLimit] = useState('');
-  const [interestRate, setInterestRate] = useState('');
+  const initialState = {
+    _id: '',
+    name: '',
+    balance: '',
+    limit: '',
+    interestRate: '',
+  };
+
+  const reducer = (state, action) => {
+    const { payload, type } = action;
+    switch (type) {
+      case 'reset':
+        return { ...payload };
+      case '_id':
+        return { ...state, _id: payload };
+      case 'name':
+        return { ...state, name: payload };
+      case 'balance':
+        return { ...state, balance: payload };
+      case 'limit':
+        return { ...state, limit: payload };
+      case 'interest_rate':
+        return { ...state, interestRate: payload };
+      default:
+        return state;
+    }
+  };
+
+  const [state, dispatch] = useReducer(reducer, initialState);
 
   useEffect(
     () => {
       const {
         _id: cteId,
-        userId: cteUserId,
         name: cteName,
         balance: cteBalance,
         limit: cteLimit,
         interest_rate: cteInterestRate,
       } = cardToEdit;
-      setId(cteId);
-      setUserId(cteUserId);
-      setName(cteName);
-      setBalance(cteBalance);
-      setLimit(cteLimit);
-      setInterestRate(cteInterestRate);
+      dispatch({ type: '_id', payload: cteId });
+      dispatch({ type: 'name', payload: cteName });
+      dispatch({ type: 'balance', payload: cteBalance });
+      dispatch({ type: 'limit', payload: cteLimit });
+      dispatch({ type: 'interest_rate', payload: cteInterestRate });
     },
     [cardToEdit],
   );
@@ -72,27 +93,30 @@ const AddDialog = ({
     const { value, id } = event.target;
     switch (id) {
       case 'name':
-        setName(value);
+        dispatch({ type: 'name', payload: value });
         break;
       case 'balance':
-        setBalance(value);
+        dispatch({ type: 'balance', payload: value });
         break;
       case 'limit':
-        setLimit(value);
+        dispatch({ type: 'limit', payload: value });
         break;
       case 'interest_rate':
-        setInterestRate(value);
+        dispatch({ type: 'interest_rate', payload: value });
         break;
       default:
         break;
     }
   };
 
+  const { _id, name, limit, balance, interestRate } = state;
+
   const save = () => {
     // TODO: find a better way to check this.
-    if (!name || !limit || !balance || !interestRate) {
+    if (!_id || !name || !limit || !balance || !interestRate) {
       onRequired();
     } else if (
+      _id === '' ||
       name === '' ||
       limit === '' ||
       balance === '' ||
@@ -101,23 +125,13 @@ const AddDialog = ({
       onRequired();
     } else {
       onSave({ _id, name, limit, balance, interest_rate: interestRate });
-      setId('');
-      setUserId('');
-      setName('');
-      setBalance('');
-      setLimit('');
-      setInterestRate('');
+      dispatch({ type: 'reset', payload: initialState });
       onClose();
     }
   };
 
   const close = () => {
-    setId('');
-    setUserId('');
-    setName('');
-    setBalance('');
-    setLimit('');
-    setInterestRate('');
+    dispatch({ type: 'reset', payload: initialState });
     onClose();
   };
 
