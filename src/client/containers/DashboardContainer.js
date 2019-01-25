@@ -306,11 +306,11 @@ class DashboardContainer extends Component {
 
     showAlert({
       message: 'All fields are required.',
-      theme: 'dark',
       offset: '50px',
       position: 'top right',
       duration: 5000,
-      style: { zIndex: 2000 },
+      progressBarColor: 'white',
+      style: { zIndex: 2000, color: 'white', backgroundColor: 'red' },
     });
   };
 
