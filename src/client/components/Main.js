@@ -12,10 +12,12 @@ import PayOffDetails from './PayOffDetails';
 
 const theme = createMuiTheme({
   typography: {
+    useNextVariants: true,
     // Use the system font over Roboto.
-    fontFamily:
+    fontFamily: [
       '-apple-system,system-ui,BlinkMacSystemFont,' +
-      '"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif',
+        '"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif',
+    ].join(','),
   },
   palette: {
     primary: {
@@ -53,8 +55,8 @@ const Main = () => (
               <Route path="/login" component={Login} />
               <Route path="/logout" component={Logout} />
               <Route path="/register" component={Register} />
-              <Route path="payoff/:card" component={PayOffDetailsContainer} />
-              <Route path="payoffdetails/:card" component={PayOffDetails} />
+              {/* <Route path="payoff/:card" component={PayOffDetailsContainer} /> */}
+              <Route path="/payoffdetails/:card" component={PayOffDetails} />
             </div>
           )}
         </AlertWrapper>
