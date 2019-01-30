@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import Typography from '@material-ui/core/Typography';
@@ -8,7 +8,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Paper from '@material-ui/core/Paper';
 import { withStyles } from '@material-ui/core/styles';
 import Slider from 'rc-slider';
-// import Finance from 'financejs';
+import 'rc-slider/assets/index.css';
 import utils from '../utils/utils';
 import HandleSlide from './HandleSlide';
 import { useCalcPayOff } from './utils/useCalcPayOff';
