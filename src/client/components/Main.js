@@ -7,7 +7,6 @@ import Login from './Login';
 import Logout from './Logout';
 import Register from './Register';
 import Dashboard from '../containers/DashboardContainer';
-import PayOffDetailsContainer from '../containers/PayOffDetailsContainer';
 import PayOffDetails from './PayOffDetails';
 
 const theme = createMuiTheme({
@@ -55,7 +54,6 @@ const Main = () => (
               <Route path="/login" component={Login} />
               <Route path="/logout" component={Logout} />
               <Route path="/register" component={Register} />
-              {/* <Route path="payoff/:card" component={PayOffDetailsContainer} /> */}
               <Route path="/payoffdetails/:card" component={PayOffDetails} />
             </div>
           )}
