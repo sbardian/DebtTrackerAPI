@@ -7824,10 +7824,10 @@ rc@^1.1.7:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
-react-alerts-plus@^0.0.2:
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/react-alerts-plus/-/react-alerts-plus-0.0.2.tgz#890d9c1e4dd554c86dcf3005afe01074b5ea05e7"
-  integrity sha512-4ni58b4Y9u2CNFuI3g4AVJcoubsoqYrjtCrFv+JoFwWth2zbz3IuLAqoFVvVLSUbNedGdAoNRg91J5VrK8Qc5A==
+react-alerts-plus@^0.0.3:
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/react-alerts-plus/-/react-alerts-plus-0.0.3.tgz#acd4ded356daf892225baddd6bb8739f7dcd3aa4"
+  integrity sha512-HFabiehWDfSp5Jz0N0BCTRRG+/htdQzkXPUqRSHqLGQViGMlII/qzL781i9TfcOBf+fUZLTBRmAxfoFLOR/2WQ==
   dependencies:
     prop-types "^15.6.2"
     react-icons-kit "^1.2.1"
