@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import Typography from '@material-ui/core/Typography';
@@ -7,9 +7,9 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Paper from '@material-ui/core/Paper';
 import { withStyles } from '@material-ui/core/styles';
-import Tooltip from 'rc-tooltip';
-import Slider, { Handle } from 'rc-slider';
+import Slider from 'rc-slider';
 import utils from '../utils/utils';
+import HandleSlide from './HandleSlide';
 
 const PayOffDetailsStyles = theme => ({
   appBar: {
@@ -53,218 +53,163 @@ const PayOffDetailsStyles = theme => ({
   },
 });
 
-class PayOffDetails extends Component {
-  static handleSlide(props) {
-    const { value, dragging, index, ...restProps } = props;
-    return (
-      <Tooltip
-        prefixCls="rc-slider-tooltip"
-        overlay={value}
-        visible={dragging}
-        placement="top"
-        key={index}
-      >
-        <Handle {...restProps} />
-      </Tooltip>
-    );
-  }
+const PayOffDetails = ({
+  classes,
+  history,
+  location: {
+    state: {
+      card: { limit, interest_rate, balance },
+      username,
+      isAdmin,
+      token,
+    },
+  },
+}) => {
+  const [minimum, setMinimum] = useState(0);
+  const [months, setMonths] = useState(0);
+  const [monthsSave, setMonthsSave] = useState(0);
+  const [total, setTotal] = useState(0);
+  const [totalSave, setTotalSave] = useState(0);
+  const [singlePaymentMax, setSinglePaymentMax] = useState(0);
+  const [paymentAmount, setPaymentAmount] = useState(0);
 
-  constructor() {
-    super();
-    this.state = {
-      minimum: null,
-      months: null,
-      monthsSave: null,
-      total: null,
-      totalSave: null,
-      singlePaymentMax: 0,
-      paymentAmount: 0,
-    };
-  }
-
-  componentWillMount() {
-    this.calc();
-  }
-
-  // Logs the payment amount for updating component.
-  log = value => {
-    this.setState({
-      paymentAmount: value,
-    });
-    this.calc(value);
+  const calc = payment => {
+    let currentMonths = 0;
+    let currentTotalPaid = 0;
+    let currentTotalInterest = 0;
+    let newBalance = balance;
+    let x = 0;
+    const monthlyInterestRate = (interest_rate / 365) * 30;
+    const interest = (monthlyInterestRate * newBalance) / 100;
+    let monthlyPayment = payment || balance * 0.023;
+    monthlyPayment = monthlyPayment < 25 ? 25 : monthlyPayment;
+    const paid = monthlyPayment - interest;
+    do {
+      currentTotalInterest += interest;
+      currentTotalPaid = currentTotalPaid + interest + paid;
+      x += paid;
+      newBalance -= paid;
+      currentMonths += 1;
+      if (paid * currentMonths > balance) {
+        currentTotalPaid =
+          currentTotalPaid -
+          (currentTotalPaid - balance) +
+          currentTotalInterest;
+      }
+    } while (x <= balance);
+    setMonths(currentMonths);
+    setTotal(currentTotalPaid);
+    setPaymentAmount(monthlyPayment);
+    if (!payment) {
+      const currentSinglePaymentMax =
+        balance + (balance * monthlyInterestRate) / 100 + 1;
+      setSinglePaymentMax(currentSinglePaymentMax);
+      setMinimum(monthlyPayment);
+      setMonthsSave(currentMonths);
+      setTotalSave(currentTotalPaid);
+    }
   };
 
-  back = () => {
-    const {
-      history,
-      location: {
-        state: { username, isAdmin, token },
-      },
-    } = this.props;
+  useEffect(() => {
+    calc();
+  }, []);
 
-    history.push('/', {
+  const updatePaymentAmount = value => {
+    setPaymentAmount(value);
+    calc(value);
+  };
+
+  const back = () => {
+    console.log('back: ', username, isAdmin, token);
+    history.push('/dashboard', {
       username,
       isAdmin,
       token,
     });
   };
 
-  // Calculates the total paid and number of months to
-  // pay off a card, based on paymentAmount.
-  calc(paymentAmount) {
-    // const { interest_rate, balance } = this.props.location.state.card;
-    const {
-      location: {
-        state: {
-          card: { interest_rate, balance },
-        },
+  const marks = {
+    [`${Math.trunc(minimum)}`]: {
+      style: {
+        width: 50,
+        marginLeft: 0,
       },
-    } = this.props;
-    let monthlyPayment = paymentAmount || balance * 0.023;
-    monthlyPayment = monthlyPayment < 25 ? 25 : monthlyPayment;
-    const monthlyIntRate = (interest_rate / 365) * 30;
-    let months = 0;
-    let totalPaid = 0;
-    let totalInterest = 0;
-    let newBalance = balance;
-    let x = 0;
-    do {
-      const interest = (monthlyIntRate * newBalance) / 100;
-      totalInterest += interest;
-      const paid = monthlyPayment - interest;
-      totalPaid = totalPaid + interest + paid;
-      x += paid;
-      newBalance -= paid;
-      months += 1;
-      if (paid * months > balance) {
-        totalPaid = totalPaid - (totalPaid - balance) + totalInterest;
-      }
-
-      // TODO: uncomment 2 lines below for updating minimum monthly payment
-      // monthlyPayment = newBalance * .023;
-      // monthlyPayment = (monthlyPayment < 25 ? 25 : monthlyPayment);
-    } while (x <= balance);
-
-    this.setState({
-      months,
-      total: totalPaid,
-      paymentAmount: monthlyPayment,
-    });
-    if (!paymentAmount) {
-      this.setState({
-        singlePaymentMax: balance + (balance * monthlyIntRate) / 100 + 1,
-        minimum: monthlyPayment,
-        monthsSave: months,
-        totalSave: totalPaid,
-      });
-    }
-  }
-
-  render() {
-    const { classes } = this.props;
-    const {
-      location: {
-        state: {
-          card: { limit, balance, interest_rate },
-        },
+      label: `$${utils.createDollar(Math.trunc(minimum))}`,
+    },
+    [`${Math.trunc(singlePaymentMax)}`]: {
+      style: {
+        width: 50,
+        marginLeft: 0,
+        left: '96%',
       },
-    } = this.props;
-    const {
-      minimum,
-      singlePaymentMax,
-      monthsSave,
-      totalSave,
-      total,
-      months,
-      paymentAmount,
-    } = this.state;
+      label: `$${utils.createDollar(Math.trunc(singlePaymentMax))}`,
+    },
+  };
 
-    const marks = {
-      [`${Math.trunc(minimum)}`]: {
-        style: {
-          width: 50,
-          marginLeft: 0,
-        },
-        label: `$${utils.createDollar(Math.trunc(minimum))}`,
-      },
-      [`${Math.trunc(singlePaymentMax)}`]: {
-        style: {
-          width: 50,
-          marginLeft: 0,
-          left: '96%',
-        },
-        label: `$${utils.createDollar(Math.trunc(singlePaymentMax))}`,
-      },
-    };
-
-    return (
-      <Paper>
-        <AppBar className={classes.appBar}>
-          <Toolbar>
-            <Typography
-              variant="title"
-              color="inherit"
-              className={classes.flex}
-            >
-              Pay Off Details
-            </Typography>
-            <Button color="inherit" onClick={() => this.back()}>
-              back
-            </Button>
-          </Toolbar>
-        </AppBar>
-        <div className={classes.containerTop}>
-          <Typography>
-            <strong>Limit: </strong>${utils.createDollar(limit)}
+  return (
+    <Paper>
+      <AppBar className={classes.appBar}>
+        <Toolbar>
+          <Typography variant="title" color="inherit" className={classes.flex}>
+            Pay Off Details
           </Typography>
-          <Typography>
-            <strong>Balance: </strong>${utils.createDollar(balance)}
-          </Typography>
-          <Typography>
-            <strong>Interest Rate: </strong>
-            {interest_rate}%
-          </Typography>
-          <Typography>
-            <strong>Minimum Payment: </strong>${utils.createDollar(minimum)}
-          </Typography>
-          <Typography>
-            <strong>Months to Payoff: </strong>
-            {monthsSave}
-          </Typography>
-          <Typography>
-            <strong>Total Paid: </strong>${utils.createDollar(totalSave)}
-          </Typography>
+          <Button color="inherit" onClick={() => back()}>
+            back
+          </Button>
+        </Toolbar>
+      </AppBar>
+      <div className={classes.containerTop}>
+        <Typography>
+          <strong>Limit: </strong>${utils.createDollar(limit)}
+        </Typography>
+        <Typography>
+          <strong>Balance: </strong>${utils.createDollar(balance)}
+        </Typography>
+        <Typography>
+          <strong>Interest Rate: </strong>
+          {interest_rate}%
+        </Typography>
+        <Typography>
+          <strong>Minimum Payment: </strong>${utils.createDollar(minimum)}
+        </Typography>
+        <Typography>
+          <strong>Months to Payoff: </strong>
+          {monthsSave}
+        </Typography>
+        <Typography>
+          <strong>Total Paid: </strong>${utils.createDollar(totalSave)}
+        </Typography>
+      </div>
+      <div className={classes.container}>
+        <div>Adjust payment:</div>
+      </div>
+      <div className={classes.container}>
+        <h1>${utils.createDollar(paymentAmount)}</h1>
+      </div>
+      <div className={classes.container}>
+        <div className={classes.wrapperStyle}>
+          <Slider
+            min={Math.trunc(minimum)}
+            max={Math.trunc(singlePaymentMax)}
+            marks={marks}
+            defaultValue={Math.trunc(minimum)}
+            onChange={updatePaymentAmount}
+            handle={HandleSlide}
+          />
         </div>
-        <div className={classes.container}>
-          <div>Adjust payment:</div>
+      </div>
+      <div className={classes.containerBottom}>
+        <div>
+          Months: <h1> {months} </h1>
         </div>
-        <div className={classes.container}>
-          <h1>${utils.createDollar(paymentAmount)}</h1>
+        <div>
+          Total Paid: <h1>${utils.createDollar(total)}</h1>
         </div>
-        <div className={classes.container}>
-          <div className={classes.wrapperStyle}>
-            <Slider
-              min={Math.trunc(minimum)}
-              max={Math.trunc(singlePaymentMax)}
-              marks={marks}
-              defaultValue={Math.trunc(minimum)}
-              onChange={this.log}
-              handle={this.handleSlide}
-            />
-          </div>
-        </div>
-        <div className={classes.containerBottom}>
-          <div>
-            Months: <h1> {months} </h1>
-          </div>
-          <div>
-            Total Paid: <h1>${utils.createDollar(total)}</h1>
-          </div>
-        </div>
-      </Paper>
-    );
-  }
-}
+      </div>
+    </Paper>
+  );
+  // }
+};
 
 PayOffDetails.defaultProps = {
   location: [],
@@ -275,7 +220,11 @@ PayOffDetails.propTypes = {
   classes: PropTypes.shape().isRequired,
   location: PropTypes.shape({
     state: PropTypes.shape({
-      card: PropTypes.arrayOf(PropTypes.object),
+      card: PropTypes.shape({
+        limit: PropTypes.number.isRequired,
+        balance: PropTypes.number.isRequired,
+        interest_rate: PropTypes.number.isRequired,
+      }),
       user: PropTypes.string,
       name: PropTypes.string,
       limit: PropTypes.number,
