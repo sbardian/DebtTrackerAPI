@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import Typography from '@material-ui/core/Typography';
@@ -8,6 +8,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Paper from '@material-ui/core/Paper';
 import { withStyles } from '@material-ui/core/styles';
 import Slider from 'rc-slider';
+// import Finance from 'financejs';
 import utils from '../utils/utils';
 import HandleSlide from './HandleSlide';
 import { useCalcPayOff } from './utils/useCalcPayOff';
@@ -66,76 +67,30 @@ const PayOffDetails = ({
     },
   },
 }) => {
-  const [minimum, setMinimum] = useState(0);
-  const [months, setMonths] = useState(0);
-  const [monthsSave, setMonthsSave] = useState(0);
-  const [total, setTotal] = useState(0);
-  const [totalSave, setTotalSave] = useState(0);
-  const [singlePaymentMax, setSinglePaymentMax] = useState(0);
-  const [paymentAmount, setPaymentAmount] = useState(0);
+  // const [minimumPayment, setMinimumPayment] = useState(0);
+  const [months, setMonths] = useState(1);
+  // const [totalPaid, setTotalPaid] = useState(0);
+  // const finance = new Finance();
 
-  // const calc = payment => {
-  //   let currentMonths = 0;
-  //   let currentTotalPaid = 0;
-  //   let currentTotalInterest = 0;
-  //   let newBalance = balance;
-  //   let x = 0;
-  //   const monthlyInterestRate = (interest_rate / 365) * 30;
-  //   const interest = (monthlyInterestRate * newBalance) / 100;
-  //   let monthlyPayment = payment || balance * 0.023;
-  //   monthlyPayment = monthlyPayment < 25 ? 25 : monthlyPayment;
-  //   const paid = monthlyPayment - interest;
-  //   do {
-  //     currentTotalInterest += interest;
-  //     currentTotalPaid = currentTotalPaid + interest + paid;
-  //     x += paid;
-  //     newBalance -= paid;
-  //     currentMonths += 1;
-  //     if (paid * currentMonths > balance) {
-  //       currentTotalPaid =
-  //         currentTotalPaid -
-  //         (currentTotalPaid - balance) +
-  //         currentTotalInterest;
-  //     }
-  //   } while (x <= balance);
-  //   setMonths(currentMonths);
-  //   setTotal(currentTotalPaid);
-  //   setPaymentAmount(monthlyPayment);
-  //   if (!payment) {
-  //     const currentSinglePaymentMax =
-  //       balance + (balance * monthlyInterestRate) / 100 + 1;
-  //     setSinglePaymentMax(currentSinglePaymentMax);
-  //     setMinimum(monthlyPayment);
-  //     setMonthsSave(currentMonths);
-  //     setTotalSave(currentTotalPaid);
-  //   }
+  // const updatePaymentAmount = period => {
+  //   const minimum = finance.AM(balance, interest_rate, period, 1);
+  //   setMinimumPayment(minimum);
+  //   setTotalPaid(period * minimum);
   // };
 
   // useEffect(() => {
-  //   calc();
-  // }, []);
+  //   updatePaymentAmount(months);
+  // }, [months]);
 
-  const {
-    currentSinglePaymentMax,
-    monthlyPayment,
-    currentMonths,
-    currentTotalPaid,
-  } = useCalcPayOff(balance, interest_rate);
-
-  setMonths(currentMonths);
-  setTotal(currentTotalPaid);
-  setPaymentAmount(monthlyPayment);
-  setSinglePaymentMax(currentSinglePaymentMax);
-  setMinimum(monthlyPayment);
-  setMonthsSave(currentMonths);
-  setTotalSave(currentTotalPaid);
-
-  const updatePaymentAmount = updatedValue => {
-    setPaymentAmount(updatedValue);
-  };
+  const { minimum = 0, totalPaid = 0 } = useCalcPayOff(
+    months,
+    balance,
+    interest_rate,
+  );
+  // setMinimumPayment(minimum);
+  // setTotalPaid(total);
 
   const back = () => {
-    console.log('back: ', username, isAdmin, token);
     history.push('/dashboard', {
       username,
       isAdmin,
@@ -144,20 +99,11 @@ const PayOffDetails = ({
   };
 
   const marks = {
-    [`${Math.trunc(minimum)}`]: {
-      style: {
-        width: 50,
-        marginLeft: 0,
-      },
-      label: `$${utils.createDollar(Math.trunc(minimum))}`,
+    1: {
+      label: `1`,
     },
-    [`${Math.trunc(singlePaymentMax)}`]: {
-      style: {
-        width: 50,
-        marginLeft: 0,
-        left: '96%',
-      },
-      label: `$${utils.createDollar(Math.trunc(singlePaymentMax))}`,
+    72: {
+      label: `72`,
     },
   };
 
@@ -187,38 +133,31 @@ const PayOffDetails = ({
         <Typography>
           <strong>Minimum Payment: </strong>${utils.createDollar(minimum)}
         </Typography>
-        <Typography>
-          <strong>Months to Payoff: </strong>
-          {monthsSave}
-        </Typography>
-        <Typography>
-          <strong>Total Paid: </strong>${utils.createDollar(totalSave)}
-        </Typography>
       </div>
       <div className={classes.container}>
-        <div>Adjust payment:</div>
+        <div>Months:</div>
       </div>
       <div className={classes.container}>
-        <h1>${utils.createDollar(paymentAmount)}</h1>
+        <h1>{months}</h1>
       </div>
       <div className={classes.container}>
         <div className={classes.wrapperStyle}>
           <Slider
-            min={Math.trunc(minimum)}
-            max={Math.trunc(singlePaymentMax)}
+            min={1}
+            max={72}
             marks={marks}
-            defaultValue={Math.trunc(minimum)}
-            onChange={updatePaymentAmount}
+            defaultValue={1}
+            onChange={setMonths}
             handle={HandleSlide}
           />
         </div>
       </div>
       <div className={classes.containerBottom}>
         <div>
-          Months: <h1> {months} </h1>
+          Minimum Payment: <h1>${utils.createDollar(minimum)}</h1>
         </div>
         <div>
-          Total Paid: <h1>${utils.createDollar(total)}</h1>
+          Total Paid: <h1>${utils.createDollar(totalPaid)}</h1>
         </div>
       </div>
     </Paper>
