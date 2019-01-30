@@ -39,6 +39,7 @@
     "express": "^4.16.2",
     "express-session": "^1.15.6",
     "file-loader": "^3.0.0",
+    "financejs": "^4.1.0",
     "jsonwebtoken": "^8.1.0",
     "moment": "^2.18.1",
     "mongoose": "^5.3.14",
