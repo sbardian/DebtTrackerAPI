@@ -10,6 +10,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Slider from 'rc-slider';
 import utils from '../utils/utils';
 import HandleSlide from './HandleSlide';
+import { useCalcPayOff } from './utils/useCalcPayOff';
 
 const PayOffDetailsStyles = theme => ({
   appBar: {
@@ -73,50 +74,64 @@ const PayOffDetails = ({
   const [singlePaymentMax, setSinglePaymentMax] = useState(0);
   const [paymentAmount, setPaymentAmount] = useState(0);
 
-  const calc = payment => {
-    let currentMonths = 0;
-    let currentTotalPaid = 0;
-    let currentTotalInterest = 0;
-    let newBalance = balance;
-    let x = 0;
-    const monthlyInterestRate = (interest_rate / 365) * 30;
-    const interest = (monthlyInterestRate * newBalance) / 100;
-    let monthlyPayment = payment || balance * 0.023;
-    monthlyPayment = monthlyPayment < 25 ? 25 : monthlyPayment;
-    const paid = monthlyPayment - interest;
-    do {
-      currentTotalInterest += interest;
-      currentTotalPaid = currentTotalPaid + interest + paid;
-      x += paid;
-      newBalance -= paid;
-      currentMonths += 1;
-      if (paid * currentMonths > balance) {
-        currentTotalPaid =
-          currentTotalPaid -
-          (currentTotalPaid - balance) +
-          currentTotalInterest;
-      }
-    } while (x <= balance);
-    setMonths(currentMonths);
-    setTotal(currentTotalPaid);
-    setPaymentAmount(monthlyPayment);
-    if (!payment) {
-      const currentSinglePaymentMax =
-        balance + (balance * monthlyInterestRate) / 100 + 1;
-      setSinglePaymentMax(currentSinglePaymentMax);
-      setMinimum(monthlyPayment);
-      setMonthsSave(currentMonths);
-      setTotalSave(currentTotalPaid);
-    }
-  };
+  // const calc = payment => {
+  //   let currentMonths = 0;
+  //   let currentTotalPaid = 0;
+  //   let currentTotalInterest = 0;
+  //   let newBalance = balance;
+  //   let x = 0;
+  //   const monthlyInterestRate = (interest_rate / 365) * 30;
+  //   const interest = (monthlyInterestRate * newBalance) / 100;
+  //   let monthlyPayment = payment || balance * 0.023;
+  //   monthlyPayment = monthlyPayment < 25 ? 25 : monthlyPayment;
+  //   const paid = monthlyPayment - interest;
+  //   do {
+  //     currentTotalInterest += interest;
+  //     currentTotalPaid = currentTotalPaid + interest + paid;
+  //     x += paid;
+  //     newBalance -= paid;
+  //     currentMonths += 1;
+  //     if (paid * currentMonths > balance) {
+  //       currentTotalPaid =
+  //         currentTotalPaid -
+  //         (currentTotalPaid - balance) +
+  //         currentTotalInterest;
+  //     }
+  //   } while (x <= balance);
+  //   setMonths(currentMonths);
+  //   setTotal(currentTotalPaid);
+  //   setPaymentAmount(monthlyPayment);
+  //   if (!payment) {
+  //     const currentSinglePaymentMax =
+  //       balance + (balance * monthlyInterestRate) / 100 + 1;
+  //     setSinglePaymentMax(currentSinglePaymentMax);
+  //     setMinimum(monthlyPayment);
+  //     setMonthsSave(currentMonths);
+  //     setTotalSave(currentTotalPaid);
+  //   }
+  // };
 
-  useEffect(() => {
-    calc();
-  }, []);
+  // useEffect(() => {
+  //   calc();
+  // }, []);
 
-  const updatePaymentAmount = value => {
-    setPaymentAmount(value);
-    calc(value);
+  const {
+    currentSinglePaymentMax,
+    monthlyPayment,
+    currentMonths,
+    currentTotalPaid,
+  } = useCalcPayOff(balance, interest_rate);
+
+  setMonths(currentMonths);
+  setTotal(currentTotalPaid);
+  setPaymentAmount(monthlyPayment);
+  setSinglePaymentMax(currentSinglePaymentMax);
+  setMinimum(monthlyPayment);
+  setMonthsSave(currentMonths);
+  setTotalSave(currentTotalPaid);
+
+  const updatePaymentAmount = updatedValue => {
+    setPaymentAmount(updatedValue);
   };
 
   const back = () => {
