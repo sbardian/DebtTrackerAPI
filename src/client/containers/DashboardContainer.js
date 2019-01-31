@@ -53,7 +53,8 @@ class DashboardContainer extends Component {
       isAdmin: false,
       token: '',
       creditCards: [],
-      selectAll: false,
+      selectAllCreditCards: false,
+      selectAllTotals: false,
       totals: [],
       totalDebt: 0,
       totalAvailable: 0,
@@ -63,6 +64,7 @@ class DashboardContainer extends Component {
       onSave: () => {},
       dialogTitle: '',
       selectedCards: [],
+      selectedTotals: [],
     };
   }
 
@@ -97,7 +99,10 @@ class DashboardContainer extends Component {
       });
     utils.getTotals(token).then(totals => {
       this.setState({
-        totals,
+        totals: totals.map(total => ({
+          ...total,
+          isSelected: false,
+        })),
       });
     });
   }
@@ -107,13 +112,13 @@ class DashboardContainer extends Component {
   };
 
   handleCreditCardSelectAll = () => {
-    const { creditCards, selectAll } = this.state;
+    const { creditCards, selectAllCreditCards } = this.state;
     this.setState({
-      selectAll: !selectAll,
-      selectedCards: !selectAll ? creditCards : [],
+      selectAllCreditCards: !selectAllCreditCards,
+      selectedCards: !selectAllCreditCards ? creditCards : [],
       creditCards: creditCards.map(card => ({
         ...card,
-        isSelected: !selectAll,
+        isSelected: !selectAllCreditCards,
       })),
     });
   };
@@ -297,9 +302,66 @@ class DashboardContainer extends Component {
     });
   };
 
-  handleRequired = () => {
+  handleTotalDelete = () => {
+    const { totals, selectedTotals } = this.state;
     const { showAlert } = this.props;
 
+    selectedTotals.forEach(total => {
+      utils.deleteTotals(total._id).then(response => {
+        if (response.error) {
+          showAlert({ message: response.message });
+        } else {
+          const index = totals.findIndex(x => x._id === total._id);
+          totals.splice(index, 1);
+          this.setState({
+            totals,
+          });
+          showAlert({
+            message: response.message,
+            theme: 'dark',
+            offset: '50px',
+            position: 'top right',
+            duration: 5000,
+            style: { zIndex: 2000 },
+          });
+        }
+      });
+      this.setState({
+        selectedTotals: [],
+      });
+      return null;
+    });
+  };
+
+  handleTotalSelectAll = () => {
+    const { totals, selectAllTotals } = this.state;
+    this.setState({
+      selectAllTotals: !selectAllTotals,
+      selectedCards: !selectAllTotals ? totals : [],
+      totals: totals.map(total => ({
+        ...total,
+        isSelected: !selectAllTotals,
+      })),
+    });
+  };
+
+  hanldeTotalSelectSingle = selected => {
+    const { totals, selectedTotals } = this.state;
+    this.setState({
+      totals: totals.map(total => {
+        if (total._id === selected._id) {
+          return { ...total, isSelected: !total.isSelected };
+        }
+        return total;
+      }),
+      selectedTotals: selected.isSelected
+        ? selectedTotals.filter(total => total._id !== selected._id)
+        : [...selectedTotals, selected],
+    });
+  };
+
+  handleRequired = () => {
+    const { showAlert } = this.props;
     showAlert({
       message: 'All fields are required.',
       offset: '50px',
@@ -443,7 +505,13 @@ class DashboardContainer extends Component {
         )}
         {tab === 2 && (
           <Suspense fallback={<Loading />}>
-            <Totals onAddTotal={this.handleTotalAdd} totals={totals} />
+            <Totals
+              totals={totals}
+              onAddTotal={this.handleTotalAdd}
+              onDeleteTotal={this.handleTotalDelete}
+              onSelect={this.hanldeTotalSelectSingle}
+              onSelectAll={this.handleTotalSelectAll}
+            />
           </Suspense>
         )}
       </div>

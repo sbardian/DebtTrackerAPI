@@ -10,6 +10,7 @@ import {
 import Paper from '@material-ui/core/Paper';
 import { withStyles } from '@material-ui/core/styles';
 import Moment from 'moment';
+import Checkbox from '@material-ui/core/Checkbox';
 import TotalsToolbar from './TotalsToolbar';
 import utils from '../utils/utils';
 
@@ -19,7 +20,17 @@ const styles = () => ({
   },
 });
 
-function Totals({ classes, totals, onAddTotal }) {
+function Totals({
+  classes,
+  totals,
+  onAddTotal,
+  onDeleteTotal,
+  onSelect,
+  onSelectAll,
+}) {
+  const numSelected = totals.filter(total => total.isSelected).length;
+  const totalTotals = totals.length;
+
   const dateFormatter = useMemo(
     () => cell => {
       const date = new Moment(cell);
@@ -30,18 +41,42 @@ function Totals({ classes, totals, onAddTotal }) {
 
   return (
     <Paper>
-      <TotalsToolbar onAddTotal={onAddTotal} />
+      <TotalsToolbar
+        onAddTotal={onAddTotal}
+        numSelected={numSelected}
+        onDeleteTotal={onDeleteTotal}
+      />
       <Table className={classes.table}>
         <TableHead>
           <TableRow>
-            <TableCell>Date</TableCell>
+            <TableCell padding="checkbox">
+              <Checkbox
+                indeterminate={numSelected > 0 && numSelected < totalTotals}
+                checked={numSelected === totalTotals}
+                onChange={onSelectAll}
+              />
+            </TableCell>
+            <TableCell padding="checkbox">Date</TableCell>
             <TableCell numeric>Total</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {totals.map(total => (
-            <TableRow key={total._id}>
-              <TableCell>{dateFormatter(total.updated_at)}</TableCell>
+            <TableRow
+              key={total._id}
+              hover
+              onClick={() => onSelect(total)}
+              role="checkbox"
+              aria-checked={total.isSelected}
+              tabIndex={-1}
+              selected={total.isSelected}
+            >
+              <TableCell padding="checkbox">
+                <Checkbox checked={total.isSelected} />
+              </TableCell>
+              <TableCell padding="checkbox">
+                {dateFormatter(total.updated_at)}
+              </TableCell>
               <TableCell numeric>
                 {`$${utils.createDollar(total.total)}`}
               </TableCell>
@@ -63,6 +98,9 @@ Totals.propTypes = {
       total: PropTypes.number.isRequired,
     }),
   ),
+  onDeleteTotal: PropTypes.func.isRequired,
+  onSelect: PropTypes.func.isRequired,
+  onSelectAll: PropTypes.func.isRequired,
 };
 
 Totals.defaultProps = {
