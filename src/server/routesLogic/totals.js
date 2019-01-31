@@ -54,12 +54,11 @@ export const deleteTotal = (req, res) => {
           .status(400)
           .json({ error: true, message: 'Error deleting data' });
       }
-      response = {
+      return res.json({
         error: false,
-        message: `Data associated with ${req.params.id} is deleted`,
+        message: `Total has been deleted`,
         data,
-      };
-      res.json(response);
+      });
     });
   });
 };
