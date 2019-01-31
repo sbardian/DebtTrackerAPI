@@ -208,7 +208,7 @@ const utils = {
         method: 'delete',
         url: `${TOTALS_URL}${id}`,
       })
-      .then(response => response.data.message)
+      .then(response => response.data)
       .catch(err => err.data);
   },
 
