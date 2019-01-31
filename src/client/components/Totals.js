@@ -15,6 +15,15 @@ import TotalsToolbar from './TotalsToolbar';
 import utils from '../utils/utils';
 
 const styles = () => ({
+  container: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'flex-end',
+  },
+  root: {
+    width: '100%',
+    overflowX: 'auto',
+  },
   table: {
     minWidth: 700,
   },
@@ -40,51 +49,53 @@ function Totals({
   );
 
   return (
-    <Paper>
-      <TotalsToolbar
-        onAddTotal={onAddTotal}
-        numSelected={numSelected}
-        onDeleteTotal={onDeleteTotal}
-      />
-      <Table className={classes.table}>
-        <TableHead>
-          <TableRow>
-            <TableCell padding="checkbox">
-              <Checkbox
-                indeterminate={numSelected > 0 && numSelected < totalTotals}
-                checked={numSelected === totalTotals}
-                onChange={onSelectAll}
-              />
-            </TableCell>
-            <TableCell padding="checkbox">Date</TableCell>
-            <TableCell numeric>Total</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {totals.map(total => (
-            <TableRow
-              key={total._id}
-              hover
-              onClick={() => onSelect(total)}
-              role="checkbox"
-              aria-checked={total.isSelected}
-              tabIndex={-1}
-              selected={total.isSelected}
-            >
+    <div className={classes.container}>
+      <Paper className={classes.root}>
+        <TotalsToolbar
+          onAddTotal={onAddTotal}
+          numSelected={numSelected}
+          onDeleteTotal={onDeleteTotal}
+        />
+        <Table className={classes.table}>
+          <TableHead>
+            <TableRow>
               <TableCell padding="checkbox">
-                <Checkbox checked={total.isSelected} />
+                <Checkbox
+                  indeterminate={numSelected > 0 && numSelected < totalTotals}
+                  checked={numSelected === totalTotals}
+                  onChange={onSelectAll}
+                />
               </TableCell>
-              <TableCell padding="checkbox">
-                {dateFormatter(total.updated_at)}
-              </TableCell>
-              <TableCell numeric>
-                {`$${utils.createDollar(total.total)}`}
-              </TableCell>
+              <TableCell padding="checkbox">Date</TableCell>
+              <TableCell numeric>Total</TableCell>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </Paper>
+          </TableHead>
+          <TableBody>
+            {totals.map(total => (
+              <TableRow
+                key={total._id}
+                hover
+                onClick={() => onSelect(total)}
+                role="checkbox"
+                aria-checked={total.isSelected}
+                tabIndex={-1}
+                selected={total.isSelected}
+              >
+                <TableCell padding="checkbox">
+                  <Checkbox checked={total.isSelected} />
+                </TableCell>
+                <TableCell padding="checkbox">
+                  {dateFormatter(total.updated_at)}
+                </TableCell>
+                <TableCell numeric>
+                  {`$${utils.createDollar(total.total)}`}
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </Paper>
+    </div>
   );
 }
 
