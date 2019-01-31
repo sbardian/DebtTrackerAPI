@@ -56,7 +56,7 @@ function CreditCards({
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell>
+              <TableCell padding="checkbox">
                 <Checkbox
                   indeterminate={numSelected > 0 && numSelected < totalCards}
                   checked={numSelected === totalCards}
@@ -80,7 +80,7 @@ function CreditCards({
                 key={card._id}
                 selected={card.isSelected}
               >
-                <TableCell>
+                <TableCell padding="checkbox">
                   <Checkbox checked={card.isSelected} />
                 </TableCell>
                 <TableCell>{card.name}</TableCell>
