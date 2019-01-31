@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import Typography from '@material-ui/core/Typography';
@@ -60,35 +60,27 @@ const PayOffDetails = ({
   history,
   location: {
     state: {
-      card: { limit, interest_rate, balance },
+      card: { limit = 0, interest_rate = 0, balance = 0 } = {},
       username,
       isAdmin,
       token,
-    },
+    } = {},
   },
 }) => {
-  // const [minimumPayment, setMinimumPayment] = useState(0);
   const [months, setMonths] = useState(1);
-  // const [totalPaid, setTotalPaid] = useState(0);
-  // const finance = new Finance();
 
-  // const updatePaymentAmount = period => {
-  //   const minimum = finance.AM(balance, interest_rate, period, 1);
-  //   setMinimumPayment(minimum);
-  //   setTotalPaid(period * minimum);
-  // };
-
-  // useEffect(() => {
-  //   updatePaymentAmount(months);
-  // }, [months]);
+  useEffect(() => {
+    document.body.style.overflowY = 'auto';
+    if (!username || !token) {
+      history.push('/login');
+    }
+  });
 
   const { minimum = 0, totalPaid = 0 } = useCalcPayOff(
     months,
     balance,
     interest_rate,
   );
-  // setMinimumPayment(minimum);
-  // setTotalPaid(total);
 
   const back = () => {
     history.push('/dashboard', {
