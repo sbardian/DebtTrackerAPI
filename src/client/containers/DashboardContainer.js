@@ -1,4 +1,4 @@
-import React, { Component, Suspense } from 'react';
+import React, { Suspense, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { withRouter } from 'react-router-dom';
@@ -10,10 +10,11 @@ import Typography from '@material-ui/core/Typography';
 import { Tabs, Tab } from '@material-ui/core';
 import Slide from '@material-ui/core/Slide';
 import utils from '../utils/utils';
-import CreditCards from '../components/CreditCards';
 import Loading from '../components/Loading';
 import AddDialog from '../components/AddDialog';
+import useMustLogin from '../components/utils/useMustLogin';
 
+const CreditCards = React.lazy(() => import('../components/CreditCards'));
 const PieChart = React.lazy(() => import('../components/PieChart'));
 const Totals = React.lazy(() => import('../components/Totals'));
 
@@ -44,88 +45,92 @@ const styles = theme => ({
   },
 });
 
-class DashboardContainer extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isLoading: true,
-      username: '',
-      isAdmin: false,
-      token: '',
-      creditCards: [],
-      selectAllCreditCards: false,
-      selectAllTotals: false,
-      totals: [],
-      totalDebt: 0,
-      totalAvailable: 0,
-      tab: 0,
-      dialogOpen: false,
-      cardToEdit: {},
-      onSave: () => {},
-      dialogTitle: '',
-      selectedCards: [],
-      selectedTotals: [],
-    };
-  }
+const DialogTransition = props => <Slide direction="up" {...props} />;
 
-  componentDidMount() {
-    document.body.style.overflowY = 'auto';
-    const {
-      history,
-      location: { state: { username, token, isAdmin } = {} } = {},
-    } = this.props;
+const DashboardContainer = ({
+  classes,
+  history,
+  location: { state: { username, token, isAdmin } = {} } = {},
+  showAlert,
+}) => {
+  const [state, setState] = useState({
+    isLoading: true,
+    isAdmin: false,
+    token: '',
+    creditCards: [],
+    selectAllCreditCards: false,
+    selectAllTotals: false,
+    totals: [],
+    totalDebt: 0,
+    totalAvailable: 0,
+    tab: 0,
+    dialogOpen: false,
+    cardToEdit: {},
+    onSave: () => {},
+    dialogTitle: '',
+    selectedCards: [],
+    selectedTotals: [],
+  });
+  document.body.style.overflowY = 'auto';
 
-    if (!(username, token)) {
-      history.push('/login');
-      return;
+  const isLoggedIn = useMustLogin(history, username, token);
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      utils
+        .getCreditCards(token)
+        .then(creditCards => {
+          setState(prevState => ({
+            ...prevState,
+            isLoading: false,
+            creditCards: creditCards.map(card => ({
+              ...card,
+              isSelected: false,
+            })),
+          }));
+        })
+        .catch(() => {
+          history.push('/login');
+        });
     }
+  }, [isLoggedIn]);
 
-    utils
-      .getCreditCards(token)
-      .then(creditCards => {
-        this.setState({
+  useEffect(() => {
+    if (isLoggedIn) {
+      utils.getTotals(token).then(totals => {
+        setState(prevState => ({
+          ...prevState,
           isLoading: false,
-          creditCards: creditCards.map(card => ({
-            ...card,
+          totals: totals.map(total => ({
+            ...total,
             isSelected: false,
           })),
-          username,
-          isAdmin,
-          token,
-        });
-      })
-      .catch(() => {
-        history.push('/login');
+        }));
       });
-    utils.getTotals(token).then(totals => {
-      this.setState({
-        totals: totals.map(total => ({
-          ...total,
-          isSelected: false,
-        })),
-      });
-    });
-  }
+    }
+  }, [isLoggedIn]);
 
-  handleTabChange = (event, tab) => {
-    this.setState({ tab });
+  const handleTabChange = (event, tab) => {
+    setState(prevState => ({ ...prevState, tab }));
   };
 
-  handleCreditCardSelectAll = () => {
-    const { creditCards, selectAllCreditCards } = this.state;
-    this.setState({
+  const handleCreditCardSelectAll = () => {
+    const { creditCards, selectAllCreditCards } = state;
+    setState(prevState => ({
+      ...prevState,
       selectAllCreditCards: !selectAllCreditCards,
       selectedCards: !selectAllCreditCards ? creditCards : [],
       creditCards: creditCards.map(card => ({
         ...card,
         isSelected: !selectAllCreditCards,
       })),
-    });
+    }));
   };
 
-  handleCreditCardSelectSingle = selected => {
-    const { creditCards, selectedCards } = this.state;
-    this.setState({
+  const handleCreditCardSelectSingle = selected => {
+    const { creditCards, selectedCards } = state;
+    setState(prevState => ({
+      ...prevState,
       creditCards: creditCards.map(card => {
         if (card._id === selected._id) {
           return { ...card, isSelected: !card.isSelected };
@@ -135,12 +140,11 @@ class DashboardContainer extends Component {
       selectedCards: selected.isSelected
         ? selectedCards.filter(card => card._id !== selected._id)
         : [...selectedCards, selected],
-    });
+    }));
   };
 
-  handleCreditCardDelete = () => {
-    const { creditCards, selectedCards } = this.state;
-    const { showAlert } = this.props;
+  const handleCreditCardDelete = () => {
+    const { creditCards, selectedCards } = state;
 
     selectedCards.forEach(card => {
       utils.deleteCreditCards(card._id).then(response => {
@@ -149,9 +153,10 @@ class DashboardContainer extends Component {
         } else {
           const index = creditCards.findIndex(x => x._id === card._id);
           creditCards.splice(index, 1);
-          this.setState({
+          setState(prevState => ({
+            ...prevState,
             creditCards,
-          });
+          }));
           showAlert({
             message: response.message,
             theme: 'dark',
@@ -162,25 +167,16 @@ class DashboardContainer extends Component {
           });
         }
       });
-      this.setState({
+      setState(prevState => ({
+        ...prevState,
         selectedCards: [],
-      });
+      }));
       return null;
     });
   };
 
-  handleCreditCardAdd = () => {
-    this.setState({
-      cardToEdit: {},
-      onSave: this.handleCreditCardAddSave,
-      dialogTitle: 'Add Credit Card',
-    });
-    this.handleDialogClickOpen();
-  };
-
-  handleCreditCardAddSave = ({ name, limit, balance, interest_rate }) => {
-    const { username, creditCards } = this.state;
-    const { showAlert } = this.props;
+  const handleCreditCardAddSave = ({ name, limit, balance, interest_rate }) => {
+    const { creditCards } = state;
 
     utils
       .addCreditCard(username, name, limit, balance, interest_rate)
@@ -198,9 +194,10 @@ class DashboardContainer extends Component {
           __v,
           isSelected: false,
         });
-        this.setState({
+        setState(prevState => ({
+          ...prevState,
           creditCards: temp,
-        });
+        }));
         showAlert({
           message: 'Card Added.',
           theme: 'dark',
@@ -212,22 +209,28 @@ class DashboardContainer extends Component {
       });
   };
 
-  handleCreditCardEdit = () => {
-    const { creditCards } = this.state;
-    const [card] = creditCards.filter(c => {
-      if (c.isSelected) return c;
-    });
-    this.setState({
-      cardToEdit: card,
-      onSave: this.handleCreditCardEditSave,
-      dialogTitle: 'Edit Credit Card',
-    });
-    this.handleDialogClickOpen();
+  const handleDialogClickOpen = () => {
+    setState(prevState => ({ ...prevState, dialogOpen: true }));
   };
 
-  handleCreditCardEditSave = ({ _id, name, limit, balance, interest_rate }) => {
-    const { creditCards } = this.state;
-    const { showAlert } = this.props;
+  const handleCreditCardAdd = () => {
+    setState(prevState => ({
+      ...prevState,
+      cardToEdit: {},
+      onSave: handleCreditCardAddSave,
+      dialogTitle: 'Add Credit Card',
+    }));
+    handleDialogClickOpen();
+  };
+
+  const handleCreditCardEditSave = ({
+    _id,
+    name,
+    limit,
+    balance,
+    interest_rate,
+  }) => {
+    const { creditCards } = state;
     // TODO: validate credit card data
     utils
       .saveCreditCard(
@@ -252,9 +255,10 @@ class DashboardContainer extends Component {
             balance: parseFloat(balance),
             interest_rate: parseFloat(interest_rate),
           };
-          this.setState({
+          setState(prevState => ({
+            ...prevState,
             creditCards: temp,
-          });
+          }));
           showAlert({
             message: response.message,
             theme: 'dark',
@@ -267,9 +271,20 @@ class DashboardContainer extends Component {
       });
   };
 
-  handleOnDetails = () => {
-    const { selectedCards, username, token } = this.state;
-    const { history } = this.props;
+  const handleCreditCardEdit = () => {
+    const { creditCards } = state;
+    const [card] = creditCards.filter(c => (c.isSelected ? c : null));
+    setState(prevState => ({
+      ...prevState,
+      cardToEdit: card,
+      onSave: handleCreditCardEditSave,
+      dialogTitle: 'Edit Credit Card',
+    }));
+    handleDialogClickOpen();
+  };
+
+  const handleOnDetails = () => {
+    const { selectedCards } = state;
     const card = selectedCards[0];
     history.push(`/payoffdetails/${card.name}`, {
       card,
@@ -278,19 +293,28 @@ class DashboardContainer extends Component {
     });
   };
 
-  handleTotalAdd = () => {
-    const { username, totals } = this.state;
-    const { showAlert } = this.props;
+  const computeNewTotal = () => {
+    const { creditCards, totalDebt } = state;
+    let total = totalDebt;
+    creditCards.forEach(card => {
+      total += card.balance;
+    });
+    return total;
+  };
 
-    const newTotal = this.computeNewTotal();
+  const handleTotalAdd = () => {
+    const { totals } = state;
+
+    const newTotal = computeNewTotal();
     utils.addNewTotal(username, newTotal).then(res => {
       const { _id, updated_at } = res;
-      this.setState({
+      setState(prevState => ({
+        ...prevState,
         totals: [
           { user: username, total: newTotal, _id, updated_at },
           ...totals,
         ],
-      });
+      }));
       showAlert({
         message: 'Total saved.',
         theme: 'dark',
@@ -302,9 +326,8 @@ class DashboardContainer extends Component {
     });
   };
 
-  handleTotalDelete = () => {
-    const { totals, selectedTotals } = this.state;
-    const { showAlert } = this.props;
+  const handleTotalDelete = () => {
+    const { totals, selectedTotals } = state;
 
     selectedTotals.forEach(total => {
       utils.deleteTotals(total._id).then(response => {
@@ -313,9 +336,10 @@ class DashboardContainer extends Component {
         } else {
           const index = totals.findIndex(x => x._id === total._id);
           totals.splice(index, 1);
-          this.setState({
+          setState(prevState => ({
+            ...prevState,
             totals,
-          });
+          }));
           showAlert({
             message: response.message,
             theme: 'dark',
@@ -326,28 +350,31 @@ class DashboardContainer extends Component {
           });
         }
       });
-      this.setState({
+      setState(prevState => ({
+        ...prevState,
         selectedTotals: [],
-      });
+      }));
       return null;
     });
   };
 
-  handleTotalSelectAll = () => {
-    const { totals, selectAllTotals } = this.state;
-    this.setState({
+  const handleTotalSelectAll = () => {
+    const { totals, selectAllTotals } = state;
+    setState(prevState => ({
+      ...prevState,
       selectAllTotals: !selectAllTotals,
       selectedCards: !selectAllTotals ? totals : [],
       totals: totals.map(total => ({
         ...total,
         isSelected: !selectAllTotals,
       })),
-    });
+    }));
   };
 
-  hanldeTotalSelectSingle = selected => {
-    const { totals, selectedTotals } = this.state;
-    this.setState({
+  const hanldeTotalSelectSingle = selected => {
+    const { totals, selectedTotals } = state;
+    setState(prevState => ({
+      ...prevState,
       totals: totals.map(total => {
         if (total._id === selected._id) {
           return { ...total, isSelected: !total.isSelected };
@@ -357,11 +384,10 @@ class DashboardContainer extends Component {
       selectedTotals: selected.isSelected
         ? selectedTotals.filter(total => total._id !== selected._id)
         : [...selectedTotals, selected],
-    });
+    }));
   };
 
-  handleRequired = () => {
-    const { showAlert } = this.props;
+  const handleRequired = () => {
     showAlert({
       message: 'All fields are required.',
       offset: '50px',
@@ -372,20 +398,12 @@ class DashboardContainer extends Component {
     });
   };
 
-  handleDialogClickOpen = () => {
-    this.setState({ dialogOpen: true });
+  const handleDialogClose = () => {
+    setState(prevState => ({ ...prevState, dialogOpen: false }));
   };
-
-  handleDialogClose = () => {
-    this.setState({ dialogOpen: false });
-  };
-
-  DialogTransition = props => <Slide direction="up" {...props} />;
 
   // Logout from the app.
-  logout = () => {
-    const { token } = this.state;
-    const { history } = this.props;
+  const logout = () => {
     utils.userLogout(token).then(res => {
       if (res.status === 200) {
         history.push('/login');
@@ -393,131 +411,117 @@ class DashboardContainer extends Component {
     });
   };
 
-  computeDebt() {
-    const { creditCards, totalDebt } = this.state;
-    let total = totalDebt;
-    creditCards.forEach(card => {
-      total += card.balance;
-    });
-    return utils.createDollar(total);
-  }
+  // const computeDebt = () => {
+  //   const { creditCards, totalDebt } = state;
+  //   let total = totalDebt;
+  //   creditCards.forEach(card => {
+  //     total += card.balance;
+  //   });
+  //   return utils.createDollar(total);
+  // };
 
-  computeAvailable() {
-    const { creditCards, totalAvailable } = this.state;
-    let total = totalAvailable;
-    creditCards.forEach(card => {
-      total += card.limit;
-    });
-    return utils.createDollar(total);
-  }
+  // const computeAvailable = () => {
+  //   const { creditCards, totalAvailable } = state;
+  //   let total = totalAvailable;
+  //   creditCards.forEach(card => {
+  //     total += card.limit;
+  //   });
+  //   return utils.createDollar(total);
+  // };
 
-  computeNewTotal() {
-    const { creditCards, totalDebt } = this.state;
-    let total = totalDebt;
-    creditCards.forEach(card => {
-      total += card.balance;
-    });
-    return total;
-  }
+  const {
+    isLoading,
+    creditCards,
+    totals,
+    tab,
+    onSave,
+    cardToEdit,
+    dialogTitle,
+    dialogOpen,
+  } = state;
 
-  render() {
-    const {
-      isLoading,
-      username,
-      isAdmin,
-      token,
-      creditCards,
-      totals,
-      tab,
-      onSave,
-      cardToEdit,
-      dialogTitle,
-      dialogOpen,
-    } = this.state;
-
-    const { classes } = this.props;
-
-    return isLoading ? (
-      <p className={classes.loading}>Loading...</p>
-    ) : (
+  return isLoading ? (
+    <p className={classes.loading}>Loading...</p>
+  ) : (
+    <div>
       <div>
-        <div>
-          <AppBar className={classes.appBarMain}>
-            <Toolbar>
-              <Typography variant="h6" color="inherit" className={classes.flex}>
-                {username.toUpperCase()}
-              </Typography>
-              <Button
-                color="inherit"
-                data-testid="logout-button"
-                onClick={() => this.logout()}
-              >
-                logout
-              </Button>
-            </Toolbar>
-          </AppBar>
-        </div>
-        <AppBar color="primary" className={classes.appBar}>
-          <Tabs
-            value={tab}
-            onChange={this.handleTabChange}
-            indicatorColor="primary"
-            className={classes.tabs}
-            centered
-          >
-            <Tab data-testid="creditcards-tab-button" label="Credit Cards" />
-            <Tab data-testid="chart-tab-button" label="Chart" />
-            <Tab data-testid="totals-tab-button" label="Totals" />
-          </Tabs>
+        <AppBar className={classes.appBarMain}>
+          <Toolbar>
+            <Typography variant="h6" color="inherit" className={classes.flex}>
+              {username.toUpperCase()}
+            </Typography>
+            <Button
+              color="inherit"
+              data-testid="logout-button"
+              onClick={() => logout()}
+            >
+              logout
+            </Button>
+          </Toolbar>
         </AppBar>
-        {tab === 0 && (
-          <div>
+      </div>
+      <AppBar color="primary" className={classes.appBar}>
+        <Tabs
+          value={tab}
+          onChange={handleTabChange}
+          indicatorColor="primary"
+          className={classes.tabs}
+          centered
+        >
+          <Tab data-testid="creditcards-tab-button" label="Credit Cards" />
+          <Tab data-testid="chart-tab-button" label="Chart" />
+          <Tab data-testid="totals-tab-button" label="Totals" />
+        </Tabs>
+      </AppBar>
+      {tab === 0 && (
+        <div>
+          <Suspense fallback={<Loading />}>
             <CreditCards
               creditCards={creditCards}
-              onSelectAll={this.handleCreditCardSelectAll}
-              onSelect={this.handleCreditCardSelectSingle}
-              onDelete={this.handleCreditCardDelete}
-              onAdd={this.handleCreditCardAdd}
-              onEdit={this.handleCreditCardEdit}
-              onDetails={this.handleOnDetails}
-            />
-            <AddDialog
-              onOpen={this.handleDialogClickOpen}
-              onClose={this.handleDialogClose}
-              onTransition={this.DialogTransition}
-              dialogOpen={dialogOpen}
-              onSave={onSave}
-              onRequired={this.handleRequired}
-              cardToEdit={cardToEdit}
-              title={dialogTitle}
-              username={username}
-              isAdmin={isAdmin}
-              token={token}
-            />
-          </div>
-        )}
-        {tab === 1 && (
-          <div className={classes.chart}>
-            <Suspense fallback={<Loading />}>
-              <PieChart cards={creditCards} username={username} token={token} />
-            </Suspense>
-          </div>
-        )}
-        {tab === 2 && (
-          <Suspense fallback={<Loading />}>
-            <Totals
-              totals={totals}
-              onAddTotal={this.handleTotalAdd}
-              onDeleteTotal={this.handleTotalDelete}
-              onSelect={this.hanldeTotalSelectSingle}
-              onSelectAll={this.handleTotalSelectAll}
+              onSelectAll={handleCreditCardSelectAll}
+              onSelect={handleCreditCardSelectSingle}
+              onDelete={handleCreditCardDelete}
+              onAdd={handleCreditCardAdd}
+              onEdit={handleCreditCardEdit}
+              onDetails={handleOnDetails}
             />
           </Suspense>
-        )}
-      </div>
-    );
-  }
-}
+          <AddDialog
+            onOpen={handleDialogClickOpen}
+            onClose={handleDialogClose}
+            onTransition={DialogTransition}
+            dialogOpen={dialogOpen}
+            onSave={onSave}
+            onRequired={handleRequired}
+            cardToEdit={cardToEdit}
+            title={dialogTitle}
+            username={username}
+            isAdmin={isAdmin}
+            token={token}
+          />
+        </div>
+      )}
+      {tab === 1 && (
+        <div className={classes.chart}>
+          <Suspense fallback={<Loading />}>
+            <PieChart cards={creditCards} username={username} token={token} />
+          </Suspense>
+        </div>
+      )}
+      {tab === 2 && (
+        <Suspense fallback={<Loading />}>
+          <Totals
+            totals={totals}
+            onAddTotal={handleTotalAdd}
+            onDeleteTotal={handleTotalDelete}
+            onSelect={hanldeTotalSelectSingle}
+            onSelectAll={handleTotalSelectAll}
+          />
+        </Suspense>
+      )}
+    </div>
+  );
+};
 
 DashboardContainer.defaultProps = {
   location: [],
