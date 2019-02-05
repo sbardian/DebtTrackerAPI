@@ -12,6 +12,7 @@ import 'rc-slider/assets/index.css';
 import utils from '../utils/utils';
 import HandleSlide from './HandleSlide';
 import { useCalcPayOff } from './utils/useCalcPayOff';
+import useMustLogin from './utils/useMustLogin';
 
 const PayOffDetailsStyles = theme => ({
   appBar: {
@@ -69,12 +70,7 @@ const PayOffDetails = ({
 }) => {
   const [months, setMonths] = useState(1);
 
-  useEffect(() => {
-    document.body.style.overflowY = 'auto';
-    if (!username || !token) {
-      history.push('/login');
-    }
-  });
+  useMustLogin(history, username, token);
 
   const { minimum = 0, totalPaid = 0 } = useCalcPayOff(
     months,
