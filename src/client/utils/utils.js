@@ -35,15 +35,12 @@ const utils = {
    * Post to Logout
    *
    */
-  userLogout() {
-    return utils
-      ._axios()({
-        method: 'get',
-        url: LOGOUT_URL,
-      })
+  userLogout: () =>
+    fetch(LOGOUT_URL, {
+      method: 'GET',
+    })
       .then(response => response)
-      .catch(err => err);
-  },
+      .catch(err => err),
 
   /**
    * Post to Login
@@ -51,16 +48,17 @@ const utils = {
    * @param email
    * @param password
    */
-  userLogin(email, password) {
-    return utils
-      ._axios()({
-        method: 'post',
-        url: LOGIN_URL,
-        data: {
-          email,
-          password,
-        },
-      })
+  userLogin: (email, password) => {
+    return fetch(LOGIN_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        email,
+        password,
+      }),
+    })
       .then(response => response)
       .catch(err => err);
   },
