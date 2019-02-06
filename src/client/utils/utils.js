@@ -119,21 +119,18 @@ const utils = {
    * @param {float} balance - balance of card.
    * @param {float} interest_rate - interest rate of card.
    */
-  saveCreditCard(id, name, limit, balance, interest_rate) {
-    return utils
-      ._axios()({
-        method: 'put',
-        url: `${CREDITCARDS_URL}${id}`,
-        data: {
-          name,
-          limit,
-          balance,
-          interest_rate,
-        },
+  saveCreditCard: (id, name, limit, balance, interest_rate) =>
+    fetch(`${CREDITCARDS_URL}${id}`, {
+      method: 'PUT',
+      body: JSON.stringify({
+        name,
+        limit,
+        balance,
+        interest_rate,
       })
-      .then(response => response.data)
-      .catch(err => err.data);
-  },
+        .then(response => response)
+        .catch(err => err),
+    }),
 
   /**
    * Deletes a card from the database.
