@@ -66,7 +66,6 @@ const Login = ({ classes, history }) => {
           history.push('/dashboard', {
             username: response.data.username,
             isAdmin: response.data.isAdmin,
-            token: response.data.token,
           });
         } else {
           setLoginFailure(true);

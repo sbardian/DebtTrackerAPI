@@ -64,13 +64,12 @@ const PayOffDetails = ({
       card: { limit = 0, interest_rate = 0, balance = 0 } = {},
       username,
       isAdmin,
-      token,
     } = {},
   },
 }) => {
   const [months, setMonths] = useState(1);
 
-  useMustLogin(history, username, token);
+  useMustLogin(history, username);
 
   const { minimum = 0, totalPaid = 0 } = useCalcPayOff(
     months,
@@ -82,7 +81,6 @@ const PayOffDetails = ({
     history.push('/dashboard', {
       username,
       isAdmin,
-      token,
     });
   };
 

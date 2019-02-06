@@ -50,13 +50,12 @@ const DialogTransition = props => <Slide direction="up" {...props} />;
 const DashboardContainer = ({
   classes,
   history,
-  location: { state: { username, token, isAdmin } = {} } = {},
+  location: { state: { username, isAdmin } = {} } = {},
   showAlert,
 }) => {
   const [state, setState] = useState({
     isLoading: true,
     isAdmin: false,
-    token: '',
     creditCards: [],
     selectAllCreditCards: false,
     selectAllTotals: false,
@@ -73,12 +72,12 @@ const DashboardContainer = ({
   });
   document.body.style.overflowY = 'auto';
 
-  const isLoggedIn = useMustLogin(history, username, token);
+  const isLoggedIn = useMustLogin(history, username);
 
   useEffect(() => {
     if (isLoggedIn) {
       utils
-        .getCreditCards(token)
+        .getCreditCards()
         .then(creditCards => {
           setState(prevState => ({
             ...prevState,
@@ -97,7 +96,7 @@ const DashboardContainer = ({
 
   useEffect(() => {
     if (isLoggedIn) {
-      utils.getTotals(token).then(totals => {
+      utils.getTotals().then(totals => {
         setState(prevState => ({
           ...prevState,
           isLoading: false,
@@ -289,7 +288,6 @@ const DashboardContainer = ({
     history.push(`/payoffdetails/${card.name}`, {
       card,
       username,
-      token,
     });
   };
 
@@ -404,7 +402,7 @@ const DashboardContainer = ({
 
   // Logout from the app.
   const logout = () => {
-    utils.userLogout(token).then(res => {
+    utils.userLogout().then(res => {
       if (res.status === 200) {
         history.push('/login');
       }
@@ -497,14 +495,13 @@ const DashboardContainer = ({
             title={dialogTitle}
             username={username}
             isAdmin={isAdmin}
-            token={token}
           />
         </div>
       )}
       {tab === 1 && (
         <div className={classes.chart}>
           <Suspense fallback={<Loading />}>
-            <PieChart cards={creditCards} username={username} token={token} />
+            <PieChart cards={creditCards} username={username} />
           </Suspense>
         </div>
       )}
