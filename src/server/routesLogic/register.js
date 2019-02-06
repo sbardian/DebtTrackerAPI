@@ -35,9 +35,11 @@ export const register = async (req, res) => {
     const token = jwt.sign(payload, config.sessionSecret, {
       expiresIn: 1440,
     });
+    req.session.token = token;
     const data = {
       userId: req.session.userId,
       username: user.username,
+      isAdmin: payload.isAdmin,
       token,
     };
     res.set({
