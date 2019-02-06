@@ -103,12 +103,12 @@ const utils = {
    *
    * @param {*} id
    */
-  getCreditCardById(id) {
-    return utils
-      ._axios()
-      .get(`${CREDITCARDBYID_URL}${id}`)
-      .then(response => response.data.message);
-  },
+  getCreditCardById: id =>
+    fetch(`${CREDITCARDBYID_URL}${id}`, {
+      method: 'GET',
+    })
+      .then(response => response)
+      .catch(err => err),
 
   /**
    * Updates a credit card in the database.
