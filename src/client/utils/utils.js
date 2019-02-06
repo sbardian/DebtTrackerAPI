@@ -24,9 +24,9 @@ const utils = {
    *
    * @private
    */
-  _axios(token) {
+  _axios() {
     return axios.create({
-      headers: { Authorization: `Bearer ${token}` },
+      // headers: { Authorization: `Bearer ${token}` },
     });
   },
 
@@ -92,10 +92,10 @@ const utils = {
    * Returns array of credit cards from API.
    *
    */
-  getCreditCards(token) {
+  getCreditCards() {
     return utils
-      ._axios(token)
-      .get(CREDITCARDS_URL, { withCredentials: true })
+      ._axios()
+      .get(CREDITCARDS_URL, { withCredentials: false })
       .then(response => response.data.message);
   },
 
@@ -108,9 +108,9 @@ const utils = {
    * @param {float} balance - balance of card.
    * @param {float} interest_rate - interest rate of card.
    */
-  saveCreditCard(id, name, limit, balance, interest_rate, token) {
+  saveCreditCard(id, name, limit, balance, interest_rate) {
     return utils
-      ._axios(token)({
+      ._axios()({
         method: 'put',
         url: `${CREDITCARDS_URL}${id}`,
         data: {
@@ -129,9 +129,9 @@ const utils = {
    *
    * @param {string} id - id of card to delete.
    */
-  deleteCreditCards(id, token) {
+  deleteCreditCards(id) {
     return utils
-      ._axios(token)({
+      ._axios()({
         method: 'delete',
         url: `${CREDITCARDS_URL}${id}`,
       })
@@ -148,9 +148,9 @@ const utils = {
    * @param {float} balance - balance of card.
    * @param {float} interest_rate - interest rate of card.
    */
-  addCreditCard(user, name, limit, balance, interest_rate, token) {
+  addCreditCard(user, name, limit, balance, interest_rate) {
     return utils
-      ._axios(token)({
+      ._axios()({
         method: 'post',
         url: CREDITCARDS_URL,
         data: {
@@ -171,9 +171,9 @@ const utils = {
    * @param {string} user - name of user.
    * @param {float} total - new total debt.
    */
-  addNewTotal(user, total, token) {
+  addNewTotal(user, total) {
     return utils
-      ._axios(token)({
+      ._axios()({
         method: 'post',
         url: TOTALS_URL,
         data: {
@@ -189,10 +189,10 @@ const utils = {
    * Returns promise of totals from the database.
    *
    */
-  getTotals(token) {
+  getTotals() {
     return utils
-      ._axios(token)
-      .get(TOTALS_URL, { withCredentials: true })
+      ._axios()
+      .get(TOTALS_URL)
       .then(response => response.data.message)
       .catch(err => err);
   },
@@ -202,9 +202,9 @@ const utils = {
    *
    * @param id ID of the total to delete
    */
-  deleteTotals(id, token) {
+  deleteTotals(id) {
     return utils
-      ._axios(token)({
+      ._axios()({
         method: 'delete',
         url: `${TOTALS_URL}${id}`,
       })
