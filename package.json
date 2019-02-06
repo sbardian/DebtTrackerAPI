@@ -89,7 +89,7 @@
     "prettier": "1.16.1",
     "rimraf": "2.6.3",
     "supertest-session": "3.3.0",
-    "webpack": "4.29.0",
+    "webpack": "4.29.1",
     "webpack-cli": "3.2.1"
   }
 }
