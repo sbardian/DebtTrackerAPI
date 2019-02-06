@@ -91,12 +91,12 @@ const utils = {
    * Returns array of credit cards from API.
    *
    */
-  getCreditCards() {
-    return utils
-      ._axios()
-      .get(CREDITCARDS_URL)
-      .then(response => response.data.message);
-  },
+  getCreditCards: () =>
+    fetch(CREDITCARDS_URL, {
+      method: 'GET',
+    })
+      .then(response => response)
+      .catch(err => err),
 
   /**
    * Get credit card by ID

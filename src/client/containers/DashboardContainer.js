@@ -73,15 +73,20 @@ const DashboardContainer = ({
   useEffect(() => {
     utils
       .getCreditCards()
-      .then(creditCards => {
-        setState(prevState => ({
-          ...prevState,
-          isLoading: false,
-          creditCards: creditCards.map(card => ({
-            ...card,
-            isSelected: false,
-          })),
-        }));
+      .then(response => {
+        if (response.status === 200) {
+          response.json().then(data => {
+            const { message: creditCards } = data;
+            setState(prevState => ({
+              ...prevState,
+              isLoading: false,
+              creditCards: creditCards.map(card => ({
+                ...card,
+                isSelected: false,
+              })),
+            }));
+          });
+        }
       })
       .catch(() => {
         history.push('/login');
