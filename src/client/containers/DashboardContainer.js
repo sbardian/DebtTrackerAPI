@@ -12,7 +12,6 @@ import Slide from '@material-ui/core/Slide';
 import utils from '../utils/utils';
 import Loading from '../components/Loading';
 import AddDialog from '../components/AddDialog';
-import useMustLogin from '../components/utils/useMustLogin';
 
 const CreditCards = React.lazy(() => import('../components/CreditCards'));
 const PieChart = React.lazy(() => import('../components/PieChart'));
@@ -27,7 +26,6 @@ const styles = theme => ({
     fontSize: '48pt',
   },
   appBarMain: {
-    // background: '#4ba3c7',
     background: theme.palette.primary.dark,
     position: 'relative',
   },
@@ -72,10 +70,7 @@ const DashboardContainer = ({
   });
   document.body.style.overflowY = 'auto';
 
-  // const isLoggedIn = useMustLogin(history, username);
-
   useEffect(() => {
-    // if (isLoggedIn) {
     utils
       .getCreditCards()
       .then(creditCards => {
@@ -91,11 +86,9 @@ const DashboardContainer = ({
       .catch(() => {
         history.push('/login');
       });
-    // }
   }, []);
 
   useEffect(() => {
-    // if (isLoggedIn) {
     utils
       .getTotals()
       .then(totals => {
@@ -111,7 +104,6 @@ const DashboardContainer = ({
       .catch(() => {
         history.push('/login');
       });
-    // }
   }, []);
 
   const handleTabChange = (event, tab) => {
@@ -291,7 +283,6 @@ const DashboardContainer = ({
     const { selectedCards } = state;
     const card = selectedCards[0];
     history.push(`/payoffdetails/${card._id}`, {
-      // card,
       username,
     });
   };

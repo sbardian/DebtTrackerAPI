@@ -12,7 +12,6 @@ import 'rc-slider/assets/index.css';
 import utils from '../utils/utils';
 import HandleSlide from './HandleSlide';
 import { useCalcPayOff } from './utils/useCalcPayOff';
-import useMustLogin from './utils/useMustLogin';
 
 const PayOffDetailsStyles = theme => ({
   appBar: {
@@ -59,13 +58,7 @@ const PayOffDetailsStyles = theme => ({
 const PayOffDetails = ({
   classes,
   history,
-  location: {
-    state: {
-      // card: { limit = 0, interest_rate = 0, balance = 0 } = {},
-      username,
-      isAdmin,
-    } = {},
-  },
+  location: { state: { username, isAdmin } = {} },
   match: {
     params: { cardId },
   },
@@ -86,8 +79,6 @@ const PayOffDetails = ({
       })
       .catch(() => history.push('/login'));
   }, [cardId]);
-
-  // useMustLogin(history, username);
 
   const { minimum = 0, totalPaid = 0 } = useCalcPayOff(
     months,
@@ -178,16 +169,8 @@ PayOffDetails.propTypes = {
   classes: PropTypes.shape().isRequired,
   location: PropTypes.shape({
     state: PropTypes.shape({
-      // card: PropTypes.shape({
-      //   limit: PropTypes.number.isRequired,
-      //   balance: PropTypes.number.isRequired,
-      //   interest_rate: PropTypes.number.isRequired,
-      // }),
       user: PropTypes.string,
       name: PropTypes.string,
-      // limit: PropTypes.number,
-      // balance: PropTypes.number,
-      // interest_rate: PropTypes.number,
     }),
   }),
   match: PropTypes.shape({
