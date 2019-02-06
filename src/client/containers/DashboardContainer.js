@@ -50,7 +50,7 @@ const DialogTransition = props => <Slide direction="up" {...props} />;
 const DashboardContainer = ({
   classes,
   history,
-  location: { state: { username, isAdmin } = {} } = {},
+  location: { state: { username = '', isAdmin } = {} } = {},
   showAlert,
 }) => {
   const [state, setState] = useState({
@@ -72,31 +72,33 @@ const DashboardContainer = ({
   });
   document.body.style.overflowY = 'auto';
 
-  const isLoggedIn = useMustLogin(history, username);
+  // const isLoggedIn = useMustLogin(history, username);
 
   useEffect(() => {
-    if (isLoggedIn) {
-      utils
-        .getCreditCards()
-        .then(creditCards => {
-          setState(prevState => ({
-            ...prevState,
-            isLoading: false,
-            creditCards: creditCards.map(card => ({
-              ...card,
-              isSelected: false,
-            })),
-          }));
-        })
-        .catch(() => {
-          history.push('/login');
-        });
-    }
-  }, [isLoggedIn]);
+    // if (isLoggedIn) {
+    utils
+      .getCreditCards()
+      .then(creditCards => {
+        setState(prevState => ({
+          ...prevState,
+          isLoading: false,
+          creditCards: creditCards.map(card => ({
+            ...card,
+            isSelected: false,
+          })),
+        }));
+      })
+      .catch(() => {
+        history.push('/login');
+      });
+    // }
+  }, []);
 
   useEffect(() => {
-    if (isLoggedIn) {
-      utils.getTotals().then(totals => {
+    // if (isLoggedIn) {
+    utils
+      .getTotals()
+      .then(totals => {
         setState(prevState => ({
           ...prevState,
           isLoading: false,
@@ -105,9 +107,12 @@ const DashboardContainer = ({
             isSelected: false,
           })),
         }));
+      })
+      .catch(() => {
+        history.push('/login');
       });
-    }
-  }, [isLoggedIn]);
+    // }
+  }, []);
 
   const handleTabChange = (event, tab) => {
     setState(prevState => ({ ...prevState, tab }));
