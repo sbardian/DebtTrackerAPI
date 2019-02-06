@@ -61,20 +61,22 @@ function Register({ classes, history }) {
   };
 
   const registerUser = () => {
-    // TODO: confirm password and passwordConf match
+    // TODO: validate data in form (password === passwordConf/etc.  Use TextValidator instead of TextField)
     utils
       .registerUser(username, email, password, passwordConf)
       .then(response => {
         if (response.status === 200) {
-          setUsername(response.data.username);
-          history.push('/dashboard', {
-            username: response.data.username,
-            token: response.data.token,
+          response.json().then(data => {
+            const { username: responseUsername } = data;
+            setUsername(responseUsername);
+            history.push('/dashboard', {
+              username: responseUsername,
+            });
           });
         }
       })
       .catch(() => {
-        // console.log('error registering: ', err);
+        // TODO: Add some type of element stating registration failed.
       });
   };
 

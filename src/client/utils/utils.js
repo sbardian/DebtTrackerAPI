@@ -71,21 +71,21 @@ const utils = {
    * @param password
    * @param passwordConf
    */
-  registerUser(username, email, password, passwordConf) {
-    return utils
-      ._axios()({
-        method: 'post',
-        url: REGISTER_URL,
-        data: {
-          username,
-          email,
-          password,
-          passwordConf,
-        },
-      })
+  registerUser: (username, email, password, passwordConf) =>
+    fetch(REGISTER_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        username,
+        email,
+        password,
+        passwordConf,
+      }),
+    })
       .then(response => response)
-      .catch(err => err.data);
-  },
+      .catch(err => err),
 
   /**
    * Returns array of credit cards from API.
