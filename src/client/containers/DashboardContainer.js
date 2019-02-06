@@ -290,8 +290,8 @@ const DashboardContainer = ({
   const handleOnDetails = () => {
     const { selectedCards } = state;
     const card = selectedCards[0];
-    history.push(`/payoffdetails/${card.name}`, {
-      card,
+    history.push(`/payoffdetails/${card._id}`, {
+      // card,
       username,
     });
   };

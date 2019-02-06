@@ -11,7 +11,7 @@ export const useCalcPayOff = (months, balance, interest_rate) => {
     const newTotalPaid = months * newMinimum;
     setMinimum(newMinimum);
     setTotalPaid(newTotalPaid);
-  }, [months]);
+  }, [months, balance, interest_rate]);
 
   return {
     minimum,

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import Typography from '@material-ui/core/Typography';
@@ -61,20 +61,38 @@ const PayOffDetails = ({
   history,
   location: {
     state: {
-      card: { limit = 0, interest_rate = 0, balance = 0 } = {},
+      // card: { limit = 0, interest_rate = 0, balance = 0 } = {},
       username,
       isAdmin,
     } = {},
   },
+  match: {
+    params: { cardId },
+  },
 }) => {
   const [months, setMonths] = useState(1);
+  const [limit, setLimit] = useState(0);
+  const [balance, setBalance] = useState(0);
+  const [interest, setInterest] = useState(0);
 
-  useMustLogin(history, username);
+  useEffect(() => {
+    utils
+      .getCreditCardById(cardId)
+      .then(card => {
+        console.log('card = ', card);
+        setLimit(card.limit);
+        setBalance(card.balance);
+        setInterest(card.interest_rate);
+      })
+      .catch(() => history.push('/login'));
+  }, [cardId]);
+
+  // useMustLogin(history, username);
 
   const { minimum = 0, totalPaid = 0 } = useCalcPayOff(
     months,
     balance,
-    interest_rate,
+    interest,
   );
 
   const back = () => {
@@ -114,7 +132,7 @@ const PayOffDetails = ({
         </Typography>
         <Typography>
           <strong>Interest Rate: </strong>
-          {interest_rate}%
+          {interest}%
         </Typography>
         <Typography>
           <strong>Minimum Payment: </strong>${utils.createDollar(minimum)}
@@ -160,18 +178,23 @@ PayOffDetails.propTypes = {
   classes: PropTypes.shape().isRequired,
   location: PropTypes.shape({
     state: PropTypes.shape({
-      card: PropTypes.shape({
-        limit: PropTypes.number.isRequired,
-        balance: PropTypes.number.isRequired,
-        interest_rate: PropTypes.number.isRequired,
-      }),
+      // card: PropTypes.shape({
+      //   limit: PropTypes.number.isRequired,
+      //   balance: PropTypes.number.isRequired,
+      //   interest_rate: PropTypes.number.isRequired,
+      // }),
       user: PropTypes.string,
       name: PropTypes.string,
-      limit: PropTypes.number,
-      balance: PropTypes.number,
-      interest_rate: PropTypes.number,
+      // limit: PropTypes.number,
+      // balance: PropTypes.number,
+      // interest_rate: PropTypes.number,
     }),
   }),
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      cardId: PropTypes.string.isRequired,
+    }).isRequired,
+  }).isRequired,
 };
 
 export default withStyles(PayOffDetailsStyles)(PayOffDetails);
