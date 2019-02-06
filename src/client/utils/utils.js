@@ -3,6 +3,7 @@ const axios = require('axios');
 const API_BASE_URL = `/api/`;
 const AUTH_BASE_URL = `/auth/`;
 const CREDITCARDS_URL = `${API_BASE_URL}creditcards/`;
+const CREDITCARDBYID_URL = `${API_BASE_URL}creditcards/`;
 const TOTALS_URL = `${API_BASE_URL}totals/`;
 const REGISTER_URL = `${AUTH_BASE_URL}register/`;
 const LOGIN_URL = `${AUTH_BASE_URL}login/`;
@@ -95,7 +96,19 @@ const utils = {
   getCreditCards() {
     return utils
       ._axios()
-      .get(CREDITCARDS_URL, { withCredentials: false })
+      .get(CREDITCARDS_URL)
+      .then(response => response.data.message);
+  },
+
+  /**
+   * Get credit card by ID
+   *
+   * @param {*} id
+   */
+  getCreditCardById(id) {
+    return utils
+      ._axios()
+      .get(`${CREDITCARDBYID_URL}${id}`)
       .then(response => response.data.message);
   },
 

@@ -54,7 +54,7 @@ const Main = () => (
               <Route path="/login" component={Login} />
               <Route path="/logout" component={Logout} />
               <Route path="/register" component={Register} />
-              <Route path="/payoffdetails/:card" component={PayOffDetails} />
+              <Route path="/payoffdetails/:cardId" component={PayOffDetails} />
             </div>
           )}
         </AlertWrapper>
