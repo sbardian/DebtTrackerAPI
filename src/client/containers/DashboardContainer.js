@@ -242,33 +242,39 @@ const DashboardContainer = ({
         parseFloat(interest_rate),
       )
       .then(response => {
-        if (response.error) {
-          showAlert({ message: response.message });
-        } else {
-          const temp = creditCards;
-          const index = temp.findIndex(x => x._id === _id);
-          temp[index] = {
-            __v: 0,
-            _id,
-            isSelected: false,
-            name,
-            limit: parseFloat(limit),
-            balance: parseFloat(balance),
-            interest_rate: parseFloat(interest_rate),
-          };
-          setState(prevState => ({
-            ...prevState,
-            creditCards: temp,
-          }));
-          showAlert({
-            message: response.message,
-            theme: 'dark',
-            offset: '50px',
-            position: 'top right',
-            duration: 5000,
-            style: { zIndex: 2000 },
+        if (response.status === 200) {
+          response.json().then(data => {
+            const temp = creditCards;
+            const index = temp.findIndex(x => x._id === _id);
+            temp[index] = {
+              __v: 0,
+              _id,
+              isSelected: false,
+              name,
+              limit: parseFloat(limit),
+              balance: parseFloat(balance),
+              interest_rate: parseFloat(interest_rate),
+            };
+            setState(prevState => ({
+              ...prevState,
+              creditCards: temp,
+            }));
+            showAlert({
+              message: data.message,
+              theme: 'dark',
+              offset: '50px',
+              position: 'top right',
+              duration: 5000,
+              style: { zIndex: 2000 },
+            });
           });
+        } else {
+          // TODO: confirm this message. . . or output something to user
+          showAlert({ message: response.message });
         }
+      })
+      .catch(err => {
+        showAlert({ message: err.message });
       });
   };
 
