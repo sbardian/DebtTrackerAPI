@@ -71,11 +71,15 @@ const PayOffDetails = ({
   useEffect(() => {
     utils
       .getCreditCardById(cardId)
-      .then(card => {
-        console.log('card = ', card);
-        setLimit(card.limit);
-        setBalance(card.balance);
-        setInterest(card.interest_rate);
+      .then(response => {
+        if (response.status === 200) {
+          response.json().then(data => {
+            const { message: card } = data;
+            setLimit(card.limit);
+            setBalance(card.balance);
+            setInterest(card.interest_rate);
+          });
+        }
       })
       .catch(() => history.push('/login'));
   }, [cardId]);
