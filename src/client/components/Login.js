@@ -63,9 +63,10 @@ const Login = ({ classes, history }) => {
       .userLogin(email, password)
       .then(response => {
         if (response.status === 200) {
+          const { username, isAdmin } = response.json();
           history.push('/dashboard', {
-            username: response.data.username,
-            isAdmin: response.data.isAdmin,
+            username,
+            isAdmin,
           });
         } else {
           setLoginFailure(true);
