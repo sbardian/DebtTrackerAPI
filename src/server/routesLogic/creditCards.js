@@ -1,33 +1,25 @@
-const User = require('../models/User');
 const CreditCard = require('../models/CreditCard');
 
 export const getAllCreditCards = (req, res) => {
   // TODO: Update to use query to sort (ex: 'sort=balance', 'sort=interest_rate'.
-  User.findById(req.session && req.session.userId, userError => {
-    if (userError) {
+  CreditCard.find({ userId: req.session.userId }, (error, data) => {
+    if (error) {
       return res
         .status(400)
         .json({ error: true, message: 'Error fetching data' });
     }
-    CreditCard.find({ userId: req.session.userId }, (cardError, data) => {
-      if (cardError) {
-        return res
-          .status(400)
-          .json({ error: true, message: 'Error fetching data' });
-      }
-      return res.json({ error: false, message: data });
-    }).sort([['balance', 'descending']]);
-  });
+    return res.json({ error: false, creditCards: data });
+  }).sort([['balance', 'descending']]);
 };
 
 export const getCreditCardById = (req, res) => {
-  CreditCard.findById(req.params.id, (err, data) => {
-    if (err) {
+  CreditCard.findById(req.params.id, (error, data) => {
+    if (error) {
       return res
         .status(400)
         .json({ error: true, message: 'Error fetching data' });
     }
-    return res.json({ error: false, message: data });
+    return res.json({ error: false, creditCard: data });
   });
 };
 
@@ -39,16 +31,16 @@ export const addCreditCard = (req, res) => {
   creditCard.limit = req.body.limit;
   creditCard.balance = req.body.balance;
   creditCard.interest_rate = req.body.interest_rate;
-  creditCard.save((err, data) => {
-    if (err) {
+  creditCard.save((error, data) => {
+    if (error) {
       return res
         .status(400)
         .json({ error: true, message: 'Error adding data' });
     }
     return res.json({
       error: false,
-      message: 'Data added',
-      data,
+      message: `Card '${req.body.name}' added`,
+      creditCard: data,
     });
   });
 };
@@ -58,44 +50,46 @@ export const deleteCreditCard = (req, res) => {
     if (findError) {
       return res
         .status(400)
-        .json({ error: true, message: 'Error fetching data' });
+        .json({ error: true, message: 'Error fetching card data for delete' });
     }
-    CreditCard.remove({ _id: req.params.id }, removeError => {
+    CreditCard.remove({ _id: req.params.id }, (removeError, data) => {
       if (removeError) {
         return res
           .status(400)
-          .json({ error: true, message: 'Error deleting data' });
+          .json({ error: true, message: `Error deleting ${card.name} data` });
       }
       return res.json({
         error: false,
-        message: `Data associated with ${card.name} is deleted`,
+        message: `Data associated with card '${card.name}' deleted`,
+        creditCard: data,
       });
     });
   });
 };
 
 export const putOrUpdate = (req, res) => {
-  CreditCard.findById(req.params.id, (err, initialData) => {
-    const data = initialData;
-    if (err) {
+  CreditCard.findById(req.params.id, (error, card) => {
+    const updatedCard = card;
+    if (error) {
       return res
         .status(400)
-        .json({ error: true, message: 'Error fetching data' });
+        .json({ error: true, message: 'Error fetching card data' });
     }
-    data.userId = req.session.userId;
-    data.name = req.body.name;
-    data.limit = req.body.limit;
-    data.balance = req.body.balance;
-    data.interest_rate = req.body.interest_rate;
-    data.save(saveError => {
+    updatedCard.userId = req.session.userId;
+    updatedCard.name = req.body.name;
+    updatedCard.limit = req.body.limit;
+    updatedCard.balance = req.body.balance;
+    updatedCard.interest_rate = req.body.interest_rate;
+    updatedCard.save((saveError, data) => {
       if (saveError) {
-        return res
-          .status(400)
-          .json({ error: true, message: 'Error updating data' });
+        return res.status(400).json({
+          error: true,
+          message: `Error updating card ${data.name} data`,
+        });
       }
       return res.json({
         error: false,
-        message: `Data is updated for ${req.body.name}`,
+        message: `Data is updated for card ${card.name}`,
       });
     });
   });

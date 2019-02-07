@@ -76,22 +76,16 @@ const DashboardContainer = ({
   useEffect(() => {
     utils
       .getCreditCards()
-      .then(response => {
-        if (response.status === 200) {
-          response.json().then(data => {
-            const { message: creditCards } = data;
-            setState(prevState => ({
-              ...prevState,
-              isLoading: false,
-              creditCards: creditCards.map(card => ({
-                ...card,
-                isSelected: false,
-              })),
-            }));
-          });
-        } else {
-          history.push('/login');
-        }
+      .then(data => {
+        const { creditCards } = data;
+        setState(prevState => ({
+          ...prevState,
+          isLoading: false,
+          creditCards: creditCards.map(card => ({
+            ...card,
+            isSelected: false,
+          })),
+        }));
       })
       .catch(() => {
         history.push('/login');
@@ -101,22 +95,16 @@ const DashboardContainer = ({
   useEffect(() => {
     utils
       .getTotals()
-      .then(response => {
-        if (response.status === 200) {
-          response.json().then(data => {
-            const { message: totals } = data;
-            setState(prevState => ({
-              ...prevState,
-              isLoading: false,
-              totals: totals.map(total => ({
-                ...total,
-                isSelected: false,
-              })),
-            }));
-          });
-        } else {
-          history.push('/login');
-        }
+      .then(data => {
+        const { message: totals } = data;
+        setState(prevState => ({
+          ...prevState,
+          isLoading: false,
+          totals: totals.map(total => ({
+            ...total,
+            isSelected: false,
+          })),
+        }));
       })
       .catch(() => {
         history.push('/login');
@@ -160,26 +148,35 @@ const DashboardContainer = ({
     const { creditCards, selectedCards } = state;
 
     selectedCards.forEach(card => {
-      utils.deleteCreditCards(card._id).then(response => {
-        if (response.status === 200) {
-          response.json().then(data => {
-            const index = creditCards.findIndex(x => x._id === card._id);
-            creditCards.splice(index, 1);
-            setState(prevState => ({
-              ...prevState,
-              creditCards,
-            }));
-            showAlert({
-              message: data.message,
-              theme: 'dark',
-              offset: '50px',
-              position: 'top right',
-              duration: 5000,
-              style: { zIndex: 2000 },
-            });
+      utils
+        .deleteCreditCards(card._id)
+        .then(data => {
+          const index = creditCards.findIndex(x => x._id === card._id);
+          creditCards.splice(index, 1);
+          setState(prevState => ({
+            ...prevState,
+            creditCards,
+          }));
+          showAlert({
+            message: data.message,
+            theme: 'dark',
+            offset: '50px',
+            position: 'top right',
+            duration: 5000,
+            style: { zIndex: 2000 },
           });
-        }
-      });
+        })
+        .catch(error => {
+          showAlert({
+            message: error.message,
+            theme: 'light',
+            offset: '50px',
+            position: 'top right',
+            duration: 5000,
+            progressBarColor: 'white',
+            style: { zIndex: 2000, color: 'white', backgroundColor: 'red' },
+          });
+        });
       setState(prevState => ({
         ...prevState,
         selectedCards: [],
@@ -193,38 +190,47 @@ const DashboardContainer = ({
 
     utils
       .addCreditCard(username, name, limit, balance, interest_rate)
-      .then(response => {
-        if (response.status === 200) {
-          response.json().then(data => {
-            const { _id, updated_at, __v, name: addedCardName } = data.data;
-            const temp = creditCards;
-            temp.push({
-              _id,
-              username,
-              name,
-              limit: parseFloat(limit),
-              balance: parseFloat(balance),
-              interest_rate: parseFloat(interest_rate),
-              updated_at,
-              __v,
-              isSelected: false,
-            });
-            setState(prevState => ({
-              ...prevState,
-              creditCards: temp,
-            }));
-            showAlert({
-              message: `${addedCardName} Card Added.`,
-              theme: 'dark',
-              offset: '50px',
-              position: 'top right',
-              duration: 5000,
-              style: { zIndex: 2000 },
-            });
-          });
-        } else {
-          showAlert({ message: `Error deleting ${name}` });
-        }
+      .then(data => {
+        const {
+          message,
+          creditCard: { _id, updated_at, __v },
+        } = data;
+
+        const temp = creditCards;
+        temp.push({
+          _id,
+          username,
+          name,
+          limit: parseFloat(limit),
+          balance: parseFloat(balance),
+          interest_rate: parseFloat(interest_rate),
+          updated_at,
+          __v,
+          isSelected: false,
+        });
+        setState(prevState => ({
+          ...prevState,
+          creditCards: temp,
+        }));
+        showAlert({
+          message,
+          theme: 'dark',
+          offset: '50px',
+          position: 'top right',
+          duration: 5000,
+          style: { zIndex: 2000 },
+        });
+      })
+      .catch(error => {
+        showAlert({
+          message: error.message,
+          theme: 'light',
+          offset: '50px',
+          position: 'top right',
+          duration: 5000,
+          progressBarColor: 'white',
+          style: { zIndex: 2000, color: 'white', backgroundColor: 'red' },
+        });
       });
   };
 
@@ -250,7 +256,6 @@ const DashboardContainer = ({
     interest_rate,
   }) => {
     const { creditCards } = state;
-    // TODO: validate credit card data
     utils
       .saveCreditCard(
         _id,
@@ -259,40 +264,41 @@ const DashboardContainer = ({
         parseFloat(balance),
         parseFloat(interest_rate),
       )
-      .then(response => {
-        if (response.status === 200) {
-          response.json().then(data => {
-            const temp = creditCards;
-            const index = temp.findIndex(x => x._id === _id);
-            temp[index] = {
-              __v: 0,
-              _id,
-              isSelected: false,
-              name,
-              limit: parseFloat(limit),
-              balance: parseFloat(balance),
-              interest_rate: parseFloat(interest_rate),
-            };
-            setState(prevState => ({
-              ...prevState,
-              creditCards: temp,
-            }));
-            showAlert({
-              message: data.message,
-              theme: 'dark',
-              offset: '50px',
-              position: 'top right',
-              duration: 5000,
-              style: { zIndex: 2000 },
-            });
-          });
-        } else {
-          // TODO: confirm this message. . . or output something to user
-          showAlert({ message: response.message });
-        }
+      .then(data => {
+        const temp = creditCards;
+        const index = temp.findIndex(x => x._id === _id);
+        temp[index] = {
+          __v: 0,
+          _id,
+          isSelected: false,
+          name,
+          limit: parseFloat(limit),
+          balance: parseFloat(balance),
+          interest_rate: parseFloat(interest_rate),
+        };
+        setState(prevState => ({
+          ...prevState,
+          creditCards: temp,
+        }));
+        showAlert({
+          message: data.message,
+          theme: 'dark',
+          offset: '50px',
+          position: 'top right',
+          duration: 5000,
+          style: { zIndex: 2000 },
+        });
       })
-      .catch(err => {
-        showAlert({ message: err.message });
+      .catch(error => {
+        showAlert({
+          message: error.message,
+          theme: 'light',
+          offset: '50px',
+          position: 'top right',
+          duration: 5000,
+          progressBarColor: 'white',
+          style: { zIndex: 2000, color: 'white', backgroundColor: 'red' },
+        });
       });
   };
 
@@ -331,34 +337,37 @@ const DashboardContainer = ({
     const newTotal = computeNewTotal();
     utils
       .addNewTotal(username, newTotal)
-      .then(response => {
-        if (response.status === 200) {
-          response.json().then(data => {
-            const {
-              data: { _id, updated_at },
-            } = data;
-            setState(prevState => ({
-              ...prevState,
-              totals: [
-                { user: username, total: newTotal, _id, updated_at },
-                ...totals,
-              ],
-            }));
-            showAlert({
-              message: 'Total saved.',
-              theme: 'dark',
-              offset: '50px',
-              position: 'top right',
-              duration: 5000,
-              style: { zIndex: 2000 },
-            });
-          });
-        } else {
-          showAlert({ message: `Error adding total` });
-        }
+      .then(data => {
+        const {
+          message,
+          total: { _id, updated_at },
+        } = data;
+        setState(prevState => ({
+          ...prevState,
+          totals: [
+            { user: username, total: newTotal, _id, updated_at },
+            ...totals,
+          ],
+        }));
+        showAlert({
+          message,
+          theme: 'dark',
+          offset: '50px',
+          position: 'top right',
+          duration: 5000,
+          style: { zIndex: 2000 },
+        });
       })
-      .catch(err => {
-        showAlert({ message: `${err.data}` });
+      .catch(error => {
+        showAlert({
+          message: error.message,
+          theme: 'light',
+          offset: '50px',
+          position: 'top right',
+          duration: 5000,
+          progressBarColor: 'white',
+          style: { zIndex: 2000, color: 'white', backgroundColor: 'red' },
+        });
       });
   };
 
@@ -366,27 +375,21 @@ const DashboardContainer = ({
     const { totals, selectedTotals } = state;
 
     selectedTotals.forEach(total => {
-      utils.deleteTotals(total._id).then(response => {
-        response.json().then(data => {
-          const { message } = data;
-          if (response.status === 200) {
-            const index = totals.findIndex(x => x._id === total._id);
-            totals.splice(index, 1);
-            setState(prevState => ({
-              ...prevState,
-              totals,
-            }));
-            showAlert({
-              message,
-              theme: 'dark',
-              offset: '50px',
-              position: 'top right',
-              duration: 5000,
-              style: { zIndex: 2000 },
-            });
-          } else {
-            showAlert({ message: response.message });
-          }
+      utils.deleteTotals(total._id).then(data => {
+        const { message } = data;
+        const index = totals.findIndex(x => x._id === total._id);
+        totals.splice(index, 1);
+        setState(prevState => ({
+          ...prevState,
+          totals,
+        }));
+        showAlert({
+          message,
+          theme: 'dark',
+          offset: '50px',
+          position: 'top right',
+          duration: 5000,
+          style: { zIndex: 2000 },
         });
       });
       setState(prevState => ({
@@ -443,30 +446,12 @@ const DashboardContainer = ({
 
   // Logout from the app.
   const logout = () => {
-    utils.userLogout().then(res => {
-      if (res.status === 200) {
+    utils.userLogout().then(data => {
+      if (!data.error) {
         history.push('/login');
       }
     });
   };
-
-  // const computeDebt = () => {
-  //   const { creditCards, totalDebt } = state;
-  //   let total = totalDebt;
-  //   creditCards.forEach(card => {
-  //     total += card.balance;
-  //   });
-  //   return utils.createDollar(total);
-  // };
-
-  // const computeAvailable = () => {
-  //   const { creditCards, totalAvailable } = state;
-  //   let total = totalAvailable;
-  //   creditCards.forEach(card => {
-  //     total += card.limit;
-  //   });
-  //   return utils.createDollar(total);
-  // };
 
   const {
     isLoading,

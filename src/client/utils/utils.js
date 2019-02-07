@@ -19,9 +19,7 @@ const _fetch = (url, method, body = null, headers = {}) =>
       ...headers,
     },
     body: body && JSON.stringify(body),
-  })
-    .then(response => response)
-    .catch(error => error);
+  }).then(response => response.json());
 
 const utils = {
   // Formats a number to a dollar (USD)
