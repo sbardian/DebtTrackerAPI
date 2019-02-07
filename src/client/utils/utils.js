@@ -127,10 +127,10 @@ const utils = {
         limit,
         balance,
         interest_rate,
-      })
-        .then(response => response)
-        .catch(err => err),
-    }),
+      }),
+    })
+      .then(response => response)
+      .catch(err => err),
 
   /**
    * Deletes a card from the database.
