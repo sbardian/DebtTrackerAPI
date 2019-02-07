@@ -149,22 +149,22 @@ const DashboardContainer = ({
 
     selectedCards.forEach(card => {
       utils.deleteCreditCards(card._id).then(response => {
-        if (response.error) {
-          showAlert({ message: response.message });
-        } else {
-          const index = creditCards.findIndex(x => x._id === card._id);
-          creditCards.splice(index, 1);
-          setState(prevState => ({
-            ...prevState,
-            creditCards,
-          }));
-          showAlert({
-            message: response.message,
-            theme: 'dark',
-            offset: '50px',
-            position: 'top right',
-            duration: 5000,
-            style: { zIndex: 2000 },
+        if (response.status === 200) {
+          response.json().then(data => {
+            const index = creditCards.findIndex(x => x._id === card._id);
+            creditCards.splice(index, 1);
+            setState(prevState => ({
+              ...prevState,
+              creditCards,
+            }));
+            showAlert({
+              message: data.message,
+              theme: 'dark',
+              offset: '50px',
+              position: 'top right',
+              duration: 5000,
+              style: { zIndex: 2000 },
+            });
           });
         }
       });
