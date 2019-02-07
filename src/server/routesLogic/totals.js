@@ -12,7 +12,7 @@ export const getTotals = (req, res) => {
 };
 
 export const addTotal = (req, res) => {
-  if (req.session && req.session.userId && req.body.user && req.body.total) {
+  if (req.body.user && req.body.total) {
     const db = new Total();
     db.userId = req.session.userId;
     db.user = req.body.user;
@@ -38,7 +38,6 @@ export const addTotal = (req, res) => {
 };
 
 export const deleteTotal = (req, res) => {
-  let response = {};
   Total.findById(req.params.id, (err, data) => {
     if (err) {
       return res
