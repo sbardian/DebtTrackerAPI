@@ -12,32 +12,29 @@ export const getTotals = (req, res) => {
 };
 
 export const addTotal = (req, res) => {
-  const db = new Total();
-  let response = {};
-  if (!(req.session.userId && req.body.user && req.body.total)) {
+  if (req.session && req.session.userId && req.body.user && req.body.total) {
+    const db = new Total();
+    db.userId = req.session.userId;
+    db.user = req.body.user;
+    db.total = req.body.total;
+    db.save((err, data) => {
+      if (err) {
+        return res
+          .status(400)
+          .json({ error: true, message: 'Error adding data' });
+      }
+      return res.json({
+        error: false,
+        message: 'Data added',
+        data,
+      });
+    });
+  } else {
     return res.status(400).json({
       error: true,
       message: 'Error adding data',
     });
   }
-  db.userId = req.session && req.session.userId;
-  db.user = req.body.user;
-  db.total = req.body.total;
-  db.save(err => {
-    if (err) {
-      return res
-        .status(400)
-        .json({ error: true, message: 'Error adding data' });
-    }
-    response = {
-      error: false,
-      message: 'Data added',
-      _id: db.id,
-      updated_at: db.updated_at,
-      v: db.v,
-    };
-    return res.json(response);
-  });
 };
 
 export const deleteTotal = (req, res) => {

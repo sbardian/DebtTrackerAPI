@@ -317,24 +317,37 @@ const DashboardContainer = ({
     const { totals } = state;
 
     const newTotal = computeNewTotal();
-    utils.addNewTotal(username, newTotal).then(res => {
-      const { _id, updated_at } = res;
-      setState(prevState => ({
-        ...prevState,
-        totals: [
-          { user: username, total: newTotal, _id, updated_at },
-          ...totals,
-        ],
-      }));
-      showAlert({
-        message: 'Total saved.',
-        theme: 'dark',
-        offset: '50px',
-        position: 'top right',
-        duration: 5000,
-        style: { zIndex: 2000 },
+    utils
+      .addNewTotal(username, newTotal)
+      .then(response => {
+        if (response.status === 200) {
+          response.json().then(data => {
+            const {
+              data: { _id, updated_at },
+            } = data;
+            setState(prevState => ({
+              ...prevState,
+              totals: [
+                { user: username, total: newTotal, _id, updated_at },
+                ...totals,
+              ],
+            }));
+            showAlert({
+              message: 'Total saved.',
+              theme: 'dark',
+              offset: '50px',
+              position: 'top right',
+              duration: 5000,
+              style: { zIndex: 2000 },
+            });
+          });
+        } else {
+          showAlert({ message: `Error adding total` });
+        }
+      })
+      .catch(err => {
+        showAlert({ message: `${err.data}` });
       });
-    });
   };
 
   const handleTotalDelete = () => {

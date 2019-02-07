@@ -176,19 +176,19 @@ const utils = {
    * @param {string} user - name of user.
    * @param {float} total - new total debt.
    */
-  addNewTotal(user, total) {
-    return utils
-      ._axios()({
-        method: 'post',
-        url: TOTALS_URL,
-        data: {
-          user,
-          total,
-        },
-      })
-      .then(response => response.data)
-      .catch(err => err.data);
-  },
+  addNewTotal: (user, total) =>
+    fetch(TOTALS_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        user,
+        total,
+      }),
+    })
+      .then(response => response)
+      .catch(err => err),
 
   /**
    * Returns promise of totals from the database.
