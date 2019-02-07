@@ -1,5 +1,3 @@
-const axios = require('axios');
-
 const API_BASE_URL = `/api/`;
 const AUTH_BASE_URL = `/auth/`;
 const CREDITCARDS_URL = `${API_BASE_URL}creditcards/`;
@@ -8,232 +6,75 @@ const TOTALS_URL = `${API_BASE_URL}totals/`;
 const REGISTER_URL = `${AUTH_BASE_URL}register/`;
 const LOGIN_URL = `${AUTH_BASE_URL}login/`;
 const LOGOUT_URL = `${AUTH_BASE_URL}logout/`;
+const POST = 'POST';
+const GET = 'GET';
+const PUT = 'PUT';
+const DELETE = 'DELETE';
+
+const _fetch = (url, method, body = null, headers = {}) =>
+  fetch(url, {
+    method,
+    headers: {
+      'Content-Type': 'application/json',
+      ...headers,
+    },
+    body: body && JSON.stringify(body),
+  })
+    .then(response => response)
+    .catch(error => error);
 
 const utils = {
-  /**
-   * Formats a number to a dollar. (USD)
-   *
-   * @param {float} value - number to format.
-   * @returns {string}
-   */
+  // Formats a number to a dollar (USD)
   createDollar(value) {
     return value.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
   },
 
-  /**
-   * Axios instance
-   *
-   * @private
-   */
-  _axios() {
-    return axios.create({
-      // headers: { Authorization: `Bearer ${token}` },
-    });
-  },
+  // Post to Logout
+  userLogout: () => _fetch(LOGOUT_URL, GET),
 
-  /**
-   * Post to Logout
-   *
-   */
-  userLogout: () =>
-    fetch(LOGOUT_URL, {
-      method: 'GET',
-    })
-      .then(response => response)
-      .catch(err => err),
+  // Post to Login
+  userLogin: (email, password) => _fetch(LOGIN_URL, POST, { email, password }),
 
-  /**
-   * Post to Login
-   *
-   * @param email
-   * @param password
-   */
-  userLogin: (email, password) => {
-    return fetch(LOGIN_URL, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        email,
-        password,
-      }),
-    })
-      .then(response => response)
-      .catch(err => err);
-  },
-
-  /**
-   * Post to Register
-   *
-   * @param username
-   * @param email
-   * @param password
-   * @param passwordConf
-   */
+  // Post to Register
   registerUser: (username, email, password, passwordConf) =>
-    fetch(REGISTER_URL, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        username,
-        email,
-        password,
-        passwordConf,
-      }),
-    })
-      .then(response => response)
-      .catch(err => err),
+    _fetch(REGISTER_URL, POST, { username, email, password, passwordConf }),
 
-  /**
-   * Returns array of credit cards from API.
-   *
-   */
-  getCreditCards: () =>
-    fetch(CREDITCARDS_URL, {
-      method: 'GET',
-    })
-      .then(response => response)
-      .catch(err => err),
+  // Returns array of credit cards from API
+  getCreditCards: () => _fetch(CREDITCARDS_URL, GET),
 
-  /**
-   * Get credit card by ID
-   *
-   * @param {*} id
-   */
-  getCreditCardById: id =>
-    fetch(`${CREDITCARDBYID_URL}${id}`, {
-      method: 'GET',
-    })
-      .then(response => response)
-      .catch(err => err),
+  // Get credit card by ID
+  getCreditCardById: id => _fetch(`${CREDITCARDBYID_URL}${id}`, GET),
 
-  /**
-   * Updates a credit card in the database.
-   *
-   * @param {string} id - id of card.
-   * @param {string} name - name of card.
-   * @param {float} limit - limit of card.
-   * @param {float} balance - balance of card.
-   * @param {float} interest_rate - interest rate of card.
-   */
+  // Updates a credit card in the database
   saveCreditCard: (id, name, limit, balance, interest_rate) =>
-    fetch(`${CREDITCARDS_URL}${id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        name,
-        limit,
-        balance,
-        interest_rate,
-      }),
-    })
-      .then(response => response)
-      .catch(err => err),
+    _fetch(`${CREDITCARDS_URL}${id}`, PUT, {
+      name,
+      limit,
+      balance,
+      interest_rate,
+    }),
 
-  /**
-   * Deletes a card from the database.
-   *
-   * @param {string} id - id of card to delete.
-   */
-  deleteCreditCards: id =>
-    fetch(`${CREDITCARDS_URL}${id}`, {
-      method: 'DELETE',
-    })
-      .then(response => response)
-      .catch(err => err),
+  // Deletes a card from the database
+  deleteCreditCards: id => _fetch(`${CREDITCARDS_URL}${id}`, DELETE),
 
-  /**
-   * Adds a credit card to the database.
-   *
-   * @param {string} user - name of user.
-   * @param {string} name - name of card.
-   * @param {float} limit - limit of card.
-   * @param {float} balance - balance of card.
-   * @param {float} interest_rate - interest rate of card.
-   */
+  // Adds a credit card to the database
   addCreditCard: (user, name, limit, balance, interest_rate) =>
-    fetch(CREDITCARDS_URL, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        user,
-        name,
-        limit,
-        balance,
-        interest_rate,
-      }),
-    })
-      .then(response => response)
-      .catch(err => err),
+    _fetch(CREDITCARDS_URL, POST, {
+      user,
+      name,
+      limit,
+      balance,
+      interest_rate,
+    }),
 
-  /**
-   * Saves a new total to the database.
-   *
-   * @param {string} user - name of user.
-   * @param {float} total - new total debt.
-   */
-  addNewTotal: (user, total) =>
-    fetch(TOTALS_URL, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        user,
-        total,
-      }),
-    })
-      .then(response => response)
-      .catch(err => err),
+  // Saves a new total to the database
+  addNewTotal: (user, total) => _fetch(TOTALS_URL, POST, { user, total }),
 
-  /**
-   * Returns promise of totals from the database.
-   *
-   */
-  getTotals: () =>
-    fetch(TOTALS_URL, {
-      method: 'GET',
-    })
-      .then(response => response)
-      .catch(err => err),
+  // Returns promise of totals from the database
+  getTotals: () => _fetch(TOTALS_URL, GET),
 
-  /**
-   * Delete a total.
-   *
-   * @param id ID of the total to delete
-   */
-  deleteTotals: id =>
-    fetch(`${TOTALS_URL}${id}`, {
-      method: 'DELETE',
-    })
-      .then(response => response)
-      .catch(err => err),
-  // deleteTotals(id) {
-  //   return utils
-  //     ._axios()({
-  //       method: 'delete',
-  //       url: `${TOTALS_URL}${id}`,
-  //     })
-  //     .then(response => response.data)
-  //     .catch(err => err.data);
-  // },
-
-  // TODO: Remove and add this functionality to the API
-  getUserCards(cards, user) {
-    return cards.filter(card => card.user === user);
-  },
-
-  // TODO: Remove and add this functionality to the API
-  getUserTotals(totals, user) {
-    return totals.filter(total => total.user === user);
-  },
+  // Delete a total
+  deleteTotals: id => _fetch(`${TOTALS_URL}${id}`, DELETE),
 };
 
 module.exports = utils;
