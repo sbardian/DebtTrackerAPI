@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Proptypes from 'prop-types';
 import '../../styles/rain.css';
+import dollarSign from './dollarsign.png';
 
 // TODO: attempt an interval or something to randomize the amount of drops
 const randRange = (minNum, maxNum) =>
@@ -30,12 +31,11 @@ class Rain extends Component {
       const delay = randRange(0, 5);
       const styles = getStyle(dropLeft, dropTop, delay);
       drops.push(
-        <div
-          key={`drop-${x}`}
-          id={`drop-${x}`}
-          className="drop"
-          style={styles}
-        />,
+        <div key={`drop-${x}`} id={`drop-${x}`} className="drop" style={styles}>
+          <div>
+            <img src={dollarSign} alt="Money" height="30" width="30" />
+          </div>
+        </div>,
       );
       x += 1;
     }
