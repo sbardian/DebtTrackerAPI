@@ -122,6 +122,9 @@ const utils = {
   saveCreditCard: (id, name, limit, balance, interest_rate) =>
     fetch(`${CREDITCARDS_URL}${id}`, {
       method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
       body: JSON.stringify({
         name,
         limit,
