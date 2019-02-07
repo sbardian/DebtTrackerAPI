@@ -363,24 +363,27 @@ const DashboardContainer = ({
 
     selectedTotals.forEach(total => {
       utils.deleteTotals(total._id).then(response => {
-        if (response.error) {
-          showAlert({ message: response.message });
-        } else {
-          const index = totals.findIndex(x => x._id === total._id);
-          totals.splice(index, 1);
-          setState(prevState => ({
-            ...prevState,
-            totals,
-          }));
-          showAlert({
-            message: response.message,
-            theme: 'dark',
-            offset: '50px',
-            position: 'top right',
-            duration: 5000,
-            style: { zIndex: 2000 },
-          });
-        }
+        response.json().then(data => {
+          const { message } = data;
+          if (response.status === 200) {
+            const index = totals.findIndex(x => x._id === total._id);
+            totals.splice(index, 1);
+            setState(prevState => ({
+              ...prevState,
+              totals,
+            }));
+            showAlert({
+              message,
+              theme: 'dark',
+              offset: '50px',
+              position: 'top right',
+              duration: 5000,
+              style: { zIndex: 2000 },
+            });
+          } else {
+            showAlert({ message: response.message });
+          }
+        });
       });
       setState(prevState => ({
         ...prevState,
