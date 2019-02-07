@@ -209,15 +209,21 @@ const utils = {
    *
    * @param id ID of the total to delete
    */
-  deleteTotals(id) {
-    return utils
-      ._axios()({
-        method: 'delete',
-        url: `${TOTALS_URL}${id}`,
-      })
-      .then(response => response.data)
-      .catch(err => err.data);
-  },
+  deleteTotals: id =>
+    fetch(`${TOTALS_URL}${id}`, {
+      method: 'DELETE',
+    })
+      .then(response => response)
+      .catch(err => err),
+  // deleteTotals(id) {
+  //   return utils
+  //     ._axios()({
+  //       method: 'delete',
+  //       url: `${TOTALS_URL}${id}`,
+  //     })
+  //     .then(response => response.data)
+  //     .catch(err => err.data);
+  // },
 
   // TODO: Remove and add this functionality to the API
   getUserCards(cards, user) {
