@@ -194,13 +194,12 @@ const utils = {
    * Returns promise of totals from the database.
    *
    */
-  getTotals() {
-    return utils
-      ._axios()
-      .get(TOTALS_URL)
-      .then(response => response.data.message)
-      .catch(err => err);
-  },
+  getTotals: () =>
+    fetch(TOTALS_URL, {
+      method: 'GET',
+    })
+      .then(response => response)
+      .catch(err => err),
 
   /**
    * Delete a total.

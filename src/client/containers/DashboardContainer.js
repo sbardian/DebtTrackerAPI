@@ -99,15 +99,20 @@ const DashboardContainer = ({
   useEffect(() => {
     utils
       .getTotals()
-      .then(totals => {
-        setState(prevState => ({
-          ...prevState,
-          isLoading: false,
-          totals: totals.map(total => ({
-            ...total,
-            isSelected: false,
-          })),
-        }));
+      .then(response => {
+        if (response.status === 200) {
+          response.json().then(data => {
+            const { message: totals } = data;
+            setState(prevState => ({
+              ...prevState,
+              isLoading: false,
+              totals: totals.map(total => ({
+                ...total,
+                isSelected: false,
+              })),
+            }));
+          });
+        }
       })
       .catch(() => {
         history.push('/login');
