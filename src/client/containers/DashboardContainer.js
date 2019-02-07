@@ -89,6 +89,8 @@ const DashboardContainer = ({
               })),
             }));
           });
+        } else {
+          history.push('/login');
         }
       })
       .catch(() => {
@@ -112,6 +114,8 @@ const DashboardContainer = ({
               })),
             }));
           });
+        } else {
+          history.push('/login');
         }
       })
       .catch(() => {

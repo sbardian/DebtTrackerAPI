@@ -79,6 +79,8 @@ const PayOffDetails = ({
             setBalance(card.balance);
             setInterest(card.interest_rate);
           });
+        } else {
+          history.push('/login');
         }
       })
       .catch(() => history.push('/login'));
