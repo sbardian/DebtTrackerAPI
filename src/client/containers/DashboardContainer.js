@@ -181,32 +181,38 @@ const DashboardContainer = ({
 
     utils
       .addCreditCard(username, name, limit, balance, interest_rate)
-      .then(res => {
-        const temp = creditCards;
-        const { _id, updated_at, __v } = res.data;
-        temp.push({
-          _id,
-          username,
-          name,
-          limit: parseFloat(limit),
-          balance: parseFloat(balance),
-          interest_rate: parseFloat(interest_rate),
-          updated_at,
-          __v,
-          isSelected: false,
-        });
-        setState(prevState => ({
-          ...prevState,
-          creditCards: temp,
-        }));
-        showAlert({
-          message: 'Card Added.',
-          theme: 'dark',
-          offset: '50px',
-          position: 'top right',
-          duration: 5000,
-          style: { zIndex: 2000 },
-        });
+      .then(response => {
+        if (response.status === 200) {
+          response.json().then(data => {
+            const { _id, updated_at, __v, name: addedCardName } = data.data;
+            const temp = creditCards;
+            temp.push({
+              _id,
+              username,
+              name,
+              limit: parseFloat(limit),
+              balance: parseFloat(balance),
+              interest_rate: parseFloat(interest_rate),
+              updated_at,
+              __v,
+              isSelected: false,
+            });
+            setState(prevState => ({
+              ...prevState,
+              creditCards: temp,
+            }));
+            showAlert({
+              message: `${addedCardName} Card Added.`,
+              theme: 'dark',
+              offset: '50px',
+              position: 'top right',
+              duration: 5000,
+              style: { zIndex: 2000 },
+            });
+          });
+        } else {
+          showAlert({ message: `Error deleting ${name}` });
+        }
       });
   };
 

@@ -153,22 +153,22 @@ const utils = {
    * @param {float} balance - balance of card.
    * @param {float} interest_rate - interest rate of card.
    */
-  addCreditCard(user, name, limit, balance, interest_rate) {
-    return utils
-      ._axios()({
-        method: 'post',
-        url: CREDITCARDS_URL,
-        data: {
-          user,
-          name,
-          limit,
-          balance,
-          interest_rate,
-        },
-      })
-      .then(response => response.data)
-      .catch(err => err.data);
-  },
+  addCreditCard: (user, name, limit, balance, interest_rate) =>
+    fetch(CREDITCARDS_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        user,
+        name,
+        limit,
+        balance,
+        interest_rate,
+      }),
+    })
+      .then(response => response)
+      .catch(err => err),
 
   /**
    * Saves a new total to the database.
