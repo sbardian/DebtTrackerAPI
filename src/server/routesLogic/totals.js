@@ -15,7 +15,6 @@ export const addTotal = (req, res) => {
   if (req.body.user && req.body.total) {
     const db = new Total();
     db.userId = req.session.userId;
-    db.user = req.body.user;
     db.total = req.body.total;
     db.save((err, data) => {
       if (err) {

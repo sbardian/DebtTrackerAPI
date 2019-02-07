@@ -340,12 +340,12 @@ const DashboardContainer = ({
       .then(data => {
         const {
           message,
-          total: { _id, updated_at },
+          total: { _id, updated_at, userId, total, __v },
         } = data;
         setState(prevState => ({
           ...prevState,
           totals: [
-            { user: username, total: newTotal, _id, updated_at },
+            { userId, total, _id, updated_at, __v, isSelected: false },
             ...totals,
           ],
         }));
