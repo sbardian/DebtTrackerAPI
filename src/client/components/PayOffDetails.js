@@ -58,7 +58,7 @@ const PayOffDetailsStyles = theme => ({
 const PayOffDetails = ({
   classes,
   history,
-  location: { state: { username, isAdmin } = {} },
+  location: { state: { username } = {} },
   match: {
     params: { cardId },
   },
@@ -71,17 +71,11 @@ const PayOffDetails = ({
   useEffect(() => {
     utils
       .getCreditCardById(cardId)
-      .then(response => {
-        if (response.status === 200) {
-          response.json().then(data => {
-            const { message: card } = data;
-            setLimit(card.limit);
-            setBalance(card.balance);
-            setInterest(card.interest_rate);
-          });
-        } else {
-          history.push('/login');
-        }
+      .then(data => {
+        const { creditCard } = data;
+        setLimit(creditCard.limit);
+        setBalance(creditCard.balance);
+        setInterest(creditCard.interest_rate);
       })
       .catch(() => history.push('/login'));
   }, [cardId]);
@@ -95,7 +89,6 @@ const PayOffDetails = ({
   const back = () => {
     history.push('/dashboard', {
       username,
-      isAdmin,
     });
   };
 

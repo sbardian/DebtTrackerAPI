@@ -64,19 +64,13 @@ const Login = ({ classes, history }) => {
     e.preventDefault();
     utils
       .userLogin(email, password)
-      .then(response => {
-        if (response.status === 200) {
-          response.json().then(data => {
-            const { username, isAdmin } = data;
-            updateUsername(username);
-            history.push('/dashboard', {
-              username,
-              isAdmin,
-            });
-          });
-        } else {
-          setLoginFailure(true);
-        }
+      .then(data => {
+        const { username, isAdmin } = data;
+        updateUsername(username);
+        history.push('/dashboard', {
+          username,
+          isAdmin,
+        });
       })
       .catch(() => {
         setLoginFailure(true);

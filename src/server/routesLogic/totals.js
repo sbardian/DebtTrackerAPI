@@ -25,8 +25,8 @@ export const addTotal = (req, res) => {
       }
       return res.json({
         error: false,
-        message: 'Data added',
-        data,
+        message: 'Total saved',
+        total: data,
       });
     });
   } else {
