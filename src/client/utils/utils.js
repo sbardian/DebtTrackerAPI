@@ -137,15 +137,12 @@ const utils = {
    *
    * @param {string} id - id of card to delete.
    */
-  deleteCreditCards(id) {
-    return utils
-      ._axios()({
-        method: 'delete',
-        url: `${CREDITCARDS_URL}${id}`,
-      })
-      .then(response => response.data)
-      .catch(err => err.data);
-  },
+  deleteCreditCards: id =>
+    fetch(`${CREDITCARDS_URL}${id}`, {
+      method: 'DELETE',
+    })
+      .then(response => response)
+      .catch(err => err),
 
   /**
    * Adds a credit card to the database.
