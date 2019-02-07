@@ -8,6 +8,7 @@ import Logout from './Logout';
 import Register from './Register';
 import Dashboard from '../containers/DashboardContainer';
 import PayOffDetails from './PayOffDetails';
+import { UsernameProvider } from './UsernameContext';
 
 const theme = createMuiTheme({
   typography: {
@@ -38,26 +39,33 @@ const Main = () => (
   <div>
     <AlertProvider>
       <MuiThemeProvider theme={theme}>
-        <CssBaseline />
-        <AlertWrapper>
-          {({ show, close }) => (
-            <div className="main-container">
-              <Route
-                exact
-                path="/"
-                render={() => <Redirect to="/dashboard" />}
-              />
-              <Route
-                path="/dashboard"
-                render={() => <Dashboard showAlert={show} closeAlert={close} />}
-              />
-              <Route path="/login" component={Login} />
-              <Route path="/logout" component={Logout} />
-              <Route path="/register" component={Register} />
-              <Route path="/payoffdetails/:cardId" component={PayOffDetails} />
-            </div>
-          )}
-        </AlertWrapper>
+        <UsernameProvider>
+          <CssBaseline />
+          <AlertWrapper>
+            {({ show, close }) => (
+              <div className="main-container">
+                <Route
+                  exact
+                  path="/"
+                  render={() => <Redirect to="/dashboard" />}
+                />
+                <Route
+                  path="/dashboard"
+                  render={() => (
+                    <Dashboard showAlert={show} closeAlert={close} />
+                  )}
+                />
+                <Route path="/login" component={Login} />
+                <Route path="/logout" component={Logout} />
+                <Route path="/register" component={Register} />
+                <Route
+                  path="/payoffdetails/:cardId"
+                  component={PayOffDetails}
+                />
+              </div>
+            )}
+          </AlertWrapper>
+        </UsernameProvider>
       </MuiThemeProvider>
     </AlertProvider>
   </div>
