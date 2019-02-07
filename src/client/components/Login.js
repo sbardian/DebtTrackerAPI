@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { withRouter } from 'react-router-dom';
@@ -9,6 +9,7 @@ import { withStyles, withTheme } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import Rain from './Rain/Rain';
+import { UsernameContext } from './UsernameContext';
 import utils from '../utils/utils';
 
 const styles = theme => ({
@@ -53,6 +54,8 @@ const Login = ({ classes, history }) => {
     document.body.style.overflowY = 'hidden';
   });
 
+  const { updateUsername } = useContext(UsernameContext);
+
   const register = () => {
     history.push('register');
   };
@@ -65,6 +68,7 @@ const Login = ({ classes, history }) => {
         if (response.status === 200) {
           response.json().then(data => {
             const { username, isAdmin } = data;
+            updateUsername(username);
             history.push('/dashboard', {
               username,
               isAdmin,

@@ -1,4 +1,4 @@
-import React, { Suspense, useState, useEffect } from 'react';
+import React, { Suspense, useContext, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { withRouter } from 'react-router-dom';
@@ -12,6 +12,7 @@ import Slide from '@material-ui/core/Slide';
 import utils from '../utils/utils';
 import Loading from '../components/Loading';
 import AddDialog from '../components/AddDialog';
+import { UsernameContext } from '../components/UsernameContext';
 
 const CreditCards = React.lazy(() => import('../components/CreditCards'));
 const PieChart = React.lazy(() => import('../components/PieChart'));
@@ -48,7 +49,7 @@ const DialogTransition = props => <Slide direction="up" {...props} />;
 const DashboardContainer = ({
   classes,
   history,
-  location: { state: { username = '', isAdmin } = {} } = {},
+  location: { state: { isAdmin } = {} } = {},
   showAlert,
 }) => {
   const [state, setState] = useState({
@@ -68,6 +69,8 @@ const DashboardContainer = ({
     selectedCards: [],
     selectedTotals: [],
   });
+  const { username } = useContext(UsernameContext);
+
   document.body.style.overflowY = 'auto';
 
   useEffect(() => {
