@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import Typography from '@material-ui/core/Typography';
@@ -12,6 +12,7 @@ import 'rc-slider/assets/index.css';
 import utils from '../utils/utils';
 import HandleSlide from './HandleSlide';
 import { useCalcPayOff } from './utils/useCalcPayOff';
+import { UsernameContext } from './UsernameContext';
 
 const PayOffDetailsStyles = theme => ({
   appBar: {
@@ -58,7 +59,6 @@ const PayOffDetailsStyles = theme => ({
 const PayOffDetails = ({
   classes,
   history,
-  location: { state: { username } = {} },
   match: {
     params: { cardId },
   },
@@ -67,6 +67,8 @@ const PayOffDetails = ({
   const [limit, setLimit] = useState(0);
   const [balance, setBalance] = useState(0);
   const [interest, setInterest] = useState(0);
+
+  const { username } = useContext(UsernameContext);
 
   useEffect(() => {
     utils
@@ -159,19 +161,9 @@ const PayOffDetails = ({
   // }
 };
 
-PayOffDetails.defaultProps = {
-  location: [],
-};
-
 PayOffDetails.propTypes = {
   history: ReactRouterPropTypes.history.isRequired,
   classes: PropTypes.shape().isRequired,
-  location: PropTypes.shape({
-    state: PropTypes.shape({
-      user: PropTypes.string,
-      name: PropTypes.string,
-    }),
-  }),
   match: PropTypes.shape({
     params: PropTypes.shape({
       cardId: PropTypes.string.isRequired,
