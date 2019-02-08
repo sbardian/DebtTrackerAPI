@@ -33,7 +33,13 @@ class Rain extends Component {
       drops.push(
         <div key={`drop-${x}`} id={`drop-${x}`} className="drop" style={styles}>
           <div>
-            <img src={dollarSign} alt="Money" height="30" width="30" />
+            <img
+              src={dollarSign}
+              alt="Money"
+              height="30"
+              width="30"
+              style={{ marginBottom: '-15px' }}
+            />
           </div>
         </div>,
       );
