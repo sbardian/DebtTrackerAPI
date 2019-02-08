@@ -8,7 +8,7 @@ import { withStyles, withTheme } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import { TextValidator, ValidatorForm } from 'react-material-ui-form-validator';
 import Button from '@material-ui/core/Button';
-import Rain from './Rain/Rain';
+import { Rain } from './Rain/Rain';
 import { UsernameContext } from './UsernameContext';
 import utils from '../utils/utils';
 
