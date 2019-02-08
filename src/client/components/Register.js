@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
+import { TextValidator, ValidatorForm } from 'react-material-ui-form-validator';
 import utils from '../utils/utils';
 
 const styles = theme => ({
@@ -29,13 +29,20 @@ const styles = theme => ({
     marginRight: theme.spacing.unit,
     width: 400,
   },
+  failure: {
+    padding: '20px',
+    color: 'red',
+    textAlign: 'center',
+  },
 });
 
-function Register({ classes, history }) {
+const Register = ({ classes, history }) => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConf, setPasswordConf] = useState('');
+  const [registerFailure, setRegisterFailure] = useState(false);
+  const [registrationErrorMessage, setregistrationErrorMessage] = useState('');
 
   const close = () => {
     history.push('/login');
@@ -61,24 +68,32 @@ function Register({ classes, history }) {
   };
 
   const registerUser = () => {
-    // TODO: validate data in form (password === passwordConf/etc.  Use TextValidator instead of TextField)
     utils
       .registerUser(username, email, password, passwordConf)
-      .then(response => {
-        if (response.status === 200) {
-          response.json().then(data => {
-            const { username: responseUsername } = data;
-            setUsername(responseUsername);
-            history.push('/dashboard', {
-              username: responseUsername,
-            });
-          });
+      .then((error, data) => {
+        if (error) {
+          throw new Error(error.message);
         }
+        const { username: responseUsername } = data;
+        setUsername(responseUsername);
+        history.push('/dashboard', {
+          username: responseUsername,
+        });
       })
-      .catch(() => {
-        // TODO: Add some type of element stating registration failed.
+      .catch(error => {
+        setregistrationErrorMessage(error.message);
+        setRegisterFailure(true);
       });
   };
+
+  useEffect(() => {
+    ValidatorForm.addValidationRule('isPasswordConf', value => {
+      if (value !== password) {
+        return false;
+      }
+      return true;
+    });
+  }, [passwordConf]);
 
   return (
     <div>
@@ -104,45 +119,62 @@ function Register({ classes, history }) {
           </Button>
         </Toolbar>
       </AppBar>
-      <div className={classes.formContainer}>
-        <TextField
+      <ValidatorForm className={classes.formContainer} onSubmit={() => {}}>
+        <TextValidator
           id="email"
           label="Email"
+          onChange={handleChange('email')}
+          name="email"
           className={classes.textField}
           value={email}
-          onChange={handleChange('email')}
           margin="normal"
+          validators={['required', 'isEmail']}
+          errorMessages={['Required', 'Email Address']}
         />
-        <TextField
+        <TextValidator
           id="username"
           label="Username"
+          onChange={handleChange('username')}
+          name="username"
           className={classes.textField}
           value={username}
-          onChange={handleChange('username')}
           margin="normal"
+          validators={['required', 'isString']}
+          errorMessages={['Required', 'Your username']}
         />
-        <TextField
+        <TextValidator
           id="password"
           label="Password"
-          type="password"
+          onChange={handleChange('password')}
+          name="password"
           className={classes.textField}
           value={password}
-          onChange={handleChange('password')}
           margin="normal"
-        />
-        <TextField
-          id="passwordConf"
-          label="Confirm Password"
           type="password"
+          validators={['required']}
+          errorMessages={['Required', 'Passwords do not match']}
+        />
+        <TextValidator
+          id="passwordConf"
+          label="Repeat Password"
+          onChange={handleChange('passwordConf')}
+          name="passwordConf"
           className={classes.textField}
           value={passwordConf}
-          onChange={handleChange('passwordConf')}
           margin="normal"
+          type="password"
+          validators={['required', 'isPasswordConf']}
+          errorMessages={['Required', 'Passwords do not match']}
         />
+      </ValidatorForm>
+      <div>
+        {registerFailure && (
+          <div className={classes.failure}>{registrationErrorMessage}</div>
+        )}
       </div>
     </div>
   );
-}
+};
 
 Register.propTypes = {
   classes: PropTypes.shape().isRequired,

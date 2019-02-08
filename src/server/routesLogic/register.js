@@ -4,7 +4,6 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
 export const register = async (req, res) => {
-  // confirm that user typed same password twice
   const { email, username, password, passwordConf } = req.body;
   const userData = {
     email,
@@ -24,9 +23,18 @@ export const register = async (req, res) => {
   }
   await User.create(userData, (err, user) => {
     if (err) {
+      if (
+        err.message.indexOf('email') === -1 &&
+        err.message.indexOf('dup key') === -1
+      ) {
+        return res.status(400).send({
+          error: true,
+          message: 'Something went wrong, please try again',
+        });
+      }
       return res
         .status(400)
-        .json({ error: true, message: `Error creating user: ${err}` });
+        .send({ error: true, message: 'That email is already in use' });
     }
     req.session.userId = user._id;
     const payload = {
