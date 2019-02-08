@@ -2,11 +2,11 @@ import React, { useContext, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { withRouter } from 'react-router-dom';
-import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import { withStyles, withTheme } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
+import { TextValidator, ValidatorForm } from 'react-material-ui-form-validator';
 import Button from '@material-ui/core/Button';
 import Rain from './Rain/Rain';
 import { UsernameContext } from './UsernameContext';
@@ -42,6 +42,8 @@ const styles = theme => ({
   },
   failure: {
     padding: '20px',
+    color: 'red',
+    textAlign: 'center',
   },
 });
 
@@ -110,29 +112,38 @@ const Login = ({ classes, history }) => {
               <Typography className={classes.title} variant="h5" component="h3">
                 DebtTracker
               </Typography>
-              <form className={classes.form}>
+              <ValidatorForm
+                className={classes.formContainer}
+                onSubmit={() => {}}
+              >
                 <Grid item xs={12}>
-                  <TextField
+                  <TextValidator
                     id="email"
                     label="Email"
-                    type="email"
-                    value={email}
-                    placeholder="Email"
                     onChange={handleChange}
+                    name="email"
+                    placeholder="user@domain.com"
                     className={classes.textField}
+                    value={email}
                     margin="normal"
+                    validators={['required', 'isEmail']}
+                    errorMessages={[
+                      'Required',
+                      'Please enter a valid email address',
+                    ]}
                   />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
+                  <TextValidator
                     id="password"
                     label="Password"
-                    type="password"
-                    value={password}
-                    placeholder="Password"
                     onChange={handleChange}
+                    name="password"
+                    placeholder="Password"
                     className={classes.textField}
+                    value={password}
                     margin="normal"
+                    type="password"
+                    validators={['required']}
+                    errorMessages={['Required', 'Please enter a password']}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -159,7 +170,7 @@ const Login = ({ classes, history }) => {
                     </div>
                   )}
                 </Grid>
-              </form>
+              </ValidatorForm>
             </Paper>
           </Grid>
         </Grid>
