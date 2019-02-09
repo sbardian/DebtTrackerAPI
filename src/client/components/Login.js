@@ -79,7 +79,6 @@ const Login = ({ classes, history }) => {
       });
   };
 
-  // Updates state based on table cell that was edited.
   const handleChange = event => {
     const { value, id } = event.target;
     switch (id) {
