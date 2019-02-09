@@ -49,6 +49,7 @@ const Register = ({ classes, history }) => {
   };
 
   const handleChange = name => event => {
+    setRegisterFailure(false);
     switch (name) {
       case 'username':
         setUsername(event.target.value);
@@ -70,9 +71,9 @@ const Register = ({ classes, history }) => {
   const registerUser = () => {
     utils
       .registerUser(username, email, password, passwordConf)
-      .then((error, data) => {
-        if (error) {
-          throw new Error(error.message);
+      .then(data => {
+        if (data.error) {
+          throw new Error(data.message);
         }
         const { username: responseUsername } = data;
         setUsername(responseUsername);
