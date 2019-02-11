@@ -2,36 +2,34 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
+import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
+import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
+import { Oops } from './Rain/Oops';
 
 const NoMatchStyles = theme => ({
-  appBar: {
-    position: 'relative',
+  root: {
+    flexGrow: 1,
+  },
+  container: {
+    display: 'flex',
+    marginTop: '20px',
+  },
+  paper: {
+    textAlign: 'center',
+    color: theme.palette.secondary.dark,
+    padding: 0,
+    width: 400,
+  },
+  title: {
+    padding: '40px',
+    paddingTop: '50px',
     backgroundColor: theme.palette.primary.main,
     color: '#666',
   },
-  flex: {
-    flex: 1,
-  },
-  container: {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(4, 1fr)',
-    gridGap: '10px',
-    gridAutoRows: '200px',
-    gridTemplateRows: '1fr 1fr 1fr 1fr 1fr',
-  },
-  subContainer: {
-    display: 'grid',
-    gridTemplateColumns: '1fr 1fr',
-    alignSelf: 'center',
-    justifySelf: 'center',
-    gridColumnStart: 2,
-    gridColumnEnd: 4,
-    gridRowStart: 3,
+  button: {
+    margin: '20px 10px 20px 10px',
   },
   fourOfour: {
     fontSize: '80pt',
@@ -40,7 +38,6 @@ const NoMatchStyles = theme => ({
   pageNotFound: {
     alignSelf: 'end',
     paddingBottom: '20px',
-    paddingLeft: '20px',
     color: '#0b2263',
   },
 });
@@ -51,24 +48,44 @@ const NoMatch = ({ classes, history }) => {
   };
 
   return (
-    <Paper>
-      <AppBar className={classes.appBar}>
-        <Toolbar>
-          <Typography variant="title" color="inherit" className={classes.flex}>
-            Oops. . .
-          </Typography>
-          <Button color="inherit" onClick={() => back()}>
-            back
-          </Button>
-        </Toolbar>
-      </AppBar>
-      <div className={classes.container}>
-        <div className={classes.subContainer}>
-          <div className={classes.fourOfour}>404</div>
-          <div className={classes.pageNotFound}>Page not found</div>
-        </div>
-      </div>
-    </Paper>
+    <div>
+      <Oops count={30} />
+      <Oops count={30} />
+      <Oops count={30} />
+      <Grid className={classes.root}>
+        <Grid
+          container
+          item
+          xs={12}
+          justify="center"
+          className={classes.container}
+        >
+          <Grid>
+            <Paper className={classes.paper}>
+              <Typography className={classes.title} variant="h5" component="h3">
+                Oops. . .
+              </Typography>
+              <Grid item xs={12}>
+                <div className={classes.fourOfour}>404</div>
+              </Grid>
+              <Grid item xs={12}>
+                <div className={classes.pageNotFound}>Page not found</div>
+              </Grid>
+              <Grid>
+                <Button
+                  variant="contained"
+                  className={classes.button}
+                  onClick={() => back()}
+                  data-testid="back-fourOfour"
+                >
+                  back
+                </Button>
+              </Grid>
+            </Paper>
+          </Grid>
+        </Grid>
+      </Grid>
+    </div>
   );
 };
 
