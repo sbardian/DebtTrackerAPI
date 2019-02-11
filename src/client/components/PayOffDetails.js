@@ -80,11 +80,6 @@ const PayOffDetails = ({
   const [interest, setInterest] = useState(0);
   const [cardFound, setCardFound] = useState(true);
 
-  /**
-   * TODO: Instead of catching and routing to login, set state and show a
-   * conditional render of card not found.
-   *
-   */
   useEffect(() => {
     utils
       .getCreditCardById(cardId)
