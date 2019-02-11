@@ -45,6 +45,7 @@ export const addCreditCard = (req, res) => {
   });
 };
 
+// TODO: confirm you can only delete your own cards.
 export const deleteCreditCard = (req, res) => {
   CreditCard.findById(req.params.id, (findError, card) => {
     if (findError) {
@@ -67,6 +68,7 @@ export const deleteCreditCard = (req, res) => {
   });
 };
 
+// TODO: confirm you can only update your own cards.
 export const putOrUpdate = (req, res) => {
   CreditCard.findById(req.params.id, (error, card) => {
     const updatedCard = card;

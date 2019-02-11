@@ -36,6 +36,7 @@ export const addTotal = (req, res) => {
   }
 };
 
+// TODO: confirm you can only delete your own totals.
 export const deleteTotal = (req, res) => {
   Total.findById(req.params.id, (err, data) => {
     if (err) {
