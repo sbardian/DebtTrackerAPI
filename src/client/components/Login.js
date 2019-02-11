@@ -54,7 +54,18 @@ const Login = ({ classes, history }) => {
 
   useEffect(() => {
     document.body.style.overflowY = 'hidden';
-  });
+    const loginButton = document.getElementById('login-button');
+    document.getElementById('password').addEventListener('keyup', event => {
+      if (event.keyCode === 13) {
+        loginButton.click();
+      }
+    });
+    document.getElementById('email').addEventListener('keyup', event => {
+      if (event.keyCode === 13) {
+        loginButton.click();
+      }
+    });
+  }, []);
 
   const { updateUsername } = useContext(UsernameContext);
 
@@ -147,6 +158,7 @@ const Login = ({ classes, history }) => {
                 </Grid>
                 <Grid item xs={12}>
                   <Button
+                    id="login-button"
                     variant="contained"
                     className={classes.button}
                     onClick={event => userLogin(event)}
