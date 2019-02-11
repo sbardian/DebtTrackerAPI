@@ -55,7 +55,6 @@ export const deleteCreditCard = (req, res) => {
     CreditCard.remove(
       { _id: req.params.id, userId: req.session.userId },
       (removeError, data) => {
-        console.log('removeError: ', removeError, ', data: ', data);
         if (data.n === 0 || removeError) {
           return res
             .status(400)
@@ -71,31 +70,33 @@ export const deleteCreditCard = (req, res) => {
   });
 };
 
-// TODO: confirm you can only update your own cards.
 export const putOrUpdate = (req, res) => {
-  CreditCard.findById(req.params.id, (error, card) => {
-    const updatedCard = card;
-    if (error) {
-      return res
-        .status(400)
-        .json({ error: true, message: 'Error fetching card data' });
-    }
-    updatedCard.userId = req.session.userId;
-    updatedCard.name = req.body.name;
-    updatedCard.limit = req.body.limit;
-    updatedCard.balance = req.body.balance;
-    updatedCard.interest_rate = req.body.interest_rate;
-    updatedCard.save((saveError, data) => {
-      if (saveError) {
-        return res.status(400).json({
-          error: true,
-          message: `Error updating card ${data.name} data`,
-        });
+  CreditCard.findOne(
+    { _id: req.params.id, userId: req.session.userId },
+    (error, card) => {
+      const updatedCard = card;
+      if (error || !updatedCard) {
+        return res
+          .status(400)
+          .json({ error: true, message: 'Error fetching card data' });
       }
-      return res.json({
-        error: false,
-        message: `Data is updated for card ${card.name}`,
+      updatedCard.userId = req.session.userId;
+      updatedCard.name = req.body.name;
+      updatedCard.limit = req.body.limit;
+      updatedCard.balance = req.body.balance;
+      updatedCard.interest_rate = req.body.interest_rate;
+      updatedCard.save((saveError, data) => {
+        if (saveError) {
+          return res.status(400).json({
+            error: true,
+            message: `Error updating card ${data.name} data`,
+          });
+        }
+        return res.json({
+          error: false,
+          message: `Data is updated for card ${card.name}`,
+        });
       });
-    });
-  });
+    },
+  );
 };
