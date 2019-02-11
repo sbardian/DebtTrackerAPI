@@ -53,6 +53,18 @@ const PayOffDetailsStyles = theme => ({
   button: {
     margin: theme.spacing.unit,
   },
+  containerNotFound: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexGrow: 1,
+    padding: 20,
+    marginBottom: 50,
+  },
+  cardNotFound: {
+    display: 'flex',
+    justifyContent: 'center',
+  },
 });
 
 const PayOffDetails = ({
@@ -66,6 +78,7 @@ const PayOffDetails = ({
   const [limit, setLimit] = useState(0);
   const [balance, setBalance] = useState(0);
   const [interest, setInterest] = useState(0);
+  const [cardFound, setCardFound] = useState(true);
 
   /**
    * TODO: Instead of catching and routing to login, set state and show a
@@ -81,7 +94,7 @@ const PayOffDetails = ({
         setBalance(creditCard.balance);
         setInterest(creditCard.interest_rate);
       })
-      .catch(() => history.push('/login'));
+      .catch(() => setCardFound(false));
   }, [cardId]);
 
   const { minimum = 0, totalPaid = 0 } = useCalcPayOff(
@@ -115,47 +128,60 @@ const PayOffDetails = ({
           </Button>
         </Toolbar>
       </AppBar>
-      <div className={classes.containerTop}>
-        <Typography>
-          <strong>Limit: </strong>${utils.createDollar(limit)}
-        </Typography>
-        <Typography>
-          <strong>Balance: </strong>${utils.createDollar(balance)}
-        </Typography>
-        <Typography>
-          <strong>Interest Rate: </strong>
-          {interest}%
-        </Typography>
-        <Typography>
-          <strong>Minimum Payment: </strong>${utils.createDollar(minimum)}
-        </Typography>
-      </div>
-      <div className={classes.container}>
-        <div>Months:</div>
-      </div>
-      <div className={classes.container}>
-        <h1>{months}</h1>
-      </div>
-      <div className={classes.container}>
-        <div className={classes.wrapperStyle}>
-          <Slider
-            min={1}
-            max={72}
-            marks={marks}
-            defaultValue={1}
-            onChange={setMonths}
-            handle={HandleSlide}
-          />
+      {!cardFound && (
+        <div className={classes.containerNotFound}>
+          <Typography>
+            <strong className={classes.cardNotFound}>
+              Card with ID: {cardId} not found
+            </strong>
+          </Typography>
         </div>
-      </div>
-      <div className={classes.containerBottom}>
+      )}
+      {cardFound && (
         <div>
-          Minimum Payment: <h1>${utils.createDollar(minimum)}</h1>
+          <div className={classes.containerTop}>
+            <Typography>
+              <strong>Limit: </strong>${utils.createDollar(limit)}
+            </Typography>
+            <Typography>
+              <strong>Balance: </strong>${utils.createDollar(balance)}
+            </Typography>
+            <Typography>
+              <strong>Interest Rate: </strong>
+              {interest}%
+            </Typography>
+            <Typography>
+              <strong>Minimum Payment: </strong>${utils.createDollar(minimum)}
+            </Typography>
+          </div>
+          <div className={classes.container}>
+            <div>Months:</div>
+          </div>
+          <div className={classes.container}>
+            <h1>{months}</h1>
+          </div>
+          <div className={classes.container}>
+            <div className={classes.wrapperStyle}>
+              <Slider
+                min={1}
+                max={72}
+                marks={marks}
+                defaultValue={1}
+                onChange={setMonths}
+                handle={HandleSlide}
+              />
+            </div>
+          </div>
+          <div className={classes.containerBottom}>
+            <div>
+              Minimum Payment: <h1>${utils.createDollar(minimum)}</h1>
+            </div>
+            <div>
+              Total Paid: <h1>${utils.createDollar(totalPaid)}</h1>
+            </div>
+          </div>
         </div>
-        <div>
-          Total Paid: <h1>${utils.createDollar(totalPaid)}</h1>
-        </div>
-      </div>
+      )}
     </Paper>
   );
   // }
