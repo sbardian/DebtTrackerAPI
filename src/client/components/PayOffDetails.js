@@ -89,9 +89,7 @@ const PayOffDetails = ({
   );
 
   const back = () => {
-    history.push('/dashboard', {
-      username,
-    });
+    history.push('/dashboard');
   };
 
   const marks = {
