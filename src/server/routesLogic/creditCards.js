@@ -45,7 +45,6 @@ export const addCreditCard = (req, res) => {
   });
 };
 
-// TODO: confirm you can only delete your own cards.
 export const deleteCreditCard = (req, res) => {
   CreditCard.findById(req.params.id, (findError, card) => {
     if (findError) {
@@ -53,18 +52,22 @@ export const deleteCreditCard = (req, res) => {
         .status(400)
         .json({ error: true, message: 'Error fetching card data for delete' });
     }
-    CreditCard.remove({ _id: req.params.id }, (removeError, data) => {
-      if (removeError) {
-        return res
-          .status(400)
-          .json({ error: true, message: `Error deleting ${card.name} data` });
-      }
-      return res.json({
-        error: false,
-        message: `Data associated with card '${card.name}' deleted`,
-        creditCard: data,
-      });
-    });
+    CreditCard.remove(
+      { _id: req.params.id, userId: req.session.userId },
+      (removeError, data) => {
+        console.log('removeError: ', removeError, ', data: ', data);
+        if (data.n === 0 || removeError) {
+          return res
+            .status(400)
+            .json({ error: true, message: `Error deleting ${card.name} data` });
+        }
+        return res.json({
+          error: false,
+          message: `Data associated with card '${card.name}' deleted`,
+          creditCard: data,
+        });
+      },
+    );
   });
 };
 
