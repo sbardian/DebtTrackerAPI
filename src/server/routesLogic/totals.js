@@ -36,25 +36,27 @@ export const addTotal = (req, res) => {
   }
 };
 
-// TODO: confirm you can only delete your own totals.
 export const deleteTotal = (req, res) => {
-  Total.findById(req.params.id, (err, data) => {
+  Total.findById(req.params.id, (err, card) => {
     if (err) {
       return res
         .status(400)
         .json({ error: true, message: 'Error fetching data' });
     }
-    Total.remove({ _id: req.params.id }, error => {
-      if (error) {
-        return res
-          .status(400)
-          .json({ error: true, message: 'Error deleting data' });
-      }
-      return res.json({
-        error: false,
-        message: `Total has been deleted`,
-        data,
-      });
-    });
+    Total.remove(
+      { _id: req.params.id, userId: req.session.userId },
+      (removeError, data) => {
+        if (data.n === 0 || removeError) {
+          return res
+            .status(400)
+            .json({ error: true, message: `Error deleting ${card.name} data` });
+        }
+        return res.json({
+          error: false,
+          message: `Total has been deleted`,
+          data,
+        });
+      },
+    );
   });
 };
