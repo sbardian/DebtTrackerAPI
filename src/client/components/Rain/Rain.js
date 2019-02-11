@@ -1,9 +1,15 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Proptypes from 'prop-types';
 import '../../styles/rain.css';
 import dollarSign from './dollarsign.png';
 
 export const Rain = React.memo(({ count }) => {
+  const [maxRange, setMaxRange] = useState(0);
+
+  useEffect(() => {
+    setMaxRange(window.innerWidth);
+  }, []);
+
   const randRange = (minNum, maxNum) =>
     Math.floor(Math.random() * (maxNum - minNum + 1)) + minNum;
 
@@ -17,7 +23,7 @@ export const Rain = React.memo(({ count }) => {
 
   let x = 0;
   while (x <= count) {
-    const dropLeft = randRange(0, 1800);
+    const dropLeft = randRange(0, maxRange);
     const dropTop = randRange(-2000, -1000);
     const delay = randRange(0, 5);
     const styles = getStyle(dropLeft, dropTop, delay);
