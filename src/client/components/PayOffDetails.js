@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import Typography from '@material-ui/core/Typography';
@@ -12,7 +12,6 @@ import 'rc-slider/assets/index.css';
 import utils from '../utils/utils';
 import HandleSlide from './HandleSlide';
 import { useCalcPayOff } from './utils/useCalcPayOff';
-import { UsernameContext } from './UsernameContext';
 
 const PayOffDetailsStyles = theme => ({
   appBar: {
@@ -68,8 +67,11 @@ const PayOffDetails = ({
   const [balance, setBalance] = useState(0);
   const [interest, setInterest] = useState(0);
 
-  const { username } = useContext(UsernameContext);
-
+  /**
+   * TODO: Instead of catching and routing to login, set state and show a
+   * conditional render of card not found.
+   *
+   */
   useEffect(() => {
     utils
       .getCreditCardById(cardId)
