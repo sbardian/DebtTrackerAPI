@@ -81,32 +81,43 @@ describe('Test /totals API routes', () => {
     it('deleteTotal success, return 200, error false', async () => {
       mockingoose.Total.toReturn(VALID_TOTAL, 'findOne').toReturn(
         VALID_TOTAL,
-        'delete',
+        'deleteOne',
       );
       const response = await serverSession.delete('/api/totals/8675309');
       expect(response.statusCode).toBe(200);
       expect(response.body.error).toEqual(false);
       expect(response.body.data.total).toEqual(20000);
     });
-    it('deleteTotal failure, return 200, error true', async () => {
-      mockingoose.Total.toReturn(INVALID_DELETING_TOTAL, 'findOne').toReturn(
-        new Error('Error'),
-        'remove',
-      );
-      const response = await serverSession.delete('/api/totals/8675309');
-      expect(response.statusCode).toBe(400);
-      expect(response.body.error).toEqual(true);
-      expect(response.body.message).toEqual('Error deleting data');
-    });
-    it('deleteTotal failure, return 200, error true', async () => {
+    it('deleteTotal findById failure, return 200, error true', async () => {
       mockingoose.Total.toReturn(new Error('Error'), 'findOne').toReturn(
         INVALID_FINDING_TOTAL,
-        'remove',
+        'deleteOne',
       );
       const response = await serverSession.delete('/api/totals/8675309');
       expect(response.statusCode).toBe(400);
       expect(response.body.error).toEqual(true);
       expect(response.body.message).toEqual('Error fetching data');
     });
+    it('deleteTotal remove failure from Error, return 200, error true', async () => {
+      mockingoose.Total.toReturn(VALID_TOTAL, 'findOne').toReturn(
+        new Error('Error'),
+        'deleteOne',
+      );
+      const response = await serverSession.delete('/api/totals/8675309');
+      expect(response.statusCode).toBe(400);
+      expect(response.body.error).toEqual(true);
+      expect(response.body.message).toEqual('Error deleting total');
+    });
+    // TODO: figure out how to mock nReturned: 0
+    // fit('deleteTotal remove failure from No Results, return 200, error true', async () => {
+    //   mockingoose.Total.toReturn(VALID_TOTAL, 'findOne').toReturn(
+    //     INVALID_DELETING_TOTAL,
+    //     'deleteOne',
+    //   );
+    //   const response = await serverSession.delete('/api/totals/8675309');
+    //   expect(response.statusCode).toBe(400);
+    //   expect(response.body.error).toEqual(true);
+    //   expect(response.body.message).toEqual('Error deleting total');
+    // });
   });
 });
