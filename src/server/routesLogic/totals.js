@@ -37,19 +37,20 @@ export const addTotal = (req, res) => {
 };
 
 export const deleteTotal = (req, res) => {
-  Total.findById(req.params.id, (err, card) => {
+  Total.findById(req.params.id, err => {
     if (err) {
       return res
         .status(400)
         .json({ error: true, message: 'Error fetching data' });
     }
-    Total.remove(
+    Total.deleteOne(
       { _id: req.params.id, userId: req.session.userId },
       (removeError, data) => {
+        console.log('data>>>>>>>', data);
         if (data.n === 0 || removeError) {
           return res
             .status(400)
-            .json({ error: true, message: `Error deleting ${card.name} data` });
+            .json({ error: true, message: `Error deleting total` });
         }
         return res.json({
           error: false,

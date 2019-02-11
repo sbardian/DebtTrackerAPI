@@ -52,7 +52,7 @@ export const deleteCreditCard = (req, res) => {
         .status(400)
         .json({ error: true, message: 'Error fetching card data for delete' });
     }
-    CreditCard.remove(
+    CreditCard.deleteOne(
       { _id: req.params.id, userId: req.session.userId },
       (removeError, data) => {
         if (data.n === 0 || removeError) {
