@@ -52,19 +52,23 @@ const Login = ({ classes, history }) => {
   const [password, setPassword] = useState('');
   const [loginFailure, setLoginFailure] = useState(false);
 
+  const clickLogin = event => {
+    const loginButton = document.getElementById('login-button');
+    if (event.keyCode === 13) {
+      loginButton.click();
+    }
+  };
+
   useEffect(() => {
     document.body.style.overflowY = 'hidden';
-    const loginButton = document.getElementById('login-button');
-    document.getElementById('password').addEventListener('keyup', event => {
-      if (event.keyCode === 13) {
-        loginButton.click();
-      }
-    });
-    document.getElementById('email').addEventListener('keyup', event => {
-      if (event.keyCode === 13) {
-        loginButton.click();
-      }
-    });
+    document
+      .getElementById('password')
+      .addEventListener('keypress', clickLogin);
+    document.getElementById('email').addEventListener('keypress', clickLogin);
+    return () => {
+      document.removeEventListener('password', clickLogin);
+      document.removeEventListener('email', clickLogin);
+    };
   }, []);
 
   const { updateUsername } = useContext(UsernameContext);
