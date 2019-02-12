@@ -40,6 +40,7 @@
     "file-loader": "^3.0.0",
     "financejs": "^4.1.0",
     "jsonwebtoken": "^8.1.0",
+    "lodash": "^4.17.11",
     "moment": "^2.18.1",
     "mongoose": "^5.3.14",
     "nodemon": "^1.18.7",
