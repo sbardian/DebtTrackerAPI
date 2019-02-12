@@ -71,23 +71,20 @@ const AddDialog = ({
 
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  useEffect(
-    () => {
-      const {
-        _id: cteId,
-        name: cteName,
-        balance: cteBalance,
-        limit: cteLimit,
-        interest_rate: cteInterestRate,
-      } = cardToEdit;
-      dispatch({ type: '_id', payload: cteId });
-      dispatch({ type: 'name', payload: cteName });
-      dispatch({ type: 'balance', payload: cteBalance });
-      dispatch({ type: 'limit', payload: cteLimit });
-      dispatch({ type: 'interest_rate', payload: cteInterestRate });
-    },
-    [cardToEdit],
-  );
+  useEffect(() => {
+    const {
+      _id: cteId,
+      name: cteName,
+      balance: cteBalance,
+      limit: cteLimit,
+      interest_rate: cteInterestRate,
+    } = cardToEdit;
+    dispatch({ type: '_id', payload: cteId });
+    dispatch({ type: 'name', payload: cteName });
+    dispatch({ type: 'balance', payload: cteBalance });
+    dispatch({ type: 'limit', payload: cteLimit });
+    dispatch({ type: 'interest_rate', payload: cteInterestRate });
+  }, [cardToEdit]);
 
   const handleChange = event => {
     const { value, id } = event.target;
@@ -112,20 +109,12 @@ const AddDialog = ({
   const { _id, name, limit, balance, interestRate } = state;
 
   const save = () => {
-    // TODO: find a better way to check this.
-    if (!name || !limit || !balance || !interestRate) {
-      onRequired();
-    } else if (
-      name === '' ||
-      limit === '' ||
-      balance === '' ||
-      interestRate === ''
-    ) {
-      onRequired();
-    } else {
+    if (name && limit && balance && interestRate) {
       onSave({ _id, name, limit, balance, interest_rate: interestRate });
       dispatch({ type: 'reset', payload: initialState });
       onClose();
+    } else {
+      onRequired();
     }
   };
 
