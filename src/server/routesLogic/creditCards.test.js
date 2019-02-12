@@ -86,7 +86,7 @@ describe('Test /creditcards API routes', () => {
         .post('/api/creditcards')
         .set('Accept', 'text/html, application/json')
         .send(INVALID_CREDIT_CARD);
-      // expect(response.statusCode).toBe(400);
+      expect(response.statusCode).toBe(400);
       expect(response.body.error).toBe(true);
       expect(response.body.message).toEqual('Error adding data');
     });
@@ -96,7 +96,7 @@ describe('Test /creditcards API routes', () => {
     it('deleteCreditCard success, return 200 status, and error = false', async () => {
       mockingoose.CreditCard.toReturn(VALID_USERID, 'findOne').toReturn(
         VALID_USERID,
-        'remove',
+        'deleteOne',
       );
       const response = await serverSession
         .delete('/api/creditcards/8675309')
@@ -107,7 +107,7 @@ describe('Test /creditcards API routes', () => {
     it('deleteCreditCard failure, invalid userId, return 400 status, and error = true', async () => {
       mockingoose.CreditCard.toReturn(new Error('Error'), 'findOne').toReturn(
         VALID_USERID,
-        'remove',
+        'deleteOne',
       );
       const response = await serverSession
         .delete('/api/creditcards/8675309')
@@ -118,7 +118,7 @@ describe('Test /creditcards API routes', () => {
     it('deleteCreditCard failure, invalid credit card, return 400 status, and error = true', async () => {
       mockingoose.CreditCard.toReturn(VALID_USERID, 'findOne').toReturn(
         new Error('Error'),
-        'remove',
+        'deleteOne',
       );
       const response = await serverSession
         .delete('/api/creditcards/8675309')
