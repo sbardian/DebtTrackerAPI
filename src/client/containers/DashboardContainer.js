@@ -9,6 +9,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { Tabs, Tab } from '@material-ui/core';
 import Slide from '@material-ui/core/Slide';
+import orderBy from 'lodash/orderBy';
 import utils from '../utils/utils';
 import Loading from '../components/Loading';
 import AddDialog from '../components/AddDialog';
@@ -75,6 +76,8 @@ const DashboardContainer = ({
 
   const [creditCardSortColumn, setCreditCardSortColumn] = useState('name');
   const [creditCardSort, setCreditCardSort] = useState('asc');
+  const [totalSortColumn, setTotalSortColumn] = useState('name');
+  const [totalSort, setTotalSort] = useState('asc');
 
   useEffect(() => {
     utils
@@ -93,7 +96,7 @@ const DashboardContainer = ({
       .catch(() => {
         history.push('/login');
       });
-  }, [creditCardSort, creditCardSortColumn]);
+  }, []);
 
   useEffect(() => {
     utils
@@ -118,10 +121,30 @@ const DashboardContainer = ({
     setState(prevState => ({ ...prevState, tab }));
   };
 
-  const handleCreditCardSort = (column, sort) => {
-    // TODO: don't requery . . just do the sort manually
-    setCreditCardSort(sort);
-    setCreditCardSortColumn(column);
+  const handleSort = (actionType, column, sort) => {
+    const { creditCards, totals } = state;
+    switch (actionType) {
+      case 'creditCards': {
+        setCreditCardSort(sort);
+        setCreditCardSortColumn(column);
+        setState(prevState => ({
+          ...prevState,
+          creditCards: orderBy(creditCards, [column], [sort]),
+        }));
+        break;
+      }
+      case 'totals': {
+        setTotalSort(sort);
+        setTotalSortColumn(column);
+        setState(prevState => ({
+          ...prevState,
+          totals: orderBy(totals, [column], [sort]),
+        }));
+        break;
+      }
+      default:
+        break;
+    }
   };
 
   const handleCreditCardSelectAll = () => {
@@ -517,7 +540,7 @@ const DashboardContainer = ({
               onAdd={handleCreditCardAdd}
               onEdit={handleCreditCardEdit}
               onDetails={handleOnDetails}
-              onSort={handleCreditCardSort}
+              onSort={handleSort}
               sort={creditCardSort}
               creditCardSortColumn={creditCardSortColumn}
             />
@@ -551,6 +574,9 @@ const DashboardContainer = ({
             onDeleteTotal={handleTotalDelete}
             onSelect={hanldeTotalSelectSingle}
             onSelectAll={handleTotalSelectAll}
+            onSort={handleSort}
+            sort={totalSort}
+            totalSortColumn={totalSortColumn}
           />
         </Suspense>
       )}

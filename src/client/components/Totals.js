@@ -6,6 +6,8 @@ import {
   TableHead,
   TableCell,
   TableRow,
+  TableSortLabel,
+  Tooltip,
 } from '@material-ui/core';
 import Paper from '@material-ui/core/Paper';
 import { withStyles } from '@material-ui/core/styles';
@@ -36,6 +38,9 @@ function Totals({
   onDeleteTotal,
   onSelect,
   onSelectAll,
+  onSort,
+  sort,
+  totalSortColumn,
 }) {
   const numSelected = totals.filter(total => total.isSelected).length;
   const totalTotals = totals.length;
@@ -66,8 +71,36 @@ function Totals({
                   onChange={onSelectAll}
                 />
               </TableCell>
-              <TableCell padding="checkbox">Date</TableCell>
-              <TableCell numeric>Total</TableCell>
+              <TableCell padding="checkbox">
+                <Tooltip title="Sort" placement="bottom-start" enterDelay={300}>
+                  <TableSortLabel
+                    active={totalSortColumn === 'updated_at'}
+                    direction={sort}
+                    onClick={() =>
+                      onSort(
+                        'totals',
+                        'updated_at',
+                        sort === 'asc' ? 'desc' : 'asc',
+                      )
+                    }
+                  >
+                    Date
+                  </TableSortLabel>
+                </Tooltip>
+              </TableCell>
+              <TableCell numeric>
+                <Tooltip title="Sort" placement="bottom-start" enterDelay={300}>
+                  <TableSortLabel
+                    active={totalSortColumn === 'total'}
+                    direction={sort}
+                    onClick={() =>
+                      onSort('totals', 'total', sort === 'asc' ? 'desc' : 'asc')
+                    }
+                  >
+                    Total
+                  </TableSortLabel>
+                </Tooltip>
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -112,6 +145,9 @@ Totals.propTypes = {
   onDeleteTotal: PropTypes.func.isRequired,
   onSelect: PropTypes.func.isRequired,
   onSelectAll: PropTypes.func.isRequired,
+  onSort: PropTypes.func.isRequired,
+  sort: PropTypes.string.isRequired,
+  totalSortColumn: PropTypes.string.isRequired,
 };
 
 Totals.defaultProps = {
