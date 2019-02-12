@@ -46,7 +46,6 @@ export const deleteTotal = (req, res) => {
     Total.deleteOne(
       { _id: req.params.id, userId: req.session.userId },
       (removeError, data) => {
-        console.log('data>>>>>>>', data);
         if (data.n === 0 || removeError) {
           return res
             .status(400)
