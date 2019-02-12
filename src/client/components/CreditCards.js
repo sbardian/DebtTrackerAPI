@@ -6,6 +6,8 @@ import {
   TableHead,
   TableCell,
   TableRow,
+  TableSortLabel,
+  Tooltip,
 } from '@material-ui/core';
 import Checkbox from '@material-ui/core/Checkbox';
 import { withStyles, withTheme } from '@material-ui/core/styles';
@@ -34,6 +36,9 @@ function CreditCards({
   onAdd,
   onEdit,
   onDetails,
+  onSort,
+  sort,
+  creditCardSortColumn,
 }) {
   const dollarFormatter = useMemo(
     () => cell => `$${utils.createDollar(parseFloat(cell))}`,
@@ -63,10 +68,58 @@ function CreditCards({
                   onChange={onSelectAll}
                 />
               </TableCell>
-              <TableCell>Name</TableCell>
-              <TableCell>Limit</TableCell>
-              <TableCell>Balance</TableCell>
-              <TableCell>Interest Rate</TableCell>
+              <TableCell>
+                <Tooltip title="Sort" placement="bottom-start" enterDelay={300}>
+                  <TableSortLabel
+                    active={creditCardSortColumn === 'name'}
+                    direction={sort}
+                    onClick={() =>
+                      onSort('name', sort === 'asc' ? 'desc' : 'asc')
+                    }
+                  >
+                    Name
+                  </TableSortLabel>
+                </Tooltip>
+              </TableCell>
+              <TableCell>
+                <Tooltip title="Sort" placement="bottom-start" enterDelay={300}>
+                  <TableSortLabel
+                    active={creditCardSortColumn === 'limit'}
+                    direction={sort}
+                    onClick={() =>
+                      onSort('limit', sort === 'asc' ? 'desc' : 'asc')
+                    }
+                  >
+                    Limit
+                  </TableSortLabel>
+                </Tooltip>
+              </TableCell>
+              <TableCell>
+                <Tooltip title="Sort" placement="bottom-start" enterDelay={300}>
+                  <TableSortLabel
+                    active={creditCardSortColumn === 'balance'}
+                    direction={sort}
+                    onClick={() =>
+                      onSort('balance', sort === 'asc' ? 'desc' : 'asc')
+                    }
+                  >
+                    Balance
+                  </TableSortLabel>
+                </Tooltip>
+              </TableCell>
+              <TableCell>
+                <Tooltip title="Sort" placement="bottom-start" enterDelay={300}>
+                  <TableSortLabel
+                    active={creditCardSortColumn === 'interest_rate'}
+                    direction={sort}
+                    onClick={() =>
+                      onSort('interest_rate', sort === 'asc' ? 'desc' : 'asc')
+                    }
+                  >
+                    Interest Rate
+                  </TableSortLabel>
+                </Tooltip>
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -113,6 +166,9 @@ CreditCards.propTypes = {
   onAdd: PropTypes.func.isRequired,
   onEdit: PropTypes.func.isRequired,
   onDetails: PropTypes.func.isRequired,
+  onSort: PropTypes.func.isRequired,
+  sort: PropTypes.string.isRequired,
+  creditCardSortColumn: PropTypes.string.isRequired,
 };
 
 export default withTheme()(withStyles(styles)(CreditCards));

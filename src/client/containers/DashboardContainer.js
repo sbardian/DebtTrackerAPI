@@ -73,9 +73,12 @@ const DashboardContainer = ({
 
   document.body.style.overflowY = 'auto';
 
+  const [creditCardSortColumn, setCreditCardSortColumn] = useState('name');
+  const [creditCardSort, setCreditCardSort] = useState('asc');
+
   useEffect(() => {
     utils
-      .getCreditCards('name', 'asc')
+      .getCreditCards(creditCardSortColumn, creditCardSort)
       .then(data => {
         const { creditCards } = data;
         setState(prevState => ({
@@ -90,7 +93,7 @@ const DashboardContainer = ({
       .catch(() => {
         history.push('/login');
       });
-  }, []);
+  }, [creditCardSort, creditCardSortColumn]);
 
   useEffect(() => {
     utils
@@ -113,6 +116,12 @@ const DashboardContainer = ({
 
   const handleTabChange = (event, tab) => {
     setState(prevState => ({ ...prevState, tab }));
+  };
+
+  const handleCreditCardSort = (column, sort) => {
+    // TODO: don't requery . . just do the sort manually
+    setCreditCardSort(sort);
+    setCreditCardSortColumn(column);
   };
 
   const handleCreditCardSelectAll = () => {
@@ -508,6 +517,9 @@ const DashboardContainer = ({
               onAdd={handleCreditCardAdd}
               onEdit={handleCreditCardEdit}
               onDetails={handleOnDetails}
+              onSort={handleCreditCardSort}
+              sort={creditCardSort}
+              creditCardSortColumn={creditCardSortColumn}
             />
           </Suspense>
           <AddDialog
