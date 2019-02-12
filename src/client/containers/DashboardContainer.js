@@ -94,7 +94,7 @@ const DashboardContainer = ({
 
   useEffect(() => {
     utils
-      .getTotals()
+      .getTotals('updated_at', 'desc')
       .then(data => {
         const { message: totals } = data;
         setState(prevState => ({

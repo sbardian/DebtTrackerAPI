@@ -1,6 +1,7 @@
 const Total = require('../models/Total');
 
 export const getTotals = (req, res) => {
+  const { field, sort } = req.query;
   Total.find({ userId: req.session && req.session.userId }, (err, data) => {
     if (err) {
       return res
@@ -8,7 +9,7 @@ export const getTotals = (req, res) => {
         .json({ error: true, message: 'Error fetching data' });
     }
     return res.json({ error: false, message: data });
-  }).sort([['updated_at', 'descending']]);
+  }).sort({ [field]: sort });
 };
 
 export const addTotal = (req, res) => {

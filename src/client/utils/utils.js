@@ -70,7 +70,8 @@ const utils = {
   addNewTotal: (user, total) => _fetch(TOTALS_URL, POST, { user, total }),
 
   // Returns promise of totals from the database
-  getTotals: () => _fetch(TOTALS_URL, GET),
+  getTotals: (field, sort) =>
+    _fetch(`${TOTALS_URL}?field=${field}&sort=${sort}`, GET),
 
   // Delete a total
   deleteTotals: id => _fetch(`${TOTALS_URL}${id}`, DELETE),
