@@ -75,7 +75,7 @@ const DashboardContainer = ({
 
   useEffect(() => {
     utils
-      .getCreditCards()
+      .getCreditCards('name', 'asc')
       .then(data => {
         const { creditCards } = data;
         setState(prevState => ({

@@ -38,7 +38,8 @@ const utils = {
     _fetch(REGISTER_URL, POST, { username, email, password, passwordConf }),
 
   // Returns array of credit cards from API
-  getCreditCards: () => _fetch(CREDITCARDS_URL, GET),
+  getCreditCards: (field, sort) =>
+    _fetch(`${CREDITCARDS_URL}?field=${field}&sort=${sort}`, GET),
 
   // Get credit card by ID
   getCreditCardById: id => _fetch(`${CREDITCARDBYID_URL}${id}`, GET),

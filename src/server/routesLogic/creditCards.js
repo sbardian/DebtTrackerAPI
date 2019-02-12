@@ -1,7 +1,7 @@
 const CreditCard = require('../models/CreditCard');
 
 export const getAllCreditCards = (req, res) => {
-  // TODO: Update to use query to sort (ex: 'sort=balance', 'sort=interest_rate'.
+  const { field, sort } = req.query;
   CreditCard.find({ userId: req.session.userId }, (error, data) => {
     if (error) {
       return res
@@ -9,7 +9,7 @@ export const getAllCreditCards = (req, res) => {
         .json({ error: true, message: 'Error fetching data' });
     }
     return res.json({ error: false, creditCards: data });
-  }).sort([['balance', 'descending']]);
+  }).sort({ [field]: sort });
 };
 
 export const getCreditCardById = (req, res) => {
