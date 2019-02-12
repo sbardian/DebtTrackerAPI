@@ -19,7 +19,6 @@ describe('Test /register API routes', () => {
       .send(SUCCESS_REGISTER_MOCK_USER);
     expect(response.statusCode).toBe(200);
   });
-  // TODO: validate password and passwordConf match in client
   it('Register failure password do not match, return 400 status: ', async () => {
     mockingoose.User.toReturn(BAD_PASSWORD_CONF_MOCK_USER, 'save');
     const response = await serverSession
