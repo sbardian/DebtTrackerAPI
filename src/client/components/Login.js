@@ -3,14 +3,13 @@ import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { withRouter } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
 import { withStyles, withTheme } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import { TextValidator, ValidatorForm } from 'react-material-ui-form-validator';
 import Button from '@material-ui/core/Button';
-import { Rain } from './Rain/Rain';
 import { UsernameContext } from './UsernameContext';
 import utils from '../utils/utils';
+import bluedollar from '../images/bluedollar.png';
 
 const styles = theme => ({
   root: {
@@ -23,6 +22,7 @@ const styles = theme => ({
   paper: {
     textAlign: 'center',
     color: theme.palette.secondary.dark,
+    background: 'white',
     padding: 0,
     width: 400,
   },
@@ -44,6 +44,12 @@ const styles = theme => ({
     padding: '20px',
     color: 'red',
     textAlign: 'center',
+  },
+  loginBox: {
+    display: 'grid',
+    gridTemplateRows: '1fr',
+    justifyItems: 'center',
+    gridGap: '20px',
   },
 });
 
@@ -110,9 +116,6 @@ const Login = ({ classes, history }) => {
 
   return (
     <div>
-      <Rain count={30} />
-      <Rain count={30} />
-      <Rain count={30} />
       <Grid className={classes.root}>
         <Grid
           container
@@ -121,8 +124,9 @@ const Login = ({ classes, history }) => {
           justify="center"
           className={classes.container}
         >
-          <Grid>
-            <Paper className={classes.paper}>
+          <Grid className={classes.loginBox}>
+            <img src={bluedollar} alt="Debt Tracker" />
+            <div className={classes.paper}>
               <Typography className={classes.title} variant="h5" component="h3">
                 DebtTracker
               </Typography>
@@ -186,7 +190,7 @@ const Login = ({ classes, history }) => {
                   )}
                 </Grid>
               </ValidatorForm>
-            </Paper>
+            </div>
           </Grid>
         </Grid>
       </Grid>
