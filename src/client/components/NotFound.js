@@ -6,6 +6,7 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
+import bluedollar from '../images/bluedollar.png';
 
 const NoMatchStyles = theme => ({
   root: {
@@ -20,6 +21,7 @@ const NoMatchStyles = theme => ({
     color: theme.palette.secondary.dark,
     padding: 0,
     width: 400,
+    boxShadow: '0px 2px 2px #e1e1e1',
   },
   title: {
     padding: '40px',
@@ -32,12 +34,19 @@ const NoMatchStyles = theme => ({
   },
   fourOfour: {
     fontSize: '80pt',
+    marginTop: '20px',
     color: '#090d53',
   },
   pageNotFound: {
     alignSelf: 'end',
     paddingBottom: '20px',
     color: '#0b2263',
+  },
+  oopsBox: {
+    display: 'grid',
+    gridTemplateRows: '1fr',
+    justifyItems: 'center',
+    gridGap: '20px',
   },
 });
 
@@ -56,8 +65,9 @@ const NoMatch = ({ classes, history }) => {
           justify="center"
           className={classes.container}
         >
-          <Grid>
-            <Paper className={classes.paper}>
+          <Grid className={classes.oopsBox}>
+            <img src={bluedollar} alt="Debt Tracker" />
+            <div className={classes.paper}>
               <Typography className={classes.title} variant="h5" component="h3">
                 Oops. . .
               </Typography>
@@ -77,7 +87,7 @@ const NoMatch = ({ classes, history }) => {
                   back
                 </Button>
               </Grid>
-            </Paper>
+            </div>
           </Grid>
         </Grid>
       </Grid>
