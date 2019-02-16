@@ -10,6 +10,7 @@ import Dashboard from '../containers/DashboardContainer';
 import NotFound from './NotFound';
 import PayOffDetails from './PayOffDetails';
 import { UsernameProvider } from './UsernameContext';
+import '../styles/styles.css';
 
 const theme = createMuiTheme({
   typography: {

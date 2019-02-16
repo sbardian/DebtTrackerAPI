@@ -72,8 +72,6 @@ const DashboardContainer = ({
   });
   const { username } = useContext(UsernameContext);
 
-  document.body.style.overflowY = 'auto';
-
   const [creditCardSortColumn, setCreditCardSortColumn] = useState('name');
   const [creditCardSort, setCreditCardSort] = useState('asc');
   const [totalSortColumn, setTotalSortColumn] = useState('name');

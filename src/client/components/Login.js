@@ -25,6 +25,7 @@ const styles = theme => ({
     background: 'white',
     padding: 0,
     width: 400,
+    boxShadow: '0px 2px 2px #e1e1e1',
   },
   title: {
     padding: '40px',
@@ -66,7 +67,6 @@ const Login = ({ classes, history }) => {
   };
 
   useEffect(() => {
-    document.body.style.overflowY = 'hidden';
     document
       .getElementById('password')
       .addEventListener('keypress', clickLogin);
