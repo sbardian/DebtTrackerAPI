@@ -579,7 +579,7 @@ const DashboardContainer = ({ classes, history, showAlert }) => {
       )}
       {tab === 3 && (
         <Suspense fallback={<Loading />}>
-          <AdminUsers />
+          <AdminUsers showAlert={showAlert} />
         </Suspense>
       )}
     </div>

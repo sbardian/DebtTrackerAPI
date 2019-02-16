@@ -31,7 +31,7 @@ const AdminUsersStyles = () => ({
   },
 });
 
-function AdminUsers({ classes }) {
+function AdminUsers({ classes, showAlert }) {
   const [currentUsers, setCurrentUsers] = React.useState([]);
   const [totalUsers, setTotalUsers] = React.useState(0);
   const [selectedUsers, setSelectedUsers] = React.useState([]);
@@ -88,11 +88,50 @@ function AdminUsers({ classes }) {
     setSortColumn(column);
   };
 
+  const handleDeleteUser = () => {
+    selectedUsers.forEach(user => {
+      console.log('user id: ', user._id);
+      utils
+        .deleteUser(user._id)
+        .then(data => {
+          setCurrentUsers(
+            currentUsers.filter(existingUser => {
+              if (user._id === existingUser._id) {
+                return null;
+              }
+              return { ...user };
+            }),
+          );
+          showAlert({
+            message: data.message,
+            theme: 'dark',
+            offset: '50px',
+            position: 'top right',
+            duration: 5000,
+            style: { zIndex: 2000 },
+          });
+        })
+        .catch(error => {
+          showAlert({
+            message: error.message,
+            theme: 'light',
+            offset: '50px',
+            position: 'top right',
+            duration: 5000,
+            progressBarColor: 'white',
+            style: { zIndex: 2000, color: 'white', backgroundColor: 'red' },
+          });
+        });
+      return null;
+    });
+    setSelectedUsers([]);
+  };
+
   return (
     <div className={classes.container}>
       <Paper className={classes.root}>
         <AdminUsersToolbar
-          onDeleteUser={() => console.log('delete user')}
+          onDeleteUser={handleDeleteUser}
           onEditUser={() => console.log('edit user')}
           numSelected={numSelected}
         />
@@ -175,6 +214,7 @@ function AdminUsers({ classes }) {
 
 AdminUsers.propTypes = {
   classes: PropTypes.shape().isRequired,
+  showAlert: PropTypes.func.isRequired,
 };
 
 export default withStyles(AdminUsersStyles)(AdminUsers);

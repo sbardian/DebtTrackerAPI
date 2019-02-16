@@ -7,7 +7,7 @@ const TOTALS_URL = `${API_BASE_URL}totals/`;
 const REGISTER_URL = `${AUTH_BASE_URL}register/`;
 const LOGIN_URL = `${AUTH_BASE_URL}login/`;
 const LOGOUT_URL = `${AUTH_BASE_URL}logout/`;
-const GET_ALL_USERS_URL = `${ADMIN_BASE_URL}getAllUsers/`;
+const USERS_URL = `${ADMIN_BASE_URL}users/`;
 const POST = 'POST';
 const GET = 'GET';
 const PUT = 'PUT';
@@ -80,7 +80,10 @@ const utils = {
 
   // **Admin Only!** get all users
   getAllUsers: (field, sort) =>
-    _fetch(`${GET_ALL_USERS_URL}?field=${field}&sort=${sort}`),
+    _fetch(`${USERS_URL}?field=${field}&sort=${sort}`),
+
+  // **Admin Only!** delete user and all their content
+  deleteUser: id => _fetch(`${USERS_URL}${id}`, DELETE),
 };
 
 module.exports = utils;
