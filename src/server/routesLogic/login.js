@@ -18,7 +18,7 @@ export const login = (req, res, next) => {
     }
     req.session.userId = user._id;
     const payload = {
-      isAdming: user.isAdmin,
+      isAdmin: user.isAdmin,
     };
     const token = jwt.sign(payload, config.sessionSecret, {
       expiresIn: 1440,
