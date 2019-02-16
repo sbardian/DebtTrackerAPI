@@ -88,11 +88,10 @@ const Login = ({ classes, history }) => {
     utils
       .userLogin(email, password)
       .then(data => {
-        const { username, isAdmin } = data;
+        const { username } = data;
         updateUsername(username);
         history.push('/dashboard', {
           username,
-          isAdmin,
         });
       })
       .catch(() => {

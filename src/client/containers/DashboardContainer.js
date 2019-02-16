@@ -18,6 +18,7 @@ import { UsernameContext } from '../components/UsernameContext';
 const CreditCards = React.lazy(() => import('../components/CreditCards'));
 const PieChart = React.lazy(() => import('../components/PieChart'));
 const Totals = React.lazy(() => import('../components/Totals'));
+const Admin = React.lazy(() => import('../components/Admin'));
 
 const styles = theme => ({
   root: {
@@ -47,15 +48,9 @@ const styles = theme => ({
 
 const DialogTransition = props => <Slide direction="up" {...props} />;
 
-const DashboardContainer = ({
-  classes,
-  history,
-  location: { state: { isAdmin } = {} } = {},
-  showAlert,
-}) => {
+const DashboardContainer = ({ classes, history, showAlert }) => {
   const [state, setState] = useState({
     isLoading: true,
-    isAdmin: false,
     creditCards: [],
     selectAllCreditCards: false,
     selectAllTotals: false,
@@ -69,6 +64,7 @@ const DashboardContainer = ({
     dialogTitle: '',
     selectedCards: [],
     selectedTotals: [],
+    isAdmin: false,
   });
   const { username } = useContext(UsernameContext);
 
@@ -81,9 +77,10 @@ const DashboardContainer = ({
     utils
       .getCreditCards(creditCardSortColumn, creditCardSort)
       .then(data => {
-        const { creditCards } = data;
+        const { creditCards, isAdmin } = data;
         setState(prevState => ({
           ...prevState,
+          isAdmin,
           isLoading: false,
           creditCards: creditCards.map(card => ({
             ...card,
@@ -100,9 +97,10 @@ const DashboardContainer = ({
     utils
       .getTotals('updated_at', 'desc')
       .then(data => {
-        const { message: totals } = data;
+        const { message: totals, isAdmin } = data;
         setState(prevState => ({
           ...prevState,
+          isAdmin,
           isLoading: false,
           totals: totals.map(total => ({
             ...total,
@@ -492,6 +490,7 @@ const DashboardContainer = ({
     cardToEdit,
     dialogTitle,
     dialogOpen,
+    isAdmin,
   } = state;
 
   return isLoading ? (
@@ -525,6 +524,7 @@ const DashboardContainer = ({
           <Tab data-testid="creditcards-tab-button" label="Credit Cards" />
           <Tab data-testid="chart-tab-button" label="Chart" />
           <Tab data-testid="totals-tab-button" label="Totals" />
+          {isAdmin && <Tab data-testid="admin-tab-button" label="Admin" />}
         </Tabs>
       </AppBar>
       {tab === 0 && (
@@ -553,7 +553,6 @@ const DashboardContainer = ({
             cardToEdit={cardToEdit}
             title={dialogTitle}
             username={username}
-            isAdmin={isAdmin}
           />
         </div>
       )}
@@ -576,6 +575,11 @@ const DashboardContainer = ({
             sort={totalSort}
             totalSortColumn={totalSortColumn}
           />
+        </Suspense>
+      )}
+      {tab === 3 && (
+        <Suspense fallback={<Loading />}>
+          <Admin />
         </Suspense>
       )}
     </div>

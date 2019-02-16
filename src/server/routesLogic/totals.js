@@ -8,7 +8,11 @@ export const getTotals = (req, res) => {
         .status(400)
         .json({ error: true, message: 'Error fetching data' });
     }
-    return res.json({ error: false, message: data });
+    return res.json({
+      error: false,
+      message: data,
+      isAdmin: req.session.isAdmin,
+    });
   }).sort({ [field]: sort });
 };
 
@@ -33,6 +37,7 @@ export const addTotal = (req, res) => {
     return res.status(400).json({
       error: true,
       message: 'Error adding data',
+      isAdmin: req.session.isAdmin,
     });
   }
 };
@@ -56,6 +61,7 @@ export const deleteTotal = (req, res) => {
           error: false,
           message: `Total has been deleted`,
           data,
+          isAdmin: req.session.isAdmin,
         });
       },
     );

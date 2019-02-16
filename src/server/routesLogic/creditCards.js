@@ -8,7 +8,11 @@ export const getAllCreditCards = (req, res) => {
         .status(400)
         .json({ error: true, message: 'Error fetching data' });
     }
-    return res.json({ error: false, creditCards: data });
+    return res.json({
+      error: false,
+      creditCards: data,
+      isAdmin: req.session.isAdmin,
+    });
   }).sort({ [field]: sort });
 };
 
@@ -19,7 +23,11 @@ export const getCreditCardById = (req, res) => {
         .status(400)
         .json({ error: true, message: 'Error fetching data' });
     }
-    return res.json({ error: false, creditCard: data });
+    return res.json({
+      error: false,
+      creditCard: data,
+      isAdmin: req.session.isAdmin,
+    });
   });
 };
 
@@ -41,6 +49,7 @@ export const addCreditCard = (req, res) => {
       error: false,
       message: `Card '${req.body.name}' added`,
       creditCard: data,
+      isAdmin: req.session.isAdmin,
     });
   });
 };
@@ -64,6 +73,7 @@ export const deleteCreditCard = (req, res) => {
           error: false,
           message: `Data associated with card '${card.name}' deleted`,
           creditCard: data,
+          isAdmin: req.session.isAdmin,
         });
       },
     );
@@ -95,6 +105,7 @@ export const putOrUpdate = (req, res) => {
         return res.json({
           error: false,
           message: `Data is updated for card ${card.name}`,
+          isAdmin: req.session.isAdmin,
         });
       });
     },
