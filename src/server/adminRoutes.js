@@ -1,4 +1,4 @@
-import { getAllUsers, deleteUser } from './routesLogic';
+import { getAllUsers, deleteUser, getAdminCreditCards } from './routesLogic';
 
 export const adminRoutes = router => {
   /**
@@ -7,6 +7,8 @@ export const adminRoutes = router => {
   router.route('/users').get(getAllUsers);
 
   router.route('/users/:id').delete(deleteUser);
+
+  router.route('/users/cards/:id').get(getAdminCreditCards);
 
   return router;
 };

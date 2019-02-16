@@ -13,6 +13,7 @@ import Paper from '@material-ui/core/Paper';
 import { withStyles } from '@material-ui/core/styles';
 import Checkbox from '@material-ui/core/Checkbox';
 import orderBy from 'lodash/orderBy';
+import CreditCards from './CreditCards';
 import AdminUsersToolbar from './AdminUsersToolbar';
 import utils from '../utils/utils';
 
@@ -40,6 +41,13 @@ function AdminUsers({ classes, showAlert }) {
   const [sortColumn, setSortColumn] = React.useState('username');
   const [sort, setSort] = React.useState('asc');
 
+  const [showCreditCards, setShowCreditCards] = React.useState(false);
+  const [creditCards, setCreditCards] = React.useState([]);
+  const [creditCardSortColumn, setCreditCardSortColumn] = React.useState(
+    'name',
+  );
+  const [creditCardSort, setCreditCardSort] = React.useState('asc');
+
   React.useEffect(() => {
     utils.getAllUsers(sortColumn, sort).then(data => {
       const { users } = data;
@@ -64,6 +72,8 @@ function AdminUsers({ classes, showAlert }) {
   React.useEffect(() => {
     setCurrentUsers(orderBy(currentUsers, [sortColumn], [sort]));
   }, [sort, sortColumn]);
+
+  React.useEffect(() => {});
 
   const onSelect = selected => {
     setCurrentUsers(
@@ -90,7 +100,6 @@ function AdminUsers({ classes, showAlert }) {
 
   const handleDeleteUser = () => {
     selectedUsers.forEach(user => {
-      console.log('user id: ', user._id);
       utils
         .deleteUser(user._id)
         .then(data => {
@@ -127,11 +136,35 @@ function AdminUsers({ classes, showAlert }) {
     setSelectedUsers([]);
   };
 
+  const handleUsersCreditCards = () => {
+    setShowCreditCards(true);
+    utils
+      .getAdminCreditCards(
+        selectedUsers[0]._id,
+        creditCardSortColumn,
+        creditCardSort,
+      )
+      .then(data => {
+        const { creditCards: cards } = data;
+
+        setCreditCards(
+          cards.map(card => ({
+            ...card,
+            isSelected: false,
+          })),
+        );
+      })
+      .catch(error => {
+        console.log('Error: ', error);
+      });
+  };
+
   return (
     <div className={classes.container}>
       <Paper className={classes.root}>
         <AdminUsersToolbar
           onDeleteUser={handleDeleteUser}
+          onUsersCreditCards={handleUsersCreditCards}
           onEditUser={() => console.log('edit user')}
           numSelected={numSelected}
         />
@@ -207,6 +240,20 @@ function AdminUsers({ classes, showAlert }) {
             ))}
           </TableBody>
         </Table>
+        {showCreditCards && (
+          <CreditCards
+            creditCards={creditCards}
+            onSelectAll={() => console.log('test')}
+            onSelect={() => console.log('test')}
+            onDelete={() => console.log('test')}
+            onAdd={() => console.log('test')}
+            onEdit={() => console.log('test')}
+            onDetails={() => console.log('test')}
+            onSort={() => console.log('test')}
+            sort={creditCardSort}
+            creditCardSortColumn={creditCardSortColumn}
+          />
+        )}
       </Paper>
     </div>
   );

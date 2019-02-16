@@ -1,5 +1,5 @@
 const User = require('../models/User');
-const CreditCards = require('../models/CreditCard');
+const CreditCard = require('../models/CreditCard');
 const Total = require('../models/Total');
 
 export const getAllUsers = (req, res) => {
@@ -15,6 +15,23 @@ export const getAllUsers = (req, res) => {
     .sort({ username: 'asc' });
 };
 
+export const getAdminCreditCards = (req, res) => {
+  const { field, sort } = req.query;
+  const { id } = req.params;
+  CreditCard.find({ userId: id }, (error, data) => {
+    if (error) {
+      return res
+        .status(400)
+        .json({ error: true, message: 'Error fetching data' });
+    }
+    return res.json({
+      error: false,
+      creditCards: data,
+      isAdmin: req.session.isAdmin,
+    });
+  }).sort({ [field]: sort });
+};
+
 export const deleteUser = (req, res) => {
   const { id } = req.params;
   User.findById(id, (err, data) => {
@@ -24,7 +41,7 @@ export const deleteUser = (req, res) => {
         message: `Error finding user: ${data.username}`,
       });
     }
-    CreditCards.deleteMany({ userId: id }, creditCardError => {
+    CreditCard.deleteMany({ userId: id }, creditCardError => {
       if (creditCardError) {
         return res.status(400).send({
           error: true,

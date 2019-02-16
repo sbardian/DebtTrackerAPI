@@ -7,6 +7,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
+import CreditCard from '@material-ui/icons/CreditCard';
 import { lighten } from '@material-ui/core/styles/colorManipulator';
 import classNames from 'classnames';
 
@@ -40,7 +41,13 @@ const AdminUsersToolbarStyles = theme => ({
   },
 });
 
-function AdminUsersToolbar({ classes, numSelected, onDeleteUser, onEditUser }) {
+function AdminUsersToolbar({
+  classes,
+  numSelected,
+  onDeleteUser,
+  onEditUser,
+  onUsersCreditCards,
+}) {
   return (
     <Toolbar
       className={classNames(classes.root, {
@@ -67,6 +74,14 @@ function AdminUsersToolbar({ classes, numSelected, onDeleteUser, onEditUser }) {
                 <EditIcon />
               </IconButton>
             </Tooltip>
+            <Tooltip title="Credit Cards">
+              <IconButton
+                onClick={onUsersCreditCards}
+                aria-label="Credit Cards"
+              >
+                <CreditCard />
+              </IconButton>
+            </Tooltip>
           </div>
         )}
         {numSelected >= 1 && (
@@ -88,6 +103,7 @@ AdminUsersToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,
   onDeleteUser: PropTypes.func.isRequired,
   onEditUser: PropTypes.func.isRequired,
+  onUsersCreditCards: PropTypes.func.isRequired,
 };
 
 export default withStyles(AdminUsersToolbarStyles)(AdminUsersToolbar);

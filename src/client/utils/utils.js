@@ -8,6 +8,7 @@ const REGISTER_URL = `${AUTH_BASE_URL}register/`;
 const LOGIN_URL = `${AUTH_BASE_URL}login/`;
 const LOGOUT_URL = `${AUTH_BASE_URL}logout/`;
 const USERS_URL = `${ADMIN_BASE_URL}users/`;
+const USERS_CREDITCARDS_URL = `${ADMIN_BASE_URL}users/cards/`;
 const POST = 'POST';
 const GET = 'GET';
 const PUT = 'PUT';
@@ -84,6 +85,10 @@ const utils = {
 
   // **Admin Only!** delete user and all their content
   deleteUser: id => _fetch(`${USERS_URL}${id}`, DELETE),
+
+  // **Admin Only!** get users credit cards
+  getAdminCreditCards: (id, field, sort) =>
+    _fetch(`${USERS_CREDITCARDS_URL}${id}?field=${field}&sort=${sort}`, GET),
 };
 
 module.exports = utils;
