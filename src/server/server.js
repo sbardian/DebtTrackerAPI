@@ -8,7 +8,8 @@ import mongoose from 'mongoose';
 import bluebird from 'bluebird';
 import { apiRoutes } from './apiRoutes';
 import { authRoutes } from './authRoutes';
-import { checkAuth } from './routesLogic';
+import { adminRoutes } from './adminRoutes';
+import { checkAuth, checkAdmin } from './routesLogic';
 import { config } from './yargs';
 
 const MongoStore = require('connect-mongo')(session);
@@ -27,13 +28,10 @@ expressServer.use(cors(corsOptions));
 
 // Only load DB when in production
 if (process.env.NODE_ENV !== 'test') {
-  mongoose.connect(
-    databaseUrl,
-    {
-      promiseLibrary: bluebird,
-      useNewUrlParser: true,
-    },
-  );
+  mongoose.connect(databaseUrl, {
+    promiseLibrary: bluebird,
+    useNewUrlParser: true,
+  });
 
   const db = mongoose.connection;
 
@@ -79,6 +77,8 @@ expressServer.use('/auth', authRoutes(router));
 // REGISTER OUR API ROUTES
 // all of our routes will be prefixed with /api
 expressServer.use('/api', checkAuth, apiRoutes(router));
+
+expressServer.use('/admin', checkAdmin, adminRoutes(router));
 
 // middleware to use for all requests
 const expressStatic = express.static('dist/client');
