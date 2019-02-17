@@ -95,7 +95,13 @@ const utils = {
   adminDeleteCreditCard: id => _fetch(`${USERS_CREDITCARDS_URL}${id}`, DELETE),
 
   // **Admin Only!** update users credit card
-  adminUpdateCreditCard: id => _fetch(`${USERS_CREDITCARDS_URL}${id}`, PUT),
+  adminUpdateCreditCard: (id, name, limit, balance, interest_rate) =>
+    _fetch(`${USERS_CREDITCARDS_URL}${id}`, PUT, {
+      name,
+      limit,
+      balance,
+      interest_rate,
+    }),
 
   // **Admin Only!** get users totals
   adminGetUsersTotals: id => _fetch(`${USERS_TOTALS_URL}${id}`, GET),
