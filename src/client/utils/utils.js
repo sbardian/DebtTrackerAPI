@@ -80,15 +80,21 @@ const utils = {
   deleteTotals: id => _fetch(`${TOTALS_URL}${id}`, DELETE),
 
   // **Admin Only!** get all users
-  getAllUsers: (field, sort) =>
+  adminGetAllUsers: (field, sort) =>
     _fetch(`${USERS_URL}?field=${field}&sort=${sort}`),
 
   // **Admin Only!** delete user and all their content
-  deleteUser: id => _fetch(`${USERS_URL}${id}`, DELETE),
+  adminDeleteUser: id => _fetch(`${USERS_URL}${id}`, DELETE),
 
   // **Admin Only!** get users credit cards
-  getAdminCreditCards: (id, field, sort) =>
+  adminUserCreditCards: (id, field, sort) =>
     _fetch(`${USERS_CREDITCARDS_URL}${id}?field=${field}&sort=${sort}`, GET),
+
+  // **Admin Only!** delete users credit card
+  adminDeleteCreditCard: id => _fetch(`${USERS_CREDITCARDS_URL}${id}`, DELETE),
+
+  // **Admin Only!** update users credit card
+  adminUpdateCreditCard: id => _fetch(`${USERS_CREDITCARDS_URL}${id}`, PUT),
 };
 
 module.exports = utils;

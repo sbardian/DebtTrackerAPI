@@ -54,7 +54,7 @@ function AdminUsers({ classes, showAlert }) {
   const [creditCardSort, setCreditCardSort] = React.useState('asc');
 
   React.useEffect(() => {
-    utils.getAllUsers(sortColumn, sort).then(data => {
+    utils.adminGetAllUsers(sortColumn, sort).then(data => {
       const { users } = data;
       setTotalUsers(users.length);
       setCurrentUsers(
@@ -108,7 +108,7 @@ function AdminUsers({ classes, showAlert }) {
   const handleDeleteUser = () => {
     selectedUsers.forEach(user => {
       utils
-        .deleteUser(user._id)
+        .adminDeleteUser(user._id)
         .then(data => {
           setCurrentUsers(
             currentUsers.filter(existingUser => {
@@ -146,7 +146,7 @@ function AdminUsers({ classes, showAlert }) {
   const handleUsersCreditCards = () => {
     setShowCreditCards(true);
     utils
-      .getAdminCreditCards(
+      .adminUserCreditCards(
         selectedUsers[0]._id,
         creditCardSortColumn,
         creditCardSort,
