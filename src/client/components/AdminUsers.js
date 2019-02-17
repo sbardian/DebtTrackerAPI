@@ -10,6 +10,7 @@ import {
   Tooltip,
 } from '@material-ui/core';
 import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import Checkbox from '@material-ui/core/Checkbox';
 import orderBy from 'lodash/orderBy';
@@ -29,6 +30,10 @@ const AdminUsersStyles = () => ({
   },
   table: {
     minWidth: 700,
+  },
+  title: {
+    flex: '0 0 auto',
+    marginLeft: '20px',
   },
 });
 
@@ -76,6 +81,7 @@ function AdminUsers({ classes, showAlert }) {
   React.useEffect(() => {});
 
   const onSelect = selected => {
+    setShowCreditCards(false);
     setCurrentUsers(
       currentUsers.map(user => {
         if (user._id === selected._id) {
@@ -87,6 +93,7 @@ function AdminUsers({ classes, showAlert }) {
   };
 
   const onSelectAll = () => {
+    setShowCreditCards(false);
     setCurrentUsers(
       currentUsers.map(user => ({ ...user, isSelected: !allSelected })),
     );
@@ -241,18 +248,25 @@ function AdminUsers({ classes, showAlert }) {
           </TableBody>
         </Table>
         {showCreditCards && (
-          <CreditCards
-            creditCards={creditCards}
-            onSelectAll={() => console.log('test')}
-            onSelect={() => console.log('test')}
-            onDelete={() => console.log('test')}
-            onAdd={() => console.log('test')}
-            onEdit={() => console.log('test')}
-            onDetails={() => console.log('test')}
-            onSort={() => console.log('test')}
-            sort={creditCardSort}
-            creditCardSortColumn={creditCardSortColumn}
-          />
+          <div>
+            <div className={classes.title}>
+              <Typography data-testid="totals-toolbar-title" variant="h6">
+                {selectedUsers[0].username || ''}:
+              </Typography>
+            </div>
+            <CreditCards
+              creditCards={creditCards}
+              onSelectAll={() => console.log('test')}
+              onSelect={() => console.log('test')}
+              onDelete={() => console.log('test')}
+              onAdd={() => console.log('test')}
+              onEdit={() => console.log('test')}
+              onDetails={() => console.log('test')}
+              onSort={() => console.log('test')}
+              sort={creditCardSort}
+              creditCardSortColumn={creditCardSortColumn}
+            />
+          </div>
         )}
       </Paper>
     </div>
