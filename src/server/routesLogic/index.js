@@ -16,5 +16,7 @@ export {
   getUserCreditCards,
   deleteUserCreditCard,
   updateUserCreditCard,
+  getUsersTotals,
+  deleteUsersTotals,
 } from './admin';
 export { getTotals, addTotal, deleteTotal } from './totals';

@@ -9,6 +9,7 @@ const LOGIN_URL = `${AUTH_BASE_URL}login/`;
 const LOGOUT_URL = `${AUTH_BASE_URL}logout/`;
 const USERS_URL = `${ADMIN_BASE_URL}users/`;
 const USERS_CREDITCARDS_URL = `${ADMIN_BASE_URL}users/cards/`;
+const USERS_TOTALS_URL = `${ADMIN_BASE_URL}users/totals/`;
 const POST = 'POST';
 const GET = 'GET';
 const PUT = 'PUT';
@@ -95,6 +96,12 @@ const utils = {
 
   // **Admin Only!** update users credit card
   adminUpdateCreditCard: id => _fetch(`${USERS_CREDITCARDS_URL}${id}`, PUT),
+
+  // **Admin Only!** get users totals
+  adminGetUsersTotals: id => _fetch(`${USERS_TOTALS_URL}${id}`, GET),
+
+  // **Admin Only!** delete users totals
+  adminDeleteTotals: id => _fetch(`${USERS_TOTALS_URL}${id}`, DELETE),
 };
 
 module.exports = utils;

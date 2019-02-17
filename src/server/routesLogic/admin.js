@@ -115,3 +115,43 @@ export const updateUserCreditCard = (req, res) => {
     },
   );
 };
+
+export const getUsersTotals = (req, res) => {
+  Total.find({ userId: req.params.id }, (error, data) => {
+    if (error) {
+      return res.status(400).send({
+        error: true,
+        message: error.message,
+      });
+    }
+    return res.status(200).send({
+      error: false,
+      message: `Totals recieved for user id '${req.params.id}'`,
+      totals: data,
+    });
+  });
+};
+
+export const deleteUsersTotals = (req, res) => {
+  CreditCard.findById(req.params.id, (findError, data) => {
+    if (findError) {
+      res.status(400).send({
+        error: true,
+        message: findError.message,
+      });
+    }
+    Total.findOneAndDelete({ _id: req.params.id }, error => {
+      if (error) {
+        return res.status(400).send({
+          error: true,
+          message: error.message,
+        });
+      }
+      return res.status(200).send({
+        error: false,
+        message: `Total deleted`,
+        total: data,
+      });
+    });
+  });
+};
