@@ -97,7 +97,7 @@ export const deleteUserCreditCard = (req, res) => {
 export const updateUserCreditCard = (req, res) => {
   const { name, limit, balance, interest_rate } = req.body;
   CreditCard.findByIdAndUpdate(
-    { id: req.params.id },
+    req.params.id,
     { name, limit, balance, interest_rate },
     { upsert: false, new: true, runValidators: true },
     (err, data) => {
