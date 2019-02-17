@@ -13,6 +13,7 @@ export {
 export {
   getAllUsers,
   deleteUser,
+  updateUser,
   getUserCreditCards,
   deleteUserCreditCard,
   updateUserCreditCard,

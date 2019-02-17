@@ -70,6 +70,28 @@ export const deleteUser = (req, res) => {
   });
 };
 
+export const updateUser = (req, res) => {
+  const { username, email } = req.body;
+  User.findByIdAndUpdate(
+    req.params.id,
+    { username, email },
+    { upsert: false, new: true, runValidators: true },
+    (error, data) => {
+      if (error) {
+        res.status(400).send({
+          error: true,
+          message: error.message,
+        });
+      }
+      return res.status(200).send({
+        error: false,
+        message: `User '${data.username}' has been updated`,
+        user: data,
+      });
+    },
+  );
+};
+
 export const deleteUserCreditCard = (req, res) => {
   CreditCard.findById(req.params.id, (findError, data) => {
     if (findError) {

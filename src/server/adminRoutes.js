@@ -1,6 +1,7 @@
 import {
   getAllUsers,
   deleteUser,
+  updateUser,
   getUserCreditCards,
   deleteUserCreditCard,
   updateUserCreditCard,
@@ -14,7 +15,10 @@ export const adminRoutes = router => {
    */
   router.route('/users').get(getAllUsers);
 
-  router.route('/users/:id').delete(deleteUser);
+  router
+    .route('/users/:id')
+    .delete(deleteUser)
+    .put(updateUser);
 
   router
     .route('/users/cards/:id')
