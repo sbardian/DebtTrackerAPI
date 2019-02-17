@@ -15,10 +15,9 @@ export const getAllUsers = (req, res) => {
     .sort({ username: 'asc' });
 };
 
-export const getAdminCreditCards = (req, res) => {
+export const getUserCreditCards = (req, res) => {
   const { field, sort } = req.query;
-  const { id } = req.params;
-  CreditCard.find({ userId: id }, (error, data) => {
+  CreditCard.find({ userId: req.params.id }, (error, data) => {
     if (error) {
       return res
         .status(400)
@@ -33,29 +32,28 @@ export const getAdminCreditCards = (req, res) => {
 };
 
 export const deleteUser = (req, res) => {
-  const { id } = req.params;
-  User.findById(id, (err, data) => {
+  User.findById({ id: req.params.id }, (err, data) => {
     if (err) {
       return res.status(400).send({
         error: true,
         message: `Error finding user: ${data.username}`,
       });
     }
-    CreditCard.deleteMany({ userId: id }, creditCardError => {
+    CreditCard.deleteMany({ userId: req.params.id }, creditCardError => {
       if (creditCardError) {
         return res.status(400).send({
           error: true,
           message: creditCardError.message,
         });
       }
-      Total.deleteMany({ userId: id }, totalError => {
+      Total.deleteMany({ userId: req.params.id }, totalError => {
         if (totalError) {
           return res.status(400).send({
             error: true,
             message: totalError.message,
           });
         }
-        User.deleteOne({ _id: id }, userError => {
+        User.deleteOne({ _id: req.params.id }, userError => {
           if (userError) {
             return res.status(400).send({
               error: true,
@@ -70,4 +68,50 @@ export const deleteUser = (req, res) => {
       });
     });
   });
+};
+
+export const deleteUserCreditCard = (req, res) => {
+  CreditCard.findById(req.params.id, (findError, data) => {
+    if (findError) {
+      res.status(400).send({
+        error: true,
+        message: findError.message,
+      });
+    }
+    CreditCard.findOneAndDelete({ _id: req.params.id }, err => {
+      if (err) {
+        return res.status(400).send({
+          error: true,
+          message: err.message,
+        });
+      }
+      return res.status(200).send({
+        error: false,
+        message: `Credit card '${data.name}' deleted`,
+        creditCard: data,
+      });
+    });
+  });
+};
+
+export const updateUserCreditCard = (req, res) => {
+  const { name, limit, balance, interest_rate } = req.body;
+  CreditCard.findByIdAndUpdate(
+    { id: req.params.id },
+    { name, limit, balance, interest_rate },
+    { upsert: false, new: true, runValidators: true },
+    (err, data) => {
+      if (err) {
+        return res.status(400).send({
+          error: true,
+          message: err.message,
+        });
+      }
+      return res.status(200).send({
+        error: false,
+        message: `Data updated for credit card '${data.name}'`,
+        creditCard: data,
+      });
+    },
+  );
 };

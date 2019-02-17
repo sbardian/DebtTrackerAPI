@@ -10,5 +10,11 @@ export {
   deleteCreditCard,
   putOrUpdate,
 } from './creditCards';
-export { getAllUsers, deleteUser, getAdminCreditCards } from './admin';
+export {
+  getAllUsers,
+  deleteUser,
+  getUserCreditCards,
+  deleteUserCreditCard,
+  updateUserCreditCard,
+} from './admin';
 export { getTotals, addTotal, deleteTotal } from './totals';
