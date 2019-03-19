@@ -27,9 +27,9 @@ const styles = () => ({
   },
 });
 
-const AdminDashboard = ({ classes, showAlert }) => {
-  const DialogTransition = props => <Slide direction="up" {...props} />;
+const DialogTransition = props => <Slide direction="up" {...props} />;
 
+const AdminDashboard = ({ classes, showAlert }) => {
   const [currentUsers, setCurrentUsers] = React.useState([]);
   const [totalUsers, setTotalUsers] = React.useState(0);
   const [selectedUsers, setSelectedUsers] = React.useState([]);
@@ -75,8 +75,12 @@ const AdminDashboard = ({ classes, showAlert }) => {
 
   const [showEditUserDialog, setShowEditUserDialog] = React.useState(false);
 
-  const handleToggleEditUserDialog = () => {
-    setShowEditUserDialog(!showEditUserDialog);
+  const handleEditUserDialogOpen = () => {
+    setShowEditUserDialog(true);
+  };
+
+  const handleEditUserDialogClose = () => {
+    setShowEditUserDialog(false);
   };
 
   const handleSelectUser = selected => {
@@ -138,7 +142,7 @@ const AdminDashboard = ({ classes, showAlert }) => {
   };
 
   const handleEditUser = () => {
-    handleToggleEditUserDialog();
+    handleEditUserDialogOpen();
   };
 
   const handleUsersCreditCards = () => {
@@ -182,9 +186,10 @@ const AdminDashboard = ({ classes, showAlert }) => {
       />
       <EditUserDialog
         user={{ username: 'test' }}
-        toggleDialog={handleToggleEditUserDialog}
         onTransition={DialogTransition}
         dialogOpen={showEditUserDialog}
+        onOpenEditUserDialog={handleEditUserDialogOpen}
+        onCloseEditUserDialog={handleEditUserDialogClose}
         // onSave={onSave}
         // onRequired={handleRequired}
         // cardToEdit={cardToEdit}

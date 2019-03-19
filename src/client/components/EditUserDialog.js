@@ -31,7 +31,14 @@ const styles = theme => ({
   },
 });
 
-const EditUserDialog = ({ classes, dialogOpen, user, onTransition }) => {
+const EditUserDialog = ({
+  classes,
+  dialogOpen,
+  user,
+  onTransition,
+  onOpenEditUserDialog,
+  onCloseEditUserDialog,
+}) => {
   const initialState = {};
 
   // const reducer = (state, action) => {
@@ -112,7 +119,7 @@ const EditUserDialog = ({ classes, dialogOpen, user, onTransition }) => {
     <Dialog
       fullScreen
       open={dialogOpen}
-      // onClose={onClose}
+      onClose={onCloseEditUserDialog}
       TransitionComponent={onTransition}
     >
       <AppBar className={classes.appBar}>
@@ -129,7 +136,7 @@ const EditUserDialog = ({ classes, dialogOpen, user, onTransition }) => {
           </Button>
           <Button
             color="inherit"
-            onClick={() => console.log('close')}
+            onClick={() => onCloseEditUserDialog()}
             aria-label="Close"
           >
             cancel
