@@ -18,7 +18,7 @@ import { UsernameContext } from '../components/UsernameContext';
 const CreditCards = React.lazy(() => import('../components/CreditCards'));
 const PieChart = React.lazy(() => import('../components/PieChart'));
 const Totals = React.lazy(() => import('../components/Totals'));
-const AdminUsers = React.lazy(() => import('../components/AdminUsers'));
+const AdminDashboard = React.lazy(() => import('./AdminDashboard'));
 
 const styles = theme => ({
   root: {
@@ -579,7 +579,7 @@ const DashboardContainer = ({ classes, history, showAlert }) => {
       )}
       {tab === 3 && (
         <Suspense fallback={<Loading />}>
-          <AdminUsers showAlert={showAlert} />
+          <AdminDashboard showAlert={showAlert} />
         </Suspense>
       )}
     </div>
