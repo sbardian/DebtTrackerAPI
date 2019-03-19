@@ -32,7 +32,7 @@ export const getUserCreditCards = (req, res) => {
 };
 
 export const deleteUser = (req, res) => {
-  User.findById({ id: req.params.id }, (err, data) => {
+  User.findById(req.params.id, (err, data) => {
     if (err) {
       return res.status(400).send({
         error: true,
