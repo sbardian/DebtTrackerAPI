@@ -31,7 +31,7 @@ const styles = theme => ({
   },
 });
 
-const EditUserDialog = ({ classes, dialogOpen, user }) => {
+const EditUserDialog = ({ classes, dialogOpen, user, onTransition }) => {
   const initialState = {};
 
   // const reducer = (state, action) => {
@@ -113,7 +113,7 @@ const EditUserDialog = ({ classes, dialogOpen, user }) => {
       fullScreen
       open={dialogOpen}
       // onClose={onClose}
-      // TransitionComponent={onTransition}
+      TransitionComponent={onTransition}
     >
       <AppBar className={classes.appBar}>
         <Toolbar>
@@ -146,49 +146,29 @@ const EditUserDialog = ({ classes, dialogOpen, user }) => {
           value=""
           margin="normal"
           validators={['required', 'isString']}
-          errorMessages={['Required', 'Name of the credit card.']}
+          errorMessages={['Required', 'Name of user']}
         />
         <TextValidator
-          id="limit"
-          label="Limit"
+          id="email"
+          label="Email"
           onChange={() => console.log('typing something')}
-          name="limit"
+          name="email"
           className={classes.textField}
           value=""
           margin="normal"
-          validators={['required', 'isFloat']}
-          errorMessages={[
-            'Required',
-            'Limit for the card.  (e.g. 1500.00 or 1500)',
-          ]}
+          validators={['required', 'isEmail']}
+          errorMessages={['Required', 'Email of user']}
         />
         <TextValidator
-          id="balance"
-          label="Balance"
+          id="username"
+          label="Username"
           onChange={() => console.log('typing something')}
-          name="balance"
+          name="username"
           className={classes.textField}
           value=""
           margin="normal"
-          validators={['required', 'isFloat']}
-          errorMessages={[
-            'Required',
-            'Balance for the card.  (e.g. 500.00 or 500)',
-          ]}
-        />
-        <TextValidator
-          id="interest_rate"
-          label="Interest Rate"
-          onChange={() => console.log('typing something')}
-          name="interest_rate"
-          className={classes.textField}
-          value=""
-          margin="normal"
-          validators={['required', 'isFloat']}
-          errorMessages={[
-            'Required',
-            'Interest rate for the card.  (e.g. 15.0 or 15)',
-          ]}
+          validators={['required', 'isString']}
+          errorMessages={['Required', 'Username of user']}
         />
       </ValidatorForm>
     </Dialog>
