@@ -106,8 +106,8 @@ const PayOffDetails = ({
     1: {
       label: `1`,
     },
-    72: {
-      label: `72`,
+    120: {
+      label: `120`,
     },
   };
 
@@ -159,7 +159,7 @@ const PayOffDetails = ({
             <div className={classes.wrapperStyle}>
               <Slider
                 min={1}
-                max={72}
+                max={120}
                 marks={marks}
                 defaultValue={1}
                 onChange={setMonths}
