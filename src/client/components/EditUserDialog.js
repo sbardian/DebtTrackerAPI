@@ -38,82 +38,74 @@ const EditUserDialog = ({
   onTransition,
   onOpenEditUserDialog,
   onCloseEditUserDialog,
+  userToEdit,
+  onUpdateUser,
+  onRequired,
 }) => {
-  const initialState = {};
+  const initialState = {
+    _id: '',
+    email: '',
+    username: '',
+    password: '',
+  };
 
-  // const reducer = (state, action) => {
-  //   const { payload, type } = action;
-  //   switch (type) {
-  //     case 'reset':
-  //       return { ...payload };
-  //     case '_id':
-  //       return { ...state, _id: payload };
-  //     case 'name':
-  //       return { ...state, name: payload };
-  //     case 'balance':
-  //       return { ...state, balance: payload };
-  //     case 'limit':
-  //       return { ...state, limit: payload };
-  //     case 'interest_rate':
-  //       return { ...state, interestRate: payload };
-  //     default:
-  //       return state;
-  //   }
-  // };
+  const reducer = (state, action) => {
+    const { payload, type } = action;
+    switch (type) {
+      case 'reset':
+        return { ...payload };
+      case '_id':
+        return { ...state, _id: payload };
+      case 'email':
+        return { ...state, email: payload };
+      case 'username':
+        return { ...state, username: payload };
+      case 'password':
+        return { ...state, password: payload };
+      default:
+        return state;
+    }
+  };
 
-  // const [state, dispatch] = useReducer(reducer, initialState);
+  const [state, dispatch] = useReducer(reducer, initialState);
 
-  // useEffect(() => {
-  //   const {
-  //     _id: cteId,
-  //     name: cteName,
-  //     balance: cteBalance,
-  //     limit: cteLimit,
-  //     interest_rate: cteInterestRate,
-  //   } = cardToEdit;
-  //   dispatch({ type: '_id', payload: cteId });
-  //   dispatch({ type: 'name', payload: cteName });
-  //   dispatch({ type: 'balance', payload: cteBalance });
-  //   dispatch({ type: 'limit', payload: cteLimit });
-  //   dispatch({ type: 'interest_rate', payload: cteInterestRate });
-  // }, [cardToEdit]);
+  useEffect(() => {
+    const { _id: uteId, email: uteEmail, username: uteusername } = userToEdit;
+    dispatch({ type: '_id', payload: uteId });
+    dispatch({ type: 'email', payload: uteEmail });
+    dispatch({ type: 'username', payload: uteusername });
+  }, [userToEdit]);
 
-  // const handleChange = event => {
-  //   const { value, id } = event.target;
-  //   switch (id) {
-  //     case 'name':
-  //       dispatch({ type: 'name', payload: value });
-  //       break;
-  //     case 'balance':
-  //       dispatch({ type: 'balance', payload: value });
-  //       break;
-  //     case 'limit':
-  //       dispatch({ type: 'limit', payload: value });
-  //       break;
-  //     case 'interest_rate':
-  //       dispatch({ type: 'interest_rate', payload: value });
-  //       break;
-  //     default:
-  //       break;
-  //   }
-  // };
+  const handleChange = event => {
+    const { value, id } = event.target;
+    switch (id) {
+      case 'email':
+        dispatch({ type: 'email', payload: value });
+        break;
+      case 'username':
+        dispatch({ type: 'username', payload: value });
+        break;
+      case 'password':
+        dispatch({ type: 'password', payload: value });
+        break;
+      default:
+        break;
+    }
+  };
 
-  // const { _id, name, limit, balance, interestRate } = state;
+  const save = () => {
+    const { _id, email, username, password } = state;
+    if (_id && email && username) {
+      onUpdateUser({ _id, email, username, password });
+    } else {
+      onRequired();
+    }
+  };
 
-  // const save = () => {
-  //   if (name && limit && balance && interestRate) {
-  //     onSave({ _id, name, limit, balance, interest_rate: interestRate });
-  //     dispatch({ type: 'reset', payload: initialState });
-  //     onClose();
-  //   } else {
-  //     onRequired();
-  //   }
-  // };
-
-  // const close = () => {
-  //   dispatch({ type: 'reset', payload: initialState });
-  //   onClose();
-  // };
+  const close = () => {
+    dispatch({ type: 'reset', payload: initialState });
+    onCloseEditUserDialog();
+  };
 
   return (
     <Dialog
@@ -130,38 +122,23 @@ const EditUserDialog = ({
           <Button
             data-testid="save-card-button"
             color="inherit"
-            onClick={() => console.log('save')}
+            onClick={() => save()}
           >
             save
           </Button>
-          <Button
-            color="inherit"
-            onClick={() => onCloseEditUserDialog()}
-            aria-label="Close"
-          >
+          <Button color="inherit" onClick={() => close()} aria-label="Close">
             cancel
           </Button>
         </Toolbar>
       </AppBar>
       <ValidatorForm className={classes.formContainer} onSubmit={() => {}}>
         <TextValidator
-          id="name"
-          label="Name"
-          onChange={() => console.log('typing something')}
-          name="name"
-          className={classes.textField}
-          value=""
-          margin="normal"
-          validators={['required', 'isString']}
-          errorMessages={['Required', 'Name of user']}
-        />
-        <TextValidator
           id="email"
           label="Email"
-          onChange={() => console.log('typing something')}
+          onChange={handleChange}
           name="email"
           className={classes.textField}
-          value=""
+          value={state.email}
           margin="normal"
           validators={['required', 'isEmail']}
           errorMessages={['Required', 'Email of user']}
@@ -169,13 +146,25 @@ const EditUserDialog = ({
         <TextValidator
           id="username"
           label="Username"
-          onChange={() => console.log('typing something')}
+          onChange={handleChange}
           name="username"
           className={classes.textField}
-          value=""
+          value={state.username}
           margin="normal"
           validators={['required', 'isString']}
           errorMessages={['Required', 'Username of user']}
+        />
+        <TextValidator
+          id="password"
+          label="Password"
+          onChange={handleChange}
+          name="password"
+          className={classes.textField}
+          value={state.password}
+          type="password"
+          margin="normal"
+          validators={['required']}
+          errorMessages={['Required', 'Password of user']}
         />
       </ValidatorForm>
     </Dialog>

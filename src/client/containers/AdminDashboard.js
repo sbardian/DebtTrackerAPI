@@ -35,13 +35,14 @@ const AdminDashboard = ({ classes, showAlert }) => {
   const [selectedUsers, setSelectedUsers] = React.useState([]);
   const [allSelected, setAllSelected] = React.useState(false);
   const [numSelected, setNumSelected] = React.useState(0);
+  const [userToEdit, setUserToEdit] = React.useState({});
+  const [sortColumn, setSortColumn] = React.useState('username');
+  const [sort, setSort] = React.useState('asc');
 
   const [showCreditCards, setShowCreditCards] = React.useState(false);
   const [creditCards, setCreditCards] = React.useState([]);
   const [creditCardSortColumn] = React.useState('name');
   const [creditCardSort] = React.useState('asc');
-  const [sortColumn, setSortColumn] = React.useState('username');
-  const [sort, setSort] = React.useState('asc');
 
   const handleUserSort = (column, sortValue) => {
     setSort(sortValue);
@@ -76,6 +77,7 @@ const AdminDashboard = ({ classes, showAlert }) => {
   const [showEditUserDialog, setShowEditUserDialog] = React.useState(false);
 
   const handleEditUserDialogOpen = () => {
+    setUserToEdit(selectedUsers[0]);
     setShowEditUserDialog(true);
   };
 
@@ -168,6 +170,64 @@ const AdminDashboard = ({ classes, showAlert }) => {
       });
   };
 
+  const handleUpdateUser = ({ _id, username, email, password }) => {
+    if (password) {
+      // TODO: implement updating a users password
+      showAlert({
+        message:
+          'Updating a users password is not yet supported, please leave this field blank.',
+        offset: '50px',
+        position: 'top right',
+        duration: 5000,
+        progressBarColor: 'white',
+        style: { zIndex: 2000, color: 'white', backgroundColor: 'red' },
+      });
+    } else if (_id && username && email) {
+      utils
+        .adminUpdateUser(_id, username, email)
+        .then(data => {
+          showAlert({
+            message: data.message,
+            theme: 'dark',
+            offset: '50px',
+            position: 'top right',
+            duration: 5000,
+            style: { zIndex: 2000 },
+          });
+        })
+        .catch(error => {
+          showAlert({
+            message: `Error updating user: ${error.message}`,
+            offset: '50px',
+            position: 'top right',
+            duration: 5000,
+            progressBarColor: 'white',
+            style: { zIndex: 2000, color: 'white', backgroundColor: 'red' },
+          });
+        });
+    } else {
+      showAlert({
+        message: 'Username and email fields are required.',
+        offset: '50px',
+        position: 'top right',
+        duration: 5000,
+        progressBarColor: 'white',
+        style: { zIndex: 2000, color: 'white', backgroundColor: 'red' },
+      });
+    }
+  };
+
+  const handleRequired = () => {
+    showAlert({
+      message: 'Username and email fields are required.',
+      offset: '50px',
+      position: 'top right',
+      duration: 5000,
+      progressBarColor: 'white',
+      style: { zIndex: 2000, color: 'white', backgroundColor: 'red' },
+    });
+  };
+
   return (
     <div>
       <AdminUsers
@@ -190,8 +250,10 @@ const AdminDashboard = ({ classes, showAlert }) => {
         dialogOpen={showEditUserDialog}
         onOpenEditUserDialog={handleEditUserDialogOpen}
         onCloseEditUserDialog={handleEditUserDialogClose}
+        userToEdit={userToEdit}
         // onSave={onSave}
-        // onRequired={handleRequired}
+        onUpdateUser={handleUpdateUser}
+        onRequired={handleRequired}
         // cardToEdit={cardToEdit}
         // title={dialogTitle}
         // username={username}
