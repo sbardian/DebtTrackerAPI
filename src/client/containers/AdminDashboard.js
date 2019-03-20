@@ -250,18 +250,13 @@ const AdminDashboard = ({ classes, showAlert }) => {
         sort={sort}
       />
       <EditUserDialog
-        user={{ username: 'test' }}
         onTransition={DialogTransition}
         dialogOpen={showEditUserDialog}
         onOpenEditUserDialog={handleEditUserDialogOpen}
         onCloseEditUserDialog={handleEditUserDialogClose}
         userToEdit={userToEdit}
-        // onSave={onSave}
         onUpdateUser={handleUpdateUser}
         onRequired={handleRequired}
-        // cardToEdit={cardToEdit}
-        // title={dialogTitle}
-        // username={username}
       />
       {showCreditCards && (
         <div>

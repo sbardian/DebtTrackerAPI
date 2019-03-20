@@ -34,9 +34,7 @@ const styles = theme => ({
 const EditUserDialog = ({
   classes,
   dialogOpen,
-  user,
   onTransition,
-  onOpenEditUserDialog,
   onCloseEditUserDialog,
   userToEdit,
   onUpdateUser,
@@ -117,7 +115,7 @@ const EditUserDialog = ({
       <AppBar className={classes.appBar}>
         <Toolbar>
           <Typography variant="h6" color="inherit" className={classes.flex}>
-            {`Edit User ${user.username}`}
+            {`Edit User ${state.username}`}
           </Typography>
           <Button
             data-testid="save-card-button"
@@ -173,7 +171,24 @@ const EditUserDialog = ({
 
 export default withStyles(styles)(EditUserDialog);
 
+EditUserDialog.defaultProps = {
+  userToEdit: {
+    _id: '',
+    email: '',
+    password: '',
+  },
+};
+
 EditUserDialog.propTypes = {
   classes: PropTypes.shape().isRequired,
   dialogOpen: PropTypes.bool.isRequired,
+  onTransition: PropTypes.func.isRequired,
+  onCloseEditUserDialog: PropTypes.func.isRequired,
+  userToEdit: PropTypes.shape({
+    _id: PropTypes.string,
+    email: PropTypes.string,
+    username: PropTypes.string,
+  }),
+  onUpdateUser: PropTypes.func.isRequired,
+  onRequired: PropTypes.func.isRequired,
 };
