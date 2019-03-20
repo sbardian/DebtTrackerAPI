@@ -172,7 +172,7 @@ const AdminDashboard = ({ classes, showAlert }) => {
 
   const handleUpdateUser = ({ _id, username, email, password }) => {
     if (password) {
-      // TODO: implement updating a users password
+      // TODO: implement updating a users password, change else if to if
       showAlert({
         message:
           'Updating a users password is not yet supported, please leave this field blank.',
@@ -194,6 +194,7 @@ const AdminDashboard = ({ classes, showAlert }) => {
             duration: 5000,
             style: { zIndex: 2000 },
           });
+          handleEditUserDialogClose();
         })
         .catch(error => {
           showAlert({
