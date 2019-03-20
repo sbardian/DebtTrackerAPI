@@ -22,6 +22,10 @@ const styles = () => ({
   flex: {
     flex: 1,
   },
+  creditCardsTitle: {
+    marginTop: '20px',
+    marginLeft: '20px',
+  },
   chart: {
     background: '#fff',
   },
@@ -261,9 +265,9 @@ const AdminDashboard = ({ classes, showAlert }) => {
       />
       {showCreditCards && (
         <div>
-          <div className={classes.title}>
+          <div className={classes.creditCardsTitle}>
             <Typography data-testid="totals-toolbar-title" variant="h6">
-              {selectedUsers[0].username || ''}:
+              {`User: ${selectedUsers[0].username.toUpperCase() || ''}`}
             </Typography>
           </div>
           <CreditCards
