@@ -34,6 +34,7 @@ const styles = () => ({
 const DialogTransition = props => <Slide direction="up" {...props} />;
 
 const AdminDashboard = ({ classes, showAlert }) => {
+  // User state
   const [currentUsers, setCurrentUsers] = React.useState([]);
   const [totalUsers, setTotalUsers] = React.useState(0);
   const [selectedUsers, setSelectedUsers] = React.useState([]);
@@ -42,11 +43,21 @@ const AdminDashboard = ({ classes, showAlert }) => {
   const [userToEdit, setUserToEdit] = React.useState({});
   const [sortColumn, setSortColumn] = React.useState('username');
   const [sort, setSort] = React.useState('asc');
+  const [showEditUserDialog, setShowEditUserDialog] = React.useState(false);
 
+  // User credit cards state
   const [showCreditCards, setShowCreditCards] = React.useState(false);
   const [creditCards, setCreditCards] = React.useState([]);
+  const [allCreditCardsSelected, setAllCreditCardsSelected] = React.useState(
+    true,
+  );
   const [creditCardSortColumn] = React.useState('name');
   const [creditCardSort] = React.useState('asc');
+
+  /**
+   * User functions
+   *
+   */
 
   const handleUserSort = (column, sortValue) => {
     setSort(sortValue);
@@ -77,8 +88,6 @@ const AdminDashboard = ({ classes, showAlert }) => {
   React.useEffect(() => {
     setCurrentUsers(orderBy(currentUsers, [sortColumn], [sort]));
   }, [sort, sortColumn]);
-
-  const [showEditUserDialog, setShowEditUserDialog] = React.useState(false);
 
   const handleEditUserDialogOpen = () => {
     setUserToEdit(selectedUsers[0]);
@@ -233,6 +242,36 @@ const AdminDashboard = ({ classes, showAlert }) => {
     });
   };
 
+  /**
+   * User credit cards functions
+   *
+   */
+
+  // React.useEffect(() => {
+  //   setAllCreditCardsSelected(true);
+  // }, []);
+
+  const handleCreditCardSelectAll = () => {
+    setAllCreditCardsSelected(!allCreditCardsSelected);
+    setCreditCards(
+      creditCards.map(card => ({
+        ...card,
+        isSelected: allCreditCardsSelected,
+      })),
+    );
+  };
+
+  const handleCreditCardSelectSingle = selected => {
+    setCreditCards(
+      creditCards.map(card => {
+        if (card._id === selected._id) {
+          return { ...card, isSelected: !card.isSelected };
+        }
+        return card;
+      }),
+    );
+  };
+
   return (
     <div>
       <AdminUsers
@@ -267,8 +306,8 @@ const AdminDashboard = ({ classes, showAlert }) => {
           </div>
           <CreditCards
             creditCards={creditCards}
-            onSelectAll={() => console.log('test')}
-            onSelect={() => console.log('test')}
+            onSelectAll={handleCreditCardSelectAll}
+            onSelect={handleCreditCardSelectSingle}
             onDelete={() => console.log('test')}
             onAdd={() => console.log('test')}
             onEdit={() => console.log('test')}
