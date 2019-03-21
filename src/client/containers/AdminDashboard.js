@@ -344,7 +344,17 @@ const AdminDashboard = ({ classes, showAlert }) => {
             onDelete={handleCreditCardDelete}
             onAdd={() => console.log('test')}
             onEdit={() => console.log('test')}
-            onDetails={() => console.log('test')}
+            onDetails={() => {
+              showAlert({
+                message: `Users credit card details not implemented.`,
+                theme: 'light',
+                offset: '50px',
+                position: 'top right',
+                duration: 5000,
+                progressBarColor: 'white',
+                style: { zIndex: 2000, color: 'white', backgroundColor: 'red' },
+              });
+            }}
             onSort={() => console.log('test')}
             sort={creditCardSort}
             creditCardSortColumn={creditCardSortColumn}
