@@ -91,7 +91,7 @@ const DashboardContainer = ({ classes, history, showAlert }) => {
       .catch(() => {
         history.push('/login');
       });
-  }, []);
+  }, [state.tab]);
 
   useEffect(() => {
     utils
@@ -111,7 +111,7 @@ const DashboardContainer = ({ classes, history, showAlert }) => {
       .catch(() => {
         history.push('/login');
       });
-  }, []);
+  }, [state.tab]);
 
   const handleTabChange = (event, tab) => {
     setState(prevState => ({ ...prevState, tab }));
