@@ -247,10 +247,6 @@ const AdminDashboard = ({ classes, showAlert }) => {
    *
    */
 
-  // React.useEffect(() => {
-  //   setAllCreditCardsSelected(true);
-  // }, []);
-
   const handleCreditCardSelectAll = () => {
     setAllCreditCardsSelected(!allCreditCardsSelected);
     setCreditCards(
@@ -270,6 +266,43 @@ const AdminDashboard = ({ classes, showAlert }) => {
         return card;
       }),
     );
+  };
+
+  const handleCreditCardDelete = () => {
+    // clone creditCards
+    const ccCopy = creditCards.slice(0);
+
+    creditCards.forEach(card => {
+      if (card.isSelected) {
+        utils
+          .adminDeleteCreditCard(card._id)
+          .then(data => {
+            const index = ccCopy.findIndex(x => x._id === card._id);
+            ccCopy.splice(index, 1);
+            setCreditCards(ccCopy);
+            showAlert({
+              message: data.message,
+              theme: 'dark',
+              offset: '50px',
+              position: 'top right',
+              duration: 5000,
+              style: { zIndex: 2000 },
+            });
+          })
+          .catch(error => {
+            showAlert({
+              message: error.message,
+              theme: 'light',
+              offset: '50px',
+              position: 'top right',
+              duration: 5000,
+              progressBarColor: 'white',
+              style: { zIndex: 2000, color: 'white', backgroundColor: 'red' },
+            });
+          });
+        return null;
+      }
+    });
   };
 
   return (
@@ -308,7 +341,7 @@ const AdminDashboard = ({ classes, showAlert }) => {
             creditCards={creditCards}
             onSelectAll={handleCreditCardSelectAll}
             onSelect={handleCreditCardSelectSingle}
-            onDelete={() => console.log('test')}
+            onDelete={handleCreditCardDelete}
             onAdd={() => console.log('test')}
             onEdit={() => console.log('test')}
             onDetails={() => console.log('test')}
