@@ -353,8 +353,28 @@ const AdminDashboard = ({ classes, showAlert }) => {
             onSelectAll={handleCreditCardSelectAll}
             onSelect={handleCreditCardSelectSingle}
             onDelete={handleCreditCardDelete}
-            onAdd={() => console.log('test')}
-            onEdit={() => console.log('test')}
+            onAdd={() => {
+              showAlert({
+                message: `Adding user credit cards not implemented.`,
+                theme: 'light',
+                offset: '50px',
+                position: 'top right',
+                duration: 5000,
+                progressBarColor: 'white',
+                style: { zIndex: 2000, color: 'white', backgroundColor: 'red' },
+              });
+            }}
+            onEdit={() => {
+              showAlert({
+                message: `Editing users credit cards not implemented.`,
+                theme: 'light',
+                offset: '50px',
+                position: 'top right',
+                duration: 5000,
+                progressBarColor: 'white',
+                style: { zIndex: 2000, color: 'white', backgroundColor: 'red' },
+              });
+            }}
             onDetails={() => {
               showAlert({
                 message: `Users credit card details not implemented.`,
