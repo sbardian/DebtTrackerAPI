@@ -51,8 +51,10 @@ const AdminDashboard = ({ classes, showAlert }) => {
   const [allCreditCardsSelected, setAllCreditCardsSelected] = React.useState(
     true,
   );
-  const [creditCardSortColumn] = React.useState('name');
-  const [creditCardSort] = React.useState('asc');
+  const [creditCardSortColumn, setCreditCardSortColumn] = React.useState(
+    'name',
+  );
+  const [creditCardSort, setCreditCardSort] = React.useState('asc');
 
   /**
    * User functions
@@ -305,6 +307,15 @@ const AdminDashboard = ({ classes, showAlert }) => {
     });
   };
 
+  // TODO: sort is taking a few clicks to 'start working'.
+  const handleCreditCardSort = (_, column, ccSort) => {
+    setCreditCardSort(ccSort);
+    setCreditCardSortColumn(column);
+    setCreditCards(
+      orderBy(creditCards, [creditCardSortColumn], [creditCardSort]),
+    );
+  };
+
   return (
     <div>
       <AdminUsers
@@ -355,7 +366,7 @@ const AdminDashboard = ({ classes, showAlert }) => {
                 style: { zIndex: 2000, color: 'white', backgroundColor: 'red' },
               });
             }}
-            onSort={() => console.log('test')}
+            onSort={handleCreditCardSort}
             sort={creditCardSort}
             creditCardSortColumn={creditCardSortColumn}
           />
