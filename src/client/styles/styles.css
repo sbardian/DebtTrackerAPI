@@ -1,3 +1,8 @@
 body {
   background: #f4f4f4;
 }
+
+.rc-slider-mark-text {
+  width: unset !important;
+  margin-left: unset !important;
+}
