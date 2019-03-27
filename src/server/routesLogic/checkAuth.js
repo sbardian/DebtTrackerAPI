@@ -1,17 +1,15 @@
+import jwt from 'jsonwebtoken';
 import { config } from '../yargs';
 
-const jwt = require('jsonwebtoken');
-
 export const checkAuth = (req, res, next) => {
-  if (req.session && req.session.token) {
-    jwt.verify(req.session.token, config.sessionSecret, (err, v) => {
-      if (req.session.userId) {
-        req.session.isAdmin = v.isAdmin;
-        return next();
-      }
-      return res.status(401).end();
-    });
-  } else {
+  if (!req.session || !req.session.token) {
     return res.status(401).end();
   }
+  jwt.verify(req.session.token, config.sessionSecret, (err, payload) => {
+    if (!req.session.userId) {
+      return res.status(401).end();
+    }
+    req.session.isAdmin = payload.isAdmin;
+    return next();
+  });
 };
