@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import express from 'express';
 import historyApiFallback from 'connect-history-api-fallback';
 import session from 'express-session';

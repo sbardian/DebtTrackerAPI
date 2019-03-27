@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import mongoose from 'mongoose';
 import bluebird from 'bluebird';
 import { config } from './yargs';
