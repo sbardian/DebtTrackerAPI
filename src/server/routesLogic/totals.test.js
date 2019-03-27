@@ -6,7 +6,7 @@ import {
   VALID_TOTAL,
   INVALID_TOTAL,
   INVALID_FINDING_TOTAL,
-  INVALID_DELETING_TOTAL,
+  // INVALID_DELETING_TOTAL,
 } from '../testEnv/fixtures';
 
 jest.mock('./checkAuth');

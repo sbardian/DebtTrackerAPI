@@ -1,5 +1,4 @@
 import { config } from '../yargs';
-import { read } from 'fs';
 
 const jwt = require('jsonwebtoken');
 

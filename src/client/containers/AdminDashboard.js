@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ReactRouterPropTypes from 'react-router-prop-types';
 import { withRouter } from 'react-router-dom';
 import { withStyles, withTheme } from '@material-ui/core/styles';
 import Slide from '@material-ui/core/Slide';
@@ -181,7 +180,15 @@ const AdminDashboard = ({ classes, showAlert }) => {
         );
       })
       .catch(error => {
-        console.log('Error: ', error);
+        showAlert({
+          message: error.message,
+          theme: 'light',
+          offset: '50px',
+          position: 'top right',
+          duration: 5000,
+          progressBarColor: 'white',
+          style: { zIndex: 2000, color: 'white', backgroundColor: 'red' },
+        });
       });
   };
 

@@ -141,6 +141,20 @@ AdminUsers.propTypes = {
   totalUsers: PropTypes.number.isRequired,
   onSelectAllUsers: PropTypes.func.isRequired,
   onSelectUser: PropTypes.func.isRequired,
+  onEditUser: PropTypes.func.isRequired,
+  currentUsers: PropTypes.arrayOf(
+    PropTypes.shape({
+      __v: PropTypes.number.isRequired,
+      _id: PropTypes.string.isRequired,
+      email: PropTypes.string.isRequired,
+      isAdmin: PropTypes.bool.isRequired,
+      isSelected: PropTypes.bool.isRequired,
+      username: PropTypes.string.isRequired,
+    }),
+  ).isRequired,
+  onUserSort: PropTypes.func.isRequired,
+  sort: PropTypes.string.isRequired,
+  sortColumn: PropTypes.string.isRequired,
 };
 
 export default withStyles(AdminUsersStyles)(AdminUsers);
