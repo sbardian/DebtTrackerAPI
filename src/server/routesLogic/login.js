@@ -1,18 +1,17 @@
+import jwt from 'jsonwebtoken';
 import { config } from '../yargs';
-
-const jwt = require('jsonwebtoken');
-const User = require('../models/User');
+import User from '../models/User';
 
 export const login = (req, res, next) => {
   const { email, password } = req.body;
   if (!email || !password) {
-    const err = new Error('Both email and password are required to login');
+    const err = new Error('Invalid login');
     err.status = 401;
     return next(err);
   }
   User.authenticate(email, password, (error, user) => {
     if (error || !user) {
-      const err = new Error('Bad email or password');
+      const err = new Error('Invalid login');
       err.status = 401;
       return next(err);
     }
