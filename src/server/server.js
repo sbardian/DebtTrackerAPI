@@ -53,8 +53,8 @@ expressServer.use('/auth', authRoutes(router));
 expressServer.use('/api', checkAuth, apiRoutes(router));
 expressServer.use('/admin', checkAdmin, adminRoutes(router));
 
-const expressStatic = express.static('dist/client');
-expressServer.use(expressStatic);
+const staticContent = express.static('dist/client');
+expressServer.use(staticContent);
 
 expressServer.use(
   historyApiFallback({
@@ -63,6 +63,6 @@ expressServer.use(
   }),
 );
 
-expressServer.use(expressStatic);
+expressServer.use(staticContent);
 
 export { expressServer as server };
