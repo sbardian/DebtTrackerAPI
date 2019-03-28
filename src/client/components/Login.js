@@ -59,7 +59,7 @@ const Login = ({ classes, history }) => {
   const [password, setPassword] = useState('');
   const [loginFailure, setLoginFailure] = useState(false);
 
-  const clickLogin = event => {
+  const clickLoginButton = event => {
     const loginButton = document.getElementById('login-button');
     if (event.keyCode === 13) {
       loginButton.click();
@@ -69,22 +69,24 @@ const Login = ({ classes, history }) => {
   useEffect(() => {
     document
       .getElementById('password')
-      .addEventListener('keypress', clickLogin);
-    document.getElementById('email').addEventListener('keypress', clickLogin);
+      .addEventListener('keypress', clickLoginButton);
+    document
+      .getElementById('email')
+      .addEventListener('keypress', clickLoginButton);
     return () => {
-      document.removeEventListener('password', clickLogin);
-      document.removeEventListener('email', clickLogin);
+      document.removeEventListener('password', clickLoginButton);
+      document.removeEventListener('email', clickLoginButton);
     };
   }, []);
 
   const { updateUsername } = useContext(UsernameContext);
 
-  const register = () => {
+  const registerButtonClick = () => {
     history.push('register');
   };
 
-  const userLogin = e => {
-    e.preventDefault();
+  const userLogin = event => {
+    event.preventDefault();
     utils
       .userLogin(email, password)
       .then(data => {
@@ -99,18 +101,12 @@ const Login = ({ classes, history }) => {
       });
   };
 
-  const handleChange = event => {
-    const { value, id } = event.target;
-    switch (id) {
-      case 'email':
-        setEmail(value);
-        break;
-      case 'password':
-        setPassword(value);
-        break;
-      default:
-        break;
-    }
+  const handleEmailChange = event => {
+    setEmail(event.target.value);
+  };
+
+  const handlePasswordChange = event => {
+    setPassword(event.target.value);
   };
 
   return (
@@ -137,7 +133,7 @@ const Login = ({ classes, history }) => {
                   <TextValidator
                     id="email"
                     label="Email"
-                    onChange={handleChange}
+                    onChange={handleEmailChange}
                     name="email"
                     placeholder="user@domain.com"
                     className={classes.textField}
@@ -152,7 +148,7 @@ const Login = ({ classes, history }) => {
                   <TextValidator
                     id="password"
                     label="Password"
-                    onChange={handleChange}
+                    onChange={handlePasswordChange}
                     name="password"
                     placeholder="Password"
                     className={classes.textField}
@@ -176,7 +172,7 @@ const Login = ({ classes, history }) => {
                   <Button
                     variant="contained"
                     className={classes.button}
-                    onClick={() => register()}
+                    onClick={() => registerButtonClick()}
                   >
                     Register
                   </Button>
