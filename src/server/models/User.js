@@ -3,7 +3,6 @@
 /* eslint prefer-arrow-callback: 0 */
 /* eslint consistent-return: 0 */
 /* eslint no-shadow: 0 */
-
 import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
 
@@ -30,7 +29,6 @@ const UserSchema = new mongoose.Schema({
   },
 });
 
-// authenticate input against database
 UserSchema.statics.authenticate = (email, password, callback) => {
   User.findOne({ email }).exec((err, user) => {
     if (err) {
