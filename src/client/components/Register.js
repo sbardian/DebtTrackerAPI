@@ -48,24 +48,20 @@ const Register = ({ classes, history }) => {
     history.push('/login');
   };
 
-  const handleChange = name => event => {
-    setRegisterFailure(false);
-    switch (name) {
-      case 'username':
-        setUsername(event.target.value);
-        break;
-      case 'email':
-        setEmail(event.target.value);
-        break;
-      case 'password':
-        setPassword(event.target.value);
-        break;
-      case 'passwordConf':
-        setPasswordConf(event.target.value);
-        break;
-      default:
-        break;
-    }
+  const handleUsernameChange = event => {
+    setUsername(event.target.value);
+  };
+
+  const handleEmailChange = event => {
+    setEmail(event.target.value);
+  };
+
+  const handlePasswordChange = event => {
+    setPassword(event.target.value);
+  };
+
+  const handlePasswordConfChange = event => {
+    setPasswordConf(event.target.value);
   };
 
   const registerUser = () => {
@@ -88,8 +84,8 @@ const Register = ({ classes, history }) => {
   };
 
   useEffect(() => {
-    ValidatorForm.addValidationRule('isPasswordConf', value => {
-      if (value !== password) {
+    ValidatorForm.addValidationRule('isPasswordConf', passwordConfValue => {
+      if (passwordConfValue !== password) {
         return false;
       }
       return true;
@@ -124,7 +120,7 @@ const Register = ({ classes, history }) => {
         <TextValidator
           id="email"
           label="Email"
-          onChange={handleChange('email')}
+          onChange={handleEmailChange}
           name="email"
           className={classes.textField}
           value={email}
@@ -135,7 +131,7 @@ const Register = ({ classes, history }) => {
         <TextValidator
           id="username"
           label="Username"
-          onChange={handleChange('username')}
+          onChange={handleUsernameChange}
           name="username"
           className={classes.textField}
           value={username}
@@ -146,7 +142,7 @@ const Register = ({ classes, history }) => {
         <TextValidator
           id="password"
           label="Password"
-          onChange={handleChange('password')}
+          onChange={handlePasswordChange}
           name="password"
           className={classes.textField}
           value={password}
@@ -158,7 +154,7 @@ const Register = ({ classes, history }) => {
         <TextValidator
           id="passwordConf"
           label="Repeat Password"
-          onChange={handleChange('passwordConf')}
+          onChange={handlePasswordConfChange}
           name="passwordConf"
           className={classes.textField}
           value={passwordConf}
