@@ -34,19 +34,19 @@ const DialogTransition = props => <Slide direction="up" {...props} />;
 
 const AdminDashboard = ({ classes, showAlert }) => {
   // User state
-  const [currentUsers, setCurrentUsers] = React.useState([]);
-  const [totalUsers, setTotalUsers] = React.useState(0);
+  const [users, setUsers] = React.useState([]);
+  const [userCount, setUserCount] = React.useState(0);
   const [selectedUsers, setSelectedUsers] = React.useState([]);
   const [allSelected, setAllSelected] = React.useState(false);
   const [numSelected, setNumSelected] = React.useState(0);
   const [userToEdit, setUserToEdit] = React.useState({});
-  const [sortColumn, setSortColumn] = React.useState('username');
-  const [sort, setSort] = React.useState('asc');
+  const [userSortColumn, setUserSortColumn] = React.useState('username');
+  const [userSort, setUserSort] = React.useState('asc');
   const [showEditUserDialog, setShowEditUserDialog] = React.useState(false);
 
   // User credit cards state
-  const [showCreditCards, setShowCreditCards] = React.useState(false);
-  const [creditCards, setCreditCards] = React.useState([]);
+  const [showUserCreditCards, setShowUserCreditCards] = React.useState(false);
+  const [userCreditCards, setUserCreditCards] = React.useState([]);
   const [allCreditCardsSelected, setAllCreditCardsSelected] = React.useState(
     true,
   );
@@ -55,22 +55,17 @@ const AdminDashboard = ({ classes, showAlert }) => {
   );
   const [creditCardSort, setCreditCardSort] = React.useState('asc');
 
-  /**
-   * User functions
-   *
-   */
-
+  // User functions
   const handleUserSort = (column, sortValue) => {
-    setSort(sortValue);
-    setSortColumn(column);
+    setUserSort(sortValue);
+    setUserSortColumn(column);
   };
 
   React.useEffect(() => {
-    utils.adminGetAllUsers(sortColumn, sort).then(data => {
-      const { users } = data;
-      setTotalUsers(users.length);
-      setCurrentUsers(
-        users.map(user => ({
+    utils.adminGetAllUsers(userSortColumn, userSort).then(data => {
+      setUserCount(data.users.length);
+      setUsers(
+        data.users.map(user => ({
           ...user,
           isSelected: false,
         })),
@@ -83,12 +78,12 @@ const AdminDashboard = ({ classes, showAlert }) => {
   }, [selectedUsers]);
 
   React.useEffect(() => {
-    setSelectedUsers(currentUsers.filter(user => user.isSelected === true));
-  }, [currentUsers]);
+    setSelectedUsers(users.filter(user => user.isSelected === true));
+  }, [users]);
 
   React.useEffect(() => {
-    setCurrentUsers(orderBy(currentUsers, [sortColumn], [sort]));
-  }, [sort, sortColumn]);
+    setUsers(orderBy(users, [userSortColumn], [userSort]));
+  }, [userSort, userSortColumn]);
 
   const handleEditUserDialogOpen = () => {
     setUserToEdit(selectedUsers[0]);
@@ -99,10 +94,10 @@ const AdminDashboard = ({ classes, showAlert }) => {
     setShowEditUserDialog(false);
   };
 
-  const handleSelectUser = selected => {
-    setShowCreditCards(false);
-    setCurrentUsers(
-      currentUsers.map(user => {
+  const handleSetSelectedUsers = selected => {
+    setShowUserCreditCards(false);
+    setUsers(
+      users.map(user => {
         if (user._id === selected._id) {
           return { ...user, isSelected: !user.isSelected };
         }
@@ -112,10 +107,8 @@ const AdminDashboard = ({ classes, showAlert }) => {
   };
 
   const handleSelectAllUsers = () => {
-    setShowCreditCards(false);
-    setCurrentUsers(
-      currentUsers.map(user => ({ ...user, isSelected: !allSelected })),
-    );
+    setShowUserCreditCards(false);
+    setUsers(users.map(user => ({ ...user, isSelected: !allSelected })));
     setAllSelected(!allSelected);
   };
 
@@ -124,8 +117,8 @@ const AdminDashboard = ({ classes, showAlert }) => {
       utils
         .adminDeleteUser(user._id)
         .then(data => {
-          setCurrentUsers(
-            currentUsers.filter(existingUser => {
+          setUsers(
+            users.filter(existingUser => {
               if (user._id === existingUser._id) {
                 return null;
               }
@@ -161,8 +154,8 @@ const AdminDashboard = ({ classes, showAlert }) => {
     handleEditUserDialogOpen();
   };
 
-  const handleUsersCreditCards = () => {
-    setShowCreditCards(true);
+  const handleGetUsersCreditCards = () => {
+    setShowUserCreditCards(true);
     utils
       .adminUserCreditCards(
         selectedUsers[0]._id,
@@ -172,7 +165,7 @@ const AdminDashboard = ({ classes, showAlert }) => {
       .then(data => {
         const { creditCards: cards } = data;
 
-        setCreditCards(
+        setUserCreditCards(
           cards.map(card => ({
             ...card,
             isSelected: false,
@@ -251,15 +244,11 @@ const AdminDashboard = ({ classes, showAlert }) => {
     });
   };
 
-  /**
-   * User credit cards functions
-   *
-   */
-
+  // User credit cards functions
   const handleCreditCardSelectAll = () => {
     setAllCreditCardsSelected(!allCreditCardsSelected);
-    setCreditCards(
-      creditCards.map(card => ({
+    setUserCreditCards(
+      userCreditCards.map(card => ({
         ...card,
         isSelected: allCreditCardsSelected,
       })),
@@ -267,8 +256,8 @@ const AdminDashboard = ({ classes, showAlert }) => {
   };
 
   const handleCreditCardSelectSingle = selected => {
-    setCreditCards(
-      creditCards.map(card => {
+    setUserCreditCards(
+      userCreditCards.map(card => {
         if (card._id === selected._id) {
           return { ...card, isSelected: !card.isSelected };
         }
@@ -279,16 +268,16 @@ const AdminDashboard = ({ classes, showAlert }) => {
 
   const handleCreditCardDelete = () => {
     // clone creditCards
-    const ccCopy = creditCards.slice(0);
+    const ccCopy = userCreditCards.slice(0);
 
-    creditCards.forEach(card => {
+    userCreditCards.forEach(card => {
       if (card.isSelected) {
         utils
           .adminDeleteCreditCard(card._id)
           .then(data => {
             const index = ccCopy.findIndex(x => x._id === card._id);
             ccCopy.splice(index, 1);
-            setCreditCards(ccCopy);
+            setUserCreditCards(ccCopy);
             showAlert({
               message: data.message,
               theme: 'dark',
@@ -318,8 +307,8 @@ const AdminDashboard = ({ classes, showAlert }) => {
   const handleCreditCardSort = (_, column, ccSort) => {
     setCreditCardSort(ccSort);
     setCreditCardSortColumn(column);
-    setCreditCards(
-      orderBy(creditCards, [creditCardSortColumn], [creditCardSort]),
+    setUserCreditCards(
+      orderBy(userCreditCards, [creditCardSortColumn], [creditCardSort]),
     );
   };
 
@@ -329,15 +318,15 @@ const AdminDashboard = ({ classes, showAlert }) => {
         showAlert={showAlert}
         onDeleteUser={handleDeleteUser}
         onEditUser={handleEditUser}
-        onUsersCreditCards={handleUsersCreditCards}
+        onUsersCreditCards={handleGetUsersCreditCards}
         numSelected={numSelected}
-        totalUsers={totalUsers}
+        totalUsers={userCount}
         onSelectAllUsers={handleSelectAllUsers}
-        onSelectUser={handleSelectUser}
-        currentUsers={currentUsers}
+        onSelectUser={handleSetSelectedUsers}
+        currentUsers={users}
         onUserSort={handleUserSort}
-        sortColumn={sortColumn}
-        sort={sort}
+        sortColumn={userSortColumn}
+        sort={userSort}
       />
       <EditUserDialog
         onTransition={DialogTransition}
@@ -348,7 +337,7 @@ const AdminDashboard = ({ classes, showAlert }) => {
         onUpdateUser={handleUpdateUser}
         onRequired={handleRequired}
       />
-      {showCreditCards && (
+      {showUserCreditCards && (
         <div>
           <div className={classes.creditCardsTitle}>
             <Typography data-testid="totals-toolbar-title" variant="h6">
@@ -356,7 +345,7 @@ const AdminDashboard = ({ classes, showAlert }) => {
             </Typography>
           </div>
           <CreditCards
-            creditCards={creditCards}
+            creditCards={userCreditCards}
             onSelectAll={handleCreditCardSelectAll}
             onSelect={handleCreditCardSelectSingle}
             onDelete={handleCreditCardDelete}
