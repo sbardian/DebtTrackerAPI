@@ -117,30 +117,24 @@ const DashboardContainer = ({ classes, history, showAlert }) => {
     setState(prevState => ({ ...prevState, tab }));
   };
 
-  const handleSort = (actionType, column, sort) => {
-    const { creditCards, totals } = state;
-    switch (actionType) {
-      case 'creditCards': {
-        setCreditCardSort(sort);
-        setCreditCardSortColumn(column);
-        setState(prevState => ({
-          ...prevState,
-          creditCards: orderBy(creditCards, [column], [sort]),
-        }));
-        break;
-      }
-      case 'totals': {
-        setTotalSort(sort);
-        setTotalSortColumn(column);
-        setState(prevState => ({
-          ...prevState,
-          totals: orderBy(totals, [column], [sort]),
-        }));
-        break;
-      }
-      default:
-        break;
-    }
+  const handleCreditCardSort = (column, sort) => {
+    const { creditCards } = state;
+    setCreditCardSort(sort);
+    setCreditCardSortColumn(column);
+    setState(prevState => ({
+      ...prevState,
+      creditCards: orderBy(creditCards, [column], [sort]),
+    }));
+  };
+
+  const handleTotalsSort = (column, sort) => {
+    const { totals } = state;
+    setTotalSort(sort);
+    setTotalSortColumn(column);
+    setState(prevState => ({
+      ...prevState,
+      totals: orderBy(totals, [column], [sort]),
+    }));
   };
 
   const handleCreditCardSelectAll = () => {
@@ -538,7 +532,7 @@ const DashboardContainer = ({ classes, history, showAlert }) => {
               onAdd={handleCreditCardAdd}
               onEdit={handleCreditCardEdit}
               onDetails={handleOnDetails}
-              onSort={handleSort}
+              onSort={handleCreditCardSort}
               sort={creditCardSort}
               creditCardSortColumn={creditCardSortColumn}
             />
@@ -571,7 +565,7 @@ const DashboardContainer = ({ classes, history, showAlert }) => {
             onDeleteTotal={handleTotalDelete}
             onSelect={hanldeTotalSelectSingle}
             onSelectAll={handleTotalSelectAll}
-            onSort={handleSort}
+            onSort={handleTotalsSort}
             sort={totalSort}
             totalSortColumn={totalSortColumn}
           />

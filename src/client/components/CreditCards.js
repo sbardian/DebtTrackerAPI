@@ -74,11 +74,7 @@ function CreditCards({
                     active={creditCardSortColumn === 'name'}
                     direction={sort}
                     onClick={() =>
-                      onSort(
-                        'creditCards',
-                        'name',
-                        sort === 'asc' ? 'desc' : 'asc',
-                      )
+                      onSort('name', sort === 'asc' ? 'desc' : 'asc')
                     }
                   >
                     Name
@@ -91,11 +87,7 @@ function CreditCards({
                     active={creditCardSortColumn === 'limit'}
                     direction={sort}
                     onClick={() =>
-                      onSort(
-                        'creditCards',
-                        'limit',
-                        sort === 'asc' ? 'desc' : 'asc',
-                      )
+                      onSort('limit', sort === 'asc' ? 'desc' : 'asc')
                     }
                   >
                     Limit
@@ -108,11 +100,7 @@ function CreditCards({
                     active={creditCardSortColumn === 'balance'}
                     direction={sort}
                     onClick={() =>
-                      onSort(
-                        'creditCards',
-                        'balance',
-                        sort === 'asc' ? 'desc' : 'asc',
-                      )
+                      onSort('balance', sort === 'asc' ? 'desc' : 'asc')
                     }
                   >
                     Balance
@@ -125,11 +113,7 @@ function CreditCards({
                     active={creditCardSortColumn === 'interest_rate'}
                     direction={sort}
                     onClick={() =>
-                      onSort(
-                        'creditCards',
-                        'interest_rate',
-                        sort === 'asc' ? 'desc' : 'asc',
-                      )
+                      onSort('interest_rate', sort === 'asc' ? 'desc' : 'asc')
                     }
                   >
                     Interest Rate

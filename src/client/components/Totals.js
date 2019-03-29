@@ -77,11 +77,7 @@ function Totals({
                     active={totalSortColumn === 'updated_at'}
                     direction={sort}
                     onClick={() =>
-                      onSort(
-                        'totals',
-                        'updated_at',
-                        sort === 'asc' ? 'desc' : 'asc',
-                      )
+                      onSort('updated_at', sort === 'asc' ? 'desc' : 'asc')
                     }
                   >
                     Date
@@ -94,7 +90,7 @@ function Totals({
                     active={totalSortColumn === 'total'}
                     direction={sort}
                     onClick={() =>
-                      onSort('totals', 'total', sort === 'asc' ? 'desc' : 'asc')
+                      onSort('total', sort === 'asc' ? 'desc' : 'asc')
                     }
                   >
                     Total
