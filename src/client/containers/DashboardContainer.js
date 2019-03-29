@@ -207,7 +207,7 @@ const DashboardContainer = ({ classes, history, showAlert }) => {
     });
   };
 
-  const handleCreditCardAddSave = ({ name, limit, balance, interest_rate }) => {
+  const handleNewCreditCardSave = ({ name, limit, balance, interest_rate }) => {
     const { creditCards } = state;
 
     utils
@@ -260,17 +260,21 @@ const DashboardContainer = ({ classes, history, showAlert }) => {
     setState(prevState => ({ ...prevState, dialogOpen: true }));
   };
 
-  const handleCreditCardAdd = () => {
+  const handleDialogClose = () => {
+    setState(prevState => ({ ...prevState, dialogOpen: false }));
+  };
+
+  const handleCreditCardAddNewClicked = () => {
     setState(prevState => ({
       ...prevState,
       cardToEdit: {},
-      onSave: handleCreditCardAddSave,
+      onSave: handleNewCreditCardSave,
       dialogTitle: 'Add Credit Card',
     }));
     handleDialogClickOpen();
   };
 
-  const handleCreditCardEditSave = ({
+  const handleEditCreditCardSave = ({
     _id,
     name,
     limit,
@@ -324,19 +328,19 @@ const DashboardContainer = ({ classes, history, showAlert }) => {
       });
   };
 
-  const handleCreditCardEdit = () => {
+  const handleCreditCardEditClicked = () => {
     const { creditCards } = state;
     const [card] = creditCards.filter(c => (c.isSelected ? c : null));
     setState(prevState => ({
       ...prevState,
       cardToEdit: card,
-      onSave: handleCreditCardEditSave,
+      onSave: handleEditCreditCardSave,
       dialogTitle: 'Edit Credit Card',
     }));
     handleDialogClickOpen();
   };
 
-  const handleOnDetails = () => {
+  const handleCreditCardDetails = () => {
     const { selectedCards } = state;
     const card = selectedCards[0];
     history.push(`/payoffdetails/${card._id}`, {
@@ -462,12 +466,7 @@ const DashboardContainer = ({ classes, history, showAlert }) => {
     });
   };
 
-  const handleDialogClose = () => {
-    setState(prevState => ({ ...prevState, dialogOpen: false }));
-  };
-
-  // Logout from the app.
-  const logout = () => {
+  const handleLogout = () => {
     utils.userLogout().then(data => {
       if (!data.error) {
         history.push('/login');
@@ -500,7 +499,7 @@ const DashboardContainer = ({ classes, history, showAlert }) => {
             <Button
               color="inherit"
               data-testid="logout-button"
-              onClick={() => logout()}
+              onClick={() => handleLogout()}
             >
               logout
             </Button>
@@ -529,9 +528,9 @@ const DashboardContainer = ({ classes, history, showAlert }) => {
               onSelectAll={handleCreditCardSelectAll}
               onSelect={handleCreditCardSelectSingle}
               onDelete={handleCreditCardDelete}
-              onAdd={handleCreditCardAdd}
-              onEdit={handleCreditCardEdit}
-              onDetails={handleOnDetails}
+              onAdd={handleCreditCardAddNewClicked}
+              onEdit={handleCreditCardEditClicked}
+              onDetails={handleCreditCardDetails}
               onSort={handleCreditCardSort}
               sort={creditCardSort}
               creditCardSortColumn={creditCardSortColumn}
