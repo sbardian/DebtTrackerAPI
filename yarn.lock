@@ -6548,10 +6548,10 @@ mkdirp@0.5.1, mkdirp@^0.5.0, mkdirp@^0.5.1, mkdirp@~0.5.0:
   dependencies:
     minimist "0.0.8"
 
-mockingoose@2.12.0:
-  version "2.12.0"
-  resolved "https://registry.yarnpkg.com/mockingoose/-/mockingoose-2.12.0.tgz#c9af6f65c321422ffb1f9b639c3bbce05c232766"
-  integrity sha512-LSBaWGNgNic8E7QuQspz9MLpvaC9/h90Kserq5kCL1M3h8yWj3uH5qlm7JZ9Fbq+wCZszcdG9U5zhVspRGBKEA==
+mockingoose@2.13.0:
+  version "2.13.0"
+  resolved "https://registry.yarnpkg.com/mockingoose/-/mockingoose-2.13.0.tgz#888838c31850953340f7490a02a8f190fea023ce"
+  integrity sha512-3G6nyNks+kot29NOAIm2eyUh+A7cgwoNHVhQcgOyXn/XLieXeJAM+wxHlvn9vfmaSCoQW975ptQxnr0dJCW8lg==
 
 moment@2.24.0:
   version "2.24.0"
