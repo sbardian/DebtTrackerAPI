@@ -185,18 +185,37 @@ const AdminDashboard = ({ classes, showAlert }) => {
       });
   };
 
-  const handleUpdateUser = ({ _id, username, email, password }) => {
-    if (password) {
-      // TODO: implement updating a users password, change else if to if
-      showAlert({
-        message:
-          'Updating a users password is not yet supported, please leave this field blank.',
-        offset: '50px',
-        position: 'top right',
-        duration: 5000,
-        progressBarColor: 'white',
-        style: { zIndex: 2000, color: 'white', backgroundColor: 'red' },
-      });
+  const handleUpdateUser = ({
+    _id,
+    username,
+    email,
+    password,
+    passwordConf,
+  }) => {
+    if (password && passwordConf && password === passwordConf) {
+      utils
+        .adminUpdateUser(_id, username, email, password, passwordConf)
+        .then(data => {
+          showAlert({
+            message: data.message,
+            theme: 'dark',
+            offset: '50px',
+            position: 'top right',
+            duration: 5000,
+            style: { zIndex: 2000 },
+          });
+          handleEditUserDialogClose();
+        })
+        .catch(error => {
+          showAlert({
+            message: `Error updating user: ${error.message}`,
+            offset: '50px',
+            position: 'top right',
+            duration: 5000,
+            progressBarColor: 'white',
+            style: { zIndex: 2000, color: 'white', backgroundColor: 'red' },
+          });
+        });
     } else if (_id && username && email) {
       utils
         .adminUpdateUser(_id, username, email)

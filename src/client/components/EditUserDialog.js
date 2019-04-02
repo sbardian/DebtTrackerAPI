@@ -45,6 +45,7 @@ const EditUserDialog = ({
     email: '',
     username: '',
     password: '',
+    passwordConf: '',
   };
 
   const reducer = (state, action) => {
@@ -60,6 +61,8 @@ const EditUserDialog = ({
         return { ...state, username: payload };
       case 'password':
         return { ...state, password: payload };
+      case 'passwordConf':
+        return { ...state, passwordConf: payload };
       default:
         return state;
     }
@@ -86,15 +89,18 @@ const EditUserDialog = ({
       case 'password':
         dispatch({ type: 'password', payload: value });
         break;
+      case 'passwordConf':
+        dispatch({ type: 'passwordConf', payload: value });
+        break;
       default:
         break;
     }
   };
 
   const save = () => {
-    const { _id, email, username, password } = state;
+    const { _id, email, username, password, passwordConf } = state;
     if (_id && email && username) {
-      onUpdateUser({ _id, email, username, password });
+      onUpdateUser({ _id, email, username, password, passwordConf });
     } else {
       onRequired();
     }
@@ -104,6 +110,16 @@ const EditUserDialog = ({
     dispatch({ type: 'reset', payload: initialState });
     onCloseEditUserDialog();
   };
+
+  useEffect(() => {
+    const { password } = state;
+    ValidatorForm.addValidationRule('isPasswordConf', passwordConfValue => {
+      if (passwordConfValue !== password) {
+        return false;
+      }
+      return true;
+    });
+  }, [state.passwordConf]);
 
   return (
     <Dialog
@@ -164,6 +180,18 @@ const EditUserDialog = ({
           validators={['required']}
           errorMessages={['Required', 'Password of user']}
         />
+        <TextValidator
+          id="passwordConf"
+          label="Repeat Password"
+          onChange={handleChange}
+          name="passwordConf"
+          className={classes.textField}
+          value={state.passwordConf}
+          margin="normal"
+          type="password"
+          validators={['required', 'isPasswordConf']}
+          errorMessages={['Required', 'Passwords do not match']}
+        />
       </ValidatorForm>
     </Dialog>
   );
@@ -175,7 +203,7 @@ EditUserDialog.defaultProps = {
   userToEdit: {
     _id: '',
     email: '',
-    password: '',
+    username: '',
   },
 };
 

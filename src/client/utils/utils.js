@@ -88,8 +88,8 @@ const utils = {
   adminDeleteUser: id => _fetch(`${USERS_URL}${id}`, DELETE),
 
   // **Admin Only!** update user
-  adminUpdateUser: (id, username, email) =>
-    _fetch(`${USERS_URL}${id}`, PUT, { username, email }),
+  adminUpdateUser: (id, username, email, password) =>
+    _fetch(`${USERS_URL}${id}`, PUT, { username, email, password }),
 
   // **Admin Only!** get users credit cards
   adminUserCreditCards: (id, field, sort) =>

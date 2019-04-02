@@ -71,25 +71,46 @@ export const deleteUser = (req, res) => {
 };
 
 export const updateUser = (req, res) => {
-  const { username, email } = req.body;
-  User.findByIdAndUpdate(
-    req.params.id,
-    { username, email },
-    { upsert: false, new: true, runValidators: true },
-    (error, data) => {
-      if (error) {
-        res.status(400).send({
-          error: true,
-          message: error.message,
-        });
-      }
-      return res.status(200).send({
-        error: false,
-        message: `User '${data.username}' has been updated`,
-        user: data,
-      });
-    },
-  );
+  const { username, email, password } = req.body;
+  if (password) {
+    User.findOne({ email }).exec(async (err, userData) => {
+      User.updateOne(
+        { _id: req.params.id },
+        { username, email, password, isAdmin: userData.isAdmin },
+        (error, data) => {
+          if (error || data.ok !== 1) {
+            return res.status(400).send({
+              error: true,
+              message: error.message,
+            });
+          }
+          return res.status(200).send({
+            error: false,
+            message: `User has been updated`,
+          });
+        },
+      );
+    });
+  } else {
+    User.findOne({ email }).exec(async (err, userData) => {
+      User.updateOne(
+        { _id: req.params.id },
+        { username, email, isAdmin: userData.isAdmin },
+        (error, data) => {
+          if (error || data.ok !== 1) {
+            return res.status(400).send({
+              error: true,
+              message: error.message,
+            });
+          }
+          return res.status(200).send({
+            error: false,
+            message: `User has been updated`,
+          });
+        },
+      );
+    });
+  }
 };
 
 export const deleteUserCreditCard = (req, res) => {
