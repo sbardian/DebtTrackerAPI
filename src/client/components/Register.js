@@ -8,6 +8,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { TextValidator, ValidatorForm } from 'react-material-ui-form-validator';
 import utils from '../utils/utils';
+import { UsernameContext } from './UsernameContext';
 
 const styles = theme => ({
   appBar: {
@@ -37,6 +38,8 @@ const styles = theme => ({
 });
 
 const Register = ({ classes, history }) => {
+  const { updateUsername } = React.useContext(UsernameContext);
+
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -72,6 +75,7 @@ const Register = ({ classes, history }) => {
           throw new Error(data.message);
         }
         const { username: responseUsername } = data;
+        updateUsername(responseUsername);
         setUsername(responseUsername);
         history.push('/dashboard', {
           username: responseUsername,
