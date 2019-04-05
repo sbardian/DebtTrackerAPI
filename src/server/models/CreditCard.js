@@ -1,7 +1,6 @@
 import mongoose from 'mongoose';
-import bluebird from 'bluebird';
 
-mongoose.Promise = bluebird;
+mongoose.Promise = global.Promise;
 
 const CreditCardSchema = new mongoose.Schema({
   userId: {

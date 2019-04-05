@@ -1,12 +1,12 @@
 /* eslint-disable no-console */
 import mongoose from 'mongoose';
-import bluebird from 'bluebird';
 import { config } from './yargs';
 
 const connectToDatabase = () => {
   const { databaseUrl } = config;
+
   mongoose.connect(databaseUrl, {
-    promiseLibrary: bluebird,
+    promiseLibrary: global.Promise,
     useNewUrlParser: true,
   });
 
