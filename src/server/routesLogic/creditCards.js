@@ -1,4 +1,4 @@
-const CreditCard = require('../models/CreditCard');
+import CreditCard from '../models/CreditCard';
 
 export const getAllCreditCards = (req, res) => {
   const { field, sort } = req.query;
@@ -6,7 +6,7 @@ export const getAllCreditCards = (req, res) => {
     if (error) {
       return res
         .status(400)
-        .json({ error: true, message: 'Error fetching data' });
+        .json({ error: true, message: 'Error fetching credit cards' });
     }
     return res.json({
       error: false,
@@ -32,14 +32,14 @@ export const getCreditCardById = (req, res) => {
 };
 
 export const addCreditCard = (req, res) => {
-  const creditCard = new CreditCard();
-  creditCard.userId = req.session.userId;
-  creditCard.user = req.body.user;
-  creditCard.name = req.body.name;
-  creditCard.limit = req.body.limit;
-  creditCard.balance = req.body.balance;
-  creditCard.interest_rate = req.body.interest_rate;
-  creditCard.save((error, data) => {
+  const newCreditCard = new CreditCard();
+  newCreditCard.userId = req.session.userId;
+  newCreditCard.user = req.body.user;
+  newCreditCard.name = req.body.name;
+  newCreditCard.limit = req.body.limit;
+  newCreditCard.balance = req.body.balance;
+  newCreditCard.interest_rate = req.body.interest_rate;
+  newCreditCard.save((error, data) => {
     if (error) {
       return res
         .status(400)
