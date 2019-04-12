@@ -6,6 +6,7 @@ export default () => {
   const { databaseUrl } = config;
 
   mongoose.connect(databaseUrl, {
+    useCreateIndex: true,
     promiseLibrary: global.Promise,
     useNewUrlParser: true,
   });
