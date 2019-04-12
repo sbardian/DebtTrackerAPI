@@ -19,14 +19,12 @@ export const login = (req, res, next) => {
     const payload = {
       isAdmin: user.isAdmin,
     };
-    const token = jwt.sign(payload, config.sessionSecret, {
+    req.session.token = jwt.sign(payload, config['session-secret'], {
       expiresIn: 1440,
     });
-    req.session.token = token;
-    const data = {
-      username: user.username,
-    };
     res.set({ location: '/' });
-    return res.status(200).send(data);
+    return res.status(200).send({
+      username: user.username,
+    });
   });
 };
