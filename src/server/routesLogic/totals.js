@@ -1,4 +1,4 @@
-const Total = require('../models/Total');
+import Total from '../models/Total';
 
 export const getTotals = (req, res) => {
   const { field, sort } = req.query;
@@ -18,10 +18,10 @@ export const getTotals = (req, res) => {
 
 export const addTotal = (req, res) => {
   if (req.body.user && req.body.total) {
-    const db = new Total();
-    db.userId = req.session.userId;
-    db.total = req.body.total;
-    db.save((err, data) => {
+    const newTotal = new Total();
+    newTotal.userId = req.session.userId;
+    newTotal.total = req.body.total;
+    newTotal.save((err, data) => {
       if (err) {
         return res
           .status(400)
