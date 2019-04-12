@@ -1,6 +1,6 @@
 import session from 'supertest-session';
 import mockingoose from 'mockingoose';
-import { server } from '../server';
+import createServer from '../server';
 import {
   LOGIN_SUCCESS_MOCK_USER,
   VALID_TOTAL,
@@ -12,6 +12,7 @@ import {
 jest.mock('./checkAuth');
 
 describe('Test /totals API routes', () => {
+  const server = createServer();
   const serverSession = session(server);
 
   beforeAll(async () => {

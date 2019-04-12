@@ -1,6 +1,6 @@
 import session from 'supertest-session';
 import mockingoose from 'mockingoose';
-import { server } from '../server';
+import createServer from '../server';
 import {
   LOGIN_SUCCESS_MOCK_USER,
   LOGIN_SUCCESS_MOCK_USER_ADMIN,
@@ -9,6 +9,7 @@ import {
 jest.mock('./checkAuth');
 
 describe('Test /login API routes', () => {
+  const server = createServer();
   const serverSession = session(server);
 
   it('Login success is Admin, return 200 status: ', async () => {

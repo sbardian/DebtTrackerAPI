@@ -1,11 +1,12 @@
 import session from 'supertest-session';
 import mockingoose from 'mockingoose';
-import { server } from '../server';
+import createServer from '../server';
 import { LOGIN_SUCCESS_MOCK_USER } from '../testEnv/fixtures';
 
 jest.mock('./checkAuth');
 
 describe('Test /logout route', () => {
+  const server = createServer();
   const serverSession = session(server);
   beforeAll(async () => {
     mockingoose.User.toReturn(LOGIN_SUCCESS_MOCK_USER, 'findOne');

@@ -1,6 +1,6 @@
 import session from 'supertest-session';
 import mockingoose from 'mockingoose';
-import { server } from '../server';
+import createServer from '../server';
 import {
   SUCCESS_REGISTER_MOCK_USER,
   NO_USERNAME_MOCK_USER,
@@ -8,6 +8,7 @@ import {
 } from '../testEnv/fixtures';
 
 describe('Test /register API routes', () => {
+  const server = createServer();
   const serverSession = session(server);
 
   it('Register success, return 200 status: ', async () => {

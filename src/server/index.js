@@ -1,4 +1,6 @@
-import { server } from './server';
+import createServer from './server';
+
+const expressServer = createServer();
 
 // Start server.
-server.listen(9090);
+expressServer.listen(9090);

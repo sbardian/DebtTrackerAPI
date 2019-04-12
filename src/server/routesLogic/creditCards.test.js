@@ -1,6 +1,6 @@
 import session from 'supertest-session';
 import mockingoose from 'mockingoose';
-import { server } from '../server';
+import createServer from '../server';
 import {
   VALID_USERID,
   CREDIT_CARD,
@@ -11,6 +11,7 @@ import {
 jest.mock('./checkAuth');
 
 describe('Test /creditcards API routes', () => {
+  const server = createServer();
   const serverSession = session(server);
 
   beforeAll(async () => {
