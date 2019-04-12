@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start": "node dist/server/index.js",
-    "dev": "nodemon dist/server/index.js --session-secret=$SESSION_SECRET --database-url=$DATABASE_URL | bunyan -o short -L",
+    "dev": "nodemon dist/server/index.js --session-secret=$DT_SESSION_SECRET --database-url=$DT_DATABASE_URL | bunyan -o short -L",
     "pretest": "npm run clean",
-    "test:server": "jest",
+    "test:server": "DT_SESSION_SECRET=$DT_SESSION_SECRET DT_DATABASE_URL=$DT_DATABASE_URL DT_TEST=true jest",
     "test:server:watch": "jest --watch",
     "test:server:coverage": "jest --coverage",
     "test:client:run": "cypress run",
