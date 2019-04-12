@@ -1,6 +1,6 @@
-const User = require('../models/User');
-const CreditCard = require('../models/CreditCard');
-const Total = require('../models/Total');
+import User from '../models/User';
+import CreditCard from '../models/CreditCard';
+import Total from '../models/Total';
 
 export const getAllUsers = (req, res) => {
   User.find({}, (error, data) => {
@@ -169,7 +169,7 @@ export const getUsersTotals = (req, res) => {
     }
     return res.status(200).send({
       error: false,
-      message: `Totals recieved for user id '${req.params.id}'`,
+      message: `Totals received for user id '${req.params.id}'`,
       totals: data,
     });
   });
