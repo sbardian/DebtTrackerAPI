@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node dist/server/index.js",
+    "dev": "nodemon dist/server/index.js --session-secret=$SESSION_SECRET --database-url=$DATABASE_URL | bunyan -o short -L",
     "pretest": "npm run clean",
     "test:server": "jest",
     "test:server:watch": "jest --watch",
