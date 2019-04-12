@@ -2,7 +2,7 @@
 import mongoose from 'mongoose';
 import { config } from './yargs';
 
-const connectToDatabase = () => {
+export default () => {
   const { databaseUrl } = config;
 
   mongoose.connect(databaseUrl, {
@@ -11,12 +11,6 @@ const connectToDatabase = () => {
   });
 
   const db = mongoose.connection;
-  db.on('error', () => console.error('connection error:'));
-  db.once('open', () => {
-    console.info('Connected to the database!');
-  });
 
   return db;
 };
-
-export default connectToDatabase;
