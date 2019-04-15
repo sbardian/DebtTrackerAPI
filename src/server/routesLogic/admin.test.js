@@ -10,27 +10,15 @@ describe('Test /admin API routes', () => {
   const server = createServer();
   const serverSession = session(server);
 
-  // beforeAll(async () => {
-  //   mockingoose(User).toReturn(LOGIN_SUCCESS_MOCK_USER_ADMIN, 'findOne');
-  //   await serverSession
-  //     .post('/auth/login')
-  //     .set('Accept', 'text/html, application/json')
-  //     .send({
-  //       email: LOGIN_SUCCESS_MOCK_USER_ADMIN.email,
-  //       password: LOGIN_SUCCESS_MOCK_USER_ADMIN.passwordConf,
-  //     })
-  //     .expect(200);
-  // });
-
   describe('Test getAllUsers, /admin/users route:', () => {
     it('success', async () => {
       mockingoose(User).toReturn(ALL_USERS, 'find');
       const response = await serverSession
         .get(`/admin/users`)
         .set('Accept', 'text/html application/json');
-      // console.log('response: ', response);
       expect(response.statusCode).toBe(200);
       expect(response.error).toEqual(false);
+      expect(response.body.users).toEqual(ALL_USERS);
     });
   });
 
