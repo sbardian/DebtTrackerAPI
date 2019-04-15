@@ -94,7 +94,7 @@
     "jest": "24.7.1",
     "jest-environment-node": "24.7.1",
     "mockingoose": "2.13.0",
-    "prettier": "1.16.4",
+    "prettier": "1.17.0",
     "rimraf": "2.6.3",
     "supertest": "^4.0.2",
     "supertest-session": "4.0.0",
