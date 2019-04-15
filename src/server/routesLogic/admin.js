@@ -2,6 +2,7 @@ import User from '../models/User';
 import CreditCard from '../models/CreditCard';
 import Total from '../models/Total';
 
+// TODO: Implement sorting from query params
 export const getAllUsers = (req, res) => {
   User.find({}, (error, data) => {
     if (error) {
