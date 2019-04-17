@@ -96,7 +96,7 @@
     "mockingoose": "2.13.0",
     "prettier": "1.17.0",
     "rimraf": "2.6.3",
-    "supertest": "^4.0.2",
+    "supertest": "4.0.2",
     "supertest-session": "4.0.0",
     "webpack": "4.30.0",
     "webpack-cli": "3.3.0"
