@@ -41,6 +41,19 @@ export const ALL_USERS = [
   },
 ];
 
+export const ADMIN_USERS_CREDITCARDS = [
+  {
+    _id: '5c9c44e9c72761050e86ee53',
+    updated_at: '2019-03-28T03:52:09.681Z',
+    userId: '5c9c44dfc72761050e86ee52',
+    name: 'test',
+    limit: 2000,
+    balance: 200,
+    interest_rate: 2,
+    __v: 0,
+  },
+];
+
 export const LOGIN_SUCCESS_MOCK_USER_ADMIN = {
   _id: '5a8e41866c6f9f2f5d53330e',
   email: 'test@test.com',
