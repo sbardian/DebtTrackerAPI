@@ -54,6 +54,13 @@ export const ADMIN_USERS_CREDITCARDS = [
   },
 ];
 
+export const ADMIN_USERS_TOTALS = [
+  {
+    userId: '12345',
+    total: 20000,
+  },
+];
+
 export const LOGIN_SUCCESS_MOCK_USER_ADMIN = {
   _id: '5a8e41866c6f9f2f5d53330e',
   email: 'test@test.com',
