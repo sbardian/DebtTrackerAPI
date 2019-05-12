@@ -61,7 +61,6 @@ describe('Test /admin API routes', () => {
       const response = await serverSession
         .get(`/admin/users/totals/12345`)
         .set('Accept', 'text/html application/json');
-      console.log('response >>> ', response.body);
       expect(response.statusCode).toBe(200);
       expect(response.error).toBe(false);
       expect(response.body.message).toEqual(
