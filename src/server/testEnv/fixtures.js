@@ -41,6 +41,38 @@ export const ALL_USERS = [
   },
 ];
 
+export const ADMIN_SINGLE_USER = [
+  {
+    _id: '5c9c44dfc72761050e86ee52',
+    email: 'blah@blah.com',
+    username: 'blah',
+    isAdmin: false,
+    password: 'shouldBeStripped',
+    __v: 0,
+  },
+];
+
+export const ADMIN_SINGLE_USER_UPDATED = [
+  {
+    _id: '5c9c44dfc72761050e86ee52',
+    email: 'blah@blah.com',
+    username: 'blah2',
+    isAdmin: false,
+    password: 'shouldBeStripped',
+    __v: 0,
+  },
+];
+export const ADMIN_USERS_CREDITCARD = {
+  _id: '5c9c44e9c72761050e86ee53',
+  updated_at: '2019-03-28T03:52:09.681Z',
+  userId: '5c9c44dfc72761050e86ee52',
+  name: 'test',
+  limit: 2000,
+  balance: 200,
+  interest_rate: 2,
+  __v: 0,
+};
+
 export const ADMIN_USERS_CREDITCARDS = [
   {
     _id: '5c9c44e9c72761050e86ee53',

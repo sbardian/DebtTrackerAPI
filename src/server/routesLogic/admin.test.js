@@ -4,7 +4,10 @@ import createServer from '../server';
 import {
   ALL_USERS,
   ADMIN_USERS_CREDITCARDS,
+  ADMIN_USERS_CREDITCARD,
   ADMIN_USERS_TOTALS,
+  // ADMIN_SINGLE_USER,
+  // ADMIN_SINGLE_USER_UPDATED,
 } from '../testEnv/fixtures';
 import User from '../models/User';
 import CreditCard from '../models/CreditCard';
@@ -39,22 +42,45 @@ describe('Test /admin API routes', () => {
       expect(response.body.creditCards[0]).toEqual(ADMIN_USERS_CREDITCARDS[0]);
     });
   });
-  // it('Test deleteUser', async () => {
-  //   // TODO: write test
-  //   expect(1).toEqual(1);
+
+  // describe('Test deleteUser', () => {
+  //   it('success', async () => {
+  //   });
   // });
-  // it('Test updateUser', async () => {
-  //   // TODO: write test
-  //   expect(1).toEqual(1);
+
+  // describe('Test updateUser', () => {
+  //   it('success', async () => {
+  //     mockingoose(User).toReturn(ADMIN_SINGLE_USER, 'findOne');
+  //     mockingoose(User).toReturn(ADMIN_SINGLE_USER_UPDATED, 'update');
+  //     const response = await serverSession
+  //       .put(`/admin/users/12345`)
+  //       .send({ username: 'blah2' })
+  //       .set('Accept', 'text/html application/json');
+  //     expect(response.statusCode).toBe(200);
+  //     expect(response.error).toBe(false);
+  //   });
   // });
-  // it('Test deleteUserCreditCard', async () => {
-  //   // TODO: write test
-  //   expect(1).toEqual(1);
-  // });
+
+  describe('Test deleteUserCreditCard', () => {
+    it('success', async () => {
+      mockingoose(CreditCard).toReturn(ADMIN_USERS_CREDITCARD, 'findOne');
+      mockingoose(CreditCard).toReturn(
+        ADMIN_USERS_CREDITCARD,
+        'findOneAndDelete',
+      );
+      const response = await serverSession
+        .delete(`/admin/users/cards/12345`)
+        .set('Accept', 'text/html application/json');
+      expect(response.statusCode).toBe(200);
+      expect(response.error).toBe(false);
+    });
+  });
+
   // it('Test updateUserCreditCard', async () => {
   //   // TODO: write test
   //   expect(1).toEqual(1);
   // });
+
   describe('Test getUsersTotals', () => {
     it('success', async () => {
       mockingoose(Total).toReturn(ADMIN_USERS_TOTALS, 'find');
@@ -69,6 +95,7 @@ describe('Test /admin API routes', () => {
       expect(response.body.totals[0].total).toEqual(20000);
     });
   });
+
   // it('Test  deleteUsersTotals', async () => {
   //   // TODO: write test
   //   expect(1).toEqual(1);
