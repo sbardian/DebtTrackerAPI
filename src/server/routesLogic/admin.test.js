@@ -6,6 +6,7 @@ import {
   ADMIN_USERS_CREDITCARDS,
   ADMIN_USERS_CREDITCARD,
   ADMIN_USERS_TOTALS,
+  ADMIN_UPDATED_CREDITCARD,
   // ADMIN_SINGLE_USER,
   // ADMIN_SINGLE_USER_UPDATED,
 } from '../testEnv/fixtures';
@@ -76,10 +77,20 @@ describe('Test /admin API routes', () => {
     });
   });
 
-  // it('Test updateUserCreditCard', async () => {
-  //   // TODO: write test
-  //   expect(1).toEqual(1);
-  // });
+  describe('Test updateUserCreditCard', () => {
+    it('success', async () => {
+      mockingoose(CreditCard).toReturn(
+        ADMIN_UPDATED_CREDITCARD,
+        'findOneAndUpdate',
+      );
+      const response = await serverSession
+        .put(`/admin/users/cards/12345`)
+        .set('Accept', 'text/html application/json');
+      expect(response.statusCode).toBe(200);
+      expect(response.error).toBe(false);
+      expect(response.body.creditCard.limit).toEqual(4000);
+    });
+  });
 
   describe('Test getUsersTotals', () => {
     it('success', async () => {

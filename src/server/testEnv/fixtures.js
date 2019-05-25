@@ -73,6 +73,17 @@ export const ADMIN_USERS_CREDITCARD = {
   __v: 0,
 };
 
+export const ADMIN_UPDATED_CREDITCARD = {
+  _id: '5c9c44e9c72761050e86ee53',
+  updated_at: '2019-03-28T03:52:09.681Z',
+  userId: '5c9c44dfc72761050e86ee52',
+  name: 'test',
+  limit: 4000,
+  balance: 200,
+  interest_rate: 2,
+  __v: 0,
+};
+
 export const ADMIN_USERS_CREDITCARDS = [
   {
     _id: '5c9c44e9c72761050e86ee53',
