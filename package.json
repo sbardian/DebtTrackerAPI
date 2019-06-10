@@ -93,7 +93,7 @@
     "husky": "2.4.0",
     "jest": "24.8.0",
     "jest-environment-node": "24.8.0",
-    "mockingoose": "2.13.0",
+    "mockingoose": "2.13.1",
     "prettier": "1.18.2",
     "rimraf": "2.6.3",
     "supertest": "4.0.2",
